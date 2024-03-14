@@ -17,3 +17,76 @@ Welcome to our Community-Based Local Services Platform. Our platform, is designe
 
 **6. Feedback and Support:** User-friendly forms and dedicated support channels allow for interactions related to chosen service providers, with feedback collected for continuous improvement.
 
+
+## Project Team's Organization:
+A hierarchical structure outlining group's various functions, sub-functions and assigned roles.
+```mermaid
+graph TD
+    Project["Community-Based Local Services Platform<br>
+   Project Managers( Mandal and Sparsh )"]
+    Module1["Module1<br>
+    Line 1<br>
+    Line 2<br>
+    Line 3"]
+    Module2["Module2<br>
+    Line 1<br>
+    Line 2<br>
+    Line 3"]
+    Module3["Module3<br>
+    Line 1<br>
+    Line 2<br>
+    Line 3"]
+    Module4["Module4<br>
+    Line 1<br>
+    Line 2<br>
+    Line 3"]
+    Database["Database<br>
+    Line1<br>
+    Line 2<br>
+    Line 3"]
+    M1Roles["Roles<br>
+    Ajay(Lead)<br>
+    Balaji(Lead)<br>
+    Rakshith(F)<br>
+    Prince(B)<br>
+    Mayank(F)<br>
+    Devendra(F)"]
+    M2Roles["Roles<br>
+    ___(Lead)<br>
+    ___(Lead)<br>
+    ___()<br>
+    ___()<br>
+    ___()<br>
+    ___()"]
+    M3Roles["Roles<br>
+    ___(Lead)<br>
+    ___()<br>
+    ___()<br>
+    ___()<br>
+    ___()<br>
+    ___()"]
+    M4Roles["Roles<br>
+    ___(Lead)<br>
+    ___()<br>
+    ___()<br>
+    ___()<br>
+    ___()<br>
+    ___()"]
+    DRoles["Roles<br>
+    ___(Lead)<br>
+    ___()<br>
+    ___()<br>
+    ___()"]
+    
+    Project --> Module1
+    Project --> Module2
+    Project --> Module3
+    Project --> Module4
+    Project --> Database
+    Module1 --> M1Roles
+    Module2 --> M2Roles
+    Module3 --> M3Roles
+    Module4 --> M4Roles
+    Database --> DRoles
+    
+```
