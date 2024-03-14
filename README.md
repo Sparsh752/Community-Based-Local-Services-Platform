@@ -20,6 +20,12 @@ Welcome to our Community-Based Local Services Platform. Our platform, is designe
 
 ## Project Team's Organization:
 A hierarchical structure outlining group's various functions, sub-functions and assigned roles.
+Roles:
+- `Product Manager`
+- `Lead- Team or Module Lead`
+- `F-Frontend`,   
+- `B-Backend`
+- `D-Database`
 ```mermaid
 graph TD
     Project["Community-Based Local Services Platform<br>
