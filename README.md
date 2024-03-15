@@ -32,25 +32,17 @@ graph TD
     Project["Community-Based Local Services Platform<br>
    Project Managers( Mandal and Sparsh )"]
     Module1["Module1<br>
-    Line 1<br>
-    Line 2<br>
-    Line 3"]
+    Login and Register"]
     Module2["Module2<br>
-    Line 1<br>
-    Line 2<br>
-    Line 3"]
+    Search and Booking"]
     Module3["Module3<br>
-    Line 1<br>
-    Line 2<br>
-    Line 3"]
+    Appointment Management,<br>
+    Messaging"]
     Module4["Module4<br>
-    Line 1<br>
-    Line 2<br>
-    Line 3"]
+    Query Support,<br>
+    Notifications"]
     Database["Database<br>
-    Line1<br>
-    Line 2<br>
-    Line 3"]
+    Tables and Schema"]
     M1Roles["Roles<br>
     Ajay(Lead)<br>
     Balaji(Lead)<br>
