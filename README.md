@@ -59,31 +59,34 @@ graph TD
     Mayank(F)<br>
     Devendra(F)"]
     M2Roles["Roles<br>
-    ___(Lead)<br>
-    ___(Lead)<br>
-    ___()<br>
-    ___()<br>
-    ___()<br>
-    ___()"]
+    Yashraj(Lead)<br>
+    Srinivas(Lead)<br>
+    Shashank(B)<br>
+    Navadeep(D)<br>
+    Nitish(D)<br>
+    Dhruv patel(F)<br>
+    Harshal Joshi(F)<br>
+    Aditya Gupta(F)"]
     M3Roles["Roles<br>
-    ___(Lead)<br>
-    ___()<br>
-    ___()<br>
-    ___()<br>
-    ___()<br>
-    ___()"]
+    Tanisha(Lead)<br>
+    Himanshi(B)<br>
+    Harsha Vardhini(F)<br>
+    Lavanya(F)<br>
+    Harshit Singh(F)<br>
+    Kundan(F)<br>
+    Athrav(D)"]
     M4Roles["Roles<br>
-    ___(Lead)<br>
-    ___()<br>
-    ___()<br>
-    ___()<br>
-    ___()<br>
-    ___()"]
+    Achintya(Lead)<br>
+    Usha(F)<br>
+    Ravi Ranjan(F)<br>
+    Bharat Narah(F)<br>
+    Aditya Mandal(PM)<br>
+    Sparsh(PM)<br>
+    Laksheet Meena(F)"]
     DRoles["Roles<br>
-    ___(Lead)<br>
-    ___()<br>
-    ___()<br>
-    ___()"]
+    Vatsal Jain(Lead)<br>
+    Divyesh(D)<br>
+    Siddhant(D)"]
     
     Project --> Module1
     Project --> Module2
