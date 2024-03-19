@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Community_Based_Local_Services_Platform</RootNamespace>
-    <StartupObject>Sub Main</StartupObject>
+    <StartupObject>Community_Based_Local_Services_Platform.My.MyApplication</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
   </PropertyGroup>
