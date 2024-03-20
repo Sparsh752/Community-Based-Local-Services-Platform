@@ -30,11 +30,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Admin\" />
-    <Folder Include="Service Provider\Home\" />
-    <Folder Include="Service Provider\Appointments\" />
-    <Folder Include="Service Provider\Queries\" />
-  </ItemGroup>
-
 </Project>
