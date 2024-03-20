@@ -29,7 +29,7 @@ Partial Class Homepage
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.RosyBrown
-        ClientSize = New Size(1194, 629)
+        ClientSize = New Size(1194, 694)
         ControlBox = False
         FormBorderStyle = FormBorderStyle.FixedDialog
         Margin = New Padding(3, 2, 3, 2)

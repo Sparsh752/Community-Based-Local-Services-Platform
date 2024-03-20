@@ -26,12 +26,13 @@ Partial Class Appointment
         ' 
         ' Appointment
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Chocolate
-        ClientSize = New Size(1174, 581)
+        ClientSize = New Size(1194, 694)
         ControlBox = False
         FormBorderStyle = FormBorderStyle.FixedDialog
+        Margin = New Padding(3, 2, 3, 2)
         Name = "Appointment"
         ResumeLayout(False)
     End Sub
