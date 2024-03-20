@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Profile
+Partial Class Homepage_Customer
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -24,16 +24,17 @@ Partial Class Profile
     Private Sub InitializeComponent()
         SuspendLayout()
         ' 
-        ' Profile
+        ' Homepage
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = SystemColors.MenuText
+        BackColor = Color.RosyBrown
         ClientSize = New Size(1194, 694)
         ControlBox = False
         FormBorderStyle = FormBorderStyle.FixedDialog
         Margin = New Padding(3, 2, 3, 2)
-        Name = "Profile"
+        Name = "Homepage"
+        StartPosition = FormStartPosition.CenterParent
         ResumeLayout(False)
     End Sub
 End Class

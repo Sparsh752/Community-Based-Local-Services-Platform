@@ -1,4 +1,4 @@
-﻿Public Class Navbar
+﻿Public Class Navbar_Customer
 
 
     ' Variable to store the currently active form
@@ -85,12 +85,13 @@
         Panel3.Padding = New Padding(0, 0, 0, 0)
 
         RemovePreviousForm()
+
         'SetActiveForm(Homepage)
-        Homepage.Margin = New Padding(0, 0, 0, 0)
-        With Homepage
+        Homepage_Customer.Margin = New Padding(0, 0, 0, 0)
+        With Homepage_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage)
+            Panel3.Controls.Add(Homepage_Customer)
             .BringToFront()
             .Show()
         End With
@@ -108,10 +109,10 @@
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Homepage)
-        With Homepage
+        With Homepage_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage)
+            Panel3.Controls.Add(Homepage_Customer)
             .BringToFront()
             .Show()
         End With
@@ -121,10 +122,10 @@
     Private Sub BtnAppointment_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Appointment)
-        With Appointment
+        With Appointment_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Appointment)
+            Panel3.Controls.Add(Appointment_Customer)
             .BringToFront()
             .Show()
         End With
@@ -134,10 +135,10 @@
     Private Sub BtnProfile_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Profile)
-        With Profile
+        With Profile_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Profile)
+            Panel3.Controls.Add(Profile_Customer)
             .BringToFront()
             .Show()
         End With
@@ -146,10 +147,10 @@
     Private Sub BtnQueries_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Queries)
-        With Queries
+        With Queries_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Queries)
+            Panel3.Controls.Add(Queries_Customer)
             .BringToFront()
             .Show()
         End With

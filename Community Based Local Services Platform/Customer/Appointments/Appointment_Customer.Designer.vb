@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Homepage
+Partial Class Appointment_Customer
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -24,17 +24,16 @@ Partial Class Homepage
     Private Sub InitializeComponent()
         SuspendLayout()
         ' 
-        ' Homepage
+        ' Appointment
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.RosyBrown
+        BackColor = Color.Chocolate
         ClientSize = New Size(1194, 694)
         ControlBox = False
         FormBorderStyle = FormBorderStyle.FixedDialog
         Margin = New Padding(3, 2, 3, 2)
-        Name = "Homepage"
-        StartPosition = FormStartPosition.CenterParent
+        Name = "Appointment"
         ResumeLayout(False)
     End Sub
 End Class
