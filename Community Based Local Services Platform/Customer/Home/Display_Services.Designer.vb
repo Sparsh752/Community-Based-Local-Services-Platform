@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Homepage_Customer
+Partial Class Display_Services
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,39 +22,16 @@ Partial Class Homepage_Customer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Panel1 = New Panel()
-        Panel2 = New Panel()
         SuspendLayout()
         ' 
-        ' Panel1
-        ' 
-        Panel1.Location = New Point(-10, -3)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(379, 931)
-        Panel1.TabIndex = 0
-        ' 
-        ' Panel2
-        ' 
-        Panel2.Location = New Point(375, -3)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1001, 931)
-        Panel2.TabIndex = 1
-        ' 
-        ' Homepage_Customer
+        ' Display_Services
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.White
-        ClientSize = New Size(1365, 925)
-        ControlBox = False
-        Controls.Add(Panel2)
-        Controls.Add(Panel1)
-        FormBorderStyle = FormBorderStyle.FixedDialog
-        Name = "Homepage_Customer"
-        StartPosition = FormStartPosition.CenterParent
+        BackColor = SystemColors.ActiveCaption
+        ClientSize = New Size(800, 450)
+        Name = "Display_Services"
+        Text = "Display_Services"
         ResumeLayout(False)
     End Sub
-
-    Friend WithEvents Panel1 As Panel
-    Friend WithEvents Panel2 As Panel
 End Class
