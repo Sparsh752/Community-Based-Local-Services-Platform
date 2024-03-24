@@ -16,7 +16,6 @@ Public Class Display_Services
         Popular_Trusted(2) = "Provider C"
         Popular_Trusted(3) = "Provider D"
 
-
         ' Display the data
         DisplayProviders(Most_Trusted, "Most Trusted Service Providers", 70)
         DisplayProviders(Popular_Trusted, "Trending Services", 340)
@@ -37,9 +36,9 @@ Public Class Display_Services
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(100, 100)
             pb.Location = New Point(startX + (i * 200), topOffset + 50)
-            ' Get the full path of the image file relative to the executable directory
-            Dim relativePath As String = "..\..\Resources\sample_SP.jpg"
-            Dim imagePath As String = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, relativePath))
+
+            ' Combine the startup path with the relative path to the image file
+            Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
 
             ' Check if the image file exists
             Try
