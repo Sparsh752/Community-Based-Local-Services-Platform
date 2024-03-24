@@ -28,7 +28,7 @@ Partial Class Display_Services
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = SystemColors.ActiveCaption
+        BackColor = Color.White
         ClientSize = New Size(800, 450)
         Name = "Display_Services"
         Text = "Display_Services"
