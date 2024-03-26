@@ -23,7 +23,7 @@ Partial Class Homepage_Customer
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Panel1 = New Panel()
-        Search = New Button()
+        SearchBtn = New Button()
         TrackBar1 = New TrackBar()
         Label4 = New Label()
         ComboBox1 = New ComboBox()
@@ -47,7 +47,7 @@ Partial Class Homepage_Customer
         ' 
         ' Panel1
         ' 
-        Panel1.Controls.Add(Search)
+        Panel1.Controls.Add(SearchBtn)
         Panel1.Controls.Add(TrackBar1)
         Panel1.Controls.Add(Label4)
         Panel1.Controls.Add(ComboBox1)
@@ -69,18 +69,18 @@ Partial Class Homepage_Customer
         Panel1.Size = New Size(373, 931)
         Panel1.TabIndex = 0
         ' 
-        ' Search
+        ' SearchBtn
         ' 
-        Search.BackColor = Color.Tomato
-        Search.FlatStyle = FlatStyle.Popup
-        Search.Font = New Font("Segoe UI", 12.0F, FontStyle.Bold)
-        Search.ForeColor = Color.White
-        Search.Location = New Point(109, 741)
-        Search.Name = "Search"
-        Search.Size = New Size(116, 53)
-        Search.TabIndex = 12
-        Search.Text = "Search"
-        Search.UseVisualStyleBackColor = False
+        SearchBtn.BackColor = Color.Tomato
+        SearchBtn.FlatStyle = FlatStyle.Popup
+        SearchBtn.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
+        SearchBtn.ForeColor = Color.White
+        SearchBtn.Location = New Point(109, 741)
+        SearchBtn.Name = "SearchBtn"
+        SearchBtn.Size = New Size(116, 53)
+        SearchBtn.TabIndex = 12
+        SearchBtn.Text = "Search"
+        SearchBtn.UseVisualStyleBackColor = False
         ' 
         ' TrackBar1
         ' 
@@ -94,7 +94,7 @@ Partial Class Homepage_Customer
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI", 16.0F)
+        Label4.Font = New Font("Segoe UI", 16F)
         Label4.Location = New Point(37, 573)
         Label4.Name = "Label4"
         Label4.Size = New Size(94, 37)
@@ -113,7 +113,7 @@ Partial Class Homepage_Customer
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 16.0F)
+        Label3.Font = New Font("Segoe UI", 16F)
         Label3.Location = New Point(37, 452)
         Label3.Name = "Label3"
         Label3.Size = New Size(119, 37)
@@ -123,7 +123,7 @@ Partial Class Homepage_Customer
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 10.0F)
+        Label2.Font = New Font("Segoe UI", 10F)
         Label2.Location = New Point(192, 345)
         Label2.Name = "Label2"
         Label2.Size = New Size(42, 23)
@@ -133,7 +133,7 @@ Partial Class Homepage_Customer
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 10.0F)
+        Label1.Font = New Font("Segoe UI", 10F)
         Label1.Location = New Point(49, 345)
         Label1.Name = "Label1"
         Label1.Size = New Size(39, 23)
@@ -161,7 +161,7 @@ Partial Class Homepage_Customer
         ' priceLabel
         ' 
         priceLabel.AutoSize = True
-        priceLabel.Font = New Font("Segoe UI", 16.0F)
+        priceLabel.Font = New Font("Segoe UI", 16F)
         priceLabel.Location = New Point(37, 308)
         priceLabel.Name = "priceLabel"
         priceLabel.Size = New Size(74, 37)
@@ -246,7 +246,7 @@ Partial Class Homepage_Customer
         ' 
         ' Homepage_Customer
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1365, 925)
@@ -280,5 +280,5 @@ Partial Class Homepage_Customer
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents TrackBar1 As TrackBar
     Friend WithEvents Label4 As Label
-    Friend WithEvents Search As Button
+    Friend WithEvents SearchBtn As Button
 End Class
