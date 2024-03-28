@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Appointment_Customer
+Partial Class Display_Services
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -24,15 +24,14 @@ Partial Class Appointment_Customer
     Private Sub InitializeComponent()
         SuspendLayout()
         ' 
-        ' Appointment_Customer
+        ' Display_Services
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.Chocolate
-        ClientSize = New Size(1365, 925)
-        ControlBox = False
-        FormBorderStyle = FormBorderStyle.FixedDialog
-        Name = "Appointment_Customer"
+        BackColor = Color.White
+        ClientSize = New Size(800, 450)
+        Name = "Display_Services"
+        Text = "Display_Services"
         ResumeLayout(False)
     End Sub
 End Class
