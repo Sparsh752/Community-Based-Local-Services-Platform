@@ -22,9 +22,16 @@ Partial Class Homepage_Admin
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Text = "Homepage_Admin"
+        SuspendLayout()
+        ' 
+        ' Homepage_Admin
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ActiveCaption
+        ClientSize = New Size(1184, 661)
+        Name = "Homepage_Admin"
+        Text = "Homepage_Admin"
+        ResumeLayout(False)
     End Sub
 End Class
