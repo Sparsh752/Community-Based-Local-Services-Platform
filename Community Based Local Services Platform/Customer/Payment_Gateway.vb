@@ -1,7 +1,149 @@
 ﻿Public Class Payment_Gateway
+    Dim UPI_button As New Button()
+    Dim Card_button As New Button()
+    Dim QR_button As New Button()
+    Dim Panel2 As New Panel()
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
+        Dim panel1 As New Panel()
+        panel1.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        panel1.Size = New Size(359, 700)
+        panel1.Location = New Point(0, 0)
+        Me.Controls.Add(panel1)
+        Me.BackColor = ColorTranslator.FromHtml("#FFFFFF")
+        Me.Size = New Size(1200, 700)
+
+        Panel2.BackColor = ColorTranslator.FromHtml("#FFFFFF")
+        Panel2.Location = New Point(359, 0)
+        Panel2.Size = New Size(841, 700)
+        Me.Controls.Add(Panel2)
+        Dim Heading As New Label()
+        Heading.Text = "Payment Gateway"
+        Heading.Font = New Font("Bahnschrift Light", 20, FontStyle.Bold)
+        Heading.Location = New Point(34, 92)
+        Heading.Size = New Size(251, 83)
+        Heading.TextAlign = ContentAlignment.MiddleCenter
+        panel1.Controls.Add(Heading)
+        Dim lineLabel As New Label()
+        lineLabel.BorderStyle = BorderStyle.Fixed3D
+        lineLabel.Location = New Point(34, 207)
+        lineLabel.Size = New Size(256, 1)
+        panel1.Controls.Add(lineLabel)
+
+        UPI_button.Text = "UPI"
+        UPI_button.Font = New Font("Bahnschrift Light", 10, FontStyle.Bold)
+        UPI_button.Location = New Point(57, 243)
+        panel1.Controls.Add(UPI_button)
+        UPI_button.FlatStyle = FlatStyle.Flat
+        UPI_button.BackColor = ColorTranslator.FromHtml("#F9754B")
+        UPI_button.FlatAppearance.BorderSize = 0
+        UPI_button.Size = New Size(239, 28)
+        UPI_button.ForeColor = Color.White
+        UPI_button.TextAlign = ContentAlignment.MiddleLeft
+
+        Card_button.Text = "DEBIT/CREDIT CARD"
+        Card_button.Font = New Font("Bahnschrift Light", 10, FontStyle.Bold)
+        Card_button.Location = New Point(57, 291)
+        panel1.Controls.Add(Card_button)
+        Card_button.FlatStyle = FlatStyle.Flat
+        Card_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        Card_button.FlatAppearance.BorderSize = 0
+        Card_button.Size = New Size(239, 28)
+        Card_button.ForeColor = Color.Black
+        Card_button.TextAlign = ContentAlignment.MiddleLeft
+
+        QR_button.Text = "QR CODE"
+        QR_button.Font = New Font("Bahnschrift Light", 10, FontStyle.Bold)
+        QR_button.Location = New Point(57, 339)
+        panel1.Controls.Add(QR_button)
+        QR_button.FlatStyle = FlatStyle.Flat
+        QR_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        QR_button.FlatAppearance.BorderSize = 0
+        QR_button.Size = New Size(239, 28)
+        QR_button.ForeColor = Color.Black
+        QR_button.TextAlign = ContentAlignment.MiddleLeft
+        AddHandler UPI_button.Click, AddressOf UPI_button_Click
+        AddHandler Card_button.Click, AddressOf Card_button_Click
+        AddHandler QR_button.Click, AddressOf QR_button_Click
+        RemovePreviousForm()
+        LoadUPI()
+    End Sub
+    Private Sub UPI_button_Click(sender As Object, e As EventArgs)
+        UPI_button.BackColor = ColorTranslator.FromHtml("#F9754B")
+        UPI_button.ForeColor = Color.White
+        Card_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        Card_button.ForeColor = Color.Black
+        QR_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        QR_button.ForeColor = Color.Black
+        RemovePreviousForm()
+        LoadUPI()
+    End Sub
+    Private Sub Card_button_Click(sender As Object, e As EventArgs)
+        Card_button.BackColor = ColorTranslator.FromHtml("#F9754B")
+        Card_button.ForeColor = Color.White
+        UPI_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        UPI_button.ForeColor = Color.Black
+        QR_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        QR_button.ForeColor = Color.Black
+        RemovePreviousForm()
+        LoadCard()
+    End Sub
+    Private Sub QR_button_Click(sender As Object, e As EventArgs)
+        QR_button.BackColor = ColorTranslator.FromHtml("#F9754B")
+        QR_button.ForeColor = Color.White
+        UPI_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        UPI_button.ForeColor = Color.Black
+        Card_button.BackColor = ColorTranslator.FromHtml("#EDEDED")
+        Card_button.ForeColor = Color.Black
+        RemovePreviousForm()
+        LoadQR()
+    End Sub
+
+    Private Sub RemovePreviousForm()
+        Panel2.Controls.Clear()
+    End Sub
+    Private Sub LoadUPI()
+        Dim Amount_label As New Label()
+        Amount_label.Text = "Amount"
+        Amount_label.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Amount_label.Location = New Point(137, 156)
+        Panel2.Controls.Add(Amount_label)
+        Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim Amount As New Label()
+        Amount.Text = "Rs. 15000"
+        Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
+        Amount.Location = New Point(137, 179)
+        Panel2.Controls.Add(Amount)
+        Amount.AutoSize = True
+        Dim EnterUPI As New Label()
+        EnterUPI.Text = "Enter UPI ID"
+        EnterUPI.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        EnterUPI.Location = New Point(137, 275)
+        Panel2.Controls.Add(EnterUPI)
+        EnterUPI.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim UPI_ID As New TextBox()
+        UPI_ID.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        UPI_ID.Location = New Point(137, 312)
+        Panel2.Controls.Add(UPI_ID)
+        UPI_ID.Size = New Size(560, 59)
+        UPI_ID.BorderStyle = BorderStyle.FixedSingle
+        Dim Proceed_Button As New Button()
+        Proceed_Button.Text = "Proceed"
+        Proceed_Button.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Proceed_Button.Location = New Point(137, 431)
+        Panel2.Controls.Add(Proceed_Button)
+        Proceed_Button.FlatStyle = FlatStyle.Flat
+        Proceed_Button.BackColor = ColorTranslator.FromHtml("#F9754B")
+        Proceed_Button.FlatAppearance.BorderSize = 0
+        Proceed_Button.Size = New Size(150, 40)
+        Proceed_Button.ForeColor = Color.White
+    End Sub
+    Private Sub LoadCard()
 
     End Sub
+    Private Sub LoadQR()
+
+    End Sub
+
 End Class
