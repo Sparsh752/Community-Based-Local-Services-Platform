@@ -15,6 +15,8 @@
         BookedSlot = "Monday, 9:00 AM"
         Location = "Example Location"
 
+        Me.Size = New Size(700, 613)
+
         Label5.Text = ServiceProviderName
         Label6.Text = ServiceProviderAddress
         Label7.Text = ServiceProviderPhone
