@@ -72,7 +72,6 @@
         QueriesButton.Padding = New Padding(0, 0, 0, 0)
         QueriesButton.TextAlign = ContentAlignment.MiddleCenter
         QueriesButton.AutoSize = True
-
         Panel1.Controls.Add(QueriesButton)
         AddHandler HomeButton.Click, AddressOf BtnHome_Click
         AddHandler AppointmentButton.Click, AddressOf BtnAppointment_Click

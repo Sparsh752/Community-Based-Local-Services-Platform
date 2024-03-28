@@ -21,7 +21,7 @@
         HomeButton.Size() = New Size(52, 30)
 
         HomeButton.BackColor = ColorTranslator.FromHtml("#0F2A37")
-        HomeButton.Location = New Point(630, 18)
+        HomeButton.Location = New Point(714, 18)
         HomeButton.Text = "Home"
         HomeButton.ForeColor = Color.White
         HomeButton.Font = New Font("Bahnschrift Light", 11, FontStyle.Regular)
@@ -35,7 +35,7 @@
         Dim AppointmentButton As New Button()
         AppointmentButton.Size() = New Size(52, 30)
         AppointmentButton.BackColor = ColorTranslator.FromHtml("#0F2A37")
-        AppointmentButton.Location = New Point(707, 18)
+        AppointmentButton.Location = New Point(791, 18)
         AppointmentButton.Text = "Appointments"
         AppointmentButton.ForeColor = Color.White
         AppointmentButton.Font = New Font("Bahnschrift Light", 11, FontStyle.Regular)
