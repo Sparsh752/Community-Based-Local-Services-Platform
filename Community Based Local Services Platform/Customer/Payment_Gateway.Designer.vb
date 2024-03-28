@@ -29,6 +29,7 @@ Partial Class Payment_Gateway
         AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1184, 661)
+        Me.FormBorderStyle = FormBorderStyle.None
         Name = "Payment_Gateway"
         Text = "Payment_Gateway"
         ResumeLayout(False)
