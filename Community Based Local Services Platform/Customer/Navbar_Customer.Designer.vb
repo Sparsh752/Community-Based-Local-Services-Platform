@@ -24,7 +24,9 @@ Partial Class Navbar_Customer
     Private Sub InitializeComponent()
         Panel1 = New Panel()
         BtnLogout = New Button()
+        PictureBox1 = New PictureBox()
         Panel1.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
@@ -53,21 +55,32 @@ Partial Class Navbar_Customer
         BtnLogout.Text = "Logout"
         BtnLogout.UseVisualStyleBackColor = False
         ' 
-        ' Navbar
+        ' PictureBox1
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        PictureBox1.Location = New Point(161, 155)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(100, 50)
+        PictureBox1.TabIndex = 1
+        PictureBox1.TabStop = False
+        ' 
+        ' Navbar_Customer
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1184, 661)
+        Controls.Add(PictureBox1)
         Controls.Add(Panel1)
         Margin = New Padding(3, 2, 3, 2)
-        Name = "Navbar"
+        Name = "Navbar_Customer"
         Text = "Navbar"
         Panel1.ResumeLayout(False)
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents Panel1 As Panel
     Friend WithEvents BtnLogout As Button
+    Friend WithEvents PictureBox1 As PictureBox
 
 End Class
