@@ -74,11 +74,11 @@
         RemovePreviousForm()
 
         'SetActiveForm(Homepage)
-        Homepage_Customer.Margin = New Padding(0, 0, 0, 0)
-        With Homepage_Customer
+        Homepage_SP.Margin = New Padding(0, 0, 0, 0)
+        With Homepage_SP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_Customer)
+            Panel3.Controls.Add(Homepage_SP)
             .BringToFront()
             .Show()
         End With
@@ -96,10 +96,10 @@
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Homepage)
-        With Homepage_Customer
+        With Homepage_SP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_Customer)
+            Panel3.Controls.Add(Homepage_SP)
             .BringToFront()
             .Show()
         End With
