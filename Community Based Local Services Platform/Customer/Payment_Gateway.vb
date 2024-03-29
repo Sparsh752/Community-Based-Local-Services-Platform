@@ -1,4 +1,6 @@
-﻿Public Class Payment_Gateway
+﻿Imports System.IO
+
+Public Class Payment_Gateway
     Dim UPI_button As New Button()
     Dim Card_button As New Button()
     Dim QR_button As New Button()
@@ -140,10 +142,116 @@
         Proceed_Button.ForeColor = Color.White
     End Sub
     Private Sub LoadCard()
+        Dim Amount_label As New Label()
+        Amount_label.Text = "Amount"
+        Amount_label.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Amount_label.Location = New Point(137, 156)
+        Panel2.Controls.Add(Amount_label)
+        Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim Amount As New Label()
+        Amount.Text = "Rs. 15000"
+        Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
+        Amount.Location = New Point(137, 179)
+        Panel2.Controls.Add(Amount)
+        Amount.AutoSize = True
 
+        Dim EnterCardNumber As New Label()
+        EnterCardNumber.Text = "Card Number"
+        EnterCardNumber.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        EnterCardNumber.Location = New Point(137, 275)
+        Panel2.Controls.Add(EnterCardNumber)
+        EnterCardNumber.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim CardNumber As New TextBox()
+        CardNumber.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        CardNumber.Location = New Point(137, 312)
+        Panel2.Controls.Add(CardNumber)
+        CardNumber.Size = New Size(560, 59)
+        CardNumber.BorderStyle = BorderStyle.FixedSingle
+
+        Dim EnterCVV As New Label()
+        EnterCVV.Text = "CVV"
+        EnterCVV.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        EnterCVV.Location = New Point(137, 400)
+        Panel2.Controls.Add(EnterCVV)
+        EnterCVV.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim CVV As New TextBox()
+        CVV.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        CVV.Location = New Point(137, 437)
+        Panel2.Controls.Add(CVV)
+        CVV.Size = New Size(140, 59)
+        CVV.BorderStyle = BorderStyle.FixedSingle
+
+        Dim EnterMonth As New Label()
+        EnterMonth.Text = "Month(MM)"
+        EnterMonth.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        EnterMonth.Location = New Point(337, 400)
+        Panel2.Controls.Add(EnterMonth)
+        EnterMonth.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim Month As New TextBox()
+        Month.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Month.Location = New Point(337, 437)
+        Panel2.Controls.Add(Month)
+        Month.Size = New Size(140, 59)
+        Month.BorderStyle = BorderStyle.FixedSingle
+
+        Dim EnterYear As New Label()
+        EnterYear.Text = "Year(YYYY)"
+        EnterYear.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        EnterYear.Location = New Point(537, 400)
+        Panel2.Controls.Add(EnterYear)
+        EnterYear.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim Year As New TextBox()
+        Year.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Year.Location = New Point(537, 437)
+        Panel2.Controls.Add(Year)
+        Year.Size = New Size(140, 59)
+        Year.BorderStyle = BorderStyle.FixedSingle
+
+        Dim Proceed_Button As New Button()
+        Proceed_Button.Text = "Proceed"
+        Proceed_Button.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Proceed_Button.Location = New Point(137, 520)
+        Panel2.Controls.Add(Proceed_Button)
+        Proceed_Button.FlatStyle = FlatStyle.Flat
+        Proceed_Button.BackColor = ColorTranslator.FromHtml("#F9754B")
+        Proceed_Button.FlatAppearance.BorderSize = 0
+        Proceed_Button.Size = New Size(150, 40)
+        Proceed_Button.ForeColor = Color.White
     End Sub
-    Private Sub LoadQR()
 
+    Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\QR.png")
+    Private Sub LoadQR()
+        Dim Amount_label As New Label()
+        Amount_label.Text = "Amount"
+        Amount_label.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Amount_label.Location = New Point(137, 156)
+        Panel2.Controls.Add(Amount_label)
+        Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
+        Dim Amount As New Label()
+        Amount.Text = "Rs. 15000"
+        Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
+        Amount.Location = New Point(137, 179)
+        Panel2.Controls.Add(Amount)
+        Amount.AutoSize = True
+
+        Dim QRCode As New PictureBox()
+        QRCode.Image = Image.FromFile(imagePath) ' Specify the path to your image
+        QRCode.SizeMode = PictureBoxSizeMode.StretchImage
+        QRCode.Location = New Point(137, 250) ' Adjust the location as needed
+        QRCode.Size = New Size(200, 200) ' Adjust the size as needed
+        Panel2.Controls.Add(QRCode)
+
+
+        Dim Proceed_Button As New Button()
+        Proceed_Button.Text = "Proceed"
+        Proceed_Button.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
+        Proceed_Button.Location = New Point(137, 520)
+        Panel2.Controls.Add(Proceed_Button)
+        Proceed_Button.FlatStyle = FlatStyle.Flat
+        Proceed_Button.BackColor = ColorTranslator.FromHtml("#F9754B")
+        Proceed_Button.FlatAppearance.BorderSize = 0
+        Proceed_Button.Size = New Size(150, 40)
+        Proceed_Button.ForeColor = Color.White
     End Sub
 
 End Class
