@@ -38,4 +38,5 @@
             displayServicesForm.UpdateServices(searchCriteria)
         End If
     End Sub
+
 End Class
