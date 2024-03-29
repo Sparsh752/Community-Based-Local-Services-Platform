@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Homepage_SP
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class SP_profile
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Homepage_SP
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Label1 = New Label()
         Label2 = New Label()
@@ -38,7 +38,7 @@ Partial Class Homepage_SP
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 15.0F, FontStyle.Bold)
+        Label1.Font = New Font("Segoe UI", 15F, FontStyle.Bold)
         Label1.Location = New Point(79, 44)
         Label1.Name = "Label1"
         Label1.Size = New Size(285, 35)
@@ -48,7 +48,7 @@ Partial Class Homepage_SP
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9.0F)
+        Label2.Font = New Font("Segoe UI", 9F)
         Label2.Location = New Point(79, 110)
         Label2.Name = "Label2"
         Label2.Size = New Size(66, 20)
@@ -58,7 +58,7 @@ Partial Class Homepage_SP
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 9.0F)
+        Label3.Font = New Font("Segoe UI", 9F)
         Label3.Location = New Point(180, 110)
         Label3.Name = "Label3"
         Label3.Size = New Size(254, 20)
@@ -68,7 +68,7 @@ Partial Class Homepage_SP
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI", 9.0F)
+        Label4.Font = New Font("Segoe UI", 9F)
         Label4.Location = New Point(440, 110)
         Label4.Name = "Label4"
         Label4.Size = New Size(81, 20)
@@ -95,7 +95,7 @@ Partial Class Homepage_SP
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI", 13.0F, FontStyle.Bold)
+        Label5.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
         Label5.Location = New Point(17, 58)
         Label5.Name = "Label5"
         Label5.Size = New Size(96, 30)
@@ -105,7 +105,7 @@ Partial Class Homepage_SP
         ' Label6
         ' 
         Label6.AutoSize = True
-        Label6.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
+        Label6.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
         Label6.Location = New Point(148, 93)
         Label6.Name = "Label6"
         Label6.Size = New Size(26, 41)
@@ -115,7 +115,7 @@ Partial Class Homepage_SP
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold)
+        Label7.Font = New Font("Segoe UI", 18F, FontStyle.Bold)
         Label7.Location = New Point(421, 93)
         Label7.Name = "Label7"
         Label7.Size = New Size(26, 41)
@@ -124,7 +124,7 @@ Partial Class Homepage_SP
         ' 
         ' SP_profile
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1371, 928)

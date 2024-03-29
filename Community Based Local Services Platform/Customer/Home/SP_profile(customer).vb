@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 
 
-Public Class Homepage_SP
+Public Class SP_profile
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
@@ -13,6 +13,16 @@ Public Class Homepage_SP
         Label2.Location = New Point(55, 138)
         Label3.Location = New Point(161, 138)
         Label4.Location = New Point(485, 138)
+
+
+
+
+
+
+
+
+
+
 
         Panel1.Location = New Point(843, 65)
         Panel6.Location = New Point(10, 64)
@@ -32,83 +42,63 @@ Public Class Homepage_SP
         textSize.Width = textSize.Width + Label7.Size.Width - 5
         Label4.Location = textSize
 
-        Dim newButton3 As New Button()
-
-        newButton3.Text = "Add New Service"
-        newButton3.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
-        newButton3.Font = New Font(newButton3.Font, FontStyle.Bold)
-        newButton3.Font = New Font(newButton3.Font.FontFamily, 12)
-        newButton3.Size = New Size(200, 30)
-        newButton3.Location = New Point(600, 90)
-        newButton3.BackColor = ColorTranslator.FromHtml("#F9754B")
-        newButton3.FlatStyle = FlatStyle.Flat
-        newButton3.FlatAppearance.BorderSize = 0
-        newButton3.Padding = New Padding(newButton3.Padding.Left, newButton3.Padding.Top, newButton3.Padding.Right, newButton3.Padding.Bottom - 10)
-        Me.Controls.Add(newButton3)
-
-
-
-        Dim newButton4 As New Button()
-
-        newButton4.Text = "Edit Profile"
-        newButton4.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
-        newButton4.Font = New Font(newButton4.Font, FontStyle.Bold)
-        newButton4.Font = New Font(newButton4.Font.FontFamily, 12)
-        newButton4.Size = New Size(200, 30)
-        newButton4.Location = New Point(600, 130)
-        newButton4.BackColor = ColorTranslator.FromHtml("#F9754B")
-        newButton4.FlatStyle = FlatStyle.Flat
-        newButton4.FlatAppearance.BorderSize = 0
-        newButton4.Padding = New Padding(newButton4.Padding.Left, newButton4.Padding.Top, newButton4.Padding.Right, newButton4.Padding.Bottom - 10)
-        Me.Controls.Add(newButton4)
-
 
         Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
 
         Try
             If Not File.Exists(imagePath) Then
+                ' Handle the situation when the image file doesn't exist
                 MessageBox.Show("Image file not found: " & imagePath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Catch ex As Exception
+            ' Handle any other exceptions that might occur during image loading
             MessageBox.Show("Error loading image: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
 
 
         Dim panel As New Panel()
         panel.Location = New Point(10, 175)
-        panel.Size = New Size(833, 450)
-        panel.AutoScroll = True
+        panel.Size = New Size(833, 450) ' Adjust panel size to accommodate group size and spacing
+        panel.AutoScroll = True ' Enable auto-scrolling
 
+        ' Add the panel to the form
         Me.Controls.Add(panel)
 
-        Dim numGroups As Integer = 16
+        ' Generate some example items to add to the panel
+        Dim numGroups As Integer = 16 ' Change this value to the desired number of groups
 
-        Dim groupSize As New Size(750, 200)
-        Dim groupSpacing As Integer = 10
+        Dim groupSize As New Size(750, 200) ' Size of each group
+        Dim groupSpacing As Integer = 10 ' Spacing between groups
 
-        Dim yPosition As Integer = 0
+        Dim yPosition As Integer = 0 ' Starting Y position for groups
 
         For i As Integer = 1 To numGroups
+            ' Create a group box to encapsulate each group
             Dim groupBox As New GroupBox()
             groupBox.Size = groupSize
             groupBox.Location = New Point(50, yPosition)
 
+            ' Add the group box to the panel
             panel.Controls.Add(groupBox)
 
+            ' Add an image to the group box
             Dim im As New PictureBox()
             im.SizeMode = PictureBoxSizeMode.StretchImage
             im.Size = New Size(170, 170)
             im.Location = New Point(10, 20)
             im.Image = Image.FromFile(imagePath)
 
+            ' Add the image to the group box
             groupBox.Controls.Add(im)
 
+            ' Add heading, subheading, and description labels
             Dim headingLabel As New Label()
             headingLabel.Text = "Heading" & i
             headingLabel.Font = New Font("Arial", 12, FontStyle.Bold)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(200, 20)
 
+            ' Add the heading label to the group box
             groupBox.Controls.Add(headingLabel)
 
             Dim subheadingLabel As New Label()
@@ -117,6 +107,7 @@ Public Class Homepage_SP
             subheadingLabel.AutoSize = True
             subheadingLabel.Location = New Point(200, 50)
 
+            ' Add the subheading label to the group box
             groupBox.Controls.Add(subheadingLabel)
 
             Dim descriptionLabel As New Label()
@@ -130,36 +121,23 @@ Public Class Homepage_SP
             groupBox.Controls.Add(descriptionLabel)
 
 
-            Dim newButton1 As New Button()
+            Dim newButton As New Button()
 
-            newButton1.Text = "Delete"
-            newButton1.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
-            newButton1.Font = New Font(newButton1.Font, FontStyle.Bold)
-            newButton1.Font = New Font(newButton1.Font.FontFamily, 12)
-            newButton1.Size = New Size(107, 30)
-            newButton1.Location = New Point(591, 156)
-            newButton1.BackColor = ColorTranslator.FromHtml("#F9754B")
-            newButton1.FlatStyle = FlatStyle.Flat
-            newButton1.FlatAppearance.BorderSize = 0
-            newButton1.Padding = New Padding(newButton1.Padding.Left, newButton1.Padding.Top, newButton1.Padding.Right, newButton1.Padding.Bottom - 10)
-            groupBox.Controls.Add(newButton1)
+            newButton.Text = "Book Now"
+            newButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+            newButton.Font = New Font(newButton.Font, FontStyle.Bold)
+            newButton.Font = New Font(newButton.Font.FontFamily, 12)
+            newButton.Size = New Size(107, 30)
+            newButton.Location = New Point(591, 156)
+            newButton.BackColor = ColorTranslator.FromHtml("#F9754B")
+            newButton.FlatStyle = FlatStyle.Flat
+            newButton.FlatAppearance.BorderSize = 0
+            newButton.Padding = New Padding(newButton.Padding.Left, newButton.Padding.Top, newButton.Padding.Right, newButton.Padding.Bottom - 10)
+            groupBox.Controls.Add(newButton)
 
 
-            Dim newButton2 As New Button()
-
-            newButton2.Text = "Edit"
-            newButton2.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
-            newButton2.Font = New Font(newButton2.Font, FontStyle.Bold)
-            newButton2.Font = New Font(newButton2.Font.FontFamily, 12)
-            newButton2.Size = New Size(107, 30)
-            newButton2.Location = New Point(459, 156)
-            newButton2.BackColor = ColorTranslator.FromHtml("#F9754B")
-            newButton2.FlatStyle = FlatStyle.Flat
-            newButton2.FlatAppearance.BorderSize = 0
-            newButton2.Padding = New Padding(newButton2.Padding.Left, newButton2.Padding.Top, newButton2.Padding.Right, newButton2.Padding.Bottom - 10)
-            groupBox.Controls.Add(newButton2)
-
-            yPosition += groupSize.Height + groupSpacing
+            ' Increment the Y position for the next group
+            yPosition += groupSize.Height + groupSpacing ' Add spacing between groups
         Next
 
 
@@ -168,23 +146,27 @@ Public Class Homepage_SP
 
 
 
-        Dim numItems As Integer = 10
+        Dim numItems As Integer = 10 ' Change this value to the desired number of items
 
-        Dim yPosition2 As Integer = 38
+        Dim yPosition2 As Integer = 38 ' Starting Y position for items inside the groupBox1
         Panel6.AutoScroll = True
         For i As Integer = 1 To numItems
+            ' Create an item panel
             Dim itemPanel As New Panel()
             itemPanel.Size = New Size(275, 125)
             itemPanel.Location = New Point(16, yPosition2)
             itemPanel.BackColor = ColorTranslator.FromHtml("#FFFFFF")
+            ' Add the item panel to the groupBox1
             Panel6.Controls.Add(itemPanel)
 
+            ' Add heading label
             Dim headingLabel As New Label()
             headingLabel.Text = "Name " & i
             headingLabel.Font = New Font("Segoe", 9)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(20, 10)
 
+            ' Add the heading label to the item panel
             itemPanel.Controls.Add(headingLabel)
 
 
@@ -198,9 +180,11 @@ Public Class Homepage_SP
             textLabel.AutoEllipsis = True
             textLabel.BorderStyle = BorderStyle.None
 
+            ' Add the text label to the item panel
             itemPanel.Controls.Add(textLabel)
 
-            yPosition2 += 150
+            ' Increment the Y position for the next item
+            yPosition2 += 150  ' Add some spacing between items
         Next
 
 
