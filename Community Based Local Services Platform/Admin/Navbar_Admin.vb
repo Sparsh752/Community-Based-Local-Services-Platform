@@ -33,11 +33,11 @@
         RemovePreviousForm()
 
         'SetActiveForm(Homepage)
-        Homepage_Customer.Margin = New Padding(0, 0, 0, 0)
-        With Homepage_Admin
+        Registration_Request.Margin = New Padding(0, 0, 0, 0)
+        With Registration_Request
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_Admin)
+            Panel3.Controls.Add(Registration_Request)
             .BringToFront()
             .Show()
         End With
