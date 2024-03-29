@@ -8,6 +8,7 @@ Public Class Payment_Gateway
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
+        Me.Size = New Size(1200, 700)
         Dim panel1 As New Panel()
         panel1.BackColor = ColorTranslator.FromHtml("#EDEDED")
         panel1.Size = New Size(359, 700)
