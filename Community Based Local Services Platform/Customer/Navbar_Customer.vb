@@ -16,6 +16,7 @@
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Panel1.BackColor = ColorTranslator.FromHtml("#0F2A37")
+        Me.StartPosition = FormStartPosition.CenterScreen
         Me.Size = New Size(1200, 700)
         Dim HomeButton As New Button()
         HomeButton.Size() = New Size(52, 30)
