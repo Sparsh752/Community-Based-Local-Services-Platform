@@ -1,5 +1,6 @@
 ﻿Imports System.Net
 Imports System.Net.Mail
+Imports System.Reflection.Emit
 
 Public Class TwoFA
     Dim userEmail As String = "b.balaji.s@iitg.ac.in"
@@ -28,6 +29,35 @@ Public Class TwoFA
     End Sub
 
     Private Sub TwoFA_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Size = New Size(1200, 700)
+        Me.CenterToParent()
+        Me.WindowState = FormWindowState.Normal
+        Me.StartPosition = FormStartPosition.CenterScreen
+        PictureBox1.Size = New Size(180, 180)
+        PictureBox1.Location = New Point(200, 200)
+        PictureBox1.BackColor = ColorTranslator.FromHtml("#0F2A37")
+        Label4.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
+        Label4.BackColor = ColorTranslator.FromHtml("#0F2A37")
+        Label4.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+        Label4.Size = New Size(593, 147)
+        Label4.Location = New Point(110, 420)
+        Label4.TextAlign = ContentAlignment.MiddleCenter
+        Panel1.Size = New Size(593, 700)
+        Panel2.Size = New Size(473, 490)
+        Panel2.Location = New Point(653, 105)
+        grpOtp.Location = New Point(105, 118)
+        'txtOtp0.Location = New Point(717, 223)
+        btnSubmit.Location = New Point(105, 320)
+        btnSubmit.Size = New Size(263, 50)
+        btnSubmit.FlatAppearance.BorderSize = 0
+        btnSubmit.FlatStyle = FlatStyle.Flat
+        Label1.Location = New Point(100, 230)
+        linkResend.Location = New Point(270, 230)
+        Label2.Location = New Point(100, 270)
+        Label2.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
+        linkResend.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
+        Label1.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
+        btnSubmit.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
         timer.Interval = 1000
         timer.Start()
         SendOTP()
