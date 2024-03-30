@@ -33,13 +33,14 @@ Partial Class PendingRequest_SP
         Label9 = New Label()
         Button1 = New Button()
         Button2 = New Button()
+        Panel1 = New Panel()
         SuspendLayout()
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Bahnschrift Condensed", 16F)
-        Label1.Location = New Point(213, 48)
+        Label1.Location = New Point(408, 123)
         Label1.Name = "Label1"
         Label1.Size = New Size(84, 39)
         Label1.TabIndex = 0
@@ -49,7 +50,7 @@ Partial Class PendingRequest_SP
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Bahnschrift Condensed", 10F)
-        Label2.Location = New Point(480, 77)
+        Label2.Location = New Point(425, 175)
         Label2.Name = "Label2"
         Label2.Size = New Size(54, 24)
         Label2.TabIndex = 1
@@ -59,7 +60,7 @@ Partial Class PendingRequest_SP
         ' 
         Label3.AutoSize = True
         Label3.Font = New Font("Bahnschrift Condensed", 10F)
-        Label3.Location = New Point(490, 125)
+        Label3.Location = New Point(685, 200)
         Label3.Name = "Label3"
         Label3.Size = New Size(54, 24)
         Label3.TabIndex = 2
@@ -69,7 +70,7 @@ Partial Class PendingRequest_SP
         ' 
         Label4.AutoSize = True
         Label4.Font = New Font("Bahnschrift Condensed", 10F)
-        Label4.Location = New Point(513, 166)
+        Label4.Location = New Point(708, 241)
         Label4.Name = "Label4"
         Label4.Size = New Size(55, 24)
         Label4.TabIndex = 3
@@ -79,7 +80,7 @@ Partial Class PendingRequest_SP
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Bahnschrift Condensed", 16F)
-        Label5.Location = New Point(498, 213)
+        Label5.Location = New Point(693, 288)
         Label5.Name = "Label5"
         Label5.Size = New Size(88, 39)
         Label5.TabIndex = 4
@@ -89,7 +90,7 @@ Partial Class PendingRequest_SP
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Bahnschrift Condensed", 10F)
-        Label6.Location = New Point(503, 254)
+        Label6.Location = New Point(698, 329)
         Label6.Name = "Label6"
         Label6.Size = New Size(54, 24)
         Label6.TabIndex = 5
@@ -99,7 +100,7 @@ Partial Class PendingRequest_SP
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Bahnschrift Condensed", 16F)
-        Label7.Location = New Point(510, 299)
+        Label7.Location = New Point(705, 374)
         Label7.Name = "Label7"
         Label7.Size = New Size(87, 39)
         Label7.TabIndex = 6
@@ -109,7 +110,7 @@ Partial Class PendingRequest_SP
         ' 
         Label8.AutoSize = True
         Label8.Font = New Font("Bahnschrift Condensed", 10F)
-        Label8.Location = New Point(512, 344)
+        Label8.Location = New Point(707, 419)
         Label8.Name = "Label8"
         Label8.Size = New Size(54, 24)
         Label8.TabIndex = 7
@@ -119,7 +120,7 @@ Partial Class PendingRequest_SP
         ' 
         Label9.AutoSize = True
         Label9.Font = New Font("Bahnschrift Condensed", 16F)
-        Label9.Location = New Point(510, 380)
+        Label9.Location = New Point(705, 455)
         Label9.Name = "Label9"
         Label9.Size = New Size(87, 39)
         Label9.TabIndex = 8
@@ -127,7 +128,7 @@ Partial Class PendingRequest_SP
         ' 
         ' Button1
         ' 
-        Button1.Location = New Point(194, 335)
+        Button1.Location = New Point(389, 410)
         Button1.Name = "Button1"
         Button1.Size = New Size(112, 34)
         Button1.TabIndex = 9
@@ -136,18 +137,25 @@ Partial Class PendingRequest_SP
         ' 
         ' Button2
         ' 
-        Button2.Location = New Point(324, 339)
+        Button2.Location = New Point(519, 414)
         Button2.Name = "Button2"
         Button2.Size = New Size(112, 34)
         Button2.TabIndex = 10
         Button2.Text = "Button2"
         Button2.UseVisualStyleBackColor = True
         ' 
-        ' PendingAcceptOrReject_SP
+        ' Panel1
+        ' 
+        Panel1.Location = New Point(314, 89)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(577, 478)
+        Panel1.TabIndex = 11
+        ' 
+        ' PendingRequest_SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(1178, 579)
         Controls.Add(Button2)
         Controls.Add(Button1)
         Controls.Add(Label9)
@@ -159,7 +167,8 @@ Partial Class PendingRequest_SP
         Controls.Add(Label3)
         Controls.Add(Label2)
         Controls.Add(Label1)
-        Name = "PendingAcceptOrReject_SP"
+        Controls.Add(Panel1)
+        Name = "PendingRequest_SP"
         Text = "PendingAcceptOrReject_SP"
         ResumeLayout(False)
         PerformLayout()
@@ -176,4 +185,5 @@ Partial Class PendingRequest_SP
     Friend WithEvents Label9 As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
+    Friend WithEvents Panel1 As Panel
 End Class

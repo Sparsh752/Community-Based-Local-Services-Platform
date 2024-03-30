@@ -4,6 +4,11 @@ Public Class PendingRequest_SP
     Private Sub PendingAcceptOrReject_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1200, 635)
         Me.FormBorderStyle = FormBorderStyle.None
+        Me.BackColor = Color.White
+
+        Panel1.BorderStyle = BorderStyle.FixedSingle
+        Panel1.Location = New Point(400, 70)
+        Panel1.Size = New Size(400, 410)
 
         Label1.Text = "Customer XYZ"
         Label2.Text = "Brahmaputra Hostel, IIT Guwahati Guwahati, Assam"
