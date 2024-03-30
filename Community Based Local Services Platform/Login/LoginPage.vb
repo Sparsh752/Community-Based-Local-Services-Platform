@@ -2,7 +2,7 @@
 Public Class LoginPage
 
     Dim standardFont As New Font("Montserrat", 15, FontStyle.Regular)
-    Dim standardColor As Color = ColorTranslator.FromHtml("#EDEDED")
+    Dim standardColor As Color = ColorTranslator.FromHtml("#F1F1F1")
     Private Sub LoginPage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
@@ -15,28 +15,28 @@ Public Class LoginPage
         LoginLabel.Size = New Size(473, 490)
         LoginLabel.Location = New Point(661, 98)
 
-        Label2.Font = New Font("Montserrat", 22.5, FontStyle.Bold)
+        Label2.Font = New Font(SessionManager.font_family, 20, FontStyle.Bold)
         Label2.BackColor = standardColor
         Label2.Size = New Size(280, 45)
         Label2.Location = New Point(731, 144)
 
         Label3.BackColor = standardColor
-        Label3.Font = standardFont
+        Label3.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
         Label3.Size = New Size(280, 30)
         Label3.Location = New Point(731, 214)
 
-        TextBox2.Font = New Font("Montserrat", 12, FontStyle.Regular)
+        TextBox2.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
         'RichTextBox1.BackColor = standardColor
         TextBox2.Size = New Size(332, 30)
         TextBox2.Location = New Point(731, 249)
         TextBox2.BringToFront()
 
         Label4.BackColor = standardColor
-        Label4.Font = standardFont
+        Label4.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
         Label4.Size = New Size(280, 45)
         Label4.Location = New Point(731, 336)
 
-        TextBox1.Font = New Font("Montserrat", 12, FontStyle.Regular)
+        TextBox1.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
         TextBox1.Size = New Size(332, 30)
         TextBox1.Location = New Point(731, 369)
 
@@ -44,32 +44,32 @@ Public Class LoginPage
         CheckBox1.Size = New Size(280, 28)
         CheckBox1.Location = New Point(961, 426)
 
-        Button1.Font = New Font("Monsterrat", 12, FontStyle.Regular)
+        Button1.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         Button1.BackColor = ColorTranslator.FromHtml("#F9754B")
         Button1.Size = New Size(150, 40)
         Button1.Location = New Point(822, 489)
         Button1.FlatAppearance.BorderSize = 0
+        Button1.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
 
         'Label5.Text = "Don't have an account?"
-        Label5.Font = New Font("Montserrat", 9, FontStyle.Regular)
-        Label5.Location = New Point(775, 599)
+        Label5.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+        Label5.Location = New Point(815, 599)
 
         Label6.Text = "Sign Up"
-        Label6.Font = New Font("Montserrat", 9, FontStyle.Regular)
+        Label6.Font = New Font(SessionManager.font_family, 8, FontStyle.Bold)
         Label6.ForeColor = ColorTranslator.FromHtml("#F9754B")
         Label6.Location = New Point(934, 599)
 
         Label7.Text = "Community Based Local Services Platform"
-        Label7.Font = standardFont
+        Label7.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
         Label7.BackColor = ColorTranslator.FromHtml("#0F2A37")
         Label7.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
         Label7.Size = New Size(593, 147)
         Label7.Location = New Point(0, 382)
-
         PictureBox1.Size = New Size(180, 180)
         PictureBox1.Location = New Point(200, 200)
         PictureBox1.BackColor = ColorTranslator.FromHtml("#0F2A37")
-
+        CheckBox1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
     End Sub
 
     Private Function GetCustomerID(ByVal email As String, ByVal password As String) As Integer
