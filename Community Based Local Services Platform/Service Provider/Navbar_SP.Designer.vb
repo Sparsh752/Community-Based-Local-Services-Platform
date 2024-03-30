@@ -42,7 +42,7 @@ Partial Class Navbar_SP
         BtnLogout.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         BtnLogout.FlatAppearance.BorderSize = 0
         BtnLogout.FlatStyle = FlatStyle.Flat
-        BtnLogout.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnLogout.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnLogout.ForeColor = Color.White
         BtnLogout.Location = New Point(1178, 24)
         BtnLogout.Margin = New Padding(0)
@@ -54,7 +54,7 @@ Partial Class Navbar_SP
         ' 
         ' Navbar_SP
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1353, 881)

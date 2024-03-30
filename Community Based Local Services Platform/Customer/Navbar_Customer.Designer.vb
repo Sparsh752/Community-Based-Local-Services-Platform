@@ -29,6 +29,7 @@ Partial Class Navbar_Customer
         ' 
         ' Panel1
         ' 
+        Panel1.Anchor = AnchorStyles.None
         Panel1.BackColor = Color.FromArgb(CByte(15), CByte(42), CByte(55))
         Panel1.Controls.Add(BtnLogout)
         Panel1.Location = New Point(0, 0)
@@ -42,7 +43,7 @@ Partial Class Navbar_Customer
         BtnLogout.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         BtnLogout.FlatAppearance.BorderSize = 0
         BtnLogout.FlatStyle = FlatStyle.Flat
-        BtnLogout.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnLogout.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnLogout.ForeColor = Color.White
         BtnLogout.Location = New Point(1031, 18)
         BtnLogout.Margin = New Padding(0)
@@ -52,15 +53,16 @@ Partial Class Navbar_Customer
         BtnLogout.Text = "Logout"
         BtnLogout.UseVisualStyleBackColor = False
         ' 
-        ' Navbar_Customer
+        ' Navbar
         ' 
         AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1184, 661)
         Controls.Add(Panel1)
+        Margin = New Padding(3, 2, 3, 2)
         Name = "Navbar_Customer"
-        Text = "Navbar"
+        Text = "Navbar_Customer"
         Panel1.ResumeLayout(False)
         ResumeLayout(False)
     End Sub

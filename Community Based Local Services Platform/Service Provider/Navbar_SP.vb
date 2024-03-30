@@ -15,6 +15,7 @@
         ' Highlight the Home button by default
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
+        Me.Size = New Size(1200, 700)
         Panel1.BackColor = ColorTranslator.FromHtml("#0F2A37")
 
         Dim HomeButton As New Button()
