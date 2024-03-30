@@ -33,8 +33,8 @@ Partial Class Homepage_Customer
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
-        TextBox2 = New TextBox()
-        TextBox1 = New TextBox()
+        MaxCostBox = New TextBox()
+        MinCostBox = New TextBox()
         priceLabel = New Label()
         searchBox = New TextBox()
         Panel2 = New Panel()
@@ -54,8 +54,8 @@ Partial Class Homepage_Customer
         Panel1.Controls.Add(Label3)
         Panel1.Controls.Add(Label2)
         Panel1.Controls.Add(Label1)
-        Panel1.Controls.Add(TextBox2)
-        Panel1.Controls.Add(TextBox1)
+        Panel1.Controls.Add(MaxCostBox)
+        Panel1.Controls.Add(MinCostBox)
         Panel1.Controls.Add(priceLabel)
         Panel1.Controls.Add(searchBox)
         Panel1.Location = New Point(0, 72)
@@ -164,23 +164,23 @@ Partial Class Homepage_Customer
         Label1.TabIndex = 8
         Label1.Text = "Min"
         ' 
-        ' TextBox2
+        ' MaxCostBox
         ' 
-        TextBox2.BorderStyle = BorderStyle.FixedSingle
-        TextBox2.Font = New Font("Segoe UI", 10.8F)
-        TextBox2.Location = New Point(185, 205)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(106, 31)
-        TextBox2.TabIndex = 7
+        MaxCostBox.BorderStyle = BorderStyle.FixedSingle
+        MaxCostBox.Font = New Font("Segoe UI", 10.8F)
+        MaxCostBox.Location = New Point(185, 205)
+        MaxCostBox.Name = "MaxCostBox"
+        MaxCostBox.Size = New Size(106, 31)
+        MaxCostBox.TabIndex = 7
         ' 
-        ' TextBox1
+        ' MinCostBox
         ' 
-        TextBox1.BorderStyle = BorderStyle.FixedSingle
-        TextBox1.Font = New Font("Segoe UI", 10.8F)
-        TextBox1.Location = New Point(42, 205)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(106, 31)
-        TextBox1.TabIndex = 6
+        MinCostBox.BorderStyle = BorderStyle.FixedSingle
+        MinCostBox.Font = New Font("Segoe UI", 10.8F)
+        MinCostBox.Location = New Point(42, 205)
+        MinCostBox.Name = "MinCostBox"
+        MinCostBox.Size = New Size(106, 31)
+        MinCostBox.TabIndex = 6
         ' 
         ' priceLabel
         ' 
@@ -238,8 +238,8 @@ Partial Class Homepage_Customer
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents MaxCostBox As TextBox
+    Friend WithEvents MinCostBox As TextBox
     Friend WithEvents TrackBar1 As TrackBar
     Friend WithEvents Label4 As Label
     Friend WithEvents SearchBtn As Button
