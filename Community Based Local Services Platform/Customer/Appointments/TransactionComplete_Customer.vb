@@ -61,9 +61,33 @@
         Star4.BackgroundImage = My.Resources.Resource1.star_uncolored
         Star5.BackgroundImage = My.Resources.Resource1.star_uncolored
 
-        RichTextBox1.BorderStyle = BorderStyle.FixedSingle
+        Panel1.BorderStyle = BorderStyle.FixedSingle
+
+        RichTextBox1.BorderStyle = BorderStyle.None
         RichTextBox1.BackColor = Me.BackColor
         RichTextBox1.Font = New Font("Bahnschrift", 12, FontStyle.Regular)
+
+        LoadChatPanel()
+
+    End Sub
+
+    Private Sub LoadChatPanel()
+
+        Dim chatPanel As New Panel()
+        chatPanel.Location = New Point(687, 125)
+        chatPanel.Size = New Size(437, 490)
+        chatPanel.BorderStyle = BorderStyle.FixedSingle
+        chatPanel.BackColor = Color.White
+
+        Me.Controls.Add(chatPanel)
+
+        With ChatBox
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            chatPanel.Controls.Add(ChatBox)
+            .BringToFront()
+            .Show()
+        End With
 
     End Sub
 

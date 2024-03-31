@@ -43,6 +43,7 @@ Partial Class TransactionComplete_Customer
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
+        Panel1 = New Panel()
         SuspendLayout()
         ' 
         ' Button2
@@ -51,7 +52,7 @@ Partial Class TransactionComplete_Customer
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Font = New Font("Bahnschrift", 12F)
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(122, 827)
+        Button2.Location = New Point(122, 875)
         Button2.Margin = New Padding(4)
         Button2.Name = "Button2"
         Button2.Size = New Size(178, 48)
@@ -61,7 +62,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' RichTextBox1
         ' 
-        RichTextBox1.Location = New Point(122, 722)
+        RichTextBox1.Location = New Point(125, 770)
         RichTextBox1.Name = "RichTextBox1"
         RichTextBox1.Size = New Size(402, 85)
         RichTextBox1.TabIndex = 82
@@ -72,7 +73,7 @@ Partial Class TransactionComplete_Customer
         Label13.AutoSize = True
         Label13.Font = New Font("Bahnschrift Light", 10F)
         Label13.ForeColor = Color.Gray
-        Label13.Location = New Point(122, 683)
+        Label13.Location = New Point(122, 731)
         Label13.Margin = New Padding(4, 0, 4, 0)
         Label13.Name = "Label13"
         Label13.Size = New Size(119, 24)
@@ -81,7 +82,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star5
         ' 
-        Star5.Location = New Point(306, 634)
+        Star5.Location = New Point(306, 682)
         Star5.Name = "Star5"
         Star5.Size = New Size(50, 56)
         Star5.TabIndex = 79
@@ -89,7 +90,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star2
         ' 
-        Star2.Location = New Point(169, 634)
+        Star2.Location = New Point(169, 682)
         Star2.Name = "Star2"
         Star2.Size = New Size(50, 56)
         Star2.TabIndex = 80
@@ -97,7 +98,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star4
         ' 
-        Star4.Location = New Point(262, 634)
+        Star4.Location = New Point(262, 682)
         Star4.Name = "Star4"
         Star4.Size = New Size(50, 56)
         Star4.TabIndex = 78
@@ -105,7 +106,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star3
         ' 
-        Star3.Location = New Point(217, 634)
+        Star3.Location = New Point(217, 682)
         Star3.Name = "Star3"
         Star3.Size = New Size(50, 56)
         Star3.TabIndex = 77
@@ -116,7 +117,7 @@ Partial Class TransactionComplete_Customer
         Label12.AutoSize = True
         Label12.Font = New Font("Bahnschrift Light", 10F)
         Label12.ForeColor = Color.Gray
-        Label12.Location = New Point(122, 596)
+        Label12.Location = New Point(122, 644)
         Label12.Margin = New Padding(4, 0, 4, 0)
         Label12.Name = "Label12"
         Label12.Size = New Size(112, 24)
@@ -150,7 +151,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star1
         ' 
-        Star1.Location = New Point(122, 634)
+        Star1.Location = New Point(122, 682)
         Star1.Name = "Star1"
         Star1.Size = New Size(50, 56)
         Star1.TabIndex = 76
@@ -271,11 +272,19 @@ Partial Class TransactionComplete_Customer
         Label1.TabIndex = 63
         Label1.Text = "Service"
         ' 
+        ' Panel1
+        ' 
+        Panel1.BorderStyle = BorderStyle.FixedSingle
+        Panel1.Location = New Point(123, 761)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(410, 107)
+        Panel1.TabIndex = 84
+        ' 
         ' TransactionComplete_Customer
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1226, 847)
+        ClientSize = New Size(1226, 944)
         Controls.Add(Button2)
         Controls.Add(RichTextBox1)
         Controls.Add(Label13)
@@ -297,6 +306,7 @@ Partial Class TransactionComplete_Customer
         Controls.Add(Label3)
         Controls.Add(Label2)
         Controls.Add(Label1)
+        Controls.Add(Panel1)
         Name = "TransactionComplete_Customer"
         Text = "TransactionComplete_Customer"
         ResumeLayout(False)
@@ -324,4 +334,5 @@ Partial Class TransactionComplete_Customer
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents Panel1 As Panel
 End Class

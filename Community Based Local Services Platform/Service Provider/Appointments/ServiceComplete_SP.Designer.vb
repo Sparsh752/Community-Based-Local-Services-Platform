@@ -82,7 +82,7 @@ Partial Class ServiceComplete_SP
         ' 
         OTP4.BackColor = Color.Coral
         OTP4.Controls.Add(RichTextBox4)
-        OTP4.Location = New Point(475, 607)
+        OTP4.Location = New Point(476, 650)
         OTP4.Margin = New Padding(4)
         OTP4.Name = "OTP4"
         OTP4.Padding = New Padding(1)
@@ -103,7 +103,7 @@ Partial Class ServiceComplete_SP
         ' 
         OTP3.BackColor = Color.Coral
         OTP3.Controls.Add(RichTextBox3)
-        OTP3.Location = New Point(360, 608)
+        OTP3.Location = New Point(361, 651)
         OTP3.Margin = New Padding(4)
         OTP3.Name = "OTP3"
         OTP3.Padding = New Padding(1)
@@ -124,7 +124,7 @@ Partial Class ServiceComplete_SP
         ' 
         OTP2.BackColor = Color.Coral
         OTP2.Controls.Add(RichTextBox2)
-        OTP2.Location = New Point(245, 608)
+        OTP2.Location = New Point(246, 651)
         OTP2.Margin = New Padding(4)
         OTP2.Name = "OTP2"
         OTP2.Padding = New Padding(1)
@@ -145,7 +145,7 @@ Partial Class ServiceComplete_SP
         ' 
         OTP1.BackColor = Color.Coral
         OTP1.Controls.Add(RichTextBox1)
-        OTP1.Location = New Point(130, 608)
+        OTP1.Location = New Point(131, 651)
         OTP1.Margin = New Padding(4)
         OTP1.Name = "OTP1"
         OTP1.Padding = New Padding(1)
@@ -168,7 +168,7 @@ Partial Class ServiceComplete_SP
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Bahnschrift", 14F)
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(126, 719)
+        Button1.Location = New Point(127, 762)
         Button1.Margin = New Padding(4)
         Button1.Name = "Button1"
         Button1.Size = New Size(430, 52)
@@ -180,7 +180,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label12.AutoSize = True
         Label12.Font = New Font("Bahnschrift Light", 10F)
-        Label12.Location = New Point(122, 557)
+        Label12.Location = New Point(123, 600)
         Label12.Margin = New Padding(4, 0, 4, 0)
         Label12.Name = "Label12"
         Label12.Size = New Size(279, 24)
@@ -191,7 +191,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label11.AutoSize = True
         Label11.Font = New Font("Bahnschrift", 16F)
-        Label11.Location = New Point(549, 465)
+        Label11.Location = New Point(550, 508)
         Label11.Margin = New Padding(4, 0, 4, 0)
         Label11.Name = "Label11"
         Label11.Size = New Size(117, 39)
@@ -202,7 +202,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label10.AutoSize = True
         Label10.Font = New Font("Bahnschrift", 16F)
-        Label10.Location = New Point(117, 465)
+        Label10.Location = New Point(118, 508)
         Label10.Margin = New Padding(4, 0, 4, 0)
         Label10.Name = "Label10"
         Label10.Size = New Size(124, 39)
@@ -213,7 +213,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label9.AutoSize = True
         Label9.Font = New Font("Bahnschrift", 16F)
-        Label9.Location = New Point(549, 363)
+        Label9.Location = New Point(550, 406)
         Label9.Margin = New Padding(4, 0, 4, 0)
         Label9.Name = "Label9"
         Label9.Size = New Size(111, 39)
@@ -224,7 +224,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label8.AutoSize = True
         Label8.Font = New Font("Bahnschrift", 16F)
-        Label8.Location = New Point(115, 363)
+        Label8.Location = New Point(116, 406)
         Label8.Margin = New Padding(4, 0, 4, 0)
         Label8.Name = "Label8"
         Label8.Size = New Size(113, 39)
@@ -235,7 +235,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Bahnschrift Light", 12F)
-        Label7.Location = New Point(121, 262)
+        Label7.Location = New Point(122, 305)
         Label7.Margin = New Padding(4, 0, 4, 0)
         Label7.Name = "Label7"
         Label7.Size = New Size(85, 29)
@@ -246,7 +246,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Bahnschrift Light", 12F)
-        Label6.Location = New Point(121, 205)
+        Label6.Location = New Point(122, 248)
         Label6.Margin = New Padding(4, 0, 4, 0)
         Label6.MaximumSize = New Size(500, 125)
         Label6.Name = "Label6"
@@ -258,7 +258,7 @@ Partial Class ServiceComplete_SP
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Bahnschrift", 20F)
-        Label5.Location = New Point(113, 143)
+        Label5.Location = New Point(114, 186)
         Label5.Margin = New Padding(4, 0, 4, 0)
         Label5.Name = "Label5"
         Label5.Size = New Size(141, 48)
@@ -270,7 +270,7 @@ Partial Class ServiceComplete_SP
         Label4.AutoSize = True
         Label4.Font = New Font("Bahnschrift Light", 10F)
         Label4.ForeColor = Color.Gray
-        Label4.Location = New Point(553, 437)
+        Label4.Location = New Point(554, 480)
         Label4.Margin = New Padding(4, 0, 4, 0)
         Label4.Name = "Label4"
         Label4.Size = New Size(87, 24)
@@ -282,7 +282,7 @@ Partial Class ServiceComplete_SP
         Label3.AutoSize = True
         Label3.Font = New Font("Bahnschrift Light", 10F)
         Label3.ForeColor = Color.Gray
-        Label3.Location = New Point(122, 437)
+        Label3.Location = New Point(123, 480)
         Label3.Margin = New Padding(4, 0, 4, 0)
         Label3.Name = "Label3"
         Label3.Size = New Size(119, 24)
@@ -294,7 +294,7 @@ Partial Class ServiceComplete_SP
         Label2.AutoSize = True
         Label2.Font = New Font("Bahnschrift Light", 10F)
         Label2.ForeColor = Color.Gray
-        Label2.Location = New Point(553, 337)
+        Label2.Location = New Point(554, 380)
         Label2.Margin = New Padding(4, 0, 4, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(57, 24)
@@ -306,7 +306,7 @@ Partial Class ServiceComplete_SP
         Label1.AutoSize = True
         Label1.Font = New Font("Bahnschrift Light", 10F)
         Label1.ForeColor = Color.Gray
-        Label1.Location = New Point(121, 337)
+        Label1.Location = New Point(122, 380)
         Label1.Margin = New Padding(4, 0, 4, 0)
         Label1.Name = "Label1"
         Label1.Size = New Size(78, 24)

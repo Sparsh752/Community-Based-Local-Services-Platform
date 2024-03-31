@@ -19,6 +19,8 @@
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
 
+        LoadChatPanel()
+
         Label5.Text = ServiceProviderName
         Label6.Text = ServiceProviderAddress
         Label7.Text = ServiceProviderPhone
@@ -30,7 +32,7 @@
         Dim label As New Label()
         label.Text = "Ask customer for the OTP before leaving the premises to complete the transaction."
         label.Font = New Font("Bahnschrift Light", 8, FontStyle.Regular)
-        label.Location = New Point(85, 480)
+        label.Location = New Point(85, 520)
         label.AutoSize = True
         label.MaximumSize = New Size(345, 45)
         Panel1.Controls.Add(label)
@@ -48,6 +50,26 @@
         RichTextBox3.SelectionAlignment = HorizontalAlignment.Center
         RichTextBox4.Font = New Font("Bahnschrift Light", 16, FontStyle.Regular)
         RichTextBox4.SelectionAlignment = HorizontalAlignment.Center
+
+    End Sub
+
+    Private Sub LoadChatPanel()
+
+        Dim chatPanel As New Panel()
+        chatPanel.Location = New Point(687, 125)
+        chatPanel.Size = New Size(437, 490)
+        chatPanel.BorderStyle = BorderStyle.FixedSingle
+        chatPanel.BackColor = Color.White
+
+        Panel1.Controls.Add(chatPanel)
+
+        With ChatBox
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            chatPanel.Controls.Add(ChatBox)
+            .BringToFront()
+            .Show()
+        End With
 
     End Sub
 

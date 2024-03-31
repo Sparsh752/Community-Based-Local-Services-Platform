@@ -72,7 +72,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         Label1.Font = New Font("Bahnschrift", 7.875F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.FromArgb(CByte(136), CByte(136), CByte(136))
-        Label1.Location = New Point(117, 279)
+        Label1.Location = New Point(117, 306)
         Label1.Margin = New Padding(0)
         Label1.Name = "Label1"
         Label1.Size = New Size(115, 22)
@@ -83,7 +83,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         Label2.Font = New Font("Bahnschrift", 7.875F)
         Label2.ForeColor = Color.FromArgb(CByte(136), CByte(136), CByte(136))
-        Label2.Location = New Point(117, 340)
+        Label2.Location = New Point(117, 367)
         Label2.Margin = New Padding(2, 0, 2, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(115, 22)
@@ -94,7 +94,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         Label3.Font = New Font("Bahnschrift", 7.875F)
         Label3.ForeColor = Color.FromArgb(CByte(136), CByte(136), CByte(136))
-        Label3.Location = New Point(117, 408)
+        Label3.Location = New Point(117, 435)
         Label3.Margin = New Padding(2, 0, 2, 0)
         Label3.Name = "Label3"
         Label3.Size = New Size(115, 22)
@@ -105,7 +105,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         Label4.Font = New Font("Bahnschrift", 7.875F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label4.ForeColor = Color.FromArgb(CByte(136), CByte(136), CByte(136))
-        Label4.Location = New Point(568, 285)
+        Label4.Location = New Point(568, 312)
         Label4.Margin = New Padding(2, 0, 2, 0)
         Label4.Name = "Label4"
         Label4.Size = New Size(115, 22)
@@ -116,7 +116,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         Label5.Font = New Font("Bahnschrift", 7.875F)
         Label5.ForeColor = Color.FromArgb(CByte(136), CByte(136), CByte(136))
-        Label5.Location = New Point(568, 340)
+        Label5.Location = New Point(568, 367)
         Label5.Margin = New Padding(2, 0, 2, 0)
         Label5.Name = "Label5"
         Label5.Size = New Size(115, 22)
@@ -127,7 +127,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         Label6.Font = New Font("Bahnschrift", 7.875F)
         Label6.ForeColor = Color.FromArgb(CByte(136), CByte(136), CByte(136))
-        Label6.Location = New Point(568, 408)
+        Label6.Location = New Point(568, 435)
         Label6.Margin = New Padding(2, 0, 2, 0)
         Label6.Name = "Label6"
         Label6.Size = New Size(154, 22)
@@ -138,7 +138,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         TextBox3.BorderStyle = BorderStyle.None
         TextBox3.Font = New Font("Bahnschrift", 16F)
-        TextBox3.Location = New Point(125, 301)
+        TextBox3.Location = New Point(125, 328)
         TextBox3.Margin = New Padding(0)
         TextBox3.Name = "TextBox3"
         TextBox3.Size = New Size(245, 39)
@@ -149,7 +149,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         TextBox4.BorderStyle = BorderStyle.None
         TextBox4.Font = New Font("Bahnschrift", 16F)
-        TextBox4.Location = New Point(125, 362)
+        TextBox4.Location = New Point(125, 389)
         TextBox4.Margin = New Padding(0)
         TextBox4.Name = "TextBox4"
         TextBox4.Size = New Size(245, 39)
@@ -160,7 +160,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         TextBox5.BorderStyle = BorderStyle.None
         TextBox5.Font = New Font("Bahnschrift", 16F)
-        TextBox5.Location = New Point(125, 430)
+        TextBox5.Location = New Point(125, 457)
         TextBox5.Margin = New Padding(0)
         TextBox5.Name = "TextBox5"
         TextBox5.Size = New Size(335, 39)
@@ -171,7 +171,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         TextBox6.BorderStyle = BorderStyle.None
         TextBox6.Font = New Font("Bahnschrift", 16F)
-        TextBox6.Location = New Point(572, 302)
+        TextBox6.Location = New Point(572, 329)
         TextBox6.Margin = New Padding(0)
         TextBox6.Name = "TextBox6"
         TextBox6.Size = New Size(245, 39)
@@ -182,7 +182,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         TextBox7.BorderStyle = BorderStyle.None
         TextBox7.Font = New Font("Bahnschrift", 16F)
-        TextBox7.Location = New Point(572, 362)
+        TextBox7.Location = New Point(572, 389)
         TextBox7.Margin = New Padding(0)
         TextBox7.Name = "TextBox7"
         TextBox7.Size = New Size(245, 39)
@@ -193,7 +193,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         TextBox8.BorderStyle = BorderStyle.None
         TextBox8.Font = New Font("Bahnschrift", 16F)
-        TextBox8.Location = New Point(572, 430)
+        TextBox8.Location = New Point(572, 457)
         TextBox8.Margin = New Padding(0)
         TextBox8.Name = "TextBox8"
         TextBox8.Size = New Size(245, 39)
@@ -204,7 +204,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         TextBox9.BorderStyle = BorderStyle.None
         TextBox9.Font = New Font("Bahnschrift Light", 16F)
-        TextBox9.Location = New Point(206, 638)
+        TextBox9.Location = New Point(204, 687)
         TextBox9.Margin = New Padding(0)
         TextBox9.Name = "TextBox9"
         TextBox9.Size = New Size(122, 39)
@@ -215,7 +215,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Bahnschrift", 16F)
-        Label7.Location = New Point(116, 638)
+        Label7.Location = New Point(114, 687)
         Label7.Margin = New Padding(0)
         Label7.Name = "Label7"
         Label7.Size = New Size(90, 39)
@@ -248,7 +248,7 @@ Partial Class InProgressPaymentNotDone_Customer
         Button3.FlatStyle = FlatStyle.Flat
         Button3.Font = New Font("Bahnschrift", 12F)
         Button3.ForeColor = Color.White
-        Button3.Location = New Point(574, 549)
+        Button3.Location = New Point(572, 627)
         Button3.Margin = New Padding(4)
         Button3.Name = "Button3"
         Button3.Size = New Size(261, 60)
@@ -262,7 +262,7 @@ Partial Class InProgressPaymentNotDone_Customer
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Font = New Font("Bahnschrift", 12F)
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(125, 549)
+        Button2.Location = New Point(123, 627)
         Button2.Margin = New Padding(4)
         Button2.Name = "Button2"
         Button2.Size = New Size(261, 60)
@@ -276,7 +276,7 @@ Partial Class InProgressPaymentNotDone_Customer
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Bahnschrift", 12F)
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(125, 473)
+        Button1.Location = New Point(125, 512)
         Button1.Margin = New Padding(4)
         Button1.Name = "Button1"
         Button1.Size = New Size(187, 54)

@@ -5,6 +5,28 @@ Public Class InProgressPaymentNotDone_Customer
         Me.BackColor = Color.White
         Me.FormBorderStyle = BorderStyle.None
 
+        LoadChatPanel()
+
+    End Sub
+
+    Private Sub LoadChatPanel()
+
+        Dim chatPanel As New Panel()
+        chatPanel.Location = New Point(687, 125)
+        chatPanel.Size = New Size(437, 490)
+        chatPanel.BorderStyle = BorderStyle.FixedSingle
+        chatPanel.BackColor = Color.White
+
+        Me.Controls.Add(chatPanel)
+
+        With ChatBox
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            chatPanel.Controls.Add(ChatBox)
+            .BringToFront()
+            .Show()
+        End With
+
     End Sub
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
 

@@ -27,5 +27,28 @@
         Label10.Text = BookedSlot
         Label11.Text = Location
 
+        LoadChatPanel()
+
     End Sub
+
+    Private Sub LoadChatPanel()
+
+        Dim chatPanel As New Panel()
+        chatPanel.Location = New Point(687, 125)
+        chatPanel.Size = New Size(437, 490)
+        chatPanel.BorderStyle = BorderStyle.FixedSingle
+        chatPanel.BackColor = Color.White
+
+        Me.Controls.Add(chatPanel)
+
+        With ChatBox
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            chatPanel.Controls.Add(ChatBox)
+            .BringToFront()
+            .Show()
+        End With
+
+    End Sub
+
 End Class

@@ -70,7 +70,7 @@ Public Class PendingRequest_SP
             .BringToFront()
             .Show()
         End With
-        MessageBox.Show("Appointment Booked!")
+        'MessageBox.Show("Appointment Booked!")
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -82,6 +82,6 @@ Public Class PendingRequest_SP
             .BringToFront()
             .Show()
         End With
-        MessageBox.Show("Appointment Rejected!")
+        'MessageBox.Show("Appointment Rejected!")
     End Sub
 End Class

@@ -10,7 +10,7 @@ Public Class ChatBox
 
         Me.Size = New Size(437, 506)
         Me.BackColor = Color.White
-        Me.FormBorderStyle = FormBorderStyle.FixedSingle
+        Me.FormBorderStyle = FormBorderStyle.None
 
         Label1.Location = New Point(150, 6)
 

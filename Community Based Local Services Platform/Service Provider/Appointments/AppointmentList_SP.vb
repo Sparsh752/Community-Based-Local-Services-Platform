@@ -1,5 +1,6 @@
 ﻿Public Class AppointmentList_SP
-    Dim labels() As String = {"12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Pending", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Scheduled", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Completed", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Rejected", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Canceled", "link", "link"}
+    Dim labels() As String = {"12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Pending", "link", "link", "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Scheduled", "link", "link",
+        "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Completed", "link", "link", "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Rejected", "link", "link", "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Canceled", "link", "link"}
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
@@ -207,7 +208,14 @@
     End Sub
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)
-
+        RemovePreviousForm()
+        With Queries_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Queries_SP)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs)

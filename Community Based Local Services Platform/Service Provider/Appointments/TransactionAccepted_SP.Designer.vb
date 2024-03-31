@@ -40,7 +40,7 @@ Partial Class TransactionAccepted_SP
         Label1.AutoSize = True
         Label1.Font = New Font("Bahnschrift Light", 10F)
         Label1.ForeColor = Color.Gray
-        Label1.Location = New Point(82, 324)
+        Label1.Location = New Point(85, 403)
         Label1.Margin = New Padding(4, 0, 4, 0)
         Label1.Name = "Label1"
         Label1.Size = New Size(78, 24)
@@ -52,7 +52,7 @@ Partial Class TransactionAccepted_SP
         Label2.AutoSize = True
         Label2.Font = New Font("Bahnschrift Light", 10F)
         Label2.ForeColor = Color.Gray
-        Label2.Location = New Point(514, 324)
+        Label2.Location = New Point(517, 403)
         Label2.Margin = New Padding(4, 0, 4, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(57, 24)
@@ -64,7 +64,7 @@ Partial Class TransactionAccepted_SP
         Label3.AutoSize = True
         Label3.Font = New Font("Bahnschrift Light", 10F)
         Label3.ForeColor = Color.Gray
-        Label3.Location = New Point(83, 424)
+        Label3.Location = New Point(86, 503)
         Label3.Margin = New Padding(4, 0, 4, 0)
         Label3.Name = "Label3"
         Label3.Size = New Size(119, 24)
@@ -76,7 +76,7 @@ Partial Class TransactionAccepted_SP
         Label4.AutoSize = True
         Label4.Font = New Font("Bahnschrift Light", 10F)
         Label4.ForeColor = Color.Gray
-        Label4.Location = New Point(514, 424)
+        Label4.Location = New Point(517, 503)
         Label4.Margin = New Padding(4, 0, 4, 0)
         Label4.Name = "Label4"
         Label4.Size = New Size(87, 24)
@@ -87,7 +87,7 @@ Partial Class TransactionAccepted_SP
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Bahnschrift", 20F)
-        Label5.Location = New Point(74, 130)
+        Label5.Location = New Point(77, 209)
         Label5.Margin = New Padding(4, 0, 4, 0)
         Label5.Name = "Label5"
         Label5.Size = New Size(141, 48)
@@ -98,7 +98,7 @@ Partial Class TransactionAccepted_SP
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Bahnschrift Light", 12F)
-        Label6.Location = New Point(82, 192)
+        Label6.Location = New Point(85, 271)
         Label6.Margin = New Padding(4, 0, 4, 0)
         Label6.MaximumSize = New Size(500, 125)
         Label6.Name = "Label6"
@@ -110,7 +110,7 @@ Partial Class TransactionAccepted_SP
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Bahnschrift Light", 12F)
-        Label7.Location = New Point(82, 249)
+        Label7.Location = New Point(85, 328)
         Label7.Margin = New Padding(4, 0, 4, 0)
         Label7.Name = "Label7"
         Label7.Size = New Size(85, 29)
@@ -121,7 +121,7 @@ Partial Class TransactionAccepted_SP
         ' 
         Label8.AutoSize = True
         Label8.Font = New Font("Bahnschrift", 16F)
-        Label8.Location = New Point(74, 350)
+        Label8.Location = New Point(77, 429)
         Label8.Margin = New Padding(4, 0, 4, 0)
         Label8.Name = "Label8"
         Label8.Size = New Size(113, 39)
@@ -132,7 +132,7 @@ Partial Class TransactionAccepted_SP
         ' 
         Label9.AutoSize = True
         Label9.Font = New Font("Bahnschrift", 16F)
-        Label9.Location = New Point(508, 350)
+        Label9.Location = New Point(511, 429)
         Label9.Margin = New Padding(4, 0, 4, 0)
         Label9.Name = "Label9"
         Label9.Size = New Size(111, 39)
@@ -143,7 +143,7 @@ Partial Class TransactionAccepted_SP
         ' 
         Label10.AutoSize = True
         Label10.Font = New Font("Bahnschrift", 16F)
-        Label10.Location = New Point(74, 452)
+        Label10.Location = New Point(77, 531)
         Label10.Margin = New Padding(4, 0, 4, 0)
         Label10.Name = "Label10"
         Label10.Size = New Size(124, 39)
@@ -154,7 +154,7 @@ Partial Class TransactionAccepted_SP
         ' 
         Label11.AutoSize = True
         Label11.Font = New Font("Bahnschrift", 16F)
-        Label11.Location = New Point(508, 452)
+        Label11.Location = New Point(511, 531)
         Label11.Margin = New Padding(4, 0, 4, 0)
         Label11.Name = "Label11"
         Label11.Size = New Size(117, 39)
