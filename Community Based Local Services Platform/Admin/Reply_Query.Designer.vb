@@ -161,10 +161,9 @@ Partial Class Reply_Query
         Me.ResumeLayout(False)
         Me.PerformLayout()
         ResumeLayout(False)
-        Me.FormBorderStyle = FormBorderStyle.None
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
-        Me.Size = New Size(791, 587)
+        Me.Size = New Size(713, 480)
     End Sub
 
     Friend WithEvents Label3 As Label
