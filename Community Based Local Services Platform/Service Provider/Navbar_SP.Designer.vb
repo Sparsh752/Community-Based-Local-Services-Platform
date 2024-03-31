@@ -29,7 +29,6 @@ Partial Class Navbar_SP
         ' 
         ' Panel1
         ' 
-        Panel1.Anchor = AnchorStyles.None
         Panel1.BackColor = Color.FromArgb(CByte(15), CByte(42), CByte(55))
         Panel1.Controls.Add(BtnLogout)
         Panel1.Location = New Point(0, 0)

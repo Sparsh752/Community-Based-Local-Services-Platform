@@ -77,6 +77,26 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend Shared ReadOnly Property displayPicture() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("displayPicture", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property image_removebg_preview_2() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("image_removebg_preview_2", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend Shared ReadOnly Property proceedtopay() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("proceedtopay", resourceCulture)
@@ -110,6 +130,26 @@ Namespace My.Resources
         Friend Shared ReadOnly Property sample_SP() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("sample_SP", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property star_colored() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("star_colored", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend Shared ReadOnly Property star_uncolored() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("star_uncolored", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

@@ -13,8 +13,11 @@
     Public Panel3 As New Panel()
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Highlight the Home button by default
+
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
+        Me.Size = New Size(1200, 700)
+        Me.StartPosition = FormStartPosition.CenterScreen
         Panel1.BackColor = ColorTranslator.FromHtml("#0F2A37")
 
         Dim HomeButton As New Button()

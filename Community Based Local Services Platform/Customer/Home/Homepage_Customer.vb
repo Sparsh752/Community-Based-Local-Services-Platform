@@ -26,16 +26,20 @@
     Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchBtn.Click
         ' Retrieve search criteria from text box or other UI elements in Panel1
         Dim searchCriteria As String = searchBox.Text
+        Dim minCostCriteria As String = MinCostBox.Text
+        Dim maxCostCriteria As String = MaxCostBox.Text
 
         ' Call the method to update services based on search criteria
-        UpdateServices(searchCriteria)
+        UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria)
     End Sub
 
     ' Method to update services in Panel2 based on search criteria
-    Public Sub UpdateServices(searchCriteria As String)
+    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String)
         Dim displayServicesForm As Display_Services = TryCast(Panel2.Controls(0), Display_Services)
         If displayServicesForm IsNot Nothing Then
-            displayServicesForm.UpdateServices(searchCriteria)
+            displayServicesForm.UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria)
         End If
     End Sub
+
+
 End Class
