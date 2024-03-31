@@ -36,10 +36,32 @@ Public Class InProgressPaymentNotDone_Customer
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-
+        With Appointment_booking
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Appointment_booking)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
-    Private Sub TextBox6_TextChanged(sender As Object, e As EventArgs) Handles TextBox6.TextChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        With Payment_Gateway
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Payment_Gateway)
+            .BringToFront()
+            .Show()
+        End With
+    End Sub
 
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        With AppointmentList_Customer
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(AppointmentList_Customer)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 End Class

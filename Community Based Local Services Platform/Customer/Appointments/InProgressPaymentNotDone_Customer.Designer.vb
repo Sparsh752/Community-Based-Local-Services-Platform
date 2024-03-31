@@ -49,7 +49,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox1
         ' 
         TextBox1.BorderStyle = BorderStyle.None
-        TextBox1.Font = New Font("Bahnschrift", 20.0F)
+        TextBox1.Font = New Font("Bahnschrift", 20F)
         TextBox1.Location = New Point(84, 44)
         TextBox1.Margin = New Padding(0)
         TextBox1.Name = "TextBox1"
@@ -60,7 +60,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox2
         ' 
         TextBox2.BorderStyle = BorderStyle.None
-        TextBox2.Font = New Font("Bahnschrift", 10.0F)
+        TextBox2.Font = New Font("Bahnschrift", 10F)
         TextBox2.Location = New Point(84, 95)
         TextBox2.Margin = New Padding(2)
         TextBox2.Name = "TextBox2"
@@ -137,7 +137,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox3
         ' 
         TextBox3.BorderStyle = BorderStyle.None
-        TextBox3.Font = New Font("Bahnschrift Light", 16.0F)
+        TextBox3.Font = New Font("Bahnschrift Light", 16F)
         TextBox3.Location = New Point(84, 152)
         TextBox3.Margin = New Padding(0)
         TextBox3.Name = "TextBox3"
@@ -148,7 +148,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox4
         ' 
         TextBox4.BorderStyle = BorderStyle.None
-        TextBox4.Font = New Font("Bahnschrift Light", 16.0F)
+        TextBox4.Font = New Font("Bahnschrift Light", 16F)
         TextBox4.Location = New Point(84, 213)
         TextBox4.Margin = New Padding(0)
         TextBox4.Name = "TextBox4"
@@ -159,7 +159,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox5
         ' 
         TextBox5.BorderStyle = BorderStyle.None
-        TextBox5.Font = New Font("Bahnschrift Light", 16.0F)
+        TextBox5.Font = New Font("Bahnschrift Light", 16F)
         TextBox5.Location = New Point(84, 281)
         TextBox5.Margin = New Padding(0)
         TextBox5.Name = "TextBox5"
@@ -170,7 +170,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox6
         ' 
         TextBox6.BorderStyle = BorderStyle.None
-        TextBox6.Font = New Font("Bahnschrift Light", 16.0F)
+        TextBox6.Font = New Font("Bahnschrift Light", 16F)
         TextBox6.Location = New Point(531, 153)
         TextBox6.Margin = New Padding(0)
         TextBox6.Name = "TextBox6"
@@ -181,7 +181,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox7
         ' 
         TextBox7.BorderStyle = BorderStyle.None
-        TextBox7.Font = New Font("Bahnschrift Light", 16.0F)
+        TextBox7.Font = New Font("Bahnschrift Light", 16F)
         TextBox7.Location = New Point(531, 213)
         TextBox7.Margin = New Padding(0)
         TextBox7.Name = "TextBox7"
@@ -192,7 +192,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox8
         ' 
         TextBox8.BorderStyle = BorderStyle.None
-        TextBox8.Font = New Font("Bahnschrift Light", 16.0F)
+        TextBox8.Font = New Font("Bahnschrift Light", 16F)
         TextBox8.Location = New Point(531, 281)
         TextBox8.Margin = New Padding(0)
         TextBox8.Name = "TextBox8"
@@ -203,7 +203,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' TextBox9
         ' 
         TextBox9.BorderStyle = BorderStyle.None
-        TextBox9.Font = New Font("Bahnschrift Light", 16.0F)
+        TextBox9.Font = New Font("Bahnschrift Light", 16F)
         TextBox9.Location = New Point(166, 470)
         TextBox9.Margin = New Padding(0)
         TextBox9.Name = "TextBox9"
@@ -214,7 +214,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Font = New Font("Bahnschrift", 16.0F)
+        Label7.Font = New Font("Bahnschrift", 16F)
         Label7.Location = New Point(76, 470)
         Label7.Margin = New Padding(0)
         Label7.Name = "Label7"
@@ -224,7 +224,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         ' Label8
         ' 
-        Label8.Font = New Font("Bahnschrift", 10.0F)
+        Label8.Font = New Font("Bahnschrift", 10F)
         Label8.Location = New Point(76, 527)
         Label8.Margin = New Padding(0)
         Label8.Name = "Label8"
@@ -234,7 +234,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         ' Label9
         ' 
-        Label9.Font = New Font("Bahnschrift", 10.0F)
+        Label9.Font = New Font("Bahnschrift", 10F)
         Label9.Location = New Point(76, 554)
         Label9.Margin = New Padding(0)
         Label9.Name = "Label9"
@@ -274,7 +274,7 @@ Partial Class InProgressPaymentNotDone_Customer
         ' 
         ' InProgressPaymentNotDone_Customer
         ' 
-        AutoScaleDimensions = New SizeF(10.0F, 25.0F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(879, 609)
@@ -299,7 +299,6 @@ Partial Class InProgressPaymentNotDone_Customer
         Controls.Add(Label1)
         Controls.Add(TextBox2)
         Controls.Add(TextBox1)
-        Cursor = Cursors.Default
         FormBorderStyle = FormBorderStyle.None
         Margin = New Padding(2)
         Name = "InProgressPaymentNotDone_Customer"
