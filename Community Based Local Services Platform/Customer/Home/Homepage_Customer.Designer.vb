@@ -44,6 +44,7 @@ Partial Class Homepage_Customer
         ' 
         ' Panel1
         ' 
+        Panel1.AutoScroll = True
         Panel1.Controls.Add(Button3)
         Panel1.Controls.Add(Button2)
         Panel1.Controls.Add(Button1)
@@ -58,14 +59,15 @@ Partial Class Homepage_Customer
         Panel1.Controls.Add(MinCostBox)
         Panel1.Controls.Add(priceLabel)
         Panel1.Controls.Add(searchBox)
-        Panel1.Location = New Point(0, 72)
+        Panel1.Dock = DockStyle.Left
+        Panel1.Location = New Point(0, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(368, 715)
+        Panel1.Size = New Size(362, 813)
         Panel1.TabIndex = 0
         ' 
         ' Button3
         ' 
-        Button3.Location = New Point(214, 86)
+        Button3.Location = New Point(214, 164)
         Button3.Name = "Button3"
         Button3.Size = New Size(86, 29)
         Button3.TabIndex = 2
@@ -75,7 +77,7 @@ Partial Class Homepage_Customer
         ' 
         ' Button2
         ' 
-        Button2.Location = New Point(122, 86)
+        Button2.Location = New Point(122, 164)
         Button2.Name = "Button2"
         Button2.Size = New Size(86, 29)
         Button2.TabIndex = 1
@@ -85,7 +87,7 @@ Partial Class Homepage_Customer
         ' 
         ' Button1
         ' 
-        Button1.Location = New Point(30, 86)
+        Button1.Location = New Point(30, 164)
         Button1.Name = "Button1"
         Button1.Size = New Size(86, 29)
         Button1.TabIndex = 0
@@ -99,7 +101,7 @@ Partial Class Homepage_Customer
         SearchBtn.FlatStyle = FlatStyle.Popup
         SearchBtn.Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         SearchBtn.ForeColor = Color.White
-        SearchBtn.Location = New Point(102, 575)
+        SearchBtn.Location = New Point(102, 653)
         SearchBtn.Name = "SearchBtn"
         SearchBtn.Size = New Size(117, 53)
         SearchBtn.TabIndex = 12
@@ -108,7 +110,7 @@ Partial Class Homepage_Customer
         ' 
         ' TrackBar1
         ' 
-        TrackBar1.Location = New Point(42, 469)
+        TrackBar1.Location = New Point(42, 547)
         TrackBar1.Name = "TrackBar1"
         TrackBar1.Size = New Size(249, 56)
         TrackBar1.TabIndex = 0
@@ -119,7 +121,7 @@ Partial Class Homepage_Customer
         ' 
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI", 16F)
-        Label4.Location = New Point(30, 407)
+        Label4.Location = New Point(30, 485)
         Label4.Name = "Label4"
         Label4.Size = New Size(94, 37)
         Label4.TabIndex = 11
@@ -129,7 +131,7 @@ Partial Class Homepage_Customer
         ' 
         ComboBox1.Font = New Font("Segoe UI", 10.8F)
         ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(42, 326)
+        ComboBox1.Location = New Point(42, 404)
         ComboBox1.Name = "ComboBox1"
         ComboBox1.Size = New Size(249, 33)
         ComboBox1.TabIndex = 0
@@ -138,7 +140,7 @@ Partial Class Homepage_Customer
         ' 
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI", 16F)
-        Label3.Location = New Point(30, 286)
+        Label3.Location = New Point(30, 364)
         Label3.Name = "Label3"
         Label3.Size = New Size(119, 37)
         Label3.TabIndex = 10
@@ -148,7 +150,7 @@ Partial Class Homepage_Customer
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 10F)
-        Label2.Location = New Point(185, 179)
+        Label2.Location = New Point(185, 257)
         Label2.Name = "Label2"
         Label2.Size = New Size(42, 23)
         Label2.TabIndex = 9
@@ -158,7 +160,7 @@ Partial Class Homepage_Customer
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 10F)
-        Label1.Location = New Point(42, 179)
+        Label1.Location = New Point(42, 257)
         Label1.Name = "Label1"
         Label1.Size = New Size(39, 23)
         Label1.TabIndex = 8
@@ -168,7 +170,7 @@ Partial Class Homepage_Customer
         ' 
         MaxCostBox.BorderStyle = BorderStyle.FixedSingle
         MaxCostBox.Font = New Font("Segoe UI", 10.8F)
-        MaxCostBox.Location = New Point(185, 205)
+        MaxCostBox.Location = New Point(185, 283)
         MaxCostBox.Name = "MaxCostBox"
         MaxCostBox.Size = New Size(106, 31)
         MaxCostBox.TabIndex = 7
@@ -177,7 +179,7 @@ Partial Class Homepage_Customer
         ' 
         MinCostBox.BorderStyle = BorderStyle.FixedSingle
         MinCostBox.Font = New Font("Segoe UI", 10.8F)
-        MinCostBox.Location = New Point(42, 205)
+        MinCostBox.Location = New Point(42, 283)
         MinCostBox.Name = "MinCostBox"
         MinCostBox.Size = New Size(106, 31)
         MinCostBox.TabIndex = 6
@@ -186,7 +188,7 @@ Partial Class Homepage_Customer
         ' 
         priceLabel.AutoSize = True
         priceLabel.Font = New Font("Segoe UI", 16F)
-        priceLabel.Location = New Point(30, 142)
+        priceLabel.Location = New Point(30, 220)
         priceLabel.Name = "priceLabel"
         priceLabel.Size = New Size(74, 37)
         priceLabel.TabIndex = 0
@@ -196,7 +198,7 @@ Partial Class Homepage_Customer
         ' 
         searchBox.BorderStyle = BorderStyle.FixedSingle
         searchBox.Font = New Font("Segoe UI", 11.5F)
-        searchBox.Location = New Point(30, 34)
+        searchBox.Location = New Point(30, 112)
         searchBox.Name = "searchBox"
         searchBox.Size = New Size(293, 33)
         searchBox.TabIndex = 0
@@ -204,16 +206,17 @@ Partial Class Homepage_Customer
         ' Panel2
         ' 
         Panel2.AutoScroll = True
-        Panel2.Location = New Point(375, 72)
+        Panel2.Dock = DockStyle.Fill
+        Panel2.Location = New Point(362, 0)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(970, 715)
+        Panel2.Size = New Size(1003, 813)
         Panel2.TabIndex = 1
         ' 
         ' Homepage_Customer
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.White
+        BackColor = Color.WhiteSmoke
         ClientSize = New Size(1365, 813)
         ControlBox = False
         Controls.Add(Panel2)

@@ -1,15 +1,15 @@
 ﻿Public Class Homepage_Customer
     Private Sub HomePage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Configure the form
+        Me.CenterToParent()
+        Me.WindowState = FormWindowState.Normal
+        Me.Size = New Size(1200, 700)
+
         ' Open Display_Services.vb form inside Panel2
         Panel1.BackColor = ColorTranslator.FromHtml("#ededed")
-        Me.Font = New Font("Bahnschrift Light", 9.75F, FontStyle.Regular, GraphicsUnit.Point)
 
         ' Load default services in Panel2
         LoadDefaultServices()
-
-        ' Center the form and set its WindowState
-        Me.CenterToParent()
-        Me.WindowState = FormWindowState.Normal
     End Sub
 
     ' Method to load default services in Panel2

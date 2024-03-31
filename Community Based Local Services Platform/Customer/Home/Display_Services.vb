@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Xml
 
 Public Class Display_Services
     ' Define the service provider class
@@ -14,8 +15,12 @@ Public Class Display_Services
     Private serviceProviders As New List(Of ServiceProvider)()
 
     Private Sub Display_Services_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Configure the form
+        Me.CenterToParent()
+        Me.WindowState = FormWindowState.Normal
+        Me.Size = New Size(1200, 700)
+
         ' Populate the serviceProviders list with query from DB
-        ' Sample data for demonstration purposes
         serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs", .Cost = "5000", .ServiceName = "Electrical Services", .Ratings = 4})
         serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Experienced in plumbing works", .Cost = "6000", .ServiceName = "Plumbing Services", .Ratings = 4})
         serviceProviders.Add(New ServiceProvider() With {.Name = "Gardener", .Description = "Provides garden maintenance services", .Cost = "5500", .ServiceName = "Gardening Services", .Ratings = 3})
@@ -35,26 +40,24 @@ Public Class Display_Services
     Private Sub DisplayDefault()
         Dim lblMostTrustedHeading As New Label()
         lblMostTrustedHeading.Text = "Most Trusted Service Providers"
-        lblMostTrustedHeading.Font = New Font("Bahnschrift Light", 14, FontStyle.Bold)
-        lblMostTrustedHeading.AutoSize = True
-        lblMostTrustedHeading.Location = New Point(40, 30)
+        lblMostTrustedHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
+        lblMostTrustedHeading.Size = New Size(280, 28)
+        lblMostTrustedHeading.Location = New Point(71, 118)
         Me.Controls.Add(lblMostTrustedHeading)
 
         Dim lblPopularHeading As New Label()
-        lblPopularHeading.Text = "Popular Services"
-        lblPopularHeading.Font = New Font("Bahnschrift Light", 14, FontStyle.Bold)
-        lblPopularHeading.AutoSize = True
-        lblPopularHeading.Location = New Point(40, 300)
+        lblPopularHeading.Text = "Trending Services"
+        lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
+        lblPopularHeading.Size = New Size(280, 28)
+        lblPopularHeading.Location = New Point(71, 371)
         Me.Controls.Add(lblPopularHeading)
-
-        Dim startX As Integer = 60 ' Starting X position for PictureBox and Label
 
         ' Display most trusted service providers
         For i As Integer = 0 To 3
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
-            pb.Size = New Size(150, 150)
-            pb.Location = New Point(startX + (i * 200) - 10, 80)
+            pb.Size = New Size(169, 157)
+            pb.Location = New Point(68 + (i * (32 + 169)), 155)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -62,9 +65,9 @@ Public Class Display_Services
 
             Dim lblProvider As New Label()
             lblProvider.Text = serviceProviders(i).Name
-            lblProvider.AutoSize = True
-            lblProvider.Font = New Font("Bahnschrift Light", 10, FontStyle.Bold)
-            lblProvider.Location = New Point(startX + (i * 200) + 20, 235)
+            lblProvider.Size = New Size(92, 14)
+            lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 320)
             Me.Controls.Add(lblProvider)
         Next
 
@@ -72,8 +75,8 @@ Public Class Display_Services
         For i As Integer = 0 To 3
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
-            pb.Size = New Size(150, 150)
-            pb.Location = New Point(startX + (i * 200) - 10, 350)
+            pb.Size = New Size(169, 157)
+            pb.Location = New Point(68 + (i * (32 + 169)), 408)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -81,9 +84,9 @@ Public Class Display_Services
 
             Dim lblProvider As New Label()
             lblProvider.Text = serviceProviders(i).ServiceName
-            lblProvider.AutoSize = True
-            lblProvider.Font = New Font("Bahnschrift Light", 10, FontStyle.Bold)
-            lblProvider.Location = New Point(startX + (i * 200), 505)
+            lblProvider.Size = New Size(92, 14)
+            lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 574)
             Me.Controls.Add(lblProvider)
         Next
     End Sub
@@ -138,45 +141,55 @@ Public Class Display_Services
         flowLayoutPanel.WrapContents = False
         flowLayoutPanel.Dock = DockStyle.Fill
 
+        Dim verticalGap As Integer = 26 ' Vertical gap between result panels
+
+        Dim yPos As Integer = 112 ' Initial Y position of the result panels
         For Each provider In providers
             Dim resultPanel As New Panel()
-            resultPanel.Size = New Size(600, 150)
-            resultPanel.Margin = New Padding(10)
-            resultPanel.BackColor = Color.LightGray
+            resultPanel.Size = New Size(734, 198)
+            ' resultPanel.Margin = New Padding(10)
             resultPanel.BorderStyle = BorderStyle.FixedSingle
 
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
-            pb.Size = New Size(100, 100)
+            pb.Size = New Size(169, 157)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
-            pb.Location = New Point(10, 25)
+            pb.Location = New Point(21, 21)
             resultPanel.Controls.Add(pb)
 
             Dim nameLabel As New Label()
             nameLabel.Text = "Name: " & provider.Name
-            nameLabel.AutoSize = True
-            nameLabel.Location = New Point(130, 10)
+            nameLabel.Size = New Size(280, 28)
+            nameLabel.Location = New Point(208, 22)
+            nameLabel.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
             resultPanel.Controls.Add(nameLabel)
-
-            Dim costLabel As New Label()
-            costLabel.Text = "Cost: " & provider.Cost
-            costLabel.AutoSize = True
-            costLabel.Location = New Point(130, 30)
-            resultPanel.Controls.Add(costLabel)
 
             Dim serviceNameLabel As New Label()
             serviceNameLabel.Text = "Service Name: " & provider.ServiceName
-            serviceNameLabel.AutoSize = True
-            serviceNameLabel.Location = New Point(130, 50)
+            serviceNameLabel.Size = New Size(280, 28)
+            serviceNameLabel.Location = New Point(208, 50)
+            serviceNameLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
             resultPanel.Controls.Add(serviceNameLabel)
+
+            Dim costLabel As New Label()
+            costLabel.Text = "Cost: " & provider.Cost
+            costLabel.Size = New Size(280, 14)
+            costLabel.Location = New Point(208, 76)
+            costLabel.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            resultPanel.Controls.Add(costLabel)
 
             Dim descriptionLabel As New Label()
             descriptionLabel.Text = "Description: " & provider.Description
-            descriptionLabel.AutoSize = True
-            descriptionLabel.Location = New Point(130, 70)
+            descriptionLabel.Size = New Size(490, 47)
+            descriptionLabel.Location = New Point(208, 99)
+            descriptionLabel.Font = New Font(SessionManager.font_family, 7, FontStyle.Regular)
             resultPanel.Controls.Add(descriptionLabel)
+
+            ' Set the position of the result panel
+            resultPanel.Location = New Point(38, yPos)
+            yPos += resultPanel.Height + verticalGap ' Update yPos for next result panel
 
             flowLayoutPanel.Controls.Add(resultPanel)
         Next
