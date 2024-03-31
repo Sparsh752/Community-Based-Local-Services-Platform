@@ -146,7 +146,6 @@ Partial Class LoginPage
         TextBox2.BorderStyle = BorderStyle.FixedSingle
         TextBox2.Location = New Point(730, 261)
         TextBox2.Name = "TextBox2"
-        TextBox2.PasswordChar = "*"c
         TextBox2.Size = New Size(331, 27)
         TextBox2.TabIndex = 15
         ' 

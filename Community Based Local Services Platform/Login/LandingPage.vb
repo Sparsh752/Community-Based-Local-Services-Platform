@@ -61,7 +61,7 @@
     End Sub
 
     Private Sub SPButton_Click(sender As Object, e As EventArgs) Handles SPButton.Click
-        SessionManager.userType = "SP"
+        SessionManager.userType = "Service Provider"
 
         Dim loginForm As New LoginPage()
         loginForm.Show()

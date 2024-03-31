@@ -81,12 +81,14 @@
         Dim connectionString As String = SessionManager.connectionString
 
         ' Query to retrieve customer's ID based on email and password
-        Dim query As String = "SELECT Customer_ID FROM Customer WHERE Email = @Email AND Password = @Password"
+        Dim query As String = "SELECT userId FROM Users " &
+            "WHERE email = @Email And password = @Password and userType = @UserType"
 
         Using connection As New MySqlConnection(connectionString)
             Using command As New MySqlCommand(query, connection)
                 command.Parameters.AddWithValue("@Email", email)
                 command.Parameters.AddWithValue("@Password", password)
+                command.Parameters.AddWithValue("@UserType", userType)
 
                 Try
                     connection.Open()
@@ -94,6 +96,7 @@
                     If result IsNot Nothing AndAlso Not IsDBNull(result) Then
                         customerID = Convert.ToInt32(result)
                     End If
+                    MessageBox.Show("Logged in")
                 Catch ex As Exception
                     MessageBox.Show("Error retrieving customer's ID: " & ex.Message)
                 End Try
