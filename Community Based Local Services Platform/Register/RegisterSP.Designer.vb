@@ -22,13 +22,14 @@ Partial Class RegisterSP
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         confirmSP_Text = New TextBox()
         OpenFileDialogRegister = New OpenFileDialog()
         RegisterSPSubmitBtn = New Button()
         locationDropdown = New ComboBox()
         registerLocation = New Label()
         Panel1 = New Panel()
-        Experiencecombobox = New ComboBox()
+        ExperienceDropdown = New ComboBox()
         emailValidationLabel = New Label()
         branchLabel = New Label()
         branchText = New TextBox()
@@ -44,7 +45,7 @@ Partial Class RegisterSP
         SPnoticeHours = New Label()
         SPdescription = New Label()
         GroupBox1 = New GroupBox()
-        ComboBox1 = New ComboBox()
+        NoticeHourDropdown = New ComboBox()
         accHolderText = New TextBox()
         SPaccText = New TextBox()
         TextBox2 = New TextBox()
@@ -62,6 +63,7 @@ Partial Class RegisterSP
         registerPasswordSP = New Label()
         passwordSP_Text = New TextBox()
         Label1 = New Label()
+        ToolTip1 = New ToolTip(components)
         Panel1.SuspendLayout()
         CType(registerSPProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -114,7 +116,7 @@ Partial Class RegisterSP
         ' Panel1
         ' 
         Panel1.AutoScroll = True
-        Panel1.Controls.Add(Experiencecombobox)
+        Panel1.Controls.Add(ExperienceDropdown)
         Panel1.Controls.Add(emailValidationLabel)
         Panel1.Controls.Add(branchLabel)
         Panel1.Controls.Add(RegisterSPSubmitBtn)
@@ -131,7 +133,7 @@ Partial Class RegisterSP
         Panel1.Controls.Add(SPnoticeHours)
         Panel1.Controls.Add(SPdescription)
         Panel1.Controls.Add(GroupBox1)
-        Panel1.Controls.Add(ComboBox1)
+        Panel1.Controls.Add(NoticeHourDropdown)
         Panel1.Controls.Add(accHolderText)
         Panel1.Controls.Add(SPaccText)
         Panel1.Controls.Add(TextBox2)
@@ -155,16 +157,16 @@ Partial Class RegisterSP
         Panel1.Dock = DockStyle.Fill
         Panel1.Location = New Point(0, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1360, 686)
+        Panel1.Size = New Size(1360, 1040)
         Panel1.TabIndex = 25
         ' 
-        ' Experiencecombobox
+        ' ExperienceDropdown
         ' 
-        Experiencecombobox.FormattingEnabled = True
-        Experiencecombobox.Location = New Point(770, 415)
-        Experiencecombobox.Name = "Experiencecombobox"
-        Experiencecombobox.Size = New Size(121, 29)
-        Experiencecombobox.TabIndex = 62
+        ExperienceDropdown.FormattingEnabled = True
+        ExperienceDropdown.Location = New Point(770, 415)
+        ExperienceDropdown.Name = "ExperienceDropdown"
+        ExperienceDropdown.Size = New Size(121, 29)
+        ExperienceDropdown.TabIndex = 62
         ' 
         ' emailValidationLabel
         ' 
@@ -305,13 +307,13 @@ Partial Class RegisterSP
         GroupBox1.TabIndex = 47
         GroupBox1.TabStop = False
         ' 
-        ' ComboBox1
+        ' NoticeHourDropdown
         ' 
-        ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(207, 880)
-        ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(286, 29)
-        ComboBox1.TabIndex = 46
+        NoticeHourDropdown.FormattingEnabled = True
+        NoticeHourDropdown.Location = New Point(207, 880)
+        NoticeHourDropdown.Name = "NoticeHourDropdown"
+        NoticeHourDropdown.Size = New Size(286, 29)
+        NoticeHourDropdown.TabIndex = 46
         ' 
         ' accHolderText
         ' 
@@ -363,9 +365,9 @@ Partial Class RegisterSP
         experience.Font = New Font("Bahnschrift", 10.2F)
         experience.Location = New Point(770, 381)
         experience.Name = "experience"
-        experience.Size = New Size(93, 21)
+        experience.Size = New Size(166, 21)
         experience.TabIndex = 39
-        experience.Text = "Experience"
+        experience.Text = "Experience(In Years)"
         ' 
         ' signUpSP
         ' 
@@ -470,11 +472,15 @@ Partial Class RegisterSP
         Label1.TabIndex = 26
         Label1.Text = "Start Hours"
         ' 
+        ' ToolTip1
+        ' 
+        ToolTip1.ToolTipTitle = "Format of Time"
+        ' 
         ' RegisterSP
         ' 
         AutoScaleDimensions = New SizeF(9F, 21F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1360, 686)
+        ClientSize = New Size(1360, 1040)
         Controls.Add(Panel1)
         Font = New Font("Bahnschrift", 10.2F)
         Name = "RegisterSP"
@@ -511,7 +517,7 @@ Partial Class RegisterSP
     Friend WithEvents experience As Label
     Friend WithEvents signUpSP As Label
     Friend WithEvents registerSPProfilePic As PictureBox
-    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents NoticeHourDropdown As ComboBox
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents startHoursText As TextBox
     Friend WithEvents SPifscLabel As Label
@@ -528,6 +534,7 @@ Partial Class RegisterSP
     Friend WithEvents closingHours As Label
     Friend WithEvents closingHoursText As TextBox
     Friend WithEvents emailValidationLabel As Label
-    Friend WithEvents Experiencecombobox As ComboBox
+    Friend WithEvents ExperienceDropdown As ComboBox
+    Friend WithEvents ToolTip1 As ToolTip
 
 End Class

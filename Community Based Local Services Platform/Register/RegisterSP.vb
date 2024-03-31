@@ -1,10 +1,13 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Data.SqlClient
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class RegisterSP
     Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
     Private Sub RegisterSP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
+        YearsExperienceDropdown()
+        PopulateNoticeHourDropdown()
         Me.Size = New Size(1200, 700)
         Me.CenterToScreen()
         Me.WindowState = FormWindowState.Normal
@@ -18,7 +21,7 @@ Public Class RegisterSP
         phoneSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         passwordSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         confirmSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        Experiencecombobox.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        ExperienceDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         closingHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         startHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPaccText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
@@ -27,7 +30,7 @@ Public Class RegisterSP
         bankNameText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         branchText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         locationDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        ComboBox1.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        NoticeHourDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         registerSPProfilePic.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPdescription.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         signUpSP.Location = New Point(138, 80)
@@ -54,8 +57,8 @@ Public Class RegisterSP
         confirmSP_Text.Font = labelfont
         experience.Location = New Point(643, 528)
         experience.Font = labelfont
-        Experiencecombobox.Location = New Point(643, 559)
-        Experiencecombobox.Font = labelfont
+        ExperienceDropdown.Location = New Point(643, 559)
+        ExperienceDropdown.Font = labelfont
         registerLocation.Location = New Point(138, 528)
         registerLocation.Font = labelfont
         locationDropdown.Location = New Point(138, 559)
@@ -75,8 +78,8 @@ Public Class RegisterSP
         TextBox2.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPnoticeHours.Location = New Point(138, 855)
         SPnoticeHours.Font = labelfont
-        ComboBox1.Location = New Point(138, 883)
-        ComboBox1.Font = labelfont
+        NoticeHourDropdown.Location = New Point(138, 883)
+        NoticeHourDropdown.Font = labelfont
         SPpaymentLabel.Location = New Point(138, 970)
         SPpaymentLabel.Font = New Font(SessionManager.font_family, 13, FontStyle.Bold)
         SPacc.Location = New Point(138, 1022)
@@ -104,7 +107,7 @@ Public Class RegisterSP
         RegisterSPSubmitBtn.Location = New Point(939, 1338)
         RegisterSPSubmitBtn.Font = labelfont
         RegisterSPSubmitBtn.Size = New Size(150, 41)
-        Experiencecombobox.Size = New Size(286, 41)
+        ExperienceDropdown.Size = New Size(286, 41)
         closingHoursText.Size = New Size(286, 41)
         startHoursText.Size = New Size(286, 41)
         SPaccText.Size = New Size(286, 41)
@@ -124,12 +127,23 @@ Public Class RegisterSP
             e.Handled = True
         End If
 
-        ' Check if the length of the text exceeds 13 characters
+        ' Check if the length of the text exceeds 10 characters
         If phoneSP_Text.Text.Length >= 10 AndAlso Not Char.IsControl(e.KeyChar) Then
             ' If the length exceeds 10 characters and the pressed key is not a control character, suppress it
             e.Handled = True
         End If
     End Sub
+
+    Private Sub startHoursText_MouseHover(sender As Object, e As EventArgs) Handles startHoursText.MouseHover
+        ' Display a tooltip with the correct format for the start time
+        ToolTip1.Show("Enter time in format HH:MM:SS", startHoursText, 2000)
+    End Sub
+
+    Private Sub closingHoursText_MouseHover(sender As Object, e As EventArgs) Handles closingHoursText.MouseHover
+        ' Display a tooltip with the correct format for the closing time
+        ToolTip1.Show("Enter time in format HH:MM:SS", closingHoursText, 2000)
+    End Sub
+
 
     Private Sub SPaccText_KeyPress(sender As Object, e As KeyPressEventArgs) Handles SPaccText.KeyPress
         ' Check if the pressed key is a number or the '+' symbol
@@ -253,7 +267,7 @@ Public Class RegisterSP
        String.IsNullOrWhiteSpace(nameSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(Experiencecombobox.Text) OrElse
+       String.IsNullOrWhiteSpace(ExperienceDropdown.Text) OrElse
        String.IsNullOrWhiteSpace(closingHoursText.Text) OrElse
        String.IsNullOrWhiteSpace(startHoursText.Text) OrElse
        String.IsNullOrWhiteSpace(SPaccText.Text) OrElse
@@ -290,4 +304,32 @@ Public Class RegisterSP
         locationDropdown.Items.AddRange(megacitiesOfIndia)
     End Sub
 
+    Private Sub YearsExperienceDropdown()
+        ' Add countries manually to the dropdown list
+        Dim YearsOfExperience As Integer() = {1, 2, 3, 4, 5, 6}
+
+        ExperienceDropdown.Items.Clear()
+        ' Add Experience to the dropdown
+        For Each year As Integer In YearsOfExperience
+            ExperienceDropdown.Items.Add(year.ToString())
+        Next
+
+    End Sub
+    Private Sub PopulateNoticeHourDropdown()
+        ' Add notice hour options manually to the dropdown list
+        Dim noticeHours As Integer() = {1, 2, 3, 4, 5, 6, 12, 24}
+
+        ' Clear existing items (if needed)
+        NoticeHourDropdown.Items.Clear()
+
+        ' Add notice hours to the dropdown
+        For Each hour As Integer In noticeHours
+            NoticeHourDropdown.Items.Add(hour.ToString())
+        Next
+    End Sub
+
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
 End Class
