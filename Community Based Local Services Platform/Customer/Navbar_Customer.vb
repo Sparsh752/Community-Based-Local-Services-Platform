@@ -110,14 +110,14 @@
 
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
-        'SetActiveForm(Homepage)
-        With Homepage_Customer
-            .TopLevel = False
-            .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_Customer)
-            .BringToFront()
-            .Show()
-        End With
+
+        ' Load the default services on Homepage_Customer form
+        Dim homepageForm As New Homepage_Customer()
+        homepageForm.TopLevel = False
+        homepageForm.Dock = DockStyle.Fill
+        Panel3.Controls.Add(homepageForm)
+        homepageForm.BringToFront()
+        homepageForm.Show()
 
     End Sub
 
