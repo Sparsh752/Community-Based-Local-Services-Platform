@@ -4,7 +4,19 @@ Imports System.Data.SqlClient
 Public Class Register1
     Private Sub Register1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
-        password_Text.PasswordChar = "*"
+        Me.Size = New Size(1200, 700)
+        Me.StartPosition = FormStartPosition.CenterScreen
+        Me.WindowState = FormWindowState.Normal
+        Me.BackColor = ColorTranslator.FromHtml("#FFFFFF")
+        Me.CenterToParent()
+        email_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        name_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        phone_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        password_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        confirm_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        locationDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        addressTextbox.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        registerProfilePic.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         confirm_Text.PasswordChar = "*"
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles email_Text.TextChanged

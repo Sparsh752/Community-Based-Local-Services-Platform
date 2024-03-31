@@ -9,6 +9,7 @@ Public Class RegisterSP
         Me.WindowState = FormWindowState.Normal
         Me.BackColor = Color.White
         Me.StartPosition = FormStartPosition.CenterScreen
+
         passwordSP_Text.PasswordChar = "*"
         confirmSP_Text.PasswordChar = "*"
         emailSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
@@ -27,6 +28,7 @@ Public Class RegisterSP
         locationDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         ComboBox1.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         registerSPProfilePic.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        SPdescription.BackColor = ColorTranslator.FromHtml("#F9F9F9")
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles emailSP_Text.TextChanged
         ' Call the function to validate the email format
