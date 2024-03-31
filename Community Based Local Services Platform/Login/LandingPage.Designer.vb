@@ -36,17 +36,18 @@ Partial Class LandingPage
         ' 
         PictureBox1.BackgroundImage = My.Resources.Resource1.image_removebg_preview_2
         PictureBox1.BackgroundImageLayout = ImageLayout.Stretch
-        PictureBox1.Location = New Point(168, 95)
+        PictureBox1.Location = New Point(192, 127)
+        PictureBox1.Margin = New Padding(3, 4, 3, 4)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(180, 180)
+        PictureBox1.Size = New Size(206, 240)
         PictureBox1.TabIndex = 29
         PictureBox1.TabStop = False
         ' 
         ' Label7
         ' 
-        Label7.Location = New Point(12, 288)
+        Label7.Location = New Point(14, 384)
         Label7.Name = "Label7"
-        Label7.Size = New Size(519, 110)
+        Label7.Size = New Size(593, 147)
         Label7.TabIndex = 26
         Label7.Text = "Label7"
         Label7.TextAlign = ContentAlignment.MiddleCenter
@@ -54,10 +55,9 @@ Partial Class LandingPage
         ' CustomerButton
         ' 
         CustomerButton.FlatStyle = FlatStyle.Flat
-        CustomerButton.Location = New Point(721, 328)
-        CustomerButton.Margin = New Padding(3, 2, 3, 2)
+        CustomerButton.Location = New Point(824, 437)
         CustomerButton.Name = "CustomerButton"
-        CustomerButton.Size = New Size(131, 30)
+        CustomerButton.Size = New Size(150, 40)
         CustomerButton.TabIndex = 23
         CustomerButton.Text = "Customer"
         CustomerButton.UseVisualStyleBackColor = True
@@ -65,26 +65,25 @@ Partial Class LandingPage
         ' LoginLabel
         ' 
         LoginLabel.BackColor = Color.Gainsboro
-        LoginLabel.Location = New Point(580, 76)
+        LoginLabel.Location = New Point(663, 101)
         LoginLabel.Name = "LoginLabel"
-        LoginLabel.Size = New Size(414, 368)
+        LoginLabel.Size = New Size(473, 491)
         LoginLabel.TabIndex = 18
         ' 
         ' Label1
         ' 
         Label1.BackColor = Color.Gainsboro
-        Label1.Location = New Point(12, 9)
+        Label1.Location = New Point(14, 12)
         Label1.Name = "Label1"
-        Label1.Size = New Size(519, 525)
+        Label1.Size = New Size(593, 700)
         Label1.TabIndex = 17
         ' 
         ' SPButton
         ' 
         SPButton.FlatStyle = FlatStyle.Flat
-        SPButton.Location = New Point(721, 226)
-        SPButton.Margin = New Padding(3, 2, 3, 2)
+        SPButton.Location = New Point(824, 301)
         SPButton.Name = "SPButton"
-        SPButton.Size = New Size(131, 30)
+        SPButton.Size = New Size(150, 40)
         SPButton.TabIndex = 30
         SPButton.Text = "Service Provider"
         SPButton.UseVisualStyleBackColor = True
@@ -92,20 +91,19 @@ Partial Class LandingPage
         ' AdminButton
         ' 
         AdminButton.FlatStyle = FlatStyle.Flat
-        AdminButton.Location = New Point(721, 136)
-        AdminButton.Margin = New Padding(3, 2, 3, 2)
+        AdminButton.Location = New Point(824, 181)
         AdminButton.Name = "AdminButton"
-        AdminButton.Size = New Size(131, 30)
+        AdminButton.Size = New Size(150, 40)
         AdminButton.TabIndex = 31
         AdminButton.Text = "Admin"
         AdminButton.UseVisualStyleBackColor = True
         ' 
         ' LandingPage
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1184, 661)
+        ClientSize = New Size(1353, 881)
         Controls.Add(AdminButton)
         Controls.Add(SPButton)
         Controls.Add(PictureBox1)
@@ -114,7 +112,6 @@ Partial Class LandingPage
         Controls.Add(LoginLabel)
         Controls.Add(Label1)
         FormBorderStyle = FormBorderStyle.FixedDialog
-        Margin = New Padding(3, 2, 3, 2)
         Name = "LandingPage"
         Text = "Landing Page"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
