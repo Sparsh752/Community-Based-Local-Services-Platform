@@ -6,6 +6,8 @@
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.BackColor = ColorTranslator.FromHtml("#FFFFFF")
+        Me.Size = New Size(1200, 700)
+        Me.StartPosition = FormStartPosition.CenterScreen
         Label1.BackColor = ColorTranslator.FromHtml("#0F2A37")
         Label1.Size = New Size(593, 700)
         Label1.Location = New Point(0, 0)
