@@ -2,6 +2,60 @@
 
 
 Public Class Homepage_SP
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If SessionManager.Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            SessionManager.Panel3.Controls.Clear()
+        End If
+    End Sub
+
+
+    Private Sub AddServicesButton_Click(sender As Object, e As EventArgs)
+        RemovePreviousForm()
+        AddServices_SP.Margin = New Padding(0, 0, 0, 0)
+        With AddServices_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            SessionManager.Panel3.Controls.Add(AddServices_SP)
+            .BringToFront()
+            .Show()
+        End With
+    End Sub
+
+
+    Private Sub EditServicesButton_Click(sender As Object, e As EventArgs)
+        RemovePreviousForm()
+        UpdateServices_SP.Margin = New Padding(0, 0, 0, 0)
+        With UpdateServices_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            SessionManager.Panel3.Controls.Add(UpdateServices_SP)
+            .BringToFront()
+            .Show()
+        End With
+    End Sub
+
+
+
+    Private Sub EditProfileButton_Click(sender As Object, e As EventArgs)
+        RemovePreviousForm()
+        Register1.Margin = New Padding(0, 0, 0, 0)
+        With Register1
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            SessionManager.Panel3.Controls.Add(Register1)
+            .BringToFront()
+            .Show()
+        End With
+    End Sub
+
+
+    Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs)
+    End Sub
+
+
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
@@ -44,6 +98,7 @@ Public Class Homepage_SP
         newButton3.FlatStyle = FlatStyle.Flat
         newButton3.FlatAppearance.BorderSize = 0
         newButton3.Padding = New Padding(newButton3.Padding.Left, newButton3.Padding.Top, newButton3.Padding.Right, newButton3.Padding.Bottom - 10)
+        AddHandler newButton3.Click, AddressOf AddServicesButton_Click
         Me.Controls.Add(newButton3)
 
 
@@ -60,6 +115,7 @@ Public Class Homepage_SP
         newButton4.FlatStyle = FlatStyle.Flat
         newButton4.FlatAppearance.BorderSize = 0
         newButton4.Padding = New Padding(newButton4.Padding.Left, newButton4.Padding.Top, newButton4.Padding.Right, newButton4.Padding.Bottom - 10)
+        AddHandler newButton4.Click, AddressOf EditProfileButton_Click
         Me.Controls.Add(newButton4)
 
 
@@ -142,6 +198,7 @@ Public Class Homepage_SP
             newButton1.FlatStyle = FlatStyle.Flat
             newButton1.FlatAppearance.BorderSize = 0
             newButton1.Padding = New Padding(newButton1.Padding.Left, newButton1.Padding.Top, newButton1.Padding.Right, newButton1.Padding.Bottom - 10)
+            AddHandler newButton1.Click, AddressOf DeleteServiceButton_Click
             groupBox.Controls.Add(newButton1)
 
 
@@ -157,6 +214,7 @@ Public Class Homepage_SP
             newButton2.FlatStyle = FlatStyle.Flat
             newButton2.FlatAppearance.BorderSize = 0
             newButton2.Padding = New Padding(newButton2.Padding.Left, newButton2.Padding.Top, newButton2.Padding.Right, newButton2.Padding.Bottom - 10)
+            AddHandler newButton2.Click, AddressOf EditServicesButton_Click
             groupBox.Controls.Add(newButton2)
 
             yPosition += groupSize.Height + groupSpacing
