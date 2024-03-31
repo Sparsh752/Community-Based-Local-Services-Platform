@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 
 Public Class RegisterSP
+    Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
     Private Sub RegisterSP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
         Me.Size = New Size(1200, 700)
@@ -17,7 +18,7 @@ Public Class RegisterSP
         phoneSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         passwordSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         confirmSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        experienceTextbox.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        Experiencecombobox.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         closingHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         startHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPaccText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
@@ -29,6 +30,87 @@ Public Class RegisterSP
         ComboBox1.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         registerSPProfilePic.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPdescription.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        signUpSP.Location = New Point(138, 80)
+        signUpSP.Font = New Font("Bahnschrift", 20, FontStyle.Regular)
+        registerSPEmailLabel.Location = New Point(138, 138)
+        registerSPEmailLabel.Font = labelfont
+        emailSP_Text.Location = New Point(138, 166)
+        emailSP_Text.Font = labelfont
+        registerNameSP.Location = New Point(138, 234)
+        registerNameSP.Font = labelfont
+        nameSP_Text.Location = New Point(138, 262)
+        nameSP_Text.Font = labelfont
+        registerNumberSP.Location = New Point(138, 326)
+        registerNumberSP.Font = labelfont
+        phoneSP_Text.Location = New Point(138, 357)
+        phoneSP_Text.Font = labelfont
+        registerPasswordSP.Location = New Point(138, 432)
+        registerPasswordSP.Font = labelfont
+        passwordSP_Text.Location = New Point(138, 463)
+        passwordSP_Text.Font = labelfont
+        registerConfirmSP.Location = New Point(643, 432)
+        registerConfirmSP.Font = labelfont
+        confirmSP_Text.Location = New Point(643, 463)
+        confirmSP_Text.Font = labelfont
+        experience.Location = New Point(643, 528)
+        experience.Font = labelfont
+        Experiencecombobox.Location = New Point(643, 559)
+        Experiencecombobox.Font = labelfont
+        registerLocation.Location = New Point(138, 528)
+        registerLocation.Font = labelfont
+        locationDropdown.Location = New Point(138, 559)
+        locationDropdown.Font = labelfont
+        Label1.Location = New Point(138, 624)
+        Label1.Font = labelfont
+        startHoursText.Location = New Point(138, 655)
+        startHoursText.Font = labelfont
+        closingHours.Location = New Point(643, 624)
+        closingHours.Font = labelfont
+        closingHoursText.Location = New Point(643, 655)
+        closingHoursText.Font = labelfont
+        SPdescription.Location = New Point(138, 716)
+        SPdescription.Font = labelfont
+        TextBox2.Location = New Point(138, 748)
+        TextBox2.Font = labelfont
+        TextBox2.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        SPnoticeHours.Location = New Point(138, 855)
+        SPnoticeHours.Font = labelfont
+        ComboBox1.Location = New Point(138, 883)
+        ComboBox1.Font = labelfont
+        SPpaymentLabel.Location = New Point(138, 970)
+        SPpaymentLabel.Font = New Font(SessionManager.font_family, 13, FontStyle.Bold)
+        SPacc.Location = New Point(138, 1022)
+        SPacc.Font = labelfont
+        SPaccText.Location = New Point(138, 1050)
+        SPaccText.Font = labelfont
+        bankNameLabel.Location = New Point(643, 1022)
+        bankNameLabel.Font = labelfont
+        bankNameText.Location = New Point(643, 1050)
+        bankNameText.Font = labelfont
+        AccLabel.Location = New Point(138, 1120)
+        AccLabel.Font = labelfont
+        accHolderText.Location = New Point(138, 1148)
+        accHolderText.Font = labelfont
+        branchLabel.Location = New Point(643, 1120)
+        branchLabel.Font = labelfont
+        branchText.Location = New Point(643, 1148)
+        branchText.Font = labelfont
+        SPifscLabel.Location = New Point(138, 1213)
+        SPifscLabel.Font = labelfont
+        ifscText.Location = New Point(138, 1241)
+        ifscText.Font = labelfont
+        registerSPProfilePic.Location = New Point(643, 140)
+        registerSPProfilePic.Size = New Size(300, 200)
+        RegisterSPSubmitBtn.Location = New Point(939, 1338)
+        RegisterSPSubmitBtn.Font = labelfont
+        RegisterSPSubmitBtn.Size = New Size(150, 41)
+        Experiencecombobox.Size = New Size(286, 41)
+        closingHoursText.Size = New Size(286, 41)
+        startHoursText.Size = New Size(286, 41)
+        SPaccText.Size = New Size(286, 41)
+        accHolderText.Size = New Size(286, 41)
+        bankNameText.Size = New Size(286, 41)
+        branchText.Size = New Size(286, 41)
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles emailSP_Text.TextChanged
         ' Call the function to validate the email format
@@ -171,7 +253,7 @@ Public Class RegisterSP
        String.IsNullOrWhiteSpace(nameSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(experienceTextbox.Text) OrElse
+       String.IsNullOrWhiteSpace(Experiencecombobox.Text) OrElse
        String.IsNullOrWhiteSpace(closingHoursText.Text) OrElse
        String.IsNullOrWhiteSpace(startHoursText.Text) OrElse
        String.IsNullOrWhiteSpace(SPaccText.Text) OrElse
@@ -390,5 +472,6 @@ Public Class RegisterSP
         locationDropdown.Items.Add("Zambia")
         locationDropdown.Items.Add("Zimbabwe")
     End Sub
+
 
 End Class

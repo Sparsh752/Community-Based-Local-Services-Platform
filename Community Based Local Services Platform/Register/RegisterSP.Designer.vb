@@ -50,7 +50,6 @@ Partial Class RegisterSP
         startHoursText = New TextBox()
         registerSPProfilePic = New PictureBox()
         experience = New Label()
-        experienceTextbox = New TextBox()
         signUpSP = New Label()
         emailSP_Text = New TextBox()
         nameSP_Text = New TextBox()
@@ -62,6 +61,7 @@ Partial Class RegisterSP
         registerPasswordSP = New Label()
         passwordSP_Text = New TextBox()
         Label1 = New Label()
+        Experiencecombobox = New ComboBox()
         Panel1.SuspendLayout()
         CType(registerSPProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -83,7 +83,7 @@ Partial Class RegisterSP
         RegisterSPSubmitBtn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         RegisterSPSubmitBtn.FlatAppearance.BorderSize = 0
         RegisterSPSubmitBtn.FlatStyle = FlatStyle.Flat
-        RegisterSPSubmitBtn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RegisterSPSubmitBtn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RegisterSPSubmitBtn.ForeColor = Color.White
         RegisterSPSubmitBtn.Location = New Point(867, 1167)
         RegisterSPSubmitBtn.Margin = New Padding(0)
@@ -114,6 +114,7 @@ Partial Class RegisterSP
         ' Panel1
         ' 
         Panel1.AutoScroll = True
+        Panel1.Controls.Add(Experiencecombobox)
         Panel1.Controls.Add(emailValidationLabel)
         Panel1.Controls.Add(branchLabel)
         Panel1.Controls.Add(RegisterSPSubmitBtn)
@@ -137,7 +138,6 @@ Partial Class RegisterSP
         Panel1.Controls.Add(startHoursText)
         Panel1.Controls.Add(registerSPProfilePic)
         Panel1.Controls.Add(experience)
-        Panel1.Controls.Add(experienceTextbox)
         Panel1.Controls.Add(signUpSP)
         Panel1.Controls.Add(emailSP_Text)
         Panel1.Controls.Add(nameSP_Text)
@@ -359,14 +359,6 @@ Partial Class RegisterSP
         experience.TabIndex = 39
         experience.Text = "Experience"
         ' 
-        ' experienceTextbox
-        ' 
-        experienceTextbox.BorderStyle = BorderStyle.FixedSingle
-        experienceTextbox.Location = New Point(770, 423)
-        experienceTextbox.Name = "experienceTextbox"
-        experienceTextbox.Size = New Size(246, 24)
-        experienceTextbox.TabIndex = 38
-        ' 
         ' signUpSP
         ' 
         signUpSP.AutoSize = True
@@ -470,9 +462,17 @@ Partial Class RegisterSP
         Label1.TabIndex = 26
         Label1.Text = "Start Hours"
         ' 
+        ' Experiencecombobox
+        ' 
+        Experiencecombobox.FormattingEnabled = True
+        Experiencecombobox.Location = New Point(770, 415)
+        Experiencecombobox.Name = "Experiencecombobox"
+        Experiencecombobox.Size = New Size(121, 25)
+        Experiencecombobox.TabIndex = 62
+        ' 
         ' RegisterSP
         ' 
-        AutoScaleDimensions = New SizeF(8F, 17F)
+        AutoScaleDimensions = New SizeF(8.0F, 17.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1360, 686)
         Controls.Add(Panel1)
@@ -509,7 +509,6 @@ Partial Class RegisterSP
     Friend WithEvents nameSP_Text As TextBox
     Friend WithEvents registerConfirmSP As Label
     Friend WithEvents experience As Label
-    Friend WithEvents experienceTextbox As TextBox
     Friend WithEvents signUpSP As Label
     Friend WithEvents registerSPProfilePic As PictureBox
     Friend WithEvents ComboBox1 As ComboBox
@@ -529,5 +528,6 @@ Partial Class RegisterSP
     Friend WithEvents closingHours As Label
     Friend WithEvents closingHoursText As TextBox
     Friend WithEvents emailValidationLabel As Label
+    Friend WithEvents Experiencecombobox As ComboBox
 
 End Class
