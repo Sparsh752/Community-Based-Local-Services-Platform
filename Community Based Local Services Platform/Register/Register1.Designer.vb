@@ -29,7 +29,6 @@ Partial Class Register1
         registerPassword = New Label()
         registerConfirm = New Label()
         registerLocation = New Label()
-        addressTextbox = New TextBox()
         registerAddress = New Label()
         locationDropdown = New ComboBox()
         registerProfilePic = New PictureBox()
@@ -41,16 +40,17 @@ Partial Class Register1
         OpenFileDialogRegister = New OpenFileDialog()
         RegisterSubmitBtn = New Button()
         emailValidationLabel = New Label()
+        address = New RichTextBox()
         CType(registerProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' signUp
         ' 
         signUp.AutoSize = True
-        signUp.Font = New Font("Bahnschrift", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        signUp.Location = New Point(199, 31)
+        signUp.Font = New Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        signUp.Location = New Point(138, 69)
         signUp.Name = "signUp"
-        signUp.Size = New Size(134, 41)
+        signUp.Size = New Size(109, 33)
         signUp.TabIndex = 0
         signUp.Text = "Sign Up"
         ' 
@@ -58,9 +58,9 @@ Partial Class Register1
         ' 
         registerEmailLabel.AutoSize = True
         registerEmailLabel.Font = New Font("Bahnschrift", 10.2F)
-        registerEmailLabel.Location = New Point(203, 89)
+        registerEmailLabel.Location = New Point(138, 124)
         registerEmailLabel.Name = "registerEmailLabel"
-        registerEmailLabel.Size = New Size(53, 21)
+        registerEmailLabel.Size = New Size(43, 17)
         registerEmailLabel.TabIndex = 1
         registerEmailLabel.Text = "Email"
         ' 
@@ -68,9 +68,9 @@ Partial Class Register1
         ' 
         registerName.AutoSize = True
         registerName.Font = New Font("Bahnschrift", 10.2F)
-        registerName.Location = New Point(199, 185)
+        registerName.Location = New Point(138, 214)
         registerName.Name = "registerName"
-        registerName.Size = New Size(55, 21)
+        registerName.Size = New Size(45, 17)
         registerName.TabIndex = 3
         registerName.Text = "Name"
         ' 
@@ -78,9 +78,9 @@ Partial Class Register1
         ' 
         registerNumber.AutoSize = True
         registerNumber.Font = New Font("Bahnschrift", 10.2F)
-        registerNumber.Location = New Point(199, 272)
+        registerNumber.Location = New Point(138, 308)
         registerNumber.Name = "registerNumber"
-        registerNumber.Size = New Size(87, 21)
+        registerNumber.Size = New Size(74, 17)
         registerNumber.TabIndex = 5
         registerNumber.Text = "Phone No."
         ' 
@@ -88,9 +88,9 @@ Partial Class Register1
         ' 
         registerPassword.AutoSize = True
         registerPassword.Font = New Font("Bahnschrift", 10.2F)
-        registerPassword.Location = New Point(199, 358)
+        registerPassword.Location = New Point(138, 400)
         registerPassword.Name = "registerPassword"
-        registerPassword.Size = New Size(86, 21)
+        registerPassword.Size = New Size(71, 17)
         registerPassword.TabIndex = 7
         registerPassword.Text = "Password"
         ' 
@@ -99,7 +99,7 @@ Partial Class Register1
         registerConfirm.AutoSize = True
         registerConfirm.Location = New Point(199, 462)
         registerConfirm.Name = "registerConfirm"
-        registerConfirm.Size = New Size(151, 21)
+        registerConfirm.Size = New Size(126, 17)
         registerConfirm.TabIndex = 9
         registerConfirm.Text = "Confirm Password"
         ' 
@@ -109,18 +109,9 @@ Partial Class Register1
         registerLocation.Font = New Font("Bahnschrift", 10.2F)
         registerLocation.Location = New Point(770, 300)
         registerLocation.Name = "registerLocation"
-        registerLocation.Size = New Size(74, 21)
+        registerLocation.Size = New Size(63, 17)
         registerLocation.TabIndex = 11
         registerLocation.Text = "Location"
-        ' 
-        ' addressTextbox
-        ' 
-        addressTextbox.BackColor = Color.AliceBlue
-        addressTextbox.BorderStyle = BorderStyle.FixedSingle
-        addressTextbox.Location = New Point(770, 414)
-        addressTextbox.Name = "addressTextbox"
-        addressTextbox.Size = New Size(140, 28)
-        addressTextbox.TabIndex = 14
         ' 
         ' registerAddress
         ' 
@@ -128,7 +119,7 @@ Partial Class Register1
         registerAddress.Font = New Font("Bahnschrift", 10.2F)
         registerAddress.Location = New Point(770, 382)
         registerAddress.Name = "registerAddress"
-        registerAddress.Size = New Size(73, 21)
+        registerAddress.Size = New Size(61, 17)
         registerAddress.TabIndex = 13
         registerAddress.Text = "Address"
         ' 
@@ -137,7 +128,7 @@ Partial Class Register1
         locationDropdown.FormattingEnabled = True
         locationDropdown.Location = New Point(770, 334)
         locationDropdown.Name = "locationDropdown"
-        locationDropdown.Size = New Size(169, 29)
+        locationDropdown.Size = New Size(332, 25)
         locationDropdown.TabIndex = 15
         ' 
         ' registerProfilePic
@@ -146,7 +137,7 @@ Partial Class Register1
         registerProfilePic.Cursor = Cursors.Hand
         registerProfilePic.Location = New Point(770, 89)
         registerProfilePic.Name = "registerProfilePic"
-        registerProfilePic.Size = New Size(246, 208)
+        registerProfilePic.Size = New Size(332, 208)
         registerProfilePic.SizeMode = PictureBoxSizeMode.StretchImage
         registerProfilePic.TabIndex = 16
         registerProfilePic.TabStop = False
@@ -157,7 +148,7 @@ Partial Class Register1
         email_Text.BorderStyle = BorderStyle.FixedSingle
         email_Text.Location = New Point(203, 113)
         email_Text.Name = "email_Text"
-        email_Text.Size = New Size(283, 28)
+        email_Text.Size = New Size(283, 24)
         email_Text.TabIndex = 17
         ' 
         ' name_Text
@@ -166,7 +157,7 @@ Partial Class Register1
         name_Text.BorderStyle = BorderStyle.FixedSingle
         name_Text.Location = New Point(206, 209)
         name_Text.Name = "name_Text"
-        name_Text.Size = New Size(286, 28)
+        name_Text.Size = New Size(286, 24)
         name_Text.TabIndex = 18
         ' 
         ' phone_Text
@@ -175,7 +166,7 @@ Partial Class Register1
         phone_Text.BorderStyle = BorderStyle.FixedSingle
         phone_Text.Location = New Point(203, 296)
         phone_Text.Name = "phone_Text"
-        phone_Text.Size = New Size(288, 28)
+        phone_Text.Size = New Size(288, 24)
         phone_Text.TabIndex = 19
         ' 
         ' password_Text
@@ -184,7 +175,7 @@ Partial Class Register1
         password_Text.BorderStyle = BorderStyle.FixedSingle
         password_Text.Location = New Point(203, 398)
         password_Text.Name = "password_Text"
-        password_Text.Size = New Size(288, 28)
+        password_Text.Size = New Size(288, 24)
         password_Text.TabIndex = 20
         ' 
         ' confirm_Text
@@ -192,7 +183,7 @@ Partial Class Register1
         confirm_Text.BorderStyle = BorderStyle.FixedSingle
         confirm_Text.Location = New Point(199, 508)
         confirm_Text.Name = "confirm_Text"
-        confirm_Text.Size = New Size(292, 28)
+        confirm_Text.Size = New Size(292, 24)
         confirm_Text.TabIndex = 21
         ' 
         ' OpenFileDialogRegister
@@ -204,7 +195,7 @@ Partial Class Register1
         RegisterSubmitBtn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         RegisterSubmitBtn.FlatAppearance.BorderSize = 0
         RegisterSubmitBtn.FlatStyle = FlatStyle.Flat
-        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RegisterSubmitBtn.ForeColor = Color.White
         RegisterSubmitBtn.Location = New Point(770, 545)
         RegisterSubmitBtn.Margin = New Padding(0)
@@ -220,14 +211,24 @@ Partial Class Register1
         emailValidationLabel.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         emailValidationLabel.Location = New Point(203, 144)
         emailValidationLabel.Name = "emailValidationLabel"
-        emailValidationLabel.Size = New Size(0, 16)
+        emailValidationLabel.Size = New Size(0, 13)
         emailValidationLabel.TabIndex = 24
+        ' 
+        ' address
+        ' 
+        address.BorderStyle = BorderStyle.FixedSingle
+        address.Location = New Point(768, 415)
+        address.Name = "address"
+        address.Size = New Size(244, 73)
+        address.TabIndex = 25
+        address.Text = ""
         ' 
         ' Register1
         ' 
-        AutoScaleDimensions = New SizeF(9.0F, 21.0F)
+        AutoScaleDimensions = New SizeF(8F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1330, 686)
+        Controls.Add(address)
         Controls.Add(emailValidationLabel)
         Controls.Add(RegisterSubmitBtn)
         Controls.Add(confirm_Text)
@@ -237,7 +238,6 @@ Partial Class Register1
         Controls.Add(email_Text)
         Controls.Add(registerProfilePic)
         Controls.Add(locationDropdown)
-        Controls.Add(addressTextbox)
         Controls.Add(registerAddress)
         Controls.Add(registerLocation)
         Controls.Add(registerConfirm)
@@ -272,7 +272,6 @@ Partial Class Register1
     Friend WithEvents registerConfirm As Label
     Friend WithEvents TextBox6 As TextBox
     Friend WithEvents registerLocation As Label
-    Friend WithEvents addressTextbox As TextBox
     Friend WithEvents registerAddress As Label
     Friend WithEvents locationDropdown As ComboBox
     Friend WithEvents registerProfilePic As PictureBox
@@ -284,5 +283,6 @@ Partial Class Register1
     Friend WithEvents OpenFileDialogRegister As OpenFileDialog
     Friend WithEvents RegisterSubmitBtn As Button
     Friend WithEvents emailValidationLabel As Label
+    Friend WithEvents address As RichTextBox
 
 End Class

@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 
 Public Class Register1
+    Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
     Private Sub Register1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
         Me.Size = New Size(1200, 700)
@@ -15,9 +16,47 @@ Public Class Register1
         password_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         confirm_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         locationDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        addressTextbox.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        address.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         registerProfilePic.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        signUp.Location = New Point(138, 69)
+        registerEmailLabel.Location = New Point(138, 124)
+        email_Text.Location = New Point(138, 152)
+        registerName.Location = New Point(138, 214)
+        name_Text.Location = New Point(138, 244)
+        registerNumber.Location = New Point(138, 308)
+        phone_Text.Location = New Point(138, 336)
+        registerPassword.Location = New Point(138, 400)
+        password_Text.Location = New Point(138, 431)
+        registerConfirm.Location = New Point(138, 499)
+        confirm_Text.Location = New Point(138, 530)
+        registerProfilePic.Location = New Point(702, 107)
+        registerLocation.Location = New Point(702, 339)
+        registerLocation.Size = New Size(332, 45)
+        locationDropdown.Location = New Point(702, 370)
+        registerAddress.Location = New Point(702, 420)
+        address.Location = New Point(702, 452)
+        RegisterSubmitBtn.Location = New Point(901, 552)
+        RegisterSubmitBtn.Size = New Size(150, 41)
+        address.Size = New Size(332, 73)
+        address.BorderStyle = BorderStyle.FixedSingle
+        registerEmailLabel.Font = labelfont
+        registerName.Font = labelfont
+        registerNumber.Font = labelfont
+        registerPassword.Font = labelfont
+        registerConfirm.Font = labelfont
+        registerLocation.Font = labelfont
+        registerAddress.Font = labelfont
+        RegisterSubmitBtn.Font = labelfont
+        email_Text.Font = labelfont
+        name_Text.Font = labelfont
+        phone_Text.Font = labelfont
+        password_Text.Font = labelfont
+        confirm_Text.Font = labelfont
+        locationDropdown.Font = labelfont
+        address.Font = labelfont
+
         confirm_Text.PasswordChar = "*"
+
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles email_Text.TextChanged
         ' Call the function to validate the email format
