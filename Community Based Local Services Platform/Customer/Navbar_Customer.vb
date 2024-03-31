@@ -79,6 +79,8 @@
         AddHandler AppointmentButton.Click, AddressOf BtnAppointment_Click
         AddHandler ProfileButton.Click, AddressOf BtnProfile_Click
         AddHandler QueriesButton.Click, AddressOf BtnQueries_Click
+
+        ' Add Panel3 to the form
         Me.Controls.Add(Panel3)
         Panel3.Size = New Size(1200, 700)
         Panel3.Location = New Point(0, 0)
@@ -105,8 +107,6 @@
             Panel3.Controls.Clear()
         End If
     End Sub
-
-
 
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
@@ -169,11 +169,29 @@
 
     End Sub
 
-
-
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         ' Ensure that the application exits when the main form is closed
         Application.Exit()
+    End Sub
+
+    ' Method to handle navigation to SP_profile form
+    Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
+        Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
+
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Cost, provider.ServiceName)
+        spProfileForm.TopLevel = False
+        spProfileForm.FormBorderStyle = FormBorderStyle.None
+        spProfileForm.Dock = DockStyle.Fill
+        spProfileForm.AutoScroll = True
+
+        ' Clear existing controls from Panel3
+        Panel3.Controls.Clear()
+
+        ' Add SP_profile form to Panel3
+        Panel3.Controls.Add(spProfileForm)
+
+        ' Show the form
+        spProfileForm.Show()
     End Sub
 
 End Class
