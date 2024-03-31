@@ -1,9 +1,11 @@
-﻿Imports System.Diagnostics.Eventing.Reader
+﻿Imports System.ComponentModel
+Imports System.Diagnostics.Eventing.Reader
 Imports System.IO
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify
 Public Class AppointmentList_Customer
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1200, 635)
+        Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
         ' Call the method to add labels to TableLayoutPanel
         AddLabelsToTableLayoutPanel()
@@ -152,33 +154,11 @@ Public Class AppointmentList_Customer
         Next
     End Sub
 
-    Sub ChangeLeftPanel(status As String)
-        Panel1.Size = New Size(700, 700)
-        Panel1.Location = New Point(0, 0)
-        If (status = "Scheduled") Then
-            Dim panel As New InProgressPaymentNotDone_Customer()
-            panel.TopLevel = False
-            Panel1.Controls.Clear()
-            Panel1.Controls.Add(panel)
-            panel.Dock = DockStyle.Top
-            panel.FormBorderStyle = FormBorderStyle.None
-            panel.Show()
-        ElseIf (status = "Canceled") Then
-            Dim panel As New Cancelled_By_Customer()
-            panel.TopLevel = False
-            Panel1.Controls.Clear()
-            Panel1.Controls.Add(panel)
-            panel.Dock = DockStyle.Top
-            panel.FormBorderStyle = FormBorderStyle.None
-            panel.Show()
-        ElseIf (status = "Rejected") Then
-            Dim panel As New Rejected_View()
-            panel.TopLevel = False
-            Panel1.Controls.Clear()
-            Panel1.Controls.Add(panel)
-            panel.Dock = DockStyle.Top
-            panel.FormBorderStyle = FormBorderStyle.None
-            panel.Show()
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
         End If
     End Sub
 
@@ -186,8 +166,40 @@ Public Class AppointmentList_Customer
     Private Sub ViewButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         Dim button As Button = DirectCast(sender, Button)
         Dim status As String = button.Tag
-        MessageBox.Show(button.Tag)
-        ChangeLeftPanel(status)
+
+        If (status = "Scheduled") Then
+            With InProgressPaymentNotDone_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(InProgressPaymentNotDone_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf (status = "Completed") Then
+            With TransactionComplete_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(TransactionComplete_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf (status = "Canceled") Then
+            With Cancelled_By_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(Cancelled_By_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf (status = "Rejected") Then
+            With Rejected_View
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(Rejected_View)
+                .BringToFront()
+                .Show()
+            End With
+        End If
     End Sub
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)

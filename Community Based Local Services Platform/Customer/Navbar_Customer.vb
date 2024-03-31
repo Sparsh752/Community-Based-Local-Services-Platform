@@ -124,10 +124,10 @@
     Private Sub BtnAppointment_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Appointment)
-        With Payment_Gateway
+        With AppointmentList_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Payment_Gateway)
+            Panel3.Controls.Add(AppointmentList_Customer)
             .BringToFront()
             .Show()
         End With
