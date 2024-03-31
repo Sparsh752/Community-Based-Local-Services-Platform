@@ -123,4 +123,8 @@ Public Class LoginPage
         TextBox2.Text = ""
         TextBox1.Text = ""
     End Sub
+
+    Private Sub LoginPage_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+
+    End Sub
 End Class

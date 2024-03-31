@@ -53,6 +53,26 @@
     End Sub
 
     Private Sub CustomerButton_Click(sender As Object, e As EventArgs) Handles CustomerButton.Click
+        SessionManager.userType = "Customer"
 
+        Dim loginForm As New LoginPage()
+        loginForm.Show()
+        Me.Hide()
+    End Sub
+
+    Private Sub SPButton_Click(sender As Object, e As EventArgs) Handles SPButton.Click
+        SessionManager.userType = "SP"
+
+        Dim loginForm As New LoginPage()
+        loginForm.Show()
+        Me.Hide()
+    End Sub
+
+    Private Sub AdminButton_Click(sender As Object, e As EventArgs) Handles AdminButton.Click
+        SessionManager.userType = "Admin"
+
+        Dim loginForm As New LoginPage()
+        loginForm.Show()
+        Me.Hide()
     End Sub
 End Class
