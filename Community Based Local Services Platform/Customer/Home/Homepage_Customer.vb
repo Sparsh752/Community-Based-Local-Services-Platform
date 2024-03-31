@@ -21,6 +21,11 @@
         displayServicesForm.Dock = DockStyle.Fill
         displayServicesForm.FormBorderStyle = FormBorderStyle.None
         displayServicesForm.Show()
+
+        ' Reset search criteria in the search box
+        searchBox.Text = ""
+        MinCostBox.Text = ""
+        MaxCostBox.Text = ""
     End Sub
 
     Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchBtn.Click
@@ -40,6 +45,4 @@
             displayServicesForm.UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria)
         End If
     End Sub
-
-
 End Class

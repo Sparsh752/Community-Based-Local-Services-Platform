@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports System.Xml
 
 Public Class Display_Services
     ' Define the service provider class
@@ -18,7 +17,7 @@ Public Class Display_Services
         ' Configure the form
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
-        Me.Size = New Size(1200, 700)
+        Me.Size = New Size(841, 635)
 
         ' Populate the serviceProviders list with query from DB
         serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs", .Cost = "5000", .ServiceName = "Electrical Services", .Ratings = 4})
@@ -132,22 +131,18 @@ Public Class Display_Services
         End If
     End Sub
 
-
     ' Method to display search results
     Private Sub DisplaySearchResults(providers As List(Of ServiceProvider))
-        Dim flowLayoutPanel As New FlowLayoutPanel()
-        flowLayoutPanel.FlowDirection = FlowDirection.TopDown
-        flowLayoutPanel.AutoScroll = True
-        flowLayoutPanel.WrapContents = False
-        flowLayoutPanel.Dock = DockStyle.Fill
-
+        Me.AutoScroll = True
         Dim verticalGap As Integer = 26 ' Vertical gap between result panels
 
-        Dim yPos As Integer = 112 ' Initial Y position of the result panels
+        Dim yPos As Integer = 101 ' Initial Y position of the result panels
         For Each provider In providers
             Dim resultPanel As New Panel()
             resultPanel.Size = New Size(734, 198)
-            ' resultPanel.Margin = New Padding(10)
+            ' Set the position of the result panel
+            resultPanel.Location = New Point(38, yPos)
+            yPos += resultPanel.Height + verticalGap ' Update yPos for next result panel
             resultPanel.BorderStyle = BorderStyle.FixedSingle
 
             Dim pb As New PictureBox()
@@ -160,40 +155,54 @@ Public Class Display_Services
             resultPanel.Controls.Add(pb)
 
             Dim nameLabel As New Label()
-            nameLabel.Text = "Name: " & provider.Name
+            nameLabel.Text = provider.Name
             nameLabel.Size = New Size(280, 28)
             nameLabel.Location = New Point(208, 22)
             nameLabel.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular)
             resultPanel.Controls.Add(nameLabel)
 
             Dim serviceNameLabel As New Label()
-            serviceNameLabel.Text = "Service Name: " & provider.ServiceName
+            serviceNameLabel.Text = provider.ServiceName
             serviceNameLabel.Size = New Size(280, 28)
             serviceNameLabel.Location = New Point(208, 50)
             serviceNameLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
             resultPanel.Controls.Add(serviceNameLabel)
 
             Dim costLabel As New Label()
-            costLabel.Text = "Cost: " & provider.Cost
+            costLabel.Text = "Rate : Rs. " & provider.Cost
             costLabel.Size = New Size(280, 14)
             costLabel.Location = New Point(208, 76)
-            costLabel.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            costLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
             resultPanel.Controls.Add(costLabel)
 
             Dim descriptionLabel As New Label()
-            descriptionLabel.Text = "Description: " & provider.Description
+            descriptionLabel.Text = provider.Description
             descriptionLabel.Size = New Size(490, 47)
             descriptionLabel.Location = New Point(208, 99)
             descriptionLabel.Font = New Font(SessionManager.font_family, 7, FontStyle.Regular)
             resultPanel.Controls.Add(descriptionLabel)
 
-            ' Set the position of the result panel
-            resultPanel.Location = New Point(38, yPos)
-            yPos += resultPanel.Height + verticalGap ' Update yPos for next result panel
+            Dim viewBtn As New Button()
+            viewBtn.Text = "View Details"
+            viewBtn.Size = New Size(107, 29)
+            viewBtn.Location = New Point(451, 156)
+            viewBtn.BackColor = Color.FromArgb(249, 117, 75)
+            viewBtn.ForeColor = Color.White
+            viewBtn.FlatStyle = FlatStyle.Flat
+            viewBtn.FlatAppearance.BorderSize = 0
+            resultPanel.Controls.Add(viewBtn)
 
-            flowLayoutPanel.Controls.Add(resultPanel)
+            Dim bookNowBtn As New Button()
+            bookNowBtn.Text = "Book Now"
+            bookNowBtn.Size = New Size(107, 29)
+            bookNowBtn.Location = New Point(591, 156)
+            bookNowBtn.BackColor = Color.FromArgb(249, 117, 75)
+            bookNowBtn.ForeColor = Color.White
+            bookNowBtn.FlatStyle = FlatStyle.Flat
+            bookNowBtn.FlatAppearance.BorderSize = 0
+            resultPanel.Controls.Add(bookNowBtn)
+
+            Me.Controls.Add(resultPanel)
         Next
-
-        Me.Controls.Add(flowLayoutPanel)
     End Sub
 End Class
