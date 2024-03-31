@@ -62,10 +62,10 @@ Partial Class All_Queries
         DataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText
         DataGridViewCellStyle6.WrapMode = DataGridViewTriState.False
         DataGridView1.DefaultCellStyle = DataGridViewCellStyle6
-        DataGridView1.Dock = DockStyle.Fill
+        ' DataGridView1.Dock = DockStyle.Fill
         DataGridView1.EnableHeadersVisualStyles = False
         DataGridView1.GridColor = SystemColors.HighlightText
-        DataGridView1.Location = New Point(0, 0)
+        DataGridView1.Location = New Point(0, 65)
         DataGridView1.MultiSelect = False
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True

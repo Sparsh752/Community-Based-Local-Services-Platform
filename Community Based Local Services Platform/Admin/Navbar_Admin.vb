@@ -2,6 +2,7 @@
     ' Method to highlight the active button
     Public Panel3 As New Panel()
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SessionManager.Panel3 = Panel3
         ' Highlight the Home button by default
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
@@ -33,11 +34,11 @@
         RemovePreviousForm()
 
         'SetActiveForm(Homepage)
-        Registration_Request.Margin = New Padding(0, 0, 0, 0)
-        With Registration_Request
+        Homepage_Admin.Margin = New Padding(0, 0, 0, 0)
+        With Homepage_Admin
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Registration_Request)
+            Panel3.Controls.Add(Homepage_Admin)
             .BringToFront()
             .Show()
         End With
