@@ -275,7 +275,7 @@ Partial Class TransactionComplete_SP
         ' 
         AutoScaleDimensions = New SizeF(10.0F, 25.0F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1226, 847)
+        ClientSize = New Size(1178, 579)
         Controls.Add(Button2)
         Controls.Add(RichTextBox1)
         Controls.Add(Label13)

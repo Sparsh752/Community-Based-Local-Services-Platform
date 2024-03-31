@@ -52,4 +52,36 @@ Public Class PendingRequest_SP
         Button2.Location = New Point(600, 400)
 
     End Sub
+
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        RemovePreviousForm()
+        With AppointmentList_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(AppointmentList_SP)
+            .BringToFront()
+            .Show()
+        End With
+        MessageBox.Show("Appointment Booked!")
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        RemovePreviousForm()
+        With AppointmentList_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(AppointmentList_SP)
+            .BringToFront()
+            .Show()
+        End With
+        MessageBox.Show("Appointment Rejected!")
+    End Sub
 End Class

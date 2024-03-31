@@ -1,5 +1,5 @@
 ﻿Public Class AppointmentList_SP
-    Dim labels() As String = {"12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Scheduled", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Completed", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Rejected", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Canceled", "link", "link"}
+    Dim labels() As String = {"12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Pending", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Scheduled", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Completed", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Rejected", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Canceled", "link", "link"}
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1200, 635)
         Me.FormBorderStyle = FormBorderStyle.None
@@ -148,17 +148,11 @@
         Next
     End Sub
 
-    Sub ChangeLeftPanel(status As String)
-        Panel1.Size = New Size(700, 700)
-        Panel1.Location = New Point(0, 0)
-        If (status = "Scheduled") Then
-            Dim panel As New TransactionAccepted_SP()
-            panel.TopLevel = False
-            Panel1.Controls.Clear() ' Clear existing controls in Panel2
-            Panel1.Controls.Add(panel)
-            panel.Dock = DockStyle.Top
-            panel.FormBorderStyle = FormBorderStyle.None
-            panel.Show()
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
         End If
     End Sub
 
@@ -166,8 +160,48 @@
     Private Sub ViewButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         Dim button As Button = DirectCast(sender, Button)
         Dim status As String = button.Tag
-        MessageBox.Show(button.Tag)
-        ChangeLeftPanel(status)
+
+        If (status = "Pending") Then
+            With PendingRequest_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(PendingRequest_SP)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf (status = "Scheduled") Then
+            With TransactionAccepted_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(TransactionAccepted_SP)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf (status = "Completed") Then
+            With ServiceComplete_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(ServiceComplete_SP)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf (status = "Canceled") Then
+            With CanceledView_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(CanceledView_SP)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf (status = "Rejected") Then
+            With RejectedView_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(RejectedView_SP)
+                .BringToFront()
+                .Show()
+            End With
+        End If
     End Sub
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)

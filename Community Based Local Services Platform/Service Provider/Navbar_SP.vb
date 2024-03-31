@@ -112,10 +112,10 @@
     Private Sub BtnAppointment_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Appointment)
-        With Appointment_Customer
+        With AppointmentList_SP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Appointment_Customer)
+            Panel3.Controls.Add(AppointmentList_SP)
             .BringToFront()
             .Show()
         End With

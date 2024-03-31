@@ -17,7 +17,7 @@
         BookedSlot = "Monday, 9:00 AM"
         Location = "Example Location"
 
-        Me.Size = New Size(700, 613)
+        Me.Size = New Size(1200, 635)
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
 

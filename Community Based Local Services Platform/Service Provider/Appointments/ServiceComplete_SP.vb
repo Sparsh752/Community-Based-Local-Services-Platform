@@ -74,7 +74,22 @@
 
     End Sub
 
-    Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
+        End If
+    End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        RemovePreviousForm()
+        With TransactionComplete_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(TransactionComplete_SP)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 End Class

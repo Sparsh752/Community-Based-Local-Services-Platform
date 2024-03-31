@@ -23,13 +23,13 @@ Partial Class ServiceComplete_SP
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Panel1 = New Panel()
-        Panel4 = New Panel()
-        RichTextBox4 = New RichTextBox()
-        Panel3 = New Panel()
         RichTextBox3 = New RichTextBox()
-        Panel2 = New Panel()
+        OTP4 = New Panel()
+        RichTextBox4 = New RichTextBox()
+        OTP3 = New Panel()
+        OTP2 = New Panel()
         RichTextBox2 = New RichTextBox()
-        Panel6 = New Panel()
+        OTP1 = New Panel()
         RichTextBox1 = New RichTextBox()
         Button1 = New Button()
         Label12 = New Label()
@@ -45,19 +45,19 @@ Partial Class ServiceComplete_SP
         Label2 = New Label()
         Label1 = New Label()
         Panel1.SuspendLayout()
-        Panel4.SuspendLayout()
-        Panel3.SuspendLayout()
-        Panel2.SuspendLayout()
-        Panel6.SuspendLayout()
+        OTP4.SuspendLayout()
+        OTP3.SuspendLayout()
+        OTP2.SuspendLayout()
+        OTP1.SuspendLayout()
         SuspendLayout()
         ' 
         ' Panel1
         ' 
         Panel1.AutoScroll = True
-        Panel1.Controls.Add(Panel4)
-        Panel1.Controls.Add(Panel3)
-        Panel1.Controls.Add(Panel2)
-        Panel1.Controls.Add(Panel6)
+        Panel1.Controls.Add(OTP4)
+        Panel1.Controls.Add(OTP3)
+        Panel1.Controls.Add(OTP2)
+        Panel1.Controls.Add(OTP1)
         Panel1.Controls.Add(Button1)
         Panel1.Controls.Add(Label12)
         Panel1.Controls.Add(Label11)
@@ -78,84 +78,84 @@ Partial Class ServiceComplete_SP
         Panel1.Size = New Size(852, 708)
         Panel1.TabIndex = 0
         ' 
-        ' Panel4
-        ' 
-        Panel4.BackColor = Color.Coral
-        Panel4.Controls.Add(RichTextBox4)
-        Panel4.Location = New Point(434, 524)
-        Panel4.Margin = New Padding(4)
-        Panel4.Name = "Panel4"
-        Panel4.Padding = New Padding(1)
-        Panel4.Size = New Size(78, 79)
-        Panel4.TabIndex = 55
-        ' 
-        ' RichTextBox4
-        ' 
-        RichTextBox4.BorderStyle = BorderStyle.None
-        RichTextBox4.Location = New Point(1, 1)
-        RichTextBox4.Margin = New Padding(4)
-        RichTextBox4.Name = "RichTextBox4"
-        RichTextBox4.Size = New Size(75, 75)
-        RichTextBox4.TabIndex = 30
-        RichTextBox4.Text = ""
-        ' 
-        ' Panel3
-        ' 
-        Panel3.BackColor = Color.Coral
-        Panel3.Controls.Add(RichTextBox3)
-        Panel3.Location = New Point(319, 525)
-        Panel3.Margin = New Padding(4)
-        Panel3.Name = "Panel3"
-        Panel3.Padding = New Padding(1)
-        Panel3.Size = New Size(78, 79)
-        Panel3.TabIndex = 55
-        ' 
         ' RichTextBox3
         ' 
         RichTextBox3.BorderStyle = BorderStyle.None
-        RichTextBox3.Location = New Point(1, 1)
+        RichTextBox3.Location = New Point(1, 2)
         RichTextBox3.Margin = New Padding(4)
         RichTextBox3.Name = "RichTextBox3"
         RichTextBox3.Size = New Size(75, 75)
         RichTextBox3.TabIndex = 30
         RichTextBox3.Text = ""
         ' 
-        ' Panel2
+        ' OTP4
         ' 
-        Panel2.BackColor = Color.Coral
-        Panel2.Controls.Add(RichTextBox2)
-        Panel2.Location = New Point(204, 525)
-        Panel2.Margin = New Padding(4)
-        Panel2.Name = "Panel2"
-        Panel2.Padding = New Padding(1)
-        Panel2.Size = New Size(78, 79)
-        Panel2.TabIndex = 55
+        OTP4.BackColor = Color.Coral
+        OTP4.Controls.Add(RichTextBox4)
+        OTP4.Location = New Point(434, 524)
+        OTP4.Margin = New Padding(4)
+        OTP4.Name = "OTP4"
+        OTP4.Padding = New Padding(1)
+        OTP4.Size = New Size(78, 79)
+        OTP4.TabIndex = 55
+        ' 
+        ' RichTextBox4
+        ' 
+        RichTextBox4.BorderStyle = BorderStyle.None
+        RichTextBox4.Location = New Point(1, 2)
+        RichTextBox4.Margin = New Padding(4)
+        RichTextBox4.Name = "RichTextBox4"
+        RichTextBox4.Size = New Size(75, 75)
+        RichTextBox4.TabIndex = 30
+        RichTextBox4.Text = ""
+        ' 
+        ' OTP3
+        ' 
+        OTP3.BackColor = Color.Coral
+        OTP3.Controls.Add(RichTextBox3)
+        OTP3.Location = New Point(319, 525)
+        OTP3.Margin = New Padding(4)
+        OTP3.Name = "OTP3"
+        OTP3.Padding = New Padding(1)
+        OTP3.Size = New Size(78, 79)
+        OTP3.TabIndex = 55
+        ' 
+        ' OTP2
+        ' 
+        OTP2.BackColor = Color.Coral
+        OTP2.Controls.Add(RichTextBox2)
+        OTP2.Location = New Point(204, 525)
+        OTP2.Margin = New Padding(4)
+        OTP2.Name = "OTP2"
+        OTP2.Padding = New Padding(1)
+        OTP2.Size = New Size(78, 79)
+        OTP2.TabIndex = 55
         ' 
         ' RichTextBox2
         ' 
         RichTextBox2.BorderStyle = BorderStyle.None
-        RichTextBox2.Location = New Point(1, 1)
+        RichTextBox2.Location = New Point(1, 2)
         RichTextBox2.Margin = New Padding(4)
         RichTextBox2.Name = "RichTextBox2"
         RichTextBox2.Size = New Size(75, 75)
         RichTextBox2.TabIndex = 30
         RichTextBox2.Text = ""
         ' 
-        ' Panel6
+        ' OTP1
         ' 
-        Panel6.BackColor = Color.Coral
-        Panel6.Controls.Add(RichTextBox1)
-        Panel6.Location = New Point(89, 525)
-        Panel6.Margin = New Padding(4)
-        Panel6.Name = "Panel6"
-        Panel6.Padding = New Padding(1)
-        Panel6.Size = New Size(78, 79)
-        Panel6.TabIndex = 54
+        OTP1.BackColor = Color.Coral
+        OTP1.Controls.Add(RichTextBox1)
+        OTP1.Location = New Point(89, 525)
+        OTP1.Margin = New Padding(4)
+        OTP1.Name = "OTP1"
+        OTP1.Padding = New Padding(1)
+        OTP1.Size = New Size(78, 79)
+        OTP1.TabIndex = 54
         ' 
         ' RichTextBox1
         ' 
         RichTextBox1.BorderStyle = BorderStyle.None
-        RichTextBox1.Location = New Point(1, 1)
+        RichTextBox1.Location = New Point(1, 2)
         RichTextBox1.Margin = New Padding(4)
         RichTextBox1.Name = "RichTextBox1"
         RichTextBox1.Size = New Size(75, 75)
@@ -324,10 +324,10 @@ Partial Class ServiceComplete_SP
         Text = "ServiceComplete_SP"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        Panel4.ResumeLayout(False)
-        Panel3.ResumeLayout(False)
-        Panel2.ResumeLayout(False)
-        Panel6.ResumeLayout(False)
+        OTP4.ResumeLayout(False)
+        OTP3.ResumeLayout(False)
+        OTP2.ResumeLayout(False)
+        OTP1.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
@@ -347,12 +347,12 @@ Partial Class ServiceComplete_SP
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents VScrollBar1 As VScrollBar
-    Friend WithEvents Panel6 As Panel
+    Friend WithEvents OTP1 As Panel
     Friend WithEvents RichTextBox1 As RichTextBox
-    Friend WithEvents Panel4 As Panel
+    Friend WithEvents OTP4 As Panel
     Friend WithEvents RichTextBox4 As RichTextBox
-    Friend WithEvents Panel3 As Panel
+    Friend WithEvents OTP3 As Panel
     Friend WithEvents RichTextBox3 As RichTextBox
-    Friend WithEvents Panel2 As Panel
+    Friend WithEvents OTP2 As Panel
     Friend WithEvents RichTextBox2 As RichTextBox
 End Class
