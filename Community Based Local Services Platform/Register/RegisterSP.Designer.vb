@@ -71,7 +71,7 @@ Partial Class RegisterSP
         confirmSP_Text.BorderStyle = BorderStyle.FixedSingle
         confirmSP_Text.Location = New Point(207, 492)
         confirmSP_Text.Name = "confirmSP_Text"
-        confirmSP_Text.Size = New Size(286, 28)
+        confirmSP_Text.Size = New Size(286, 24)
         confirmSP_Text.TabIndex = 21
         ' 
         ' OpenFileDialogRegister
@@ -83,7 +83,7 @@ Partial Class RegisterSP
         RegisterSPSubmitBtn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         RegisterSPSubmitBtn.FlatAppearance.BorderSize = 0
         RegisterSPSubmitBtn.FlatStyle = FlatStyle.Flat
-        RegisterSPSubmitBtn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RegisterSPSubmitBtn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RegisterSPSubmitBtn.ForeColor = Color.White
         RegisterSPSubmitBtn.Location = New Point(867, 1167)
         RegisterSPSubmitBtn.Margin = New Padding(0)
@@ -98,7 +98,7 @@ Partial Class RegisterSP
         locationDropdown.FormattingEnabled = True
         locationDropdown.Location = New Point(206, 589)
         locationDropdown.Name = "locationDropdown"
-        locationDropdown.Size = New Size(286, 29)
+        locationDropdown.Size = New Size(286, 25)
         locationDropdown.TabIndex = 15
         ' 
         ' registerLocation
@@ -107,7 +107,7 @@ Partial Class RegisterSP
         registerLocation.Font = New Font("Bahnschrift", 10.2F)
         registerLocation.Location = New Point(199, 565)
         registerLocation.Name = "registerLocation"
-        registerLocation.Size = New Size(74, 21)
+        registerLocation.Size = New Size(63, 17)
         registerLocation.TabIndex = 11
         registerLocation.Text = "Location"
         ' 
@@ -164,7 +164,7 @@ Partial Class RegisterSP
         emailValidationLabel.Font = New Font("Bahnschrift Light", 7.8F)
         emailValidationLabel.Location = New Point(208, 163)
         emailValidationLabel.Name = "emailValidationLabel"
-        emailValidationLabel.Size = New Size(0, 16)
+        emailValidationLabel.Size = New Size(0, 13)
         emailValidationLabel.TabIndex = 61
         ' 
         ' branchLabel
@@ -173,7 +173,7 @@ Partial Class RegisterSP
         branchLabel.Font = New Font("Bahnschrift", 10.2F)
         branchLabel.Location = New Point(758, 1065)
         branchLabel.Name = "branchLabel"
-        branchLabel.Size = New Size(63, 21)
+        branchLabel.Size = New Size(53, 17)
         branchLabel.TabIndex = 60
         branchLabel.Text = "Branch"
         ' 
@@ -182,7 +182,7 @@ Partial Class RegisterSP
         branchText.BorderStyle = BorderStyle.FixedSingle
         branchText.Location = New Point(758, 1107)
         branchText.Name = "branchText"
-        branchText.Size = New Size(246, 28)
+        branchText.Size = New Size(246, 24)
         branchText.TabIndex = 59
         ' 
         ' bankNameLabel
@@ -191,7 +191,7 @@ Partial Class RegisterSP
         bankNameLabel.Font = New Font("Bahnschrift", 10.2F)
         bankNameLabel.Location = New Point(758, 967)
         bankNameLabel.Name = "bankNameLabel"
-        bankNameLabel.Size = New Size(98, 21)
+        bankNameLabel.Size = New Size(80, 17)
         bankNameLabel.TabIndex = 58
         bankNameLabel.Text = "Bank Name"
         ' 
@@ -200,7 +200,7 @@ Partial Class RegisterSP
         bankNameText.BorderStyle = BorderStyle.FixedSingle
         bankNameText.Location = New Point(758, 1009)
         bankNameText.Name = "bankNameText"
-        bankNameText.Size = New Size(246, 28)
+        bankNameText.Size = New Size(246, 24)
         bankNameText.TabIndex = 57
         ' 
         ' closingHours
@@ -209,7 +209,7 @@ Partial Class RegisterSP
         closingHours.Font = New Font("Bahnschrift", 10.2F)
         closingHours.Location = New Point(770, 475)
         closingHours.Name = "closingHours"
-        closingHours.Size = New Size(117, 21)
+        closingHours.Size = New Size(99, 17)
         closingHours.TabIndex = 56
         closingHours.Text = "Closing Hours"
         ' 
@@ -218,7 +218,7 @@ Partial Class RegisterSP
         closingHoursText.BorderStyle = BorderStyle.FixedSingle
         closingHoursText.Location = New Point(770, 517)
         closingHoursText.Name = "closingHoursText"
-        closingHoursText.Size = New Size(246, 28)
+        closingHoursText.Size = New Size(246, 24)
         closingHoursText.TabIndex = 55
         ' 
         ' SPifscLabel
@@ -227,7 +227,7 @@ Partial Class RegisterSP
         SPifscLabel.Font = New Font("Bahnschrift", 10.2F)
         SPifscLabel.Location = New Point(207, 1139)
         SPifscLabel.Name = "SPifscLabel"
-        SPifscLabel.Size = New Size(86, 21)
+        SPifscLabel.Size = New Size(73, 17)
         SPifscLabel.TabIndex = 54
         SPifscLabel.Text = "IFSC code"
         ' 
@@ -236,7 +236,7 @@ Partial Class RegisterSP
         ifscText.BorderStyle = BorderStyle.FixedSingle
         ifscText.Location = New Point(207, 1167)
         ifscText.Name = "ifscText"
-        ifscText.Size = New Size(286, 28)
+        ifscText.Size = New Size(286, 24)
         ifscText.TabIndex = 53
         ' 
         ' SPacc
@@ -245,7 +245,7 @@ Partial Class RegisterSP
         SPacc.Font = New Font("Bahnschrift", 10.2F)
         SPacc.Location = New Point(207, 967)
         SPacc.Name = "SPacc"
-        SPacc.Size = New Size(179, 21)
+        SPacc.Size = New Size(151, 17)
         SPacc.TabIndex = 52
         SPacc.Text = "Bank Account Number"
         ' 
@@ -255,7 +255,7 @@ Partial Class RegisterSP
         AccLabel.Font = New Font("Bahnschrift", 10.2F)
         AccLabel.Location = New Point(207, 1065)
         AccLabel.Name = "AccLabel"
-        AccLabel.Size = New Size(176, 21)
+        AccLabel.Size = New Size(149, 17)
         AccLabel.TabIndex = 51
         AccLabel.Text = "Account Holder Name"
         ' 
@@ -265,7 +265,7 @@ Partial Class RegisterSP
         SPpaymentLabel.Font = New Font("Bahnschrift", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         SPpaymentLabel.Location = New Point(207, 928)
         SPpaymentLabel.Name = "SPpaymentLabel"
-        SPpaymentLabel.Size = New Size(143, 22)
+        SPpaymentLabel.Size = New Size(117, 18)
         SPpaymentLabel.TabIndex = 50
         SPpaymentLabel.Text = "Payment Details"
         ' 
@@ -275,7 +275,7 @@ Partial Class RegisterSP
         SPnoticeHours.Font = New Font("Bahnschrift", 10.2F)
         SPnoticeHours.Location = New Point(207, 845)
         SPnoticeHours.Name = "SPnoticeHours"
-        SPnoticeHours.Size = New Size(183, 21)
+        SPnoticeHours.Size = New Size(156, 17)
         SPnoticeHours.TabIndex = 49
         SPnoticeHours.Text = "Minimum Notice Hours"
         ' 
@@ -285,7 +285,7 @@ Partial Class RegisterSP
         SPdescription.Font = New Font("Bahnschrift", 10.2F)
         SPdescription.Location = New Point(206, 728)
         SPdescription.Name = "SPdescription"
-        SPdescription.Size = New Size(95, 21)
+        SPdescription.Size = New Size(82, 17)
         SPdescription.TabIndex = 48
         SPdescription.Text = "Description"
         ' 
@@ -302,7 +302,7 @@ Partial Class RegisterSP
         ComboBox1.FormattingEnabled = True
         ComboBox1.Location = New Point(207, 880)
         ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(286, 29)
+        ComboBox1.Size = New Size(286, 25)
         ComboBox1.TabIndex = 46
         ' 
         ' accHolderText
@@ -310,7 +310,7 @@ Partial Class RegisterSP
         accHolderText.BorderStyle = BorderStyle.FixedSingle
         accHolderText.Location = New Point(207, 1093)
         accHolderText.Name = "accHolderText"
-        accHolderText.Size = New Size(286, 28)
+        accHolderText.Size = New Size(286, 24)
         accHolderText.TabIndex = 45
         ' 
         ' SPaccText
@@ -318,7 +318,7 @@ Partial Class RegisterSP
         SPaccText.BorderStyle = BorderStyle.FixedSingle
         SPaccText.Location = New Point(207, 1014)
         SPaccText.Name = "SPaccText"
-        SPaccText.Size = New Size(286, 28)
+        SPaccText.Size = New Size(286, 24)
         SPaccText.TabIndex = 44
         ' 
         ' TextBox2
@@ -335,7 +335,7 @@ Partial Class RegisterSP
         startHoursText.BorderStyle = BorderStyle.FixedSingle
         startHoursText.Location = New Point(207, 682)
         startHoursText.Name = "startHoursText"
-        startHoursText.Size = New Size(286, 28)
+        startHoursText.Size = New Size(286, 24)
         startHoursText.TabIndex = 42
         ' 
         ' registerSPProfilePic
@@ -355,7 +355,7 @@ Partial Class RegisterSP
         experience.Font = New Font("Bahnschrift", 10.2F)
         experience.Location = New Point(770, 381)
         experience.Name = "experience"
-        experience.Size = New Size(93, 21)
+        experience.Size = New Size(80, 17)
         experience.TabIndex = 39
         experience.Text = "Experience"
         ' 
@@ -364,7 +364,7 @@ Partial Class RegisterSP
         experienceTextbox.BorderStyle = BorderStyle.FixedSingle
         experienceTextbox.Location = New Point(770, 423)
         experienceTextbox.Name = "experienceTextbox"
-        experienceTextbox.Size = New Size(246, 28)
+        experienceTextbox.Size = New Size(246, 24)
         experienceTextbox.TabIndex = 38
         ' 
         ' signUpSP
@@ -373,16 +373,17 @@ Partial Class RegisterSP
         signUpSP.Font = New Font("Bahnschrift", 19.8000011F)
         signUpSP.Location = New Point(205, 42)
         signUpSP.Name = "signUpSP"
-        signUpSP.Size = New Size(134, 41)
+        signUpSP.Size = New Size(109, 33)
         signUpSP.TabIndex = 37
         signUpSP.Text = "Sign Up"
         ' 
         ' emailSP_Text
         ' 
+        emailSP_Text.BackColor = SystemColors.ControlLight
         emailSP_Text.BorderStyle = BorderStyle.FixedSingle
         emailSP_Text.Location = New Point(207, 132)
         emailSP_Text.Name = "emailSP_Text"
-        emailSP_Text.Size = New Size(286, 28)
+        emailSP_Text.Size = New Size(286, 24)
         emailSP_Text.TabIndex = 36
         ' 
         ' nameSP_Text
@@ -390,7 +391,7 @@ Partial Class RegisterSP
         nameSP_Text.BorderStyle = BorderStyle.FixedSingle
         nameSP_Text.Location = New Point(206, 209)
         nameSP_Text.Name = "nameSP_Text"
-        nameSP_Text.Size = New Size(286, 28)
+        nameSP_Text.Size = New Size(286, 24)
         nameSP_Text.TabIndex = 35
         ' 
         ' registerConfirmSP
@@ -399,7 +400,7 @@ Partial Class RegisterSP
         registerConfirmSP.Font = New Font("Bahnschrift", 10.2F)
         registerConfirmSP.Location = New Point(199, 451)
         registerConfirmSP.Name = "registerConfirmSP"
-        registerConfirmSP.Size = New Size(151, 21)
+        registerConfirmSP.Size = New Size(126, 17)
         registerConfirmSP.TabIndex = 34
         registerConfirmSP.Text = "Confirm Password"
         ' 
@@ -408,7 +409,7 @@ Partial Class RegisterSP
         phoneSP_Text.BorderStyle = BorderStyle.FixedSingle
         phoneSP_Text.Location = New Point(208, 305)
         phoneSP_Text.Name = "phoneSP_Text"
-        phoneSP_Text.Size = New Size(286, 28)
+        phoneSP_Text.Size = New Size(286, 24)
         phoneSP_Text.TabIndex = 33
         ' 
         ' registerSPEmailLabel
@@ -417,7 +418,7 @@ Partial Class RegisterSP
         registerSPEmailLabel.Font = New Font("Bahnschrift", 10.2F)
         registerSPEmailLabel.Location = New Point(205, 99)
         registerSPEmailLabel.Name = "registerSPEmailLabel"
-        registerSPEmailLabel.Size = New Size(53, 21)
+        registerSPEmailLabel.Size = New Size(43, 17)
         registerSPEmailLabel.TabIndex = 32
         registerSPEmailLabel.Text = "Email"
         ' 
@@ -427,7 +428,7 @@ Partial Class RegisterSP
         registerNameSP.Font = New Font("Bahnschrift", 10.2F)
         registerNameSP.Location = New Point(205, 185)
         registerNameSP.Name = "registerNameSP"
-        registerNameSP.Size = New Size(55, 21)
+        registerNameSP.Size = New Size(45, 17)
         registerNameSP.TabIndex = 31
         registerNameSP.Text = "Name"
         ' 
@@ -437,7 +438,7 @@ Partial Class RegisterSP
         registerNumberSP.Font = New Font("Bahnschrift", 10.2F)
         registerNumberSP.Location = New Point(205, 266)
         registerNumberSP.Name = "registerNumberSP"
-        registerNumberSP.Size = New Size(87, 21)
+        registerNumberSP.Size = New Size(74, 17)
         registerNumberSP.TabIndex = 30
         registerNumberSP.Text = "Phone No."
         ' 
@@ -447,7 +448,7 @@ Partial Class RegisterSP
         registerPasswordSP.Font = New Font("Bahnschrift", 10.2F)
         registerPasswordSP.Location = New Point(206, 365)
         registerPasswordSP.Name = "registerPasswordSP"
-        registerPasswordSP.Size = New Size(86, 21)
+        registerPasswordSP.Size = New Size(71, 17)
         registerPasswordSP.TabIndex = 29
         registerPasswordSP.Text = "Password"
         ' 
@@ -456,7 +457,7 @@ Partial Class RegisterSP
         passwordSP_Text.BorderStyle = BorderStyle.FixedSingle
         passwordSP_Text.Location = New Point(207, 395)
         passwordSP_Text.Name = "passwordSP_Text"
-        passwordSP_Text.Size = New Size(286, 28)
+        passwordSP_Text.Size = New Size(286, 24)
         passwordSP_Text.TabIndex = 28
         ' 
         ' Label1
@@ -465,13 +466,13 @@ Partial Class RegisterSP
         Label1.Font = New Font("Bahnschrift", 10.2F)
         Label1.Location = New Point(203, 644)
         Label1.Name = "Label1"
-        Label1.Size = New Size(99, 21)
+        Label1.Size = New Size(83, 17)
         Label1.TabIndex = 26
         Label1.Text = "Start Hours"
         ' 
         ' RegisterSP
         ' 
-        AutoScaleDimensions = New SizeF(9.0F, 21.0F)
+        AutoScaleDimensions = New SizeF(8F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1360, 686)
         Controls.Add(Panel1)

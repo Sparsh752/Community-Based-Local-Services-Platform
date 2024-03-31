@@ -4,8 +4,29 @@ Imports System.Data.SqlClient
 Public Class RegisterSP
     Private Sub RegisterSP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
+        Me.Size = New Size(1200, 700)
+        Me.CenterToScreen()
+        Me.WindowState = FormWindowState.Normal
+        Me.BackColor = Color.White
+        Me.StartPosition = FormStartPosition.CenterScreen
         passwordSP_Text.PasswordChar = "*"
         confirmSP_Text.PasswordChar = "*"
+        emailSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        nameSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        phoneSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        passwordSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        confirmSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        experienceTextbox.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        closingHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        startHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        SPaccText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        accHolderText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        ifscText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        bankNameText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        branchText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        locationDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        ComboBox1.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        registerSPProfilePic.BackColor = ColorTranslator.FromHtml("#F9F9F9")
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles emailSP_Text.TextChanged
         ' Call the function to validate the email format
