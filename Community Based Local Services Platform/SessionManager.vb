@@ -3,4 +3,5 @@
     Public userType As String
     Public userID As String
     Public Panel3 As New Panel()
+    Public connectionString As String = "server=172.16.114.199;userid=admin;password=istrator;database=communityservice;sslmode=none"
 End Module

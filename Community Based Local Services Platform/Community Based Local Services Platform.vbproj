@@ -7,12 +7,18 @@
     <StartupObject>Community_Based_Local_Services_Platform.My.MyApplication</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
+    <ImportedNamespaces>MySql.Data.MySqlClient=False,System.Data=False,System.Drawing=False,System.Windows.Forms=False,Microsoft.VisualBasic=True,System=True,System.Collections=True,System.Collections.Generic=True,System.Diagnostics=True,System.Linq=True,System.Xml.Linq=True,System.Threading.Tasks=True,Community Based Local Services Platform=True</ImportedNamespaces>
   </PropertyGroup>
 
   <ItemGroup>
+    <Import Include="MySql.Data.MySqlClient" />
     <Import Include="System.Data" />
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.3.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,4 @@
-﻿Imports System.Data.SqlClient
-Public Class LoginPage
+﻿Public Class LoginPage
 
     Dim standardFont As New Font("Montserrat", 15, FontStyle.Regular)
     Dim standardColor As Color = ColorTranslator.FromHtml("#F1F1F1")
@@ -70,31 +69,39 @@ Public Class LoginPage
         PictureBox1.Location = New Point(200, 200)
         PictureBox1.BackColor = ColorTranslator.FromHtml("#0F2A37")
         CheckBox1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+
+        If SessionManager.userType = "Admin" Then
+            Label5.Visible = False
+            Label6.Visible = False
+        End If
     End Sub
 
     Private Function GetCustomerID(ByVal email As String, ByVal password As String) As Integer
         Dim customerID As Integer = -1
-        Dim connectionString As String = "server=172.16.114.199;userid=admin;password=istrator;database=communityservice;sslmode=none"
+        Dim connectionString As String = SessionManager.connectionString
 
         ' Query to retrieve customer's ID based on email and password
-        Dim query As String = "SELECT Customer_ID FROM Customer WHERE Email = @Email AND Password = @Password"
+        Dim query As String = "SELECT userId FROM Users " &
+            "WHERE email = @Email And password = @Password and userType = @UserType"
 
-        ' Using connection As New SqlConnection(connectionString)
-        'Using command As New SqlCommand(query, connection)
-        'Command.Parameters.AddWithValue("@Email", email)
-        '   Command.Parameters.AddWithValue("@Password", password)
-        '
-        'Try
-        'connection.Open()
-        'Dim result As Object = command.ExecuteScalar()
-        'If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-        'customerID = Convert.ToInt32(result)
-        'End If
-        'Catch ex As Exception
-        'MessageBox.Show("Error retrieving customer's ID: " & ex.Message)
-        'End Try
-        'End Using
-        'End Using
+        Using connection As New MySqlConnection(connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@Email", email)
+                command.Parameters.AddWithValue("@Password", password)
+                command.Parameters.AddWithValue("@UserType", userType)
+
+                Try
+                    connection.Open()
+                    Dim result As Object = command.ExecuteScalar()
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        customerID = Convert.ToInt32(result)
+                    End If
+                    MessageBox.Show("Logged in")
+                Catch ex As Exception
+                    MessageBox.Show("Error retrieving customer's ID: " & ex.Message)
+                End Try
+            End Using
+        End Using
 
         Return customerID
     End Function
@@ -111,6 +118,10 @@ Public Class LoginPage
         Dim email As String = TextBox2.Text
         Dim password As String = TextBox1.Text
 
+        If String.IsNullOrEmpty(TextBox1.Text) Or String.IsNullOrEmpty(TextBox2.Text) Then
+            MessageBox.Show("Please enter email and password to login")
+            Return
+        End If
 
         Dim customerID As Integer = GetCustomerID(email, password)
         If customerID > 0 Then
@@ -122,5 +133,9 @@ Public Class LoginPage
     Private Sub CleanupForm()
         TextBox2.Text = ""
         TextBox1.Text = ""
+    End Sub
+
+    Private Sub LoginPage_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Application.Exit()
     End Sub
 End Class
