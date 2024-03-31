@@ -17,7 +17,7 @@
         BookedSlot = "Monday, 9:00 AM"
         Location = "Example Location"
 
-        Me.Size = New Size(1200, 635)
+        Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
 
@@ -117,8 +117,26 @@
         End If
     End Sub
 
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+    End Sub
+
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        RichTextBox1.ReadOnly = True
-        ReviewSubmitted = True
+        RemovePreviousForm()
+        With AppointmentList_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(AppointmentList_SP)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 End Class

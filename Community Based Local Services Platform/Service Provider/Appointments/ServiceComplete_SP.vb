@@ -7,7 +7,7 @@
     Private BookedSlot As String
     Private Location As String
     Private Sub ServiceComplete_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ServiceProviderName = "Example Provider"
+        ServiceProviderName = "Customer XYZ"
         ServiceProviderAddress = "123 Example St, City"
         ServiceProviderPhone = "123-456-7890"
         ServiceName = "Example Service"
@@ -15,7 +15,9 @@
         BookedSlot = "Monday, 9:00 AM"
         Location = "Example Location"
 
-        Me.Size = New Size(700, 613)
+        Me.Size = New Size(1200, 700)
+        Me.BackColor = Color.White
+        Me.FormBorderStyle = FormBorderStyle.None
 
         Label5.Text = ServiceProviderName
         Label6.Text = ServiceProviderAddress
@@ -28,7 +30,7 @@
         Dim label As New Label()
         label.Text = "Ask customer for the OTP before leaving the premises to complete the transaction."
         label.Font = New Font("Bahnschrift Light", 8, FontStyle.Regular)
-        label.Location = New Point(64, 440)
+        label.Location = New Point(85, 480)
         label.AutoSize = True
         label.MaximumSize = New Size(345, 45)
         Panel1.Controls.Add(label)

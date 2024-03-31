@@ -39,10 +39,10 @@ Partial Class PendingRequest_SP
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Bahnschrift Condensed", 16F)
+        Label1.Font = New Font("Bahnschrift Condensed", 20F)
         Label1.Location = New Point(408, 123)
         Label1.Name = "Label1"
-        Label1.Size = New Size(84, 39)
+        Label1.Size = New Size(103, 48)
         Label1.TabIndex = 0
         Label1.Text = "Label1"
         ' 

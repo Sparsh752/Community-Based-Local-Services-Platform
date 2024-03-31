@@ -2,13 +2,13 @@
 
 Public Class PendingRequest_SP
     Private Sub PendingAcceptOrReject_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Size = New Size(1200, 635)
+        Me.Size = New Size(1200, 700)
         Me.FormBorderStyle = FormBorderStyle.None
         Me.BackColor = Color.White
 
         Panel1.BorderStyle = BorderStyle.FixedSingle
-        Panel1.Location = New Point(400, 70)
-        Panel1.Size = New Size(400, 410)
+        Panel1.Location = New Point(400, 100)
+        Panel1.Size = New Size(380, 410)
 
         Label1.Text = "Customer XYZ"
         Label2.Text = "Brahmaputra Hostel, IIT Guwahati Guwahati, Assam"
@@ -22,15 +22,15 @@ Public Class PendingRequest_SP
         Label9.Text = "Rs. 15000"
 
 
-        Label1.Location = New Point(450, 100)
-        Label2.Location = New Point(450, 150)
-        Label3.Location = New Point(450, 170)
-        Label4.Location = New Point(450, 210)
-        Label5.Location = New Point(450, 230)
-        Label6.Location = New Point(450, 270)
-        Label7.Location = New Point(450, 290)
-        Label8.Location = New Point(450, 330)
-        Label9.Location = New Point(450, 350)
+        Label1.Location = New Point(450, 130)
+        Label2.Location = New Point(450, 180)
+        Label3.Location = New Point(450, 210)
+        Label4.Location = New Point(450, 240)
+        Label5.Location = New Point(450, 260)
+        Label6.Location = New Point(450, 300)
+        Label7.Location = New Point(450, 320)
+        Label8.Location = New Point(450, 350)
+        Label9.Location = New Point(450, 380)
 
         Button1.BackColor = ColorTranslator.FromHtml("#F9754B")
         Button1.Text = "Accept"
@@ -48,8 +48,8 @@ Public Class PendingRequest_SP
         Button2.ForeColor = Color.White
         Button2.Font = New Font("Bahnschrift Light", 9, FontStyle.Bold)
 
-        Button1.Location = New Point(450, 400)
-        Button2.Location = New Point(600, 400)
+        Button1.Location = New Point(450, 430)
+        Button2.Location = New Point(600, 430)
 
     End Sub
 

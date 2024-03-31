@@ -1,7 +1,8 @@
 ﻿Public Class AppointmentList_SP
     Dim labels() As String = {"12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Pending", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Scheduled", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Completed", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Rejected", "link", "link", "12354", "Company X", "Interior design", "23-Feb-2024 09:00", "Canceled", "link", "link"}
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Size = New Size(1200, 635)
+        Me.Size = New Size(1200, 700)
+        Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
 
         ' Call the method to add labels to TableLayoutPanel
@@ -138,9 +139,10 @@
                             label.AutoSize = True
                             label.Anchor = AnchorStyles.None
                             label.TextAlign = ContentAlignment.MiddleCenter ' Center text horizontally and vertically
+                            label.SendToBack()
 
                             TableLayoutPanel1.Controls.Add(label, j, i)
-                            label.SendToBack()
+
                         End If
                     End If
                 End If

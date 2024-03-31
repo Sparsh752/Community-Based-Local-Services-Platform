@@ -23,7 +23,6 @@ Partial Class AppointmentList_SP
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         TableLayoutPanel1 = New TableLayoutPanel()
-        Panel1 = New Panel()
         SuspendLayout()
         ' 
         ' TableLayoutPanel1
@@ -39,7 +38,7 @@ Partial Class AppointmentList_SP
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 100F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 139F))
         TableLayoutPanel1.Font = New Font("Bahnschrift Light", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        TableLayoutPanel1.Location = New Point(192, 146)
+        TableLayoutPanel1.Location = New Point(261, 262)
         TableLayoutPanel1.Margin = New Padding(0)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 2
@@ -49,13 +48,6 @@ Partial Class AppointmentList_SP
         TableLayoutPanel1.TabIndex = 7
         TableLayoutPanel1.Tag = ""
         ' 
-        ' Panel1
-        ' 
-        Panel1.Location = New Point(12, 12)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(242, 92)
-        Panel1.TabIndex = 8
-        ' 
         ' AppointmentList_SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -63,7 +55,6 @@ Partial Class AppointmentList_SP
         AutoSizeMode = AutoSizeMode.GrowAndShrink
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1478, 816)
-        Controls.Add(Panel1)
         Controls.Add(TableLayoutPanel1)
         Margin = New Padding(4)
         Name = "AppointmentList_SP"
@@ -71,6 +62,5 @@ Partial Class AppointmentList_SP
         ResumeLayout(False)
     End Sub
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents Panel1 As Panel
 
 End Class
