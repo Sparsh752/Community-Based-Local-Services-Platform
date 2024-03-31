@@ -13,6 +13,7 @@
     Public Panel3 As New Panel()
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Highlight the Home button by default
+        SessionManager.Panel3 = Panel3
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Panel1.BackColor = ColorTranslator.FromHtml("#0F2A37")
