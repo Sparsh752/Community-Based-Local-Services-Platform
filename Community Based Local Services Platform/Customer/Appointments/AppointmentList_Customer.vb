@@ -166,7 +166,7 @@ Public Class AppointmentList_Customer
     Private Sub ViewButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         Dim button As Button = DirectCast(sender, Button)
         Dim status As String = button.Tag
-
+        RemovePreviousForm()
         If (status = "Scheduled") Then
             With InProgressPaymentNotDone_Customer
                 .TopLevel = False
@@ -203,7 +203,14 @@ Public Class AppointmentList_Customer
     End Sub
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)
-
+        RemovePreviousForm()
+        With Queries_Customer
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Queries_Customer)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
 End Class

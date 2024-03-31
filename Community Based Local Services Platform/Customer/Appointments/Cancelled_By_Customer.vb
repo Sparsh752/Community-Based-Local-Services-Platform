@@ -1,5 +1,7 @@
 ﻿Public Class Cancelled_By_Customer
     Private Sub Cancelled_By_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Size() = New Size(1200, 613)
+        Me.Size() = New Size(1200, 700)
+        Me.BackColor = Color.White
+        Me.FormBorderStyle = BorderStyle.None
     End Sub
 End Class

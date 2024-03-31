@@ -39,8 +39,8 @@ Partial Class Rejected_View
         ' 
         RichTextBox1.BackColor = Color.White
         RichTextBox1.BorderStyle = BorderStyle.None
-        RichTextBox1.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
-        RichTextBox1.Location = New Point(96, 102)
+        RichTextBox1.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RichTextBox1.Location = New Point(107, 215)
         RichTextBox1.Margin = New Padding(4)
         RichTextBox1.Name = "RichTextBox1"
         RichTextBox1.ScrollBars = RichTextBoxScrollBars.None
@@ -52,8 +52,8 @@ Partial Class Rejected_View
         ' 
         RichTextBox2.BackColor = Color.White
         RichTextBox2.BorderStyle = BorderStyle.None
-        RichTextBox2.Font = New Font("Bahnschrift", 16.0F)
-        RichTextBox2.Location = New Point(96, 176)
+        RichTextBox2.Font = New Font("Bahnschrift", 16F)
+        RichTextBox2.Location = New Point(107, 289)
         RichTextBox2.Margin = New Padding(4)
         RichTextBox2.Name = "RichTextBox2"
         RichTextBox2.ScrollBars = RichTextBoxScrollBars.None
@@ -65,8 +65,8 @@ Partial Class Rejected_View
         ' 
         RichTextBox3.BackColor = Color.White
         RichTextBox3.BorderStyle = BorderStyle.None
-        RichTextBox3.Font = New Font("Bahnschrift", 16.0F)
-        RichTextBox3.Location = New Point(594, 174)
+        RichTextBox3.Font = New Font("Bahnschrift", 16F)
+        RichTextBox3.Location = New Point(605, 287)
         RichTextBox3.Margin = New Padding(4)
         RichTextBox3.Name = "RichTextBox3"
         RichTextBox3.ScrollBars = RichTextBoxScrollBars.None
@@ -78,8 +78,8 @@ Partial Class Rejected_View
         ' 
         RichTextBox4.BackColor = Color.White
         RichTextBox4.BorderStyle = BorderStyle.None
-        RichTextBox4.Font = New Font("Bahnschrift", 16.0F)
-        RichTextBox4.Location = New Point(96, 263)
+        RichTextBox4.Font = New Font("Bahnschrift", 16F)
+        RichTextBox4.Location = New Point(107, 376)
         RichTextBox4.Margin = New Padding(4)
         RichTextBox4.Name = "RichTextBox4"
         RichTextBox4.ScrollBars = RichTextBoxScrollBars.None
@@ -91,8 +91,8 @@ Partial Class Rejected_View
         ' 
         RichTextBox5.BackColor = Color.White
         RichTextBox5.BorderStyle = BorderStyle.None
-        RichTextBox5.Font = New Font("Bahnschrift", 16.0F)
-        RichTextBox5.Location = New Point(594, 260)
+        RichTextBox5.Font = New Font("Bahnschrift", 16F)
+        RichTextBox5.Location = New Point(605, 373)
         RichTextBox5.Margin = New Padding(4)
         RichTextBox5.Name = "RichTextBox5"
         RichTextBox5.ScrollBars = RichTextBoxScrollBars.None
@@ -104,23 +104,23 @@ Partial Class Rejected_View
         ' 
         RichTextBox6.BackColor = Color.White
         RichTextBox6.BorderStyle = BorderStyle.None
-        RichTextBox6.Font = New Font("Microsoft Sans Serif", 22.2F, FontStyle.Regular, GraphicsUnit.Point, 0)
-        RichTextBox6.ForeColor = Color.FromArgb(255, 0, 0)
-        RichTextBox6.Location = New Point(96, 374)
+        RichTextBox6.Font = New Font("Microsoft Sans Serif", 22.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RichTextBox6.ForeColor = Color.FromArgb(CByte(255), CByte(0), CByte(0))
+        RichTextBox6.Location = New Point(107, 487)
         RichTextBox6.Margin = New Padding(4)
         RichTextBox6.Name = "RichTextBox6"
         RichTextBox6.ReadOnly = True
         RichTextBox6.ScrollBars = RichTextBoxScrollBars.None
         RichTextBox6.Size = New Size(654, 115)
         RichTextBox6.TabIndex = 16
-        RichTextBox6.Text = "This booking was cancelled by the service provider."
+        RichTextBox6.Text = "This booking was canceled by the service provider."
         ' 
         ' RichTextBox7
         ' 
         RichTextBox7.BackColor = Color.White
         RichTextBox7.BorderStyle = BorderStyle.None
-        RichTextBox7.Font = New Font("Bahnschrift", 16.0F)
-        RichTextBox7.Location = New Point(96, 56)
+        RichTextBox7.Font = New Font("Bahnschrift", 20F)
+        RichTextBox7.Location = New Point(107, 155)
         RichTextBox7.Margin = New Padding(4)
         RichTextBox7.Name = "RichTextBox7"
         RichTextBox7.ReadOnly = True
@@ -133,9 +133,9 @@ Partial Class Rejected_View
         ' 
         RichTextBox8.BackColor = Color.White
         RichTextBox8.BorderStyle = BorderStyle.None
-        RichTextBox8.Font = New Font("Bahnschrift", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
+        RichTextBox8.Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RichTextBox8.ForeColor = Color.Gray
-        RichTextBox8.Location = New Point(96, 152)
+        RichTextBox8.Location = New Point(107, 265)
         RichTextBox8.Margin = New Padding(4)
         RichTextBox8.Name = "RichTextBox8"
         RichTextBox8.ReadOnly = True
@@ -148,9 +148,9 @@ Partial Class Rejected_View
         ' 
         RichTextBox9.BackColor = Color.White
         RichTextBox9.BorderStyle = BorderStyle.None
-        RichTextBox9.Font = New Font("Bahnschrift", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
+        RichTextBox9.Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RichTextBox9.ForeColor = Color.Gray
-        RichTextBox9.Location = New Point(594, 152)
+        RichTextBox9.Location = New Point(605, 265)
         RichTextBox9.Margin = New Padding(4)
         RichTextBox9.Name = "RichTextBox9"
         RichTextBox9.ReadOnly = True
@@ -163,9 +163,9 @@ Partial Class Rejected_View
         ' 
         RichTextBox10.BackColor = Color.White
         RichTextBox10.BorderStyle = BorderStyle.None
-        RichTextBox10.Font = New Font("Bahnschrift", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
+        RichTextBox10.Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RichTextBox10.ForeColor = Color.Gray
-        RichTextBox10.Location = New Point(96, 233)
+        RichTextBox10.Location = New Point(107, 346)
         RichTextBox10.Margin = New Padding(4)
         RichTextBox10.Name = "RichTextBox10"
         RichTextBox10.ReadOnly = True
@@ -178,9 +178,9 @@ Partial Class Rejected_View
         ' 
         RichTextBox11.BackColor = Color.White
         RichTextBox11.BorderStyle = BorderStyle.None
-        RichTextBox11.Font = New Font("Bahnschrift", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0)
+        RichTextBox11.Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RichTextBox11.ForeColor = Color.Gray
-        RichTextBox11.Location = New Point(594, 232)
+        RichTextBox11.Location = New Point(605, 345)
         RichTextBox11.Margin = New Padding(4)
         RichTextBox11.Name = "RichTextBox11"
         RichTextBox11.ReadOnly = True
@@ -191,7 +191,7 @@ Partial Class Rejected_View
         ' 
         ' Rejected_View
         ' 
-        AutoScaleDimensions = New SizeF(10.0F, 25.0F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         BackgroundImageLayout = ImageLayout.None

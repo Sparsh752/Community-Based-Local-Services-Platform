@@ -51,7 +51,7 @@ Partial Class TransactionComplete_Customer
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Font = New Font("Bahnschrift", 12F)
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(119, 703)
+        Button2.Location = New Point(122, 827)
         Button2.Margin = New Padding(4)
         Button2.Name = "Button2"
         Button2.Size = New Size(178, 48)
@@ -61,7 +61,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' RichTextBox1
         ' 
-        RichTextBox1.Location = New Point(119, 598)
+        RichTextBox1.Location = New Point(122, 722)
         RichTextBox1.Name = "RichTextBox1"
         RichTextBox1.Size = New Size(402, 85)
         RichTextBox1.TabIndex = 82
@@ -72,7 +72,7 @@ Partial Class TransactionComplete_Customer
         Label13.AutoSize = True
         Label13.Font = New Font("Bahnschrift Light", 10F)
         Label13.ForeColor = Color.Gray
-        Label13.Location = New Point(119, 559)
+        Label13.Location = New Point(122, 683)
         Label13.Margin = New Padding(4, 0, 4, 0)
         Label13.Name = "Label13"
         Label13.Size = New Size(119, 24)
@@ -81,7 +81,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star5
         ' 
-        Star5.Location = New Point(303, 510)
+        Star5.Location = New Point(306, 634)
         Star5.Name = "Star5"
         Star5.Size = New Size(50, 56)
         Star5.TabIndex = 79
@@ -89,7 +89,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star2
         ' 
-        Star2.Location = New Point(166, 510)
+        Star2.Location = New Point(169, 634)
         Star2.Name = "Star2"
         Star2.Size = New Size(50, 56)
         Star2.TabIndex = 80
@@ -97,7 +97,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star4
         ' 
-        Star4.Location = New Point(259, 510)
+        Star4.Location = New Point(262, 634)
         Star4.Name = "Star4"
         Star4.Size = New Size(50, 56)
         Star4.TabIndex = 78
@@ -105,7 +105,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star3
         ' 
-        Star3.Location = New Point(214, 510)
+        Star3.Location = New Point(217, 634)
         Star3.Name = "Star3"
         Star3.Size = New Size(50, 56)
         Star3.TabIndex = 77
@@ -116,7 +116,7 @@ Partial Class TransactionComplete_Customer
         Label12.AutoSize = True
         Label12.Font = New Font("Bahnschrift Light", 10F)
         Label12.ForeColor = Color.Gray
-        Label12.Location = New Point(119, 472)
+        Label12.Location = New Point(122, 596)
         Label12.Margin = New Padding(4, 0, 4, 0)
         Label12.Name = "Label12"
         Label12.Size = New Size(112, 24)
@@ -129,7 +129,7 @@ Partial Class TransactionComplete_Customer
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Bahnschrift", 12F)
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(120, 391)
+        Button1.Location = New Point(123, 515)
         Button1.Margin = New Padding(4)
         Button1.Name = "Button1"
         Button1.Size = New Size(243, 52)
@@ -141,7 +141,7 @@ Partial Class TransactionComplete_Customer
         ' 
         Label11.AutoSize = True
         Label11.Font = New Font("Bahnschrift", 16F)
-        Label11.Location = New Point(545, 324)
+        Label11.Location = New Point(548, 448)
         Label11.Margin = New Padding(4, 0, 4, 0)
         Label11.Name = "Label11"
         Label11.Size = New Size(117, 39)
@@ -150,7 +150,7 @@ Partial Class TransactionComplete_Customer
         ' 
         ' Star1
         ' 
-        Star1.Location = New Point(119, 510)
+        Star1.Location = New Point(122, 634)
         Star1.Name = "Star1"
         Star1.Size = New Size(50, 56)
         Star1.TabIndex = 76
@@ -160,7 +160,7 @@ Partial Class TransactionComplete_Customer
         ' 
         Label10.AutoSize = True
         Label10.Font = New Font("Bahnschrift", 16F)
-        Label10.Location = New Point(111, 324)
+        Label10.Location = New Point(114, 448)
         Label10.Margin = New Padding(4, 0, 4, 0)
         Label10.Name = "Label10"
         Label10.Size = New Size(124, 39)
@@ -171,7 +171,7 @@ Partial Class TransactionComplete_Customer
         ' 
         Label9.AutoSize = True
         Label9.Font = New Font("Bahnschrift", 16F)
-        Label9.Location = New Point(545, 240)
+        Label9.Location = New Point(548, 364)
         Label9.Margin = New Padding(4, 0, 4, 0)
         Label9.Name = "Label9"
         Label9.Size = New Size(111, 39)
@@ -182,7 +182,7 @@ Partial Class TransactionComplete_Customer
         ' 
         Label8.AutoSize = True
         Label8.Font = New Font("Bahnschrift", 16F)
-        Label8.Location = New Point(111, 240)
+        Label8.Location = New Point(114, 364)
         Label8.Margin = New Padding(4, 0, 4, 0)
         Label8.Name = "Label8"
         Label8.Size = New Size(113, 39)
@@ -193,7 +193,7 @@ Partial Class TransactionComplete_Customer
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Bahnschrift Light", 12F)
-        Label7.Location = New Point(120, 151)
+        Label7.Location = New Point(123, 275)
         Label7.Margin = New Padding(4, 0, 4, 0)
         Label7.Name = "Label7"
         Label7.Size = New Size(85, 29)
@@ -204,7 +204,7 @@ Partial Class TransactionComplete_Customer
         ' 
         Label6.AutoSize = True
         Label6.Font = New Font("Bahnschrift Light", 12F)
-        Label6.Location = New Point(119, 100)
+        Label6.Location = New Point(122, 224)
         Label6.Margin = New Padding(4, 0, 4, 0)
         Label6.MaximumSize = New Size(500, 125)
         Label6.Name = "Label6"
@@ -216,7 +216,7 @@ Partial Class TransactionComplete_Customer
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Bahnschrift", 20F)
-        Label5.Location = New Point(111, 38)
+        Label5.Location = New Point(114, 162)
         Label5.Margin = New Padding(4, 0, 4, 0)
         Label5.Name = "Label5"
         Label5.Size = New Size(141, 48)
@@ -228,7 +228,7 @@ Partial Class TransactionComplete_Customer
         Label4.AutoSize = True
         Label4.Font = New Font("Bahnschrift Light", 10F)
         Label4.ForeColor = Color.Gray
-        Label4.Location = New Point(551, 296)
+        Label4.Location = New Point(554, 420)
         Label4.Margin = New Padding(4, 0, 4, 0)
         Label4.Name = "Label4"
         Label4.Size = New Size(87, 24)
@@ -240,7 +240,7 @@ Partial Class TransactionComplete_Customer
         Label3.AutoSize = True
         Label3.Font = New Font("Bahnschrift Light", 10F)
         Label3.ForeColor = Color.Gray
-        Label3.Location = New Point(120, 296)
+        Label3.Location = New Point(123, 420)
         Label3.Margin = New Padding(4, 0, 4, 0)
         Label3.Name = "Label3"
         Label3.Size = New Size(119, 24)
@@ -252,7 +252,7 @@ Partial Class TransactionComplete_Customer
         Label2.AutoSize = True
         Label2.Font = New Font("Bahnschrift Light", 10F)
         Label2.ForeColor = Color.Gray
-        Label2.Location = New Point(551, 214)
+        Label2.Location = New Point(554, 338)
         Label2.Margin = New Padding(4, 0, 4, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(57, 24)
@@ -264,7 +264,7 @@ Partial Class TransactionComplete_Customer
         Label1.AutoSize = True
         Label1.Font = New Font("Bahnschrift Light", 10F)
         Label1.ForeColor = Color.Gray
-        Label1.Location = New Point(119, 214)
+        Label1.Location = New Point(122, 338)
         Label1.Margin = New Padding(4, 0, 4, 0)
         Label1.Name = "Label1"
         Label1.Size = New Size(78, 24)
