@@ -2,34 +2,29 @@
 
 
 Public Class SP_profile
+    ' Constructor to receive and display details
+    Public Sub New(name As String, description As String, cost As String, serviceName As String)
+        InitializeComponent()
+
+        ' Display the details received
+        Label1.Text = name
+        Label2.Text = description
+        Label3.Text = "Rate: Rs. " & cost
+        Label4.Text = serviceName
+    End Sub
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
 
         Label1.Location = New Point(55, 80)
-
         Label5.Location = New Point(20, 34)
         Label2.Location = New Point(55, 138)
         Label3.Location = New Point(161, 138)
         Label4.Location = New Point(485, 138)
-
-
-
-
-
-
-
-
-
-
-
         Panel1.Location = New Point(843, 65)
         Panel6.Location = New Point(10, 64)
-
-
-
-
 
         Dim textSize As Size = Label2.Location
         Label2.Location = textSize
@@ -56,17 +51,17 @@ Public Class SP_profile
 
         Dim panel As New Panel()
         panel.Location = New Point(10, 175)
-        panel.Size = New Size(833, 450) 
-        panel.AutoScroll = True 
+        panel.Size = New Size(833, 450)
+        panel.AutoScroll = True
 
         Me.Controls.Add(panel)
 
-        Dim numGroups As Integer = 16 
+        Dim numGroups As Integer = 16
 
-        Dim groupSize As New Size(750, 200) 
-        Dim groupSpacing As Integer = 10 
+        Dim groupSize As New Size(750, 200)
+        Dim groupSpacing As Integer = 10
 
-        Dim yPosition As Integer = 0 
+        Dim yPosition As Integer = 0
 
         For i As Integer = 1 To numGroups
             Dim groupBox As New GroupBox()
@@ -109,7 +104,6 @@ Public Class SP_profile
 
             groupBox.Controls.Add(descriptionLabel)
 
-
             Dim newButton As New Button()
 
             newButton.Text = "Book Now"
@@ -124,19 +118,12 @@ Public Class SP_profile
             newButton.Padding = New Padding(newButton.Padding.Left, newButton.Padding.Top, newButton.Padding.Right, newButton.Padding.Bottom - 10)
             groupBox.Controls.Add(newButton)
 
-
-            yPosition += groupSize.Height + groupSpacing 
+            yPosition += groupSize.Height + groupSpacing
         Next
 
+        Dim numItems As Integer = 10
 
-
-
-
-
-
-        Dim numItems As Integer = 10 
-
-        Dim yPosition2 As Integer = 38 
+        Dim yPosition2 As Integer = 38
         Panel6.AutoScroll = True
         For i As Integer = 1 To numItems
             Dim itemPanel As New Panel()
@@ -153,8 +140,6 @@ Public Class SP_profile
 
             itemPanel.Controls.Add(headingLabel)
 
-
-
             Dim textLabel As New Label()
             textLabel.Text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis " & i
             textLabel.Font = New Font("Segoe", 8)
@@ -166,10 +151,8 @@ Public Class SP_profile
 
             itemPanel.Controls.Add(textLabel)
 
-            yPosition2 += 150  
+            yPosition2 += 150
         Next
-
-
 
     End Sub
 End Class

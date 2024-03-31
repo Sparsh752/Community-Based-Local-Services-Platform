@@ -4,7 +4,7 @@ Imports System.IO
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify
 Public Class AppointmentList_Customer
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Size = New Size(1200, 635)
+        Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
         ' Call the method to add labels to TableLayoutPanel
@@ -204,10 +204,10 @@ Public Class AppointmentList_Customer
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         RemovePreviousForm()
-        With Queries_Customer
+        With Query_3SP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Queries_Customer)
+            Panel3.Controls.Add(Query_3SP)
             .BringToFront()
             .Show()
         End With

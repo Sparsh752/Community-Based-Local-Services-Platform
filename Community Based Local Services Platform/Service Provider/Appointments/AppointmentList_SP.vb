@@ -209,10 +209,10 @@
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         RemovePreviousForm()
-        With Queries_SP
+        With Query_3SP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Queries_SP)
+            Panel3.Controls.Add(Query_3SP)
             .BringToFront()
             .Show()
         End With

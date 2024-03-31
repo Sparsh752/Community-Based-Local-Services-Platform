@@ -80,9 +80,10 @@ Partial Class SP_profile
         Panel1.BackColor = Color.FromArgb(CByte(237), CByte(237), CByte(237))
         Panel1.Controls.Add(Panel6)
         Panel1.Controls.Add(Label5)
-        Panel1.Location = New Point(953, 0)
+        Panel1.Dock = DockStyle.Right
+        Panel1.Location = New Point(955, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(416, 931)
+        Panel1.Size = New Size(416, 928)
         Panel1.TabIndex = 4
         ' 
         ' Panel6
@@ -94,6 +95,7 @@ Partial Class SP_profile
         ' 
         ' Label5
         ' 
+        Label5.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
         Label5.Location = New Point(17, 58)
@@ -128,10 +130,10 @@ Partial Class SP_profile
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1371, 928)
+        Controls.Add(Label4)
         Controls.Add(Label7)
         Controls.Add(Label6)
         Controls.Add(Panel1)
-        Controls.Add(Label4)
         Controls.Add(Label3)
         Controls.Add(Label2)
         Controls.Add(Label1)

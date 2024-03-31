@@ -2,7 +2,7 @@
 
 Public Class Display_Services
     ' Define the service provider class
-    Private Class ServiceProvider
+    Public Class ServiceProvider
         Public Property Name As String
         Public Property Description As String
         Public Property Cost As String
@@ -190,6 +190,10 @@ Public Class Display_Services
             viewBtn.ForeColor = Color.White
             viewBtn.FlatStyle = FlatStyle.Flat
             viewBtn.FlatAppearance.BorderSize = 0
+            ' Set the Tag property of the button to store the provider details
+            viewBtn.Tag = provider
+            ' Attach event handler for the button click
+            AddHandler viewBtn.Click, AddressOf Navbar_Customer.ViewDetails_Click
             resultPanel.Controls.Add(viewBtn)
 
             Dim bookNowBtn As New Button()
@@ -205,4 +209,15 @@ Public Class Display_Services
             Me.Controls.Add(resultPanel)
         Next
     End Sub
+
+    ' Event handler for "View Details" button click
+    Private Sub ViewDetails_Click(sender As Object, e As EventArgs)
+        ' Retrieve the provider details from the Tag property of the button
+        Dim provider As ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, ServiceProvider)
+
+        ' Open the SP_profile form and pass the provider details
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Cost, provider.ServiceName)
+        spProfileForm.ShowDialog() ' Show the form as a dialog
+    End Sub
+
 End Class
