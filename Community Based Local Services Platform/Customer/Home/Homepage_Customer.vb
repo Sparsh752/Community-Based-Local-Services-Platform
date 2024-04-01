@@ -205,12 +205,17 @@
         Dim minRating As Integer = TrackBar1.Value
         Dim maxRating As Integer = 5 ' Maximum rating value is 5
 
+        Dim selectedServiceTypes As New List(Of String)()
+        For Each button As Button In selectedservices
+            selectedServiceTypes.Add(button.Text)
+        Next
+
         ' Retrieve Display_Services form from Panel2 controls
         Dim displayServicesForm As Display_Services = TryCast(Panel2.Controls(0), Display_Services)
 
         ' Update services on Display_Services form with search criteria and rating filter
         If displayServicesForm IsNot Nothing Then
-            displayServicesForm.UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, minRating, maxRating, locationCriteria)
+            displayServicesForm.UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, minRating, maxRating, locationCriteria, selectedServiceTypes)
         End If
     End Sub
 

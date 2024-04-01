@@ -106,7 +106,7 @@ Public Class Display_Services
     End Sub
 
     ' Method to update services based on search criteria
-    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Integer, maxRating As Integer, locationCriteria As String)
+    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Integer, maxRating As Integer, locationCriteria As String, selectedServiceTypes As List(Of String))
         ' Clear existing controls from the form
         Me.Controls.Clear()
 
@@ -117,34 +117,34 @@ Public Class Display_Services
         Integer.TryParse(maxCostCriteria, maxCost)
 
         ' Check if the search criteria is empty
-        If String.IsNullOrWhiteSpace(searchCriteria) Then
+        ' If String.IsNullOrWhiteSpace(searchCriteria) Then
+        ' Load the default view
+        ' DisplayDefault()
+        ' Show a "No results" popup
+        ' MessageBox.Show("Please enter a search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        ' Else
+        ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
+        Dim filteredProviders = serviceProviders.Where(Function(provider) _
+        (provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
+        provider.Description.ToLower().Contains(searchCriteria.ToLower())) AndAlso
+        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) >= minCost) AndAlso
+        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) <= maxCost) AndAlso
+        provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating AndAlso
+        (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
+        (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceName.ToLower().Contains(serviceType.ToLower())))
+        ).ToList()
+
+        ' Check if there are any results
+        If filteredProviders.Count = 0 Then
             ' Load the default view
             DisplayDefault()
             ' Show a "No results" popup
-            MessageBox.Show("Please enter a search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
-            ' Filter service providers based on search criteria and cost criteria
-            Dim filteredProviders = serviceProviders.Where(Function(provider) _
-            (provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
-            provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
-            provider.ServiceName.ToLower().Contains(searchCriteria.ToLower())) And
-            (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) >= minCost) AndAlso
-            (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) <= maxCost) AndAlso
-            provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating AndAlso
-            (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower())
-            ).ToList()
-
-            ' Check if there are any results
-            If filteredProviders.Count = 0 Then
-                ' Load the default view
-                DisplayDefault()
-                ' Show a "No results" popup
-                MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                ' Display the filtered service providers
-                DisplaySearchResults(filteredProviders, minRating, maxRating)
-            End If
+            ' Display the filtered service providers
+            DisplaySearchResults(filteredProviders, minRating, maxRating)
         End If
+        ' End If
     End Sub
 
     ' Method to display search results
