@@ -220,9 +220,35 @@ Public Class Display_Services
             bookNowBtn.ForeColor = Color.White
             bookNowBtn.FlatStyle = FlatStyle.Flat
             bookNowBtn.FlatAppearance.BorderSize = 0
+            AddHandler bookNowBtn.Click, AddressOf BookNowButton_Click
             resultPanel.Controls.Add(bookNowBtn)
 
             Me.Controls.Add(resultPanel)
         Next
     End Sub
+
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
+        End If
+    End Sub
+
+    Private Sub BookNowButton_Click(sender As Object, e As EventArgs)
+        RemovePreviousForm()
+
+        Dim str As String = "Proceed to Pay"
+        Dim appointmentBookingForm As New Appointment_booking(str)
+
+        With appointmentBookingForm
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(appointmentBookingForm)
+            .BringToFront()
+            .Show()
+        End With
+
+    End Sub
+
 End Class
