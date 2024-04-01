@@ -52,6 +52,13 @@
         Button1.FlatAppearance.BorderSize = 0
         Button1.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
 
+        Button2.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
+        Button2.BackColor = ColorTranslator.FromHtml("#F9754B")
+        Button2.Size = New Size(67, 25)
+        Button2.Location = New Point(1067, 57)
+        Button2.FlatAppearance.BorderSize = 0
+        Button2.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+
         'Label5.Text = "Don't have an account?"
         Label5.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
         Label5.Location = New Point(815, 599)
@@ -117,19 +124,25 @@
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim email As String = TextBox2.Text
-        Dim password As String = TextBox1.Text
+        Dim email = TextBox2.Text
+        Dim password = TextBox1.Text
 
         If String.IsNullOrEmpty(TextBox1.Text) Or String.IsNullOrEmpty(TextBox2.Text) Then
             MessageBox.Show("Please enter email and password to login")
             Return
         End If
 
-        Dim customerID As Integer = GetCustomerID(email, password)
+        Dim customerID = GetCustomerID(email, password)
         If customerID > 0 Then
             CleanupForm()
             Return
         End If
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Dim landingForm As New LandingPage()
+        landingForm.Show()
+        Me.Hide()
     End Sub
 
     Private Sub CleanupForm()
@@ -140,4 +153,6 @@
     Private Sub LoginPage_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         Application.Exit()
     End Sub
+
+
 End Class
