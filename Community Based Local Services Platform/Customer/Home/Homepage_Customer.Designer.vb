@@ -110,11 +110,12 @@ Partial Class Homepage_Customer
         ' 
         ' TrackBar1
         ' 
+        TrackBar1.LargeChange = 1
         TrackBar1.Location = New Point(42, 547)
+        TrackBar1.Maximum = 5
         TrackBar1.Name = "TrackBar1"
         TrackBar1.Size = New Size(249, 56)
         TrackBar1.TabIndex = 0
-        TrackBar1.TickFrequency = 2
         TrackBar1.TickStyle = TickStyle.TopLeft
         ' 
         ' Label4

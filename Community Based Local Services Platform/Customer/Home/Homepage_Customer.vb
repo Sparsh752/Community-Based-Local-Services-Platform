@@ -86,6 +86,8 @@
         Panel1.Controls.Add(Servicetypelabel5)
         ' Load default services in Panel2
         LoadDefaultServices()
+        ' Add labels over the TrackBar
+        AddTrackBarLabels()
     End Sub
 
     ' Method to load default services in Panel2
@@ -103,22 +105,63 @@
         MinCostBox.Text = ""
         MaxCostBox.Text = ""
     End Sub
+    ' Adding labels to trackbar
+    Private Sub AddTrackBarLabels()
+        ' Create labels for each tick mark value
+        For i As Integer = TrackBar1.Minimum To TrackBar1.Maximum
+            Dim label As New Label()
+            label.Text = i.ToString()
+            label.AutoSize = False
+            label.Size = New Size(100, 20)
+            label.Font = New Font("Arial", 12, FontStyle.Regular) ' Set a larger font size
+            label.ForeColor = Color.Black ' Set the label text color
+            ' Calculate the position of the label relative to the TrackBar
+            Dim labelX As Integer = TrackBar1.Location.X + (i - TrackBar1.Minimum) * (TrackBar1.Width / (TrackBar1.Maximum - TrackBar1.Minimum))
+            Dim labelY As Integer = TrackBar1.Location.Y - 20
+            ' Adjust the label position to center it over the tick mark
+            label.Location = New Point(labelX - label.Width / 2, labelY)
+            Me.Controls.Add(label)
+        Next
+    End Sub
 
+
+
+    ' Event handler for "View Details" button click
+    Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
+        ' Retrieve the provider details from the Tag property of the button
+        Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
+
+        ' Open the SP_profile form and pass the provider details
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Cost, provider.ServiceName)
+        spProfileForm.ShowDialog() ' Show the form as a dialog
+    End Sub
+
+    ' Event handler for TrackBar1 scroll event is removed here to address functionality mistakes
+
+
+    ' Event handler for SearchBtn click event
     Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchBtn.Click
         ' Retrieve search criteria from text box or other UI elements in Panel1
         Dim searchCriteria As String = searchBox.Text
         Dim minCostCriteria As String = MinCostBox.Text
         Dim maxCostCriteria As String = MaxCostBox.Text
 
-        ' Call the method to update services based on search criteria
+        ' Call the method to update services based on search criteria and rating filter
         UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria)
     End Sub
 
-    ' Method to update services in Panel2 based on search criteria
+    ' Method to update services in Panel2 based on search criteria and rating filter
     Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String)
+        ' Retrieve rating filter value from TrackBar1
+        Dim minRating As Integer = TrackBar1.Value
+        Dim maxRating As Integer = 5 ' Maximum rating value is 5
+
+        ' Retrieve Display_Services form from Panel2 controls
         Dim displayServicesForm As Display_Services = TryCast(Panel2.Controls(0), Display_Services)
+
+        ' Update services on Display_Services form with search criteria and rating filter
         If displayServicesForm IsNot Nothing Then
-            displayServicesForm.UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria)
+            displayServicesForm.UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, minRating, maxRating)
         End If
     End Sub
 End Class
