@@ -60,6 +60,8 @@ Public Class Register1
         confirm_Text.PasswordChar = "*"
         password_Text.PasswordChar = "*"
 
+
+
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles email_Text.TextChanged
         ' Call the function to validate the email format
@@ -188,7 +190,7 @@ Public Class Register1
         String.IsNullOrWhiteSpace(confirm_Text.Text) OrElse
         String.IsNullOrWhiteSpace(address.Text) OrElse
         locationDropdown.SelectedItem Is Nothing OrElse
-        String.IsNullOrWhiteSpace(locationDropdown.SelectedItem.ToString()) Then
+        String.IsNullOrWhiteSpace(locationDropdown.SelectedItem.ToString) Then
             ' If any field is empty, display error message
             MessageBox.Show("Please fill in all fields.")
             Return ' Exit the event handler
@@ -234,5 +236,9 @@ Public Class Register1
 
     End Sub
 
-
+    Private Sub Back_btn_Click(sender As Object, e As EventArgs) Handles Back_btn.Click
+        Dim loginForm As New LoginPage()
+        loginForm.Show()
+        Me.Hide()
+    End Sub
 End Class

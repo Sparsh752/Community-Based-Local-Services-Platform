@@ -41,6 +41,7 @@ Partial Class Register1
         RegisterSubmitBtn = New Button()
         emailValidationLabel = New Label()
         address = New RichTextBox()
+        Back_btn = New Button()
         CType(registerProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -223,11 +224,27 @@ Partial Class Register1
         address.TabIndex = 25
         address.Text = ""
         ' 
+        ' Back_btn
+        ' 
+        Back_btn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
+        Back_btn.FlatAppearance.BorderSize = 0
+        Back_btn.FlatStyle = FlatStyle.Flat
+        Back_btn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Back_btn.ForeColor = Color.White
+        Back_btn.Location = New Point(1035, 39)
+        Back_btn.Margin = New Padding(0)
+        Back_btn.Name = "Back_btn"
+        Back_btn.Size = New Size(67, 25)
+        Back_btn.TabIndex = 26
+        Back_btn.Text = "Back"
+        Back_btn.UseVisualStyleBackColor = False
+        ' 
         ' Register1
         ' 
         AutoScaleDimensions = New SizeF(8F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1330, 686)
+        Controls.Add(Back_btn)
         Controls.Add(address)
         Controls.Add(emailValidationLabel)
         Controls.Add(RegisterSubmitBtn)
@@ -248,7 +265,7 @@ Partial Class Register1
         Controls.Add(signUp)
         Font = New Font("Bahnschrift", 10.2F)
         Name = "Register1"
-        Text = "Form1"
+        Text = "Customer_Register"
         CType(registerProfilePic, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
@@ -284,5 +301,6 @@ Partial Class Register1
     Friend WithEvents RegisterSubmitBtn As Button
     Friend WithEvents emailValidationLabel As Label
     Friend WithEvents address As RichTextBox
+    Friend WithEvents Back_btn As Button
 
 End Class

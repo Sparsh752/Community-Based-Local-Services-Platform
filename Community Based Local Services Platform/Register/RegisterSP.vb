@@ -283,8 +283,8 @@ Public Class RegisterSP
             Return ' Exit the event handler
         End If
 
-        Dim customerID As Integer = -1
-        Dim connectionString As String = "server=172.16.114.199;userid=admin;password=istrator;database=communityservice;sslmode=none"
+        Dim customerID = -1
+        Dim connectionString = "server=172.16.114.199;userid=admin;password=istrator;database=communityservice;sslmode=none"
 
     End Sub
     Private Sub PopulateCountriesDropdown()
@@ -331,5 +331,11 @@ Public Class RegisterSP
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
+    End Sub
+
+    Private Sub Back_btn_Click(sender As Object, e As EventArgs) Handles Back_btn.Click
+        Dim loginForm As New LoginPage()
+        loginForm.Show()
+        Me.Hide()
     End Sub
 End Class
