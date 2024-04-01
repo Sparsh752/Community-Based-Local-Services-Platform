@@ -35,7 +35,8 @@ Public Class SP_profile
         Label5.Size = New Size(115, 28)
 
         Panel1.Width = 359
-        Panel2.Height = 571
+        Panel2.Location = New Point(20, 140)
+        Panel2.Width = 330
 
 
         Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
@@ -124,7 +125,7 @@ Public Class SP_profile
 
         Dim numItems As Integer = 10
 
-        Dim yPosition2 As Integer = 38
+        Dim yPosition2 As Integer = 10
         Panel2.AutoScroll = True
         For i As Integer = 1 To numItems
             Dim itemPanel As New Panel()

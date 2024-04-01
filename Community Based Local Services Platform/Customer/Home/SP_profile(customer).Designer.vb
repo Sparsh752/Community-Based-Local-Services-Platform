@@ -88,10 +88,9 @@ Partial Class SP_profile
         ' 
         ' Panel2
         ' 
-        Panel2.Dock = DockStyle.Bottom
-        Panel2.Location = New Point(0, 158)
+        Panel2.Location = New Point(23, 182)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(416, 770)
+        Panel2.Size = New Size(369, 659)
         Panel2.TabIndex = 11
         ' 
         ' Label5
