@@ -1,5 +1,5 @@
 ﻿Imports System.IO
-Public Class InProgressPaymentNotDone_Customer
+Public Class InProgressPaymentNotDone
     Private Sub Appointmentdetail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White

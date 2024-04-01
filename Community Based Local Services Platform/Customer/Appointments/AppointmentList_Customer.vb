@@ -168,10 +168,10 @@ Public Class AppointmentList_Customer
         Dim status As String = button.Tag
         RemovePreviousForm()
         If (status = "Scheduled") Then
-            With InProgressPaymentNotDone_Customer
+            With InProgressPaymentNotDone
                 .TopLevel = False
                 .Dock = DockStyle.Fill
-                Panel3.Controls.Add(InProgressPaymentNotDone_Customer)
+                Panel3.Controls.Add(InProgressPaymentNotDone)
                 .BringToFront()
                 .Show()
             End With
