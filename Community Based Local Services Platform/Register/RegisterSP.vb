@@ -317,7 +317,7 @@ Public Class RegisterSP
     End Sub
     Private Sub PopulateNoticeHourDropdown()
         ' Add notice hour options manually to the dropdown list
-        Dim noticeHours As Integer() = {1, 2, 3, 4, 5, 6, 12, 24}
+        Dim noticeHours As Integer() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
 
         ' Clear existing items (if needed)
         NoticeHourDropdown.Items.Clear()
