@@ -134,7 +134,7 @@ Partial Class Homepage_Customer
         ComboBox1.FormattingEnabled = True
         ComboBox1.Location = New Point(42, 404)
         ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(249, 33)
+        ComboBox1.Size = New Size(281, 33)
         ComboBox1.TabIndex = 0
         ' 
         ' Label3
@@ -198,10 +198,10 @@ Partial Class Homepage_Customer
         ' searchBox
         ' 
         searchBox.BorderStyle = BorderStyle.FixedSingle
-        searchBox.Font = New Font("Segoe UI", 11.5F)
-        searchBox.Location = New Point(30, 112)
+        searchBox.Font = New Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        searchBox.Location = New Point(30, 101)
         searchBox.Name = "searchBox"
-        searchBox.Size = New Size(293, 33)
+        searchBox.Size = New Size(293, 47)
         searchBox.TabIndex = 0
         ' 
         ' Panel2
