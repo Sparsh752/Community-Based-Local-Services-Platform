@@ -8,22 +8,35 @@
     End Sub
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         RemovePreviousForm()
-        All_Queries.Margin = New Padding(0, 0, 0, 0)
+        All_Queries.Margin = New Padding(10, 10, 10, 10)
         With All_Queries
             .TopLevel = False
-            .Dock = DockStyle.Fill
             SessionManager.Panel3.Controls.Add(All_Queries)
             .BringToFront()
             .Show()
         End With
     End Sub
+    Private Sub DataGridView1_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles DataGridView1.CellPainting
+        If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 AndAlso e.ColumnIndex <= 5 Then
+            ' Draw cell border
+            e.Paint(e.CellBounds, DataGridViewPaintParts.All)
+
+            ' Draw right border
+            Dim rectRight As New Rectangle(e.CellBounds.Right - 1, e.CellBounds.Top, 1, e.CellBounds.Height)
+            e.Graphics.FillRectangle(Brushes.Black, rectRight)
+
+            ' Draw bottom border
+            Dim rectBottom As New Rectangle(e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Width, 1)
+            e.Graphics.FillRectangle(Brushes.Black, rectBottom)
+
+            e.Handled = True
+        End If
+    End Sub
 
     Private Sub Homepage_Admin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
+        Me.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
+        DataGridView1.ColumnHeadersDefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
+        DataGridView1.DefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
         DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
         DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
         DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")

@@ -26,13 +26,6 @@ Partial Class Homepage_Admin
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         DataGridView1 = New DataGridView()
-        QueryType = New DataGridViewTextBoxColumn()
-        QueryBy = New DataGridViewTextBoxColumn()
-        AppointmentID = New DataGridViewTextBoxColumn()
-        QueryDate = New DataGridViewTextBoxColumn()
-        Description = New DataGridViewTextBoxColumn()
-        Status = New DataGridViewTextBoxColumn()
-        View = New DataGridViewButtonColumn()
         Label1 = New Label()
         Label2 = New Label()
         Label3 = New Label()
@@ -47,6 +40,13 @@ Partial Class Homepage_Admin
         LinkLabel1 = New LinkLabel()
         LinkLabel2 = New LinkLabel()
         LinkLabel3 = New LinkLabel()
+        QueryType = New DataGridViewTextBoxColumn()
+        QueryBy = New DataGridViewTextBoxColumn()
+        AppointmentID = New DataGridViewTextBoxColumn()
+        QueryDate = New DataGridViewTextBoxColumn()
+        Description = New DataGridViewTextBoxColumn()
+        Status = New DataGridViewTextBoxColumn()
+        View = New DataGridViewButtonColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
@@ -59,10 +59,11 @@ Partial Class Homepage_Admin
         DataGridView1.AllowUserToAddRows = False
         DataGridView1.AllowUserToDeleteRows = False
         DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        DataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells
         DataGridView1.BackgroundColor = Color.White
         DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle1.BackColor = Color.Tomato
-        DataGridViewCellStyle1.Font = New Font("Bahnschrift", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle1.Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle1.ForeColor = SystemColors.HighlightText
         DataGridViewCellStyle1.NullValue = "Hello"
         DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
@@ -74,7 +75,7 @@ Partial Class Homepage_Admin
         DataGridView1.Cursor = Cursors.Hand
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.BackColor = Color.White
-        DataGridViewCellStyle3.Font = New Font("Bahnschrift", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        DataGridViewCellStyle3.Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         DataGridViewCellStyle3.ForeColor = SystemColors.ActiveCaptionText
         DataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight
         DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
@@ -89,65 +90,8 @@ Partial Class Homepage_Admin
         DataGridView1.RowHeadersVisible = False
         DataGridView1.RowHeadersWidth = 51
         DataGridView1.ScrollBars = ScrollBars.None
-        DataGridView1.Size = New Size(1103, 176)
+        DataGridView1.Size = New Size(1103, 174)
         DataGridView1.TabIndex = 0
-        ' 
-        ' QueryType
-        ' 
-        QueryType.HeaderText = "Query Type"
-        QueryType.MinimumWidth = 6
-        QueryType.Name = "QueryType"
-        QueryType.ReadOnly = True
-        ' 
-        ' QueryBy
-        ' 
-        QueryBy.HeaderText = "Query By"
-        QueryBy.MinimumWidth = 6
-        QueryBy.Name = "QueryBy"
-        QueryBy.ReadOnly = True
-        ' 
-        ' AppointmentID
-        ' 
-        AppointmentID.HeaderText = "Appointment ID"
-        AppointmentID.MinimumWidth = 6
-        AppointmentID.Name = "AppointmentID"
-        AppointmentID.ReadOnly = True
-        ' 
-        ' QueryDate
-        ' 
-        QueryDate.HeaderText = "Query Date"
-        QueryDate.MinimumWidth = 6
-        QueryDate.Name = "QueryDate"
-        QueryDate.ReadOnly = True
-        ' 
-        ' Description
-        ' 
-        Description.HeaderText = "Description"
-        Description.MinimumWidth = 6
-        Description.Name = "Description"
-        Description.ReadOnly = True
-        ' 
-        ' Status
-        ' 
-        Status.HeaderText = "Status"
-        Status.MinimumWidth = 6
-        Status.Name = "Status"
-        Status.ReadOnly = True
-        ' 
-        ' View
-        ' 
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(0), CByte(64), CByte(64))
-        DataGridViewCellStyle2.ForeColor = Color.White
-        View.DefaultCellStyle = DataGridViewCellStyle2
-        View.FlatStyle = FlatStyle.Popup
-        View.HeaderText = ""
-        View.MinimumWidth = 6
-        View.Name = "View"
-        View.ReadOnly = True
-        View.Resizable = DataGridViewTriState.False
-        View.Text = "View"
-        View.UseColumnTextForButtonValue = True
         ' 
         ' Label1
         ' 
@@ -279,9 +223,66 @@ Partial Class Homepage_Admin
         LinkLabel3.TabStop = True
         LinkLabel3.Text = "See All"
         ' 
+        ' QueryType
+        ' 
+        QueryType.HeaderText = "Query Type"
+        QueryType.MinimumWidth = 6
+        QueryType.Name = "QueryType"
+        QueryType.ReadOnly = True
+        ' 
+        ' QueryBy
+        ' 
+        QueryBy.HeaderText = "Query By"
+        QueryBy.MinimumWidth = 6
+        QueryBy.Name = "QueryBy"
+        QueryBy.ReadOnly = True
+        ' 
+        ' AppointmentID
+        ' 
+        AppointmentID.HeaderText = "Appointment ID"
+        AppointmentID.MinimumWidth = 6
+        AppointmentID.Name = "AppointmentID"
+        AppointmentID.ReadOnly = True
+        ' 
+        ' QueryDate
+        ' 
+        QueryDate.HeaderText = "Query Date"
+        QueryDate.MinimumWidth = 6
+        QueryDate.Name = "QueryDate"
+        QueryDate.ReadOnly = True
+        ' 
+        ' Description
+        ' 
+        Description.HeaderText = "Description"
+        Description.MinimumWidth = 6
+        Description.Name = "Description"
+        Description.ReadOnly = True
+        ' 
+        ' Status
+        ' 
+        Status.HeaderText = "Status"
+        Status.MinimumWidth = 6
+        Status.Name = "Status"
+        Status.ReadOnly = True
+        ' 
+        ' View
+        ' 
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(15), CByte(42), CByte(55))
+        DataGridViewCellStyle2.ForeColor = Color.White
+        View.DefaultCellStyle = DataGridViewCellStyle2
+        View.FlatStyle = FlatStyle.Popup
+        View.HeaderText = ""
+        View.MinimumWidth = 6
+        View.Name = "View"
+        View.ReadOnly = True
+        View.Resizable = DataGridViewTriState.False
+        View.Text = "View"
+        View.UseColumnTextForButtonValue = True
+        ' 
         ' Homepage_Admin
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 18.0F)
+        AutoScaleDimensions = New SizeF(8F, 18F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1353, 793)
@@ -300,7 +301,7 @@ Partial Class Homepage_Admin
         Controls.Add(Label2)
         Controls.Add(Label1)
         Controls.Add(DataGridView1)
-        Font = New Font("Bahnschrift", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Name = "Homepage_Admin"
         RightToLeftLayout = True
         Text = "Homepage_Admin"
@@ -314,13 +315,6 @@ Partial Class Homepage_Admin
     End Sub
 
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents QueryType As DataGridViewTextBoxColumn
-    Friend WithEvents QueryBy As DataGridViewTextBoxColumn
-    Friend WithEvents AppointmentID As DataGridViewTextBoxColumn
-    Friend WithEvents QueryDate As DataGridViewTextBoxColumn
-    Friend WithEvents Description As DataGridViewTextBoxColumn
-    Friend WithEvents Status As DataGridViewTextBoxColumn
-    Friend WithEvents View As DataGridViewButtonColumn
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
@@ -335,5 +329,12 @@ Partial Class Homepage_Admin
     Friend WithEvents LinkLabel1 As LinkLabel
     Friend WithEvents LinkLabel2 As LinkLabel
     Friend WithEvents LinkLabel3 As LinkLabel
+    Friend WithEvents QueryType As DataGridViewTextBoxColumn
+    Friend WithEvents QueryBy As DataGridViewTextBoxColumn
+    Friend WithEvents AppointmentID As DataGridViewTextBoxColumn
+    Friend WithEvents QueryDate As DataGridViewTextBoxColumn
+    Friend WithEvents Description As DataGridViewTextBoxColumn
+    Friend WithEvents Status As DataGridViewTextBoxColumn
+    Friend WithEvents View As DataGridViewButtonColumn
 
 End Class
