@@ -219,6 +219,7 @@ Partial Class AddServices_SP
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1182, 653)
+        ControlBox = False
         Controls.Add(Button2)
         Controls.Add(Button1)
         Controls.Add(Label7)
@@ -235,8 +236,8 @@ Partial Class AddServices_SP
         Controls.Add(Label3)
         Controls.Add(Label2)
         Controls.Add(Label1)
+        FormBorderStyle = FormBorderStyle.None
         Name = "AddServices_SP"
-        Text = "AddServices_SP"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
