@@ -1,4 +1,6 @@
-﻿Public Class Navbar_Customer
+﻿Imports Community_Based_Local_Services_Platform.Display_Services
+
+Public Class Navbar_Customer
 
 
     ' Variable to store the currently active form
@@ -192,7 +194,46 @@
     Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
 
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Cost, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        spProfileForm.TopLevel = False
+        spProfileForm.FormBorderStyle = FormBorderStyle.None
+        spProfileForm.Dock = DockStyle.Fill
+        spProfileForm.AutoScroll = True
+
+        ' Clear existing controls from Panel3
+        Panel3.Controls.Clear()
+
+        ' Add SP_profile form to Panel3
+        Panel3.Controls.Add(spProfileForm)
+
+        ' Show the form
+        spProfileForm.Show()
+    End Sub
+
+    Public Sub PictureBox_Click(sender As Object, e As EventArgs)
+        Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, PictureBox).Tag, ServiceProvider)
+        ' Open the SP_profile form and pass the provider details
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        spProfileForm.TopLevel = False
+        spProfileForm.FormBorderStyle = FormBorderStyle.None
+        spProfileForm.Dock = DockStyle.Fill
+        spProfileForm.AutoScroll = True
+
+        ' Clear existing controls from Panel3
+        Panel3.Controls.Clear()
+
+        ' Add SP_profile form to Panel3
+        Panel3.Controls.Add(spProfileForm)
+
+        ' Show the form
+        spProfileForm.Show()
+    End Sub
+
+    ' Event handler for Label click
+    Public Sub Label_Click(sender As Object, e As EventArgs)
+        Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Label).Tag, ServiceProvider)
+        ' Open the SP_profile form and pass the provider details
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
         spProfileForm.TopLevel = False
         spProfileForm.FormBorderStyle = FormBorderStyle.None
         spProfileForm.Dock = DockStyle.Fill

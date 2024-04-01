@@ -40,15 +40,17 @@ Public Class Homepage_SP
 
     Private Sub EditProfileButton_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
-        Register1.Margin = New Padding(0, 0, 0, 0)
-        With Register1
+        RegisterSP.Margin = New Padding(0, 0, 0, 0)
+        With RegisterSP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(Register1)
+            SessionManager.Panel3.Controls.Add(RegisterSP)
             .BringToFront()
             .Show()
+            RegisterSP.Back_btn.Visible = False
         End With
     End Sub
+
 
 
     Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs)

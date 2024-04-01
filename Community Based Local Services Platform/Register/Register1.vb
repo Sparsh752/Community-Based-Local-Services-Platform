@@ -131,12 +131,12 @@ Public Class Register1
     Private Sub SendData()
         Dim connectionString As String = "server=172.16.114.199;userid=admin;password=istrator;database=communityservice;sslmode=none"
 
-        Using connection As New SqlConnection(connectionString)
+        Using connection As New MySqlConnection(connectionString)
             connection.Open()
             ' Check if the email already exists
             Dim emailExists As Boolean = False
-            Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM users WHERE email = @email"
-            Using checkEmailCommand As New SqlCommand(checkEmailCommandText, connection)
+            Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM Users WHERE email = @email"
+            Using checkEmailCommand As New MySqlCommand(checkEmailCommandText, connection)
                 checkEmailCommand.Parameters.AddWithValue("@email", email_Text.Text)
                 Dim count As Integer = Convert.ToInt32(checkEmailCommand.ExecuteScalar())
                 If count > 0 Then
@@ -149,8 +149,8 @@ Public Class Register1
             Else
                 ' Insert into the users table
                 Dim userId As Integer = 0
-                Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password) VALUES (@usrname, @usrtype, @email, @password); SELECT SCOPE_IDENTITY();"
-                Using insertUserCommand As New SqlCommand(insertUserCommandText, connection)
+                Dim insertUserCommandText As String = "INSERT INTO Users (userName, userType, email, password) VALUES (@usrname, @usrtype, @email, @password); SELECT SCOPE_IDENTITY();"
+                Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
                     insertUserCommand.Parameters.AddWithValue("@usrname", name_Text.Text)
                     insertUserCommand.Parameters.AddWithValue("@usrtype", "Customer")
                     insertUserCommand.Parameters.AddWithValue("@email", email_Text.Text)
@@ -161,7 +161,7 @@ Public Class Register1
                 If userId > 0 Then
                     ' Insert into the contactDetails table
                     Dim insertContactCommandText As String = "INSERT INTO contactDetails (userID, email, address, location) VALUES (@userID, @email, @address, @location)"
-                    Using insertContactCommand As New SqlCommand(insertContactCommandText, connection)
+                    Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
                         insertContactCommand.Parameters.AddWithValue("@userID", userId)
                         insertContactCommand.Parameters.AddWithValue("@email", email_Text.Text)
                         insertContactCommand.Parameters.AddWithValue("@address", address.Text)

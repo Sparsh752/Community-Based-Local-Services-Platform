@@ -8,6 +8,8 @@ Public Class Display_Services
         Public Property Cost As String
         Public Property ServiceName As String
         Public Property Ratings As Integer
+        Public Property Location As String
+        Public Property TimeSlots As String
     End Class
 
     ' List to store service providers
@@ -20,62 +22,72 @@ Public Class Display_Services
         Me.Size = New Size(841, 635)
 
         ' Populate the serviceProviders list with query from DB
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs", .Cost = "5000", .ServiceName = "Electrical Services", .Ratings = 4})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Experienced in plumbing works", .Cost = "6000", .ServiceName = "Plumbing Services", .Ratings = 4})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Gardener", .Description = "Provides garden maintenance services", .Cost = "5500", .ServiceName = "Gardening Services", .Ratings = 3})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Cleaner", .Description = "Offers professional cleaning services", .Cost = "8000", .ServiceName = "Cleaning Services", .Ratings = 5})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Painter", .Description = "Specializes in interior and exterior painting", .Cost = "9000", .ServiceName = "Painting Services", .Ratings = 4})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Carpenter", .Description = "Skilled in carpentry and woodworking", .Cost = "8500", .ServiceName = "Carpentry Services", .Ratings = 3})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Mover", .Description = "Offers moving and relocation services", .Cost = "7500", .ServiceName = "Moving Services", .Ratings = 4})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Tutor", .Description = "Provides tutoring services for various subjects", .Cost = "6500", .ServiceName = "Tutoring Services", .Ratings = 4})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs and installation", .Cost = "7000", .ServiceName = "Electrical Services", .Ratings = 2})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Offers plumbing solutions for households and businesses", .Cost = "6500", .ServiceName = "Plumbing Services", .Ratings = 3})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs", .Cost = "5000", .ServiceName = "Electrical Services", .Ratings = 4, .Location = "Mumbai", .TimeSlots = "9:00 AM - 5:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Experienced in plumbing works", .Cost = "6000", .ServiceName = "Plumbing Services", .Ratings = 4, .Location = "Delhi", .TimeSlots = "8:00 AM - 6:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Gardener", .Description = "Provides garden maintenance services", .Cost = "5500", .ServiceName = "Gardening Services", .Ratings = 3, .Location = "Bangalore", .TimeSlots = "10:00 AM - 4:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Cleaner", .Description = "Offers professional cleaning services", .Cost = "8000", .ServiceName = "Cleaning Services", .Ratings = 5, .Location = "Chennai", .TimeSlots = "7:00 AM - 3:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Painter", .Description = "Specializes in interior and exterior painting", .Cost = "9000", .ServiceName = "Painting Services", .Ratings = 4, .Location = "Kolkata", .TimeSlots = "9:00 AM - 6:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Carpenter", .Description = "Skilled in carpentry and woodworking", .Cost = "8500", .ServiceName = "Carpentry Services", .Ratings = 3, .Location = "Hyderabad", .TimeSlots = "8:00 AM - 5:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Mover", .Description = "Offers moving and relocation services", .Cost = "7500", .ServiceName = "Moving Services", .Ratings = 4, .Location = "Pune", .TimeSlots = "10:00 AM - 6:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Tutor", .Description = "Provides tutoring services for various subjects", .Cost = "6500", .ServiceName = "Tutoring Services", .Ratings = 4, .Location = "Ahmedabad", .TimeSlots = "4:00 PM - 8:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs and installation", .Cost = "7000", .ServiceName = "Electrical Services", .Ratings = 2, .Location = "Jaipur", .TimeSlots = "8:00 AM - 4:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Offers plumbing solutions for households and businesses", .Cost = "6500", .ServiceName = "Plumbing Services", .Ratings = 3, .Location = "Lucknow", .TimeSlots = "9:00 AM - 6:00 PM"})
 
         ' Display the default data
         DisplayDefault()
     End Sub
+
 
     ' Method to display default view
     Private Sub DisplayDefault()
         Dim lblMostTrustedHeading As New Label()
         lblMostTrustedHeading.Text = "Most Trusted Service Providers"
         lblMostTrustedHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
-        lblMostTrustedHeading.Size = New Size(280, 28)
-        lblMostTrustedHeading.Location = New Point(51, 118)
+        lblMostTrustedHeading.Size = New Size(360, 28)
+        lblMostTrustedHeading.Location = New Point(71, 118)
         Me.Controls.Add(lblMostTrustedHeading)
+        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings).ToList()
 
         Dim lblPopularHeading As New Label()
         lblPopularHeading.Text = "Trending Services"
         lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
         lblPopularHeading.Size = New Size(280, 28)
-        lblPopularHeading.Location = New Point(51, 371)
+        lblPopularHeading.Location = New Point(71, 371)
         Me.Controls.Add(lblPopularHeading)
 
         ' Display most trusted service providers
-        For i As Integer = 0 To 3
+        For i As Integer = 0 To Math.Min(2, sortedProviders.Count - 1)
             Dim pb As New PictureBox()
+            pb.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
+            AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
+
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(48 + (i * (32 + 169)), 155)
+            pb.Location = New Point(68 + (i * (32 + 169)), 155)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
             Me.Controls.Add(pb)
 
             Dim lblProvider As New Label()
-            lblProvider.Text = serviceProviders(i).Name
+            lblProvider.Text = sortedProviders(i).Name
+            lblProvider.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider.Size = New Size(92, 14)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(86 + (i * (110 + 92)) + 20, 320)
+            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 320)
+            AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
+
             Me.Controls.Add(lblProvider)
         Next
 
         ' Display popular services
-        For i As Integer = 0 To 3
+        For i As Integer = 0 To 2
             Dim pb As New PictureBox()
+            pb.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
+            AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(48 + (i * (32 + 169)), 408)
+            pb.Location = New Point(68 + (i * (32 + 169)), 408)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -84,8 +96,11 @@ Public Class Display_Services
             Dim lblProvider As New Label()
             lblProvider.Text = serviceProviders(i).ServiceName
             lblProvider.Size = New Size(92, 14)
+            lblProvider.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(86 + (i * (110 + 92)) + 20, 574)
+            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 574)
+            AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
+
             Me.Controls.Add(lblProvider)
         Next
     End Sub
@@ -194,7 +209,7 @@ Public Class Display_Services
             ' Set the Tag property of the button to store the provider details
             viewBtn.Tag = provider
             ' Attach event handler for the button click
-            AddHandler viewBtn.Click, AddressOf Homepage_Customer.ViewDetails_Click
+            AddHandler viewBtn.Click, AddressOf Navbar_Customer.ViewDetails_Click
             resultPanel.Controls.Add(viewBtn)
 
             Dim bookNowBtn As New Button()
@@ -209,15 +224,5 @@ Public Class Display_Services
 
             Me.Controls.Add(resultPanel)
         Next
-    End Sub
-
-    ' Event handler for "View Details" button click 
-    Private Sub ViewDetails_Click(sender As Object, e As EventArgs)
-        ' Retrieve the provider details from the Tag property of the button
-        Dim provider As ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, ServiceProvider)
-
-        ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Cost, provider.ServiceName)
-        spProfileForm.ShowDialog() ' Show the form as a dialog
     End Sub
 End Class

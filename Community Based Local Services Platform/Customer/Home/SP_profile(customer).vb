@@ -9,7 +9,7 @@ Public Class SP_profile
         ' Display the details received
         Label1.Text = name
         Label2.Text = description
-        Label3.Text = "Rate: Rs. " & cost
+        Label3.Text = "Available from : " & cost
         Label4.Text = serviceName
     End Sub
 
@@ -21,11 +21,14 @@ Public Class SP_profile
         Label1.Location = New Point(55, 99)
         Label1.Size = New Size(318, 28)
 
-        Label2.Location = New Point(55, 168)
-        Label2.Size = New Size(80, 28)
-        Label3.Location = New Point(161, 168)
-        Label3.Size = New Size(300, 28)
-        Label4.Location = New Point(485, 168)
+        Label2.Location = New Point(55, 150)
+        Label2.Size = New Size(90, 28)
+        Label7.Location = New Point(160, 135)
+        Label6.Location = New Point(400, 135)
+
+        Label3.Location = New Point(200, 150)
+        Label3.Size = New Size(100, 28)
+        Label4.Location = New Point(450, 150)
         Label4.Size = New Size(115, 28)
 
         Label5.Location = New Point(34, 101)
