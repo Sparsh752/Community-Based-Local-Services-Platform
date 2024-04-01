@@ -34,7 +34,56 @@
         Label4.Location = New Point(34, 422)
         TrackBar1.Location = New Point(34, 450)
         TrackBar1.Size = New Size(249, 56)
-
+        Dim Servicetypelabel1 As New Button()
+        Dim Servicetypelabel2 As New Button()
+        Dim Servicetypelabel3 As New Button()
+        Dim Servicetypelabel4 As New Button()
+        Dim Servicetypelabel5 As New Button()
+        Servicetypelabel1.Text = "Cleaning"
+        Servicetypelabel2.Text = "Plumbing"
+        Servicetypelabel3.Text = "Electrical"
+        Servicetypelabel4.Text = "Carpentry"
+        Servicetypelabel5.Text = "Painting"
+        Servicetypelabel1.Location = New Point(34, 171)
+        Servicetypelabel2.Location = New Point(122, 171)
+        Servicetypelabel3.Location = New Point(211, 171)
+        Servicetypelabel4.Location = New Point(34, 202)
+        Servicetypelabel5.Location = New Point(122, 202)
+        Servicetypelabel1.Size = New Size(84, 24)
+        Servicetypelabel2.Size = New Size(84, 24)
+        Servicetypelabel3.Size = New Size(84, 24)
+        Servicetypelabel4.Size = New Size(84, 24)
+        Servicetypelabel5.Size = New Size(84, 24)
+        Servicetypelabel1.FlatStyle = FlatStyle.Flat
+        Servicetypelabel2.FlatStyle = FlatStyle.Flat
+        Servicetypelabel3.FlatStyle = FlatStyle.Flat
+        Servicetypelabel4.FlatStyle = FlatStyle.Flat
+        Servicetypelabel5.FlatStyle = FlatStyle.Flat
+        Servicetypelabel1.FlatAppearance.BorderSize = 0
+        Servicetypelabel2.FlatAppearance.BorderSize = 0
+        Servicetypelabel3.FlatAppearance.BorderSize = 0
+        Servicetypelabel4.FlatAppearance.BorderSize = 0
+        Servicetypelabel5.FlatAppearance.BorderSize = 0
+        Servicetypelabel1.BackColor = ColorTranslator.FromHtml("#124E55")
+        Servicetypelabel2.BackColor = ColorTranslator.FromHtml("#124E55")
+        Servicetypelabel3.BackColor = ColorTranslator.FromHtml("#124E55")
+        Servicetypelabel4.BackColor = ColorTranslator.FromHtml("#124E55")
+        Servicetypelabel5.BackColor = ColorTranslator.FromHtml("#124E55")
+        Servicetypelabel1.ForeColor = Color.White
+        Servicetypelabel2.ForeColor = Color.White
+        Servicetypelabel3.ForeColor = Color.White
+        Servicetypelabel4.ForeColor = Color.White
+        Servicetypelabel5.ForeColor = Color.White
+        Servicetypelabel1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+        Servicetypelabel2.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+        Servicetypelabel3.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+        Servicetypelabel4.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+        Servicetypelabel5.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+        Panel1.Controls.Add(Servicetypelabel1)
+        Panel1.Controls.Add(Servicetypelabel2)
+        Panel1.Controls.Add(Servicetypelabel3)
+        Panel1.Controls.Add(Servicetypelabel4)
+        Panel1.Controls.Add(Servicetypelabel5)
         ' Load default services in Panel2
         LoadDefaultServices()
     End Sub
