@@ -54,50 +54,62 @@ Partial Class Profile_Customer
         ' 
         customerName_tb.BackColor = Color.WhiteSmoke
         customerName_tb.BorderStyle = BorderStyle.None
+        customerName_tb.Enabled = False
         customerName_tb.Font = New Font("Bahnschrift SemiCondensed", 32.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        customerName_tb.ForeColor = Color.Black
+        customerName_tb.HideSelection = False
         customerName_tb.Location = New Point(629, 131)
         customerName_tb.Name = "customerName_tb"
+        customerName_tb.ReadOnly = True
         customerName_tb.Size = New Size(327, 52)
         customerName_tb.TabIndex = 1
         customerName_tb.Text = "ADITYA MANDAL"
         ' 
         ' email_tb
         ' 
+        email_tb.BackColor = Color.White
         email_tb.BorderStyle = BorderStyle.FixedSingle
         email_tb.Font = New Font("Bahnschrift Light", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         email_tb.Location = New Point(482, 150)
         email_tb.Name = "email_tb"
+        email_tb.ReadOnly = True
         email_tb.Size = New Size(332, 33)
         email_tb.TabIndex = 2
         email_tb.Text = "aditya.mandal@iitg.ac.in"
         ' 
         ' contact_tb
         ' 
+        contact_tb.BackColor = Color.White
         contact_tb.BorderStyle = BorderStyle.FixedSingle
         contact_tb.Font = New Font("Bahnschrift Light", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         contact_tb.Location = New Point(482, 214)
         contact_tb.Name = "contact_tb"
+        contact_tb.ReadOnly = True
         contact_tb.Size = New Size(332, 33)
         contact_tb.TabIndex = 3
         contact_tb.Text = "9939383327"
         ' 
         ' address_tb
         ' 
+        address_tb.BackColor = Color.White
         address_tb.BorderStyle = BorderStyle.FixedSingle
         address_tb.Font = New Font("Bahnschrift Light", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         address_tb.Location = New Point(482, 280)
         address_tb.Multiline = True
         address_tb.Name = "address_tb"
+        address_tb.ReadOnly = True
         address_tb.Size = New Size(332, 109)
         address_tb.TabIndex = 4
         address_tb.Text = "Brahmaputra Hostel, IIT Guwahati"
         ' 
         ' location_tb
         ' 
+        location_tb.BackColor = Color.White
         location_tb.BorderStyle = BorderStyle.FixedSingle
         location_tb.Font = New Font("Bahnschrift Light", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         location_tb.Location = New Point(482, 424)
         location_tb.Name = "location_tb"
+        location_tb.ReadOnly = True
         location_tb.Size = New Size(332, 33)
         location_tb.TabIndex = 5
         location_tb.Text = "Guwahati"
@@ -106,7 +118,7 @@ Partial Class Profile_Customer
         ' 
         Label1.AutoSize = True
         Label1.BackColor = Color.WhiteSmoke
-        Label1.Font = New Font("Bahnschrift", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Black
         Label1.Location = New Point(629, 220)
         Label1.Name = "Label1"
@@ -118,7 +130,7 @@ Partial Class Profile_Customer
         ' 
         Label2.AutoSize = True
         Label2.BackColor = Color.WhiteSmoke
-        Label2.Font = New Font("Bahnschrift", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.Black
         Label2.Location = New Point(629, 287)
         Label2.Name = "Label2"
@@ -130,7 +142,7 @@ Partial Class Profile_Customer
         ' 
         Label3.AutoSize = True
         Label3.BackColor = Color.WhiteSmoke
-        Label3.Font = New Font("Bahnschrift", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label3.Font = New Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.Black
         Label3.Location = New Point(482, 258)
         Label3.Name = "Label3"
@@ -142,7 +154,7 @@ Partial Class Profile_Customer
         ' 
         Label4.AutoSize = True
         Label4.BackColor = Color.WhiteSmoke
-        Label4.Font = New Font("Bahnschrift", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label4.Font = New Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label4.ForeColor = Color.Black
         Label4.Location = New Point(482, 402)
         Label4.Name = "Label4"
@@ -169,7 +181,7 @@ Partial Class Profile_Customer
         Button1.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Button1.Cursor = Cursors.Hand
         Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Bahnschrift SemiBold", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Button1.Font = New Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.Location = New Point(510, 614)
         Button1.Name = "Button1"
         Button1.Size = New Size(139, 33)
@@ -179,7 +191,7 @@ Partial Class Profile_Customer
         ' 
         ' Profile_Customer
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         BackgroundImageLayout = ImageLayout.Stretch
