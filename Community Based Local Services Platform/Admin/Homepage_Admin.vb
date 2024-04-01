@@ -77,11 +77,11 @@
 
     Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
         RemovePreviousForm()
-        Registration_Request.Margin = New Padding(0, 0, 0, 0)
-        With Registration_Request
+        All_Service_Providers.Margin = New Padding(0, 0, 0, 0)
+        With All_Service_Providers
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(Registration_Request)
+            SessionManager.Panel3.Controls.Add(All_Service_Providers)
             .BringToFront()
             .Show()
         End With
