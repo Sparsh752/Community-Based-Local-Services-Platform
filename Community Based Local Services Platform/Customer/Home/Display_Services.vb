@@ -41,14 +41,14 @@ Public Class Display_Services
         lblMostTrustedHeading.Text = "Most Trusted Service Providers"
         lblMostTrustedHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
         lblMostTrustedHeading.Size = New Size(280, 28)
-        lblMostTrustedHeading.Location = New Point(71, 118)
+        lblMostTrustedHeading.Location = New Point(51, 118)
         Me.Controls.Add(lblMostTrustedHeading)
 
         Dim lblPopularHeading As New Label()
         lblPopularHeading.Text = "Trending Services"
         lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
         lblPopularHeading.Size = New Size(280, 28)
-        lblPopularHeading.Location = New Point(71, 371)
+        lblPopularHeading.Location = New Point(51, 371)
         Me.Controls.Add(lblPopularHeading)
 
         ' Display most trusted service providers
@@ -56,7 +56,7 @@ Public Class Display_Services
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + (i * (32 + 169)), 155)
+            pb.Location = New Point(48 + (i * (32 + 169)), 155)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -66,7 +66,7 @@ Public Class Display_Services
             lblProvider.Text = serviceProviders(i).Name
             lblProvider.Size = New Size(92, 14)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 320)
+            lblProvider.Location = New Point(86 + (i * (110 + 92)) + 20, 320)
             Me.Controls.Add(lblProvider)
         Next
 
@@ -75,7 +75,7 @@ Public Class Display_Services
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + (i * (32 + 169)), 408)
+            pb.Location = New Point(48 + (i * (32 + 169)), 408)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -85,7 +85,7 @@ Public Class Display_Services
             lblProvider.Text = serviceProviders(i).ServiceName
             lblProvider.Size = New Size(92, 14)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 574)
+            lblProvider.Location = New Point(86 + (i * (110 + 92)) + 20, 574)
             Me.Controls.Add(lblProvider)
         Next
     End Sub

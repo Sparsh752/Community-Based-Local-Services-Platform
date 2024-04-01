@@ -4,9 +4,36 @@
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
-
+        searchBox.Location = New Point(27, 106)
         ' Open Display_Services.vb form inside Panel2
-        Panel1.BackColor = ColorTranslator.FromHtml("#ededed")
+        Panel1.BackColor = ColorTranslator.FromHtml("#F6F6F6")
+        priceLabel.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+        priceLabel.Location = New Point(34, 253)
+        searchBox.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+        Label3.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+        Label1.Font = New Font(SessionManager.font_family, 7, FontStyle.Regular)
+        Label2.Font = New Font(SessionManager.font_family, 7, FontStyle.Regular)
+        Label4.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+        SearchBtn.Location = New Point(98, 522)
+        SearchBtn.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+        SearchBtn.FlatStyle = FlatStyle.Flat
+        SearchBtn.FlatAppearance.BorderSize = 0
+        SearchBtn.BackColor = ColorTranslator.FromHtml("#F9754B")
+        SearchBtn.Size = New Size(151, 29)
+        Panel1.Size = New Size(359, 700)
+        Label1.Location = New Point(34, 276)
+        Label2.Location = New Point(161, 276)
+        MinCostBox.Location = New Point(34, 293)
+        MaxCostBox.Location = New Point(161, 293)
+        MinCostBox.Size = New Size(106, 27)
+        MaxCostBox.Size = New Size(106, 27)
+        MinCostBox.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+        MaxCostBox.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+        Label3.Location = New Point(34, 343)
+        ComboBox1.Location = New Point(34, 371)
+        Label4.Location = New Point(34, 422)
+        TrackBar1.Location = New Point(34, 450)
+        TrackBar1.Size = New Size(249, 56)
 
         ' Load default services in Panel2
         LoadDefaultServices()
