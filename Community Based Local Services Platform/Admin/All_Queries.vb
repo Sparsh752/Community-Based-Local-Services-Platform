@@ -17,10 +17,11 @@
     End Sub
     Private Sub All_Queries_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
+        Me.FormBorderStyle = FormBorderStyle.None
         DataGridView1.ColumnHeadersDefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
         DataGridView1.DefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
-        DataGridView1.Margin = New Padding(50)
-        DataGridView1.Location = New Point(0, 65)
+        Me.Size = New Size(1200, 700)
+        DataGridView1.Location = New Point(0, 0)
         DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
         DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
         DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
