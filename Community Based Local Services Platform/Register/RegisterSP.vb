@@ -284,7 +284,6 @@ Public Class RegisterSP
         End If
 
         Dim customerID = -1
-        Dim connectionString = "server=172.16.114.199;userid=admin;password=istrator;database=communityservice;sslmode=none"
 
     End Sub
     Private Sub PopulateCountriesDropdown()
