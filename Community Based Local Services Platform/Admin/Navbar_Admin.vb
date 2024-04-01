@@ -1,7 +1,12 @@
 ﻿Public Class Navbar_Admin
     ' Method to highlight the active button
     Public Panel3 As New Panel()
+    Public line As New Panel()
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        line.BackColor = ColorTranslator.FromHtml("#F9754B")
+        line.Size = New Size(52, 2)
+        line.Location = New Point(954, 47)
+        Panel1.Controls.Add(line)
         SessionManager.Panel3 = Panel3
         ' Highlight the Home button by default
         Me.CenterToParent()

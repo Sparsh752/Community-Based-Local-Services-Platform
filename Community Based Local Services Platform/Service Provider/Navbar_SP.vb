@@ -10,9 +10,14 @@
     'End Sub
     ' 0F2A37
     ' Method to highlight the active button
+    Public line As New Panel()
     Public Panel3 As New Panel()
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Highlight the Home button by default
+        line.BackColor = ColorTranslator.FromHtml("#F9754B")
+        line.Size = New Size(52, 2)
+        line.Location = New Point(715, 47)
+        Panel1.Controls.Add(line)
         SessionManager.Panel3 = Panel3
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
@@ -98,6 +103,8 @@
 
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
+        line.Size = New Size(52, 2)
+        line.Location = New Point(715, 47)
         'SetActiveForm(Homepage)
         With Homepage_SP
             .TopLevel = False
@@ -111,6 +118,8 @@
 
     Private Sub BtnAppointment_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
+        line.Size = New Size(110, 2)
+        line.Location = New Point(791, 47)
         'SetActiveForm(Appointment)
         With AppointmentList_SP
             .TopLevel = False
@@ -137,6 +146,8 @@
     Private Sub BtnQueries_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Queries)
+        line.Size = New Size(70, 2)
+        line.Location = New Point(909, 47)
         With Queries_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill

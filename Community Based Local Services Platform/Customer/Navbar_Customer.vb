@@ -11,7 +11,14 @@
     ' 0F2A37
     ' Method to highlight the active button
     Public Panel3 As New Panel()
+    Public line As New Panel()
+
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        line.BackColor = ColorTranslator.FromHtml("#F9754B")
+        line.Size = New Size(52, 2)
+        line.Location = New Point(632, 47)
+        Panel1.Controls.Add(line)
         ' Highlight the Home button by default
         SessionManager.Panel3 = Panel3
         Me.CenterToParent()
@@ -110,7 +117,8 @@
 
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
-
+        line.Size = New Size(52, 2)
+        line.Location = New Point(632, 47)
         ' Load the default services on Homepage_Customer form
         Dim homepageForm As New Homepage_Customer()
         homepageForm.TopLevel = False
@@ -124,6 +132,8 @@
     Private Sub BtnAppointment_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Appointment)
+        line.Size = New Size(110, 2)
+        line.Location = New Point(707, 47)
         With AppointmentList_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
@@ -137,6 +147,8 @@
     Private Sub BtnProfile_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Profile)
+        line.Size = New Size(60, 2)
+        line.Location = New Point(825, 47)
         With Profile_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
@@ -149,6 +161,8 @@
     Private Sub BtnQueries_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         'SetActiveForm(Queries)
+        line.Size = New Size(70, 2)
+        line.Location = New Point(909, 47)
         With Queries_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
