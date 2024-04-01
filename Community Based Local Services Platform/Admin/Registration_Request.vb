@@ -1,6 +1,10 @@
 ﻿Imports System.IO
 
 Public Class Registration_Request
+
+    Public VerifiedSPs As DataTable = New DataTable()
+    Public NotVerifiedSPs As DataTable = New DataTable()
+
     Private Sub Page_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Configure the form
         Me.CenterToParent()
@@ -19,6 +23,10 @@ Public Class Registration_Request
         Main_Panel.Location = New Point(98, 138)
         Main_Panel.AutoScroll = True
         Me.Controls.Add(Main_Panel)
+
+        RetrieveNotVerifiedSP()
+        RetrieveVerifiedSP()
+
         ' Create some sample cards
         For i As Integer = 1 To 10 ' Adjust the number of cards for demonstration
             ' Dim card As New Card("pic.png", "Service Provider Name", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", "Location", "Contact", "Experience", "Services from 09:00 AM to 05:00 PM  ")
@@ -123,6 +131,49 @@ Public Class Registration_Request
             card.Location = New Point(0, (i - 1) * 224)
             Main_Panel.Controls.Add(card)
         Next
+
+    End Sub
+
+    Private Sub RetrieveVerifiedSP()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM ServiceProviders as sp JOIN ContactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Approved'"
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            VerifiedSPs.Load(reader)
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        End Try
+
+    End Sub
+
+    Private Sub RetrieveNotVerifiedSP()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM ServiceProviders as sp JOIN ContactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Pending'"
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            NotVerifiedSPs.Load(reader)
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        End Try
+
     End Sub
 
 End Class
