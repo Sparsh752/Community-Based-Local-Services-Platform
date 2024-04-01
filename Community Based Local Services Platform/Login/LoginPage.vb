@@ -87,13 +87,12 @@
 
     Private Function GetCustomerID(ByVal email As String, ByVal password As String) As Integer
         Dim customerID As Integer = -1
-        Dim connectionString As String = SessionManager.connectionString
 
         ' Query to retrieve customer's ID based on email and password
         Dim query As String = "SELECT userID FROM Users " &
             "WHERE email = @Email And password = @Password and userType = @UserType"
 
-        Using connection As New MySqlConnection(connectionString)
+        Using connection As New MySqlConnection(SessionManager.connectionString)
             Using command As New MySqlCommand(query, connection)
                 command.Parameters.AddWithValue("@Email", email)
                 command.Parameters.AddWithValue("@Password", password)

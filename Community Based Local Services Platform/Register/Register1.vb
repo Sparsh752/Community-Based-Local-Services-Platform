@@ -59,13 +59,13 @@ Public Class Register1
         confirm_Text.PasswordChar = "*"
         password_Text.PasswordChar = "*"
 
-        email_Text.Text = "b.balaji.s@iitg.ac.in"
-        name_Text.Text = "Balaji"
-        phone_Text.Text = "7777777777"
-        password_Text.Text = "tt"
-        confirm_Text.Text = "tt"
-        locationDropdown.Text = "Chennai"
-        address.Text = "wuirkwg"
+        'email_Text.Text = "b.balaji.s@iitg.ac.in"
+        'name_Text.Text = "Balaji"
+        'phone_Text.Text = "7777777777"
+        'password_Text.Text = "tt"
+        'confirm_Text.Text = "tt"
+        'locationDropdown.Text = "Chennai"
+        'address.Text = "wuirkwg"
 
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles email_Text.TextChanged
