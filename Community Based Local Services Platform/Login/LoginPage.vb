@@ -154,5 +154,24 @@
         Application.Exit()
     End Sub
 
+    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
 
+        If SessionManager.userType = "Service Provider" Then
+            Dim registerSpForm As New RegisterSP()
+            RegisterSP.Show()
+            Me.Hide()
+
+        ElseIf SessionManager.userType = "Customer" Then
+            Dim register1Form As New Register1()
+            register1Form.Show()
+            Me.Hide()
+
+        Else
+            MessageBox.Show("New Admin cannot register,Please try logging in.")
+        End If
+
+
+
+
+    End Sub
 End Class
