@@ -28,10 +28,10 @@ Public Class Display_Services
         serviceProviders.Add(New ServiceProvider() With {.Name = "Cleaner", .Description = "Offers professional cleaning services", .Cost = "8000", .ServiceName = "Cleaning Services", .Ratings = 5, .Location = "Chennai", .TimeSlots = "7:00 AM - 3:00 PM"})
         serviceProviders.Add(New ServiceProvider() With {.Name = "Painter", .Description = "Specializes in interior and exterior painting", .Cost = "9000", .ServiceName = "Painting Services", .Ratings = 4, .Location = "Kolkata", .TimeSlots = "9:00 AM - 6:00 PM"})
         serviceProviders.Add(New ServiceProvider() With {.Name = "Carpenter", .Description = "Skilled in carpentry and woodworking", .Cost = "8500", .ServiceName = "Carpentry Services", .Ratings = 3, .Location = "Hyderabad", .TimeSlots = "8:00 AM - 5:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Mover", .Description = "Offers moving and relocation services", .Cost = "7500", .ServiceName = "Moving Services", .Ratings = 4, .Location = "Pune", .TimeSlots = "10:00 AM - 6:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Tutor", .Description = "Provides tutoring services for various subjects", .Cost = "6500", .ServiceName = "Tutoring Services", .Ratings = 4, .Location = "Ahmedabad", .TimeSlots = "4:00 PM - 8:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs and installation", .Cost = "7000", .ServiceName = "Electrical Services", .Ratings = 2, .Location = "Jaipur", .TimeSlots = "8:00 AM - 4:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Offers plumbing solutions for households and businesses", .Cost = "6500", .ServiceName = "Plumbing Services", .Ratings = 3, .Location = "Lucknow", .TimeSlots = "9:00 AM - 6:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Mover", .Description = "Offers moving and relocation services", .Cost = "7500", .ServiceName = "Moving Services", .Ratings = 4, .Location = "Mumbai", .TimeSlots = "10:00 AM - 6:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Tutor", .Description = "Provides tutoring services for various subjects", .Cost = "6500", .ServiceName = "Tutoring Services", .Ratings = 4, .Location = "Delhi", .TimeSlots = "4:00 PM - 8:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs and installation", .Cost = "7000", .ServiceName = "Electrical Services", .Ratings = 2, .Location = "Hyderabad", .TimeSlots = "8:00 AM - 4:00 PM"})
+        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Offers plumbing solutions for households and businesses", .Cost = "6500", .ServiceName = "Plumbing Services", .Ratings = 3, .Location = "Chennai", .TimeSlots = "9:00 AM - 6:00 PM"})
 
         ' Display the default data
         DisplayDefault()
@@ -106,7 +106,7 @@ Public Class Display_Services
     End Sub
 
     ' Method to update services based on search criteria
-    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Integer, maxRating As Integer)
+    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Integer, maxRating As Integer, locationCriteria As String)
         ' Clear existing controls from the form
         Me.Controls.Clear()
 
@@ -128,11 +128,11 @@ Public Class Display_Services
             (provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
             provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
             provider.ServiceName.ToLower().Contains(searchCriteria.ToLower())) And
-            (Integer.TryParse(provider.Cost, Nothing) AndAlso
-            (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.Parse(provider.Cost) >= minCost) AndAlso
-            (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.Parse(provider.Cost) <= maxCost)) AndAlso
-            provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating
-        ).ToList()
+            (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) >= minCost) AndAlso
+            (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) <= maxCost) AndAlso
+            provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating AndAlso
+            (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower())
+            ).ToList()
 
             ' Check if there are any results
             If filteredProviders.Count = 0 Then

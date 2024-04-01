@@ -116,6 +116,7 @@ Public Class SP_profile
             newButton.FlatStyle = FlatStyle.Flat
             newButton.FlatAppearance.BorderSize = 0
             newButton.Padding = New Padding(newButton.Padding.Left, newButton.Padding.Top, newButton.Padding.Right, newButton.Padding.Bottom - 10)
+            AddHandler newButton.Click, AddressOf BookNowButton_Click
             groupBox.Controls.Add(newButton)
 
             yPosition += groupSize.Height + groupSpacing
@@ -155,4 +156,29 @@ Public Class SP_profile
         Next
 
     End Sub
+
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
+        End If
+    End Sub
+
+    Private Sub BookNowButton_Click(sender As Object, e As EventArgs)
+        RemovePreviousForm()
+
+        Dim str As String = "Proceed to Pay"
+        Dim appointmentBookingForm As New Appointment_booking(str)
+
+        With appointmentBookingForm
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(appointmentBookingForm)
+            .BringToFront()
+            .Show()
+        End With
+
+    End Sub
+
 End Class
