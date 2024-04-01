@@ -1,7 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
-Imports System.Data.SqlClient
 Imports System.IO
-Imports Microsoft.Data.SqlClient
+Imports System.Data.SqlClient
 
 Public Class Register1
     Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
@@ -60,12 +59,19 @@ Public Class Register1
         confirm_Text.PasswordChar = "*"
         password_Text.PasswordChar = "*"
 
-
+        email_Text.Text = "b.balaji.s@iitg.ac.in"
+        name_Text.Text = "Balaji"
+        phone_Text.Text = "7777777777"
+        password_Text.Text = "tt"
+        confirm_Text.Text = "tt"
+        locationDropdown.Text = "Chennai"
+        address.Text = "wuirkwg"
 
     End Sub
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles email_Text.TextChanged
         ' Call the function to validate the email format
         ValidateEmailFormat(email_Text.Text)
+        SessionManager.mailVerified = False
     End Sub
 
     Private Sub phone_Text_KeyPress(sender As Object, e As KeyPressEventArgs) Handles phone_Text.KeyPress
@@ -128,57 +134,6 @@ Public Class Register1
         End If
     End Function
 
-    Private Sub SendData()
-        Dim connectionString As String = "server=172.16.114.199;userid=admin;password=istrator;database=communityservice;sslmode=none"
-
-        Using connection As New MySqlConnection(connectionString)
-            connection.Open()
-            ' Check if the email already exists
-            Dim emailExists As Boolean = False
-            Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM Users WHERE email = @email"
-            Using checkEmailCommand As New MySqlCommand(checkEmailCommandText, connection)
-                checkEmailCommand.Parameters.AddWithValue("@email", email_Text.Text)
-                Dim count As Integer = Convert.ToInt32(checkEmailCommand.ExecuteScalar())
-                If count > 0 Then
-                    emailExists = True
-                End If
-            End Using
-
-            If emailExists Then
-                MessageBox.Show("Email already exists. Please use a different email address.")
-            Else
-                ' Insert into the users table
-                Dim userId As Integer = 0
-                Dim insertUserCommandText As String = "INSERT INTO Users (userName, userType, email, password) VALUES (@usrname, @usrtype, @email, @password); SELECT SCOPE_IDENTITY();"
-                Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
-                    insertUserCommand.Parameters.AddWithValue("@usrname", name_Text.Text)
-                    insertUserCommand.Parameters.AddWithValue("@usrtype", "Customer")
-                    insertUserCommand.Parameters.AddWithValue("@email", email_Text.Text)
-                    insertUserCommand.Parameters.AddWithValue("@password", password_Text.Text)
-                    userId = Convert.ToInt32(insertUserCommand.ExecuteScalar()) ' Get the userID of the inserted user
-                End Using
-
-                If userId > 0 Then
-                    ' Insert into the contactDetails table
-                    Dim insertContactCommandText As String = "INSERT INTO contactDetails (userID, email, address, location) VALUES (@userID, @email, @address, @location)"
-                    Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
-                        insertContactCommand.Parameters.AddWithValue("@userID", userId)
-                        insertContactCommand.Parameters.AddWithValue("@email", email_Text.Text)
-                        insertContactCommand.Parameters.AddWithValue("@address", address.Text)
-                        insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString()) ' Assuming dropdownLocation is the name of your dropdown
-                        If insertContactCommand.ExecuteNonQuery() = 1 Then
-                            MessageBox.Show("User Inserted")
-                        Else
-                            MessageBox.Show("User Not Inserted")
-                        End If
-                    End Using
-
-                Else
-                    MessageBox.Show("Error inserting user.")
-                End If
-            End If
-        End Using
-    End Sub
 
     Private Sub RegisterSubmitBtn_Click(sender As Object, e As EventArgs) Handles RegisterSubmitBtn.Click
         ' Check if the text in the password_Text and confirm_Text textboxes match
@@ -203,21 +158,99 @@ Public Class Register1
             Return ' Exit the event handler
         End If
 
-        If password_Text.Text = confirm_Text.Text Then
-            ' Passwords match, proceed with registration process
-            ' Add your registration logic here
-            'MessageBox.Show("Passwords match. Proceed with registration.")
-        Else
+        If password_Text.Text <> confirm_Text.Text Then
             ' Passwords don't match, display error message
             MessageBox.Show("Passwords do not match. Please re-enter the passwords.")
             ' Clear the text in the textboxes to allow the user to re-enter the passwords
             password_Text.Clear()
             confirm_Text.Clear()
 
+            Return
+
         End If
 
-        SendData()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Try
+                connection.Open()
+                ' Check if the email already exists
+                Dim emailExists As Boolean = False
+                Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM Users WHERE email = @email"
+                Using checkEmailCommand As New MySqlCommand(checkEmailCommandText, connection)
+                    checkEmailCommand.Parameters.AddWithValue("@email", email_Text.Text)
+                    Dim count As Integer = Convert.ToInt32(checkEmailCommand.ExecuteScalar())
+                    If count > 0 Then
+                        emailExists = True
+                    End If
+                End Using
+
+                If emailExists Then
+                    MessageBox.Show("Email already exists. Please use a different email address.")
+                    Return
+                End If
+            Catch ex As Exception
+                MessageBox.Show("An error occurred: " & ex.Message)
+                Return
+            End Try
+        End Using
+
+        If Not SessionManager.mailVerified Then
+            Dim twofa As New TwoFA()
+            twofa.Show()
+
+            Return
+        End If
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            'Dim transaction As MySqlTransaction = connection.BeginTransaction()
+            'transaction.Commit()
+            Try
+                connection.Open()
+
+                ' Insert into the users table
+                Dim insertUserCommandText As String = "INSERT INTO Users (userName, userType, email, password) VALUES (@usrname, @usrtype, @email, @password);"
+                Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
+                    insertUserCommand.Parameters.AddWithValue("@usrname", name_Text.Text)
+                    insertUserCommand.Parameters.AddWithValue("@usrtype", "Customer")
+                    insertUserCommand.Parameters.AddWithValue("@email", email_Text.Text)
+                    insertUserCommand.Parameters.AddWithValue("@password", password_Text.Text)
+                    insertUserCommand.ExecuteNonQuery()
+                End Using
+
+                ' Insert into the contactDetails table
+                Dim insertContactCommandText As String = "INSERT INTO contactDetails (userID, email, address, location) VALUES (@userID, @email, @address, @location)"
+                Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
+                    insertContactCommand.Parameters.AddWithValue("@userID", userID)
+                    insertContactCommand.Parameters.AddWithValue("@email", email_Text.Text)
+                    insertContactCommand.Parameters.AddWithValue("@address", address.Text)
+                    insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString()) ' Assuming dropdownLocation is the name of your dropdown
+                    insertContactCommand.ExecuteNonQuery()
+                End Using
+
+                Dim getUserIdCommandText As String = "SELECT userID FROM Users WHERE email = @email"
+                Using getUserIdCommand As New MySqlCommand(getUserIdCommandText, connection)
+                    getUserIdCommand.Parameters.AddWithValue("@email", email_Text.Text)
+                    Dim userid = Convert.ToInt32(getUserIdCommand.ExecuteScalar())
+                    SessionManager.userID = userid
+                End Using
+
+                'transaction.Commit()
+
+            Catch ex As Exception
+                'transaction.Rollback()
+
+                MessageBox.Show("An error occurred: " & ex.Message)
+                Return
+            End Try
+        End Using
+
+        Dim loginform As New LoginPage()
+        loginform.Show()
+
+        Me.Hide()
+
+
     End Sub
+
     Private Sub PopulateCountriesDropdown()
         ' Add countries manually to the dropdown list
         Dim megacitiesOfIndia As String() = {

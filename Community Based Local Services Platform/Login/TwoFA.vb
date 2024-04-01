@@ -133,8 +133,9 @@ Public Class TwoFA
         If validTime > 0 Then
             If otp.Equals(randomCode) Then
                 timer.Stop()
-                MessageBox.Show("Login successful...")
-                'register()
+
+                SessionManager.mailVerified = True
+                Me.Dispose()
             Else
                 MessageBox.Show("Enter correct code", "Incorrect code", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
