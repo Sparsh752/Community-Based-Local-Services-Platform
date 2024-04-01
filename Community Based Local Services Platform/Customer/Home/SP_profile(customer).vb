@@ -18,24 +18,21 @@ Public Class SP_profile
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
 
-        Label1.Location = New Point(55, 80)
-        Label5.Location = New Point(20, 34)
-        Label2.Location = New Point(55, 138)
-        Label3.Location = New Point(161, 138)
-        Label4.Location = New Point(485, 138)
-        Panel1.Location = New Point(843, 65)
-        Panel6.Location = New Point(10, 64)
+        Label1.Location = New Point(55, 99)
+        Label1.Size = New Size(318, 28)
 
-        Dim textSize As Size = Label2.Location
-        Label2.Location = textSize
-        textSize.Width = textSize.Width + Label2.Size.Width
-        Label6.Location = New Point(textSize.Width - 5, textSize.Height - 13)
-        textSize.Width = textSize.Width + Label6.Size.Width - 5
-        Label3.Location = textSize
-        textSize.Width = textSize.Width + Label3.Size.Width
-        Label7.Location = New Point(textSize.Width - 5, textSize.Height - 13)
-        textSize.Width = textSize.Width + Label7.Size.Width - 5
-        Label4.Location = textSize
+        Label2.Location = New Point(55, 168)
+        Label2.Size = New Size(80, 28)
+        Label3.Location = New Point(161, 168)
+        Label3.Size = New Size(300, 28)
+        Label4.Location = New Point(485, 168)
+        Label4.Size = New Size(115, 28)
+
+        Label5.Location = New Point(34, 101)
+        Label5.Size = New Size(115, 28)
+
+        Panel1.Width = 359
+        Panel2.Height = 571
 
 
         Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
@@ -124,13 +121,13 @@ Public Class SP_profile
         Dim numItems As Integer = 10
 
         Dim yPosition2 As Integer = 38
-        Panel6.AutoScroll = True
+        Panel2.AutoScroll = True
         For i As Integer = 1 To numItems
             Dim itemPanel As New Panel()
             itemPanel.Size = New Size(275, 125)
             itemPanel.Location = New Point(16, yPosition2)
             itemPanel.BackColor = ColorTranslator.FromHtml("#FFFFFF")
-            Panel6.Controls.Add(itemPanel)
+            Panel2.Controls.Add(itemPanel)
 
             Dim headingLabel As New Label()
             headingLabel.Text = "Name " & i

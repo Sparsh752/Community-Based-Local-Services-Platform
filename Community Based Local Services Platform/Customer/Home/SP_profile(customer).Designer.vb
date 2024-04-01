@@ -27,7 +27,7 @@ Partial Class SP_profile
         Label3 = New Label()
         Label4 = New Label()
         Panel1 = New Panel()
-        Panel6 = New Panel()
+        Panel2 = New Panel()
         Label5 = New Label()
         BackgroundWorker1 = New ComponentModel.BackgroundWorker()
         Label6 = New Label()
@@ -77,28 +77,29 @@ Partial Class SP_profile
         ' 
         ' Panel1
         ' 
+        Panel1.Anchor = AnchorStyles.None
         Panel1.BackColor = Color.FromArgb(CByte(237), CByte(237), CByte(237))
-        Panel1.Controls.Add(Panel6)
+        Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(Label5)
-        Panel1.Dock = DockStyle.Right
         Panel1.Location = New Point(955, 0)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(416, 928)
         Panel1.TabIndex = 4
         ' 
-        ' Panel6
+        ' Panel2
         ' 
-        Panel6.Location = New Point(17, 148)
-        Panel6.Name = "Panel6"
-        Panel6.Size = New Size(367, 655)
-        Panel6.TabIndex = 11
+        Panel2.Dock = DockStyle.Bottom
+        Panel2.Location = New Point(0, 158)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(416, 770)
+        Panel2.TabIndex = 11
         ' 
         ' Label5
         ' 
         Label5.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
-        Label5.Location = New Point(17, 58)
+        Label5.Location = New Point(34, 101)
         Label5.Name = "Label5"
         Label5.Size = New Size(96, 30)
         Label5.TabIndex = 1
@@ -153,7 +154,7 @@ Partial Class SP_profile
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label5 As Label
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents Panel6 As Panel
+    Friend WithEvents Panel2 As Panel
     Friend WithEvents Label6 As Label
     Friend WithEvents Label7 As Label
 End Class
