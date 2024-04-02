@@ -53,8 +53,23 @@
 
     End Sub
 
-    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs)
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+        ' Check if the clicked cell is the "View" button column
+        If e.ColumnIndex = DataGridView1.Columns("View").Index AndAlso e.RowIndex >= 0 Then
+            ' Handle the "View" button click for the specific row
+            Dim appointmentId As String = DataGridView1.Rows(e.RowIndex).Cells("AppointmentID").Value.ToString()
+            ' You can perform actions based on the appointment ID, such as opening a new form or displaying details
+            ' Check if a Reply_Query form is already open
+            For Each form As Form In Application.OpenForms
+                If TypeOf form Is View_Query_Customer Then
+                    form.Close()
+                    Exit For ' Exit loop once a form is closed
+                End If
+            Next
 
+            Dim Query As New View_Query_Customer()
+            Query.Show()
+        End If
     End Sub
 
 End Class
