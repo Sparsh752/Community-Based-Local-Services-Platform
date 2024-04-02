@@ -2,7 +2,7 @@
 
 
 Public Class Homepage_SP
-    Private Sub RemovePreviousForm()
+    Public Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
         If SessionManager.Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5

@@ -109,14 +109,6 @@ Public Class Navbar_Customer
             .Show()
         End With
     End Sub
-    Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
-        If Panel3.Controls.Count > 0 Then
-            ' Remove the first control (form) from Panel5
-            Panel3.Controls.Clear()
-        End If
-    End Sub
-
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         line.Size = New Size(52, 2)
@@ -232,6 +224,14 @@ Public Class Navbar_Customer
     End Sub
 
     ' Method to handle navigation to SP_profile form
+    Private Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If SessionManager.Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            SessionManager.Panel3.Controls.Clear()
+        End If
+    End Sub
+
     Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
 
@@ -241,14 +241,16 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        ' Clear existing controls from Panel3
-        Panel3.Controls.Clear()
+        RemovePreviousForm()
+        spProfileForm.Margin = New Padding(0, 0, 0, 0)
+        With spProfileForm
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            SessionManager.Panel3.Controls.Add(spProfileForm)
+            .BringToFront()
+            .Show()
+        End With
 
-        ' Add SP_profile form to Panel3
-        Panel3.Controls.Add(spProfileForm)
-
-        ' Show the form
-        spProfileForm.Show()
     End Sub
 
     Public Sub PictureBox_Click(sender As Object, e As EventArgs)
@@ -260,14 +262,15 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        ' Clear existing controls from Panel3
-        Panel3.Controls.Clear()
-
-        ' Add SP_profile form to Panel3
-        Panel3.Controls.Add(spProfileForm)
-
-        ' Show the form
-        spProfileForm.Show()
+        RemovePreviousForm()
+        spProfileForm.Margin = New Padding(0, 0, 0, 0)
+        With spProfileForm
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            SessionManager.Panel3.Controls.Add(spProfileForm)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
     ' Event handler for Label click
@@ -280,14 +283,15 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        ' Clear existing controls from Panel3
-        Panel3.Controls.Clear()
-
-        ' Add SP_profile form to Panel3
-        Panel3.Controls.Add(spProfileForm)
-
-        ' Show the form
-        spProfileForm.Show()
+        RemovePreviousForm()
+        spProfileForm.Margin = New Padding(0, 0, 0, 0)
+        With spProfileForm
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            SessionManager.Panel3.Controls.Add(spProfileForm)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
 End Class

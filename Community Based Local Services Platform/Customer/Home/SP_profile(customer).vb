@@ -80,7 +80,7 @@ Public Class SP_profile
             groupBox.Controls.Add(im)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Heading" & i
+            headingLabel.Text = "Service " & i
             headingLabel.Font = New Font("Arial", 12, FontStyle.Bold)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(200, 20)
@@ -88,7 +88,7 @@ Public Class SP_profile
             groupBox.Controls.Add(headingLabel)
 
             Dim subheadingLabel As New Label()
-            subheadingLabel.Text = "Subheading"
+            subheadingLabel.Text = "Rate: Rs 500"
             subheadingLabel.Font = New Font("Arial", 10)
             subheadingLabel.AutoSize = True
             subheadingLabel.Location = New Point(200, 50)
