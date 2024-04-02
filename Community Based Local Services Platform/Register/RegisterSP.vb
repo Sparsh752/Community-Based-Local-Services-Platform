@@ -4,6 +4,9 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class RegisterSP
     Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
+
+    Dim isStrongPassword As Boolean = False
+
     Private Sub RegisterSP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
         YearsExperienceDropdown()
@@ -115,6 +118,7 @@ Public Class RegisterSP
         bankNameText.Size = New Size(286, 41)
         branchText.Size = New Size(286, 41)
     End Sub
+
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles emailSP_Text.TextChanged
         ' Call the function to validate the email format
         ValidateEmailFormat(emailSP_Text.Text)
@@ -220,6 +224,7 @@ Public Class RegisterSP
             emailValidationLabel.ForeColor = Color.Red
         End If
     End Sub
+
     Private Function ValidateEmailFormatforSubmit(email As String) As Boolean
         ' Define a regular expression pattern for email validation
         Dim emailPattern As String = "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
@@ -232,6 +237,7 @@ Public Class RegisterSP
             Return False
         End If
     End Function
+
 
     Private Sub RegisterSubmitBtn_Click(sender As Object, e As EventArgs) Handles RegisterSPSubmitBtn.Click
         ' Check if the text in the password_Text and confirm_Text textboxes match

@@ -4,6 +4,9 @@ Imports System.Data.SqlClient
 
 Public Class Register1
     Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
+
+    Dim isStrongPassword As Boolean = False
+
     Private Sub Register1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
         Me.Size = New Size(1200, 700)
@@ -56,14 +59,18 @@ Public Class Register1
         locationDropdown.Font = labelfont
         address.Font = labelfont
 
-        confirm_Text.PasswordChar = "*"
-        password_Text.PasswordChar = "*"
+        emailValidationLabel.Location = New Point(210, 140)
+        labelSize.Location = New Point(400, 431)
+        labelLower.Location = New Point(400, 446)
+        labelUpper.Location = New Point(400, 461)
+        labelNumbers.Location = New Point(400, 476)
+        labelSpecial.Location = New Point(400, 491)
 
         'email_Text.Text = "b.balaji.s@iitg.ac.in"
         'name_Text.Text = "Balaji"
         'phone_Text.Text = "7777777777"
-        'password_Text.Text = "tt"
-        'confirm_Text.Text = "tt"
+        'password_Text.Text = "Helloworld@123"
+        'confirm_Text.Text = "Helloworld@123"
         'locationDropdown.Text = "Chennai"
         'address.Text = "wuirkwg"
 
@@ -134,6 +141,105 @@ Public Class Register1
         End If
     End Function
 
+    Function ContainsUpperCase(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Char.IsUpper(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+    Function ContainsLowerCase(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Char.IsLower(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+    Function ContainsDigit(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Char.IsDigit(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+    Function ContainsSpecialCharacter(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Not Char.IsLetterOrDigit(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+
+    Private Sub password_Text_TextChanged(sender As Object, e As EventArgs) Handles password_Text.TextChanged
+        Dim password As String = password_Text.Text
+
+        Dim checksPassed As Integer = 0
+
+        ' Checking length criteria
+        If password.Length >= 8 Then
+            checksPassed += 1
+            labelSize.Text = "✓" & labelSize.Text.Substring(1)
+            labelSize.ForeColor = Color.Green
+        Else
+            labelSize.Text = "✗" & labelSize.Text.Substring(1)
+            labelSize.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has a digit
+        If ContainsDigit(password) Then
+            checksPassed += 1
+            labelNumbers.Text = "✓" & labelNumbers.Text.Substring(1)
+            labelNumbers.ForeColor = Color.Green
+        Else
+            labelNumbers.Text = "✗" & labelNumbers.Text.Substring(1)
+            labelNumbers.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has a lowercase letter
+        If ContainsLowerCase(password) Then
+            checksPassed += 1
+            labelLower.Text = "✓" & labelLower.Text.Substring(1)
+            labelLower.ForeColor = Color.Green
+        Else
+            labelLower.Text = "✗" & labelLower.Text.Substring(1)
+            labelLower.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has a special character
+        If ContainsSpecialCharacter(password) Then
+            checksPassed += 1
+            labelSpecial.Text = "✓" & labelSpecial.Text.Substring(1)
+            labelSpecial.ForeColor = Color.Green
+        Else
+            labelSpecial.Text = "✗" & labelSpecial.Text.Substring(1)
+            labelSpecial.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has an uppercase letter
+        If ContainsUpperCase(password) Then
+            checksPassed += 1
+            labelUpper.Text = "✓" & labelUpper.Text.Substring(1)
+            labelUpper.ForeColor = Color.Green
+        Else
+            labelUpper.Text = "✗" & labelUpper.Text.Substring(1)
+            labelUpper.ForeColor = Color.Red
+        End If
+
+        If checksPassed < 5 Then
+            Return
+        End If
+
+        isStrongPassword = True
+    End Sub
+
 
     Private Sub RegisterSubmitBtn_Click(sender As Object, e As EventArgs) Handles RegisterSubmitBtn.Click
         ' Check if the text in the password_Text and confirm_Text textboxes match
@@ -166,8 +272,14 @@ Public Class Register1
             password_Text.Clear()
             confirm_Text.Clear()
 
+            isStrongPassword = False
             Return
 
+        End If
+
+        If Not isStrongPassword Then
+            MessageBox.Show("Enter a strong password.")
+            Return
         End If
 
         Using connection As New MySqlConnection(SessionManager.connectionString)
@@ -274,5 +386,9 @@ Public Class Register1
         Dim loginForm As New LoginPage()
         loginForm.Show()
         Me.Hide()
+    End Sub
+
+    Private Sub FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Application.Exit()
     End Sub
 End Class
