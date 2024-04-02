@@ -4,6 +4,9 @@
     Dim standardColor As Color = ColorTranslator.FromHtml("#F1F1F1")
     Private Sub LandingPage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' here you have to add the logic of checking the shared variable for current user
+
+        Panel3.BackColor = Color.White
+
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.BackColor = ColorTranslator.FromHtml("#FFFFFF")
