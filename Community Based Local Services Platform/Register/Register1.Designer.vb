@@ -184,7 +184,6 @@ Partial Class Register1
         password_Text.BorderStyle = BorderStyle.FixedSingle
         password_Text.Location = New Point(138, 431)
         password_Text.Name = "password_Text"
-        password_Text.PasswordChar = "*"c
         password_Text.Size = New Size(288, 28)
         password_Text.TabIndex = 20
         ' 
@@ -194,7 +193,6 @@ Partial Class Register1
         confirm_Text.BorderStyle = BorderStyle.FixedSingle
         confirm_Text.Location = New Point(138, 530)
         confirm_Text.Name = "confirm_Text"
-        confirm_Text.PasswordChar = "*"c
         confirm_Text.Size = New Size(292, 28)
         confirm_Text.TabIndex = 21
         ' 

@@ -59,14 +59,18 @@ Public Class Register1
         locationDropdown.Font = labelfont
         address.Font = labelfont
 
-        confirm_Text.PasswordChar = "*"
-        password_Text.PasswordChar = "*"
+        emailValidationLabel.Location = New Point(210, 140)
+        labelSize.Location = New Point(400, 431)
+        labelLower.Location = New Point(400, 446)
+        labelUpper.Location = New Point(400, 461)
+        labelNumbers.Location = New Point(400, 476)
+        labelSpecial.Location = New Point(400, 491)
 
         'email_Text.Text = "b.balaji.s@iitg.ac.in"
         'name_Text.Text = "Balaji"
         'phone_Text.Text = "7777777777"
-        'password_Text.Text = "tt"
-        'confirm_Text.Text = "tt"
+        'password_Text.Text = "Helloworld@123"
+        'confirm_Text.Text = "Helloworld@123"
         'locationDropdown.Text = "Chennai"
         'address.Text = "wuirkwg"
 
@@ -268,6 +272,7 @@ Public Class Register1
             password_Text.Clear()
             confirm_Text.Clear()
 
+            isStrongPassword = False
             Return
 
         End If
@@ -383,4 +388,7 @@ Public Class Register1
         Me.Hide()
     End Sub
 
+    Private Sub FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Application.Exit()
+    End Sub
 End Class
