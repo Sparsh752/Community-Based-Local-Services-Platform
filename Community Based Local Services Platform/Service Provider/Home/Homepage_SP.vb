@@ -54,6 +54,7 @@ Public Class Homepage_SP
 
 
     Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs)
+        MessageBox.Show("service is deleted!")
     End Sub
 
 
@@ -162,7 +163,7 @@ Public Class Homepage_SP
             groupBox.Controls.Add(im)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Heading" & i
+            headingLabel.Text = "Service " & i
             headingLabel.Font = New Font("Arial", 12, FontStyle.Bold)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(200, 20)
@@ -170,7 +171,7 @@ Public Class Homepage_SP
             groupBox.Controls.Add(headingLabel)
 
             Dim subheadingLabel As New Label()
-            subheadingLabel.Text = "Subheading"
+            subheadingLabel.Text = "Rate: Rs 500"
             subheadingLabel.Font = New Font("Arial", 10)
             subheadingLabel.AutoSize = True
             subheadingLabel.Location = New Point(200, 50)
