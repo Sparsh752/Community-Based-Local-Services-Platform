@@ -2,6 +2,7 @@
 Imports System.IO
 
 Public Class All_Service_Providers
+    Public VerifiedSPs As DataTable = New DataTable()
     Private Sub Page_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Configure the form
         Me.CenterToParent()
@@ -20,9 +21,11 @@ Public Class All_Service_Providers
         Main_Panel.Location = New Point(98, 138)
         Main_Panel.AutoScroll = True
         Me.Controls.Add(Main_Panel)
+        RetrieveVerifiedSP()
         ' Create some sample cards
-        For i As Integer = 1 To 10 ' Adjust the number of cards for demonstration
+        For i As Integer = 1 To VerifiedSPs.Rows.Count ' Adjust the number of cards for demonstration
             ' Dim card As New Card("pic.png", "Service Provider Name", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", "Location", "Contact", "Experience", "Services from 09:00 AM to 05:00 PM  ")
+            Dim ithRow As DataRow = VerifiedSPs.Rows(i - 1)
             Dim card As New Panel()
             card.Size = New Size(734, 198)
             card.BorderStyle = BorderStyle.FixedSingle
@@ -32,7 +35,7 @@ Public Class All_Service_Providers
             pictureBox.Location = New Point(21, 21)
             pictureBox.Image = My.Resources.Resource1.sample_SP
             Dim label1 As New Label()
-            label1.Text = "Service Provider Name"
+            label1.Text = ithRow("serviceProviderName").ToString()
             label1.AutoSize = False
             label1.Size = New Size(280, 28)
             label1.Location = New Point(208, 22)
@@ -40,7 +43,7 @@ Public Class All_Service_Providers
             label1.ForeColor = Color.FromArgb(0, 0, 0)
 
             Dim label2 As New Label()
-            label2.Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            label2.Text = ithRow("serviceProviderdescription").ToString()
             label2.AutoSize = False
             label2.Size = New Size(490, 47)
             label2.Location = New Point(208, 99)
@@ -48,7 +51,7 @@ Public Class All_Service_Providers
             label2.ForeColor = Color.FromArgb(0, 0, 0)
 
             Dim label3 As New Label()
-            label3.Text = "Location"
+            label3.Text = ithRow("location").ToString()
             label3.AutoSize = False
             label3.Size = New Size(73, 28)
             label3.Location = New Point(208, 50)
@@ -61,7 +64,7 @@ Public Class All_Service_Providers
             ellipsePanel3.BackColor = Color.Black
 
             Dim label4 As New Label()
-            label4.Text = "Contact"
+            label4.Text = ithRow("mobileNumber").ToString()
             label4.AutoSize = False
             label4.Size = New Size(94, 28)
             label4.Location = New Point(314, 50)
@@ -74,7 +77,7 @@ Public Class All_Service_Providers
             ellipsePanel4.BackColor = Color.Black
 
             Dim label5 As New Label()
-            label5.Text = "Experience"
+            label5.Text = ithRow("experienceYears").ToString() & " years"
             label5.AutoSize = False
             label5.Size = New Size(112, 28)
             label5.Location = New Point(424, 50)
@@ -106,6 +109,26 @@ Public Class All_Service_Providers
             card.Location = New Point(0, (i - 1) * 224)
             Main_Panel.Controls.Add(card)
         Next
+    End Sub
+    Private Sub RetrieveVerifiedSP()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM ServiceProviders as sp JOIN ContactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Approved'"
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            VerifiedSPs.Load(reader)
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        End Try
+
     End Sub
 
 End Class
