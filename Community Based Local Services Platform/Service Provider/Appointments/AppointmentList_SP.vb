@@ -5,9 +5,10 @@
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
-
+        TableLayoutPanel1.Hide()
         ' Call the method to add labels to TableLayoutPanel
         AddLabelsToTableLayoutPanel()
+        TableLayoutPanel1.Show()
 
     End Sub
     Private Sub TableLayoutPanel1_Paint(sender As Object, e As PaintEventArgs) Handles TableLayoutPanel1.Paint
