@@ -53,7 +53,7 @@ Partial Class Register1
         ' signUp
         ' 
         signUp.AutoSize = True
-        signUp.Font = New Font("Bahnschrift", 20.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        signUp.Font = New Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         signUp.Location = New Point(138, 69)
         signUp.Name = "signUp"
         signUp.Size = New Size(134, 41)
@@ -205,7 +205,7 @@ Partial Class Register1
         RegisterSubmitBtn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         RegisterSubmitBtn.FlatAppearance.BorderSize = 0
         RegisterSubmitBtn.FlatStyle = FlatStyle.Flat
-        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RegisterSubmitBtn.ForeColor = Color.White
         RegisterSubmitBtn.Location = New Point(901, 552)
         RegisterSubmitBtn.Margin = New Padding(0)
@@ -239,12 +239,12 @@ Partial Class Register1
         Back_btn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Back_btn.FlatAppearance.BorderSize = 0
         Back_btn.FlatStyle = FlatStyle.Flat
-        Back_btn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Back_btn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Back_btn.ForeColor = Color.White
         Back_btn.Location = New Point(1035, 39)
         Back_btn.Margin = New Padding(0)
         Back_btn.Name = "Back_btn"
-        Back_btn.Size = New Size(67, 25)
+        Back_btn.Size = New Size(67, 37)
         Back_btn.TabIndex = 26
         Back_btn.Text = "Back"
         Back_btn.UseVisualStyleBackColor = False
@@ -306,7 +306,7 @@ Partial Class Register1
         ' 
         ' Register1
         ' 
-        AutoScaleDimensions = New SizeF(9.0F, 21.0F)
+        AutoScaleDimensions = New SizeF(9F, 21F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(255))
         ClientSize = New Size(1330, 686)
