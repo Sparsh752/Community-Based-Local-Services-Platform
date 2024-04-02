@@ -155,6 +155,47 @@ Public Class Navbar_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
             Panel3.Controls.Add(Profile_Customer)
+
+            'retrieve data
+
+            ' Dim loadQuery As String = "SELECT email, location, mobileNumber,address FROM ContactDetails WHERE BINARY userID='" & SessionManager.userID & "'"
+            Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName " &
+                          "FROM ContactDetails CD " &
+                          "JOIN Users U ON CD.userID = U.userID " &
+                          "WHERE BINARY CD.userID='" & SessionManager.userID & "'"
+
+            Using connection As New MySqlConnection(SessionManager.connectionString)
+                Using command As New MySqlCommand(loadQuery, connection)
+                    Try
+                        connection.Open()
+                        Dim reader As MySqlDataReader = command.ExecuteReader()
+
+                        If reader.Read() Then
+
+                            Dim cus_email As String = reader("email").ToString()
+                            Dim cus_location As String = reader("location").ToString()
+                            Dim cus_mobile As String = reader("mobileNumber").ToString()
+                            Dim cus_address As String = reader("address").ToString()
+                            Dim cus_username As String = reader("userName").ToString()
+
+
+
+                            ' Set the retrieved values to the corresponding textboxes
+                            Profile_Customer.email_tb.Text = cus_email
+                            Profile_Customer.location_tb.Text = cus_location
+                            Profile_Customer.contact_tb.Text = cus_mobile
+                            Profile_Customer.address_tb.Text = cus_address
+                            Profile_Customer.customerName_tb.Text = cus_username
+
+                        End If
+                    Catch ex As Exception
+                        MessageBox.Show("Error: " & ex.Message)
+                    End Try
+                End Using
+            End Using
+
+
+
             .BringToFront()
             .Show()
         End With

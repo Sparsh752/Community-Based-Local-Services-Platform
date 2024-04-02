@@ -135,6 +135,8 @@
         End If
 
         Dim customerID = GetCustomerID(email, password)
+        'store userid to retrieve profile from database
+        SessionManager.userID = customerID
 
         If customerID > 0 Then
 
