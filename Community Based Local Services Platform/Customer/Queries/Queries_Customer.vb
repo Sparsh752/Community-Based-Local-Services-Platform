@@ -19,7 +19,7 @@
 
     Private Sub Queries_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'DataGridView1.ColumnCount = 6 ' Set the number of columns to 4
-
+        Me.BackColor = Color.White
         DataGridView1.Columns(0).HeaderText = "Query Type"
         DataGridView1.Columns(1).HeaderText = "Appointment ID"
         DataGridView1.Columns(2).HeaderText = "Query Date"

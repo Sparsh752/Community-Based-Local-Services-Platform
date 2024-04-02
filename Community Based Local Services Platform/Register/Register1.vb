@@ -137,6 +137,7 @@ Public Class Register1
 
     Private Sub RegisterSubmitBtn_Click(sender As Object, e As EventArgs) Handles RegisterSubmitBtn.Click
         ' Check if the text in the password_Text and confirm_Text textboxes match
+
         ' Check if any of the textboxes are empty
         If String.IsNullOrWhiteSpace(email_Text.Text) OrElse
         String.IsNullOrWhiteSpace(name_Text.Text) OrElse
@@ -192,7 +193,7 @@ Public Class Register1
                 Return
             End Try
         End Using
-
+        SessionManager.userEmail = email_Text.Text
         If Not SessionManager.mailVerified Then
             Dim twofa As New TwoFA()
             twofa.Show()
@@ -217,7 +218,7 @@ Public Class Register1
                 End Using
 
                 ' Insert into the contactDetails table
-                Dim insertContactCommandText As String = "INSERT INTO contactDetails (userID, email, address, location) VALUES (@userID, @email, @address, @location)"
+                Dim insertContactCommandText As String = "INSERT INTO ContactDetails (userID, email, address, location) VALUES (@userID, @email, @address, @location)"
                 Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
                     insertContactCommand.Parameters.AddWithValue("@userID", userID)
                     insertContactCommand.Parameters.AddWithValue("@email", email_Text.Text)

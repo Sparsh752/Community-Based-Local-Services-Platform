@@ -3,8 +3,6 @@ Imports System.Net.Mail
 Imports System.Reflection.Emit
 
 Public Class TwoFA
-    Dim userEmail As String = "b.balaji.s@iitg.ac.in"
-
     Dim currentIndex As Integer = 0
     Dim randomCode As String
     Dim validTime As Integer = 60
@@ -153,7 +151,7 @@ Public Class TwoFA
             Dim SmtpServer As New SmtpClient("smtp.gmail.com")
 
             mail.From = New MailAddress("communityserviceiitg@gmail.com")
-            mail.To.Add(userEmail)
+            mail.To.Add(SessionManager.userEmail)
             mail.Subject = "Two-Factor Authentication Code"
             mail.Body = "COMMUNITY BASED LOCAL SERVICES PLATFORM" & vbCrLf &
                 "Verification Code: " & randomCode & vbCrLf &

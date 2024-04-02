@@ -16,6 +16,7 @@
         End If
     End Sub
     Private Sub All_Queries_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.BackColor = Color.White
         Me.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
         Me.FormBorderStyle = FormBorderStyle.None
         DataGridView1.ColumnHeadersDefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
