@@ -204,7 +204,7 @@ Partial Class InProgressPaymentNotDone
         ' 
         TextBox9.BorderStyle = BorderStyle.None
         TextBox9.Font = New Font("Bahnschrift Light", 16F)
-        TextBox9.Location = New Point(204, 687)
+        TextBox9.Location = New Point(208, 750)
         TextBox9.Margin = New Padding(0)
         TextBox9.Name = "TextBox9"
         TextBox9.Size = New Size(122, 39)
@@ -215,7 +215,7 @@ Partial Class InProgressPaymentNotDone
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Bahnschrift", 16F)
-        Label7.Location = New Point(114, 687)
+        Label7.Location = New Point(118, 750)
         Label7.Margin = New Padding(0)
         Label7.Name = "Label7"
         Label7.Size = New Size(90, 39)
@@ -225,20 +225,20 @@ Partial Class InProgressPaymentNotDone
         ' Label8
         ' 
         Label8.Font = New Font("Bahnschrift", 10F)
-        Label8.Location = New Point(116, 695)
+        Label8.Location = New Point(125, 802)
         Label8.Margin = New Padding(0)
         Label8.Name = "Label8"
-        Label8.Size = New Size(526, 27)
+        Label8.Size = New Size(526, 26)
         Label8.TabIndex = 16
         Label8.Text = "Share this otp with the service provider"
         ' 
         ' Label9
         ' 
         Label9.Font = New Font("Bahnschrift", 10F)
-        Label9.Location = New Point(116, 722)
+        Label9.Location = New Point(125, 829)
         Label9.Margin = New Padding(0)
         Label9.Name = "Label9"
-        Label9.Size = New Size(308, 27)
+        Label9.Size = New Size(308, 26)
         Label9.TabIndex = 17
         Label9.Text = "after completion of the service."
         ' 
@@ -262,7 +262,7 @@ Partial Class InProgressPaymentNotDone
         Button2.FlatStyle = FlatStyle.Flat
         Button2.Font = New Font("Bahnschrift", 12F)
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(123, 627)
+        Button2.Location = New Point(125, 627)
         Button2.Margin = New Padding(4)
         Button2.Name = "Button2"
         Button2.Size = New Size(261, 60)
@@ -284,12 +284,12 @@ Partial Class InProgressPaymentNotDone
         Button1.Text = "Reschedule"
         Button1.UseVisualStyleBackColor = False
         ' 
-        ' InProgressPaymentNotDone_Customer
+        ' InProgressPaymentNotDone
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(1200, 700)
+        ClientSize = New Size(1279, 918)
         Controls.Add(Button1)
         Controls.Add(Button2)
         Controls.Add(Button3)
@@ -313,7 +313,7 @@ Partial Class InProgressPaymentNotDone
         Controls.Add(TextBox1)
         FormBorderStyle = FormBorderStyle.None
         Margin = New Padding(2)
-        Name = "InProgressPaymentNotDone_Customer"
+        Name = "InProgressPaymentNotDone"
         Text = "Appointmentdetail"
         ResumeLayout(False)
         PerformLayout()
