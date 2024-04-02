@@ -42,16 +42,21 @@ Partial Class Register1
         emailValidationLabel = New Label()
         address = New RichTextBox()
         Back_btn = New Button()
+        labelSize = New Label()
+        labelLower = New Label()
+        labelUpper = New Label()
+        labelNumbers = New Label()
+        labelSpecial = New Label()
         CType(registerProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' signUp
         ' 
         signUp.AutoSize = True
-        signUp.Font = New Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        signUp.Font = New Font("Bahnschrift", 20.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         signUp.Location = New Point(138, 69)
         signUp.Name = "signUp"
-        signUp.Size = New Size(109, 33)
+        signUp.Size = New Size(134, 41)
         signUp.TabIndex = 0
         signUp.Text = "Sign Up"
         ' 
@@ -61,7 +66,7 @@ Partial Class Register1
         registerEmailLabel.Font = New Font("Bahnschrift", 10.2F)
         registerEmailLabel.Location = New Point(138, 124)
         registerEmailLabel.Name = "registerEmailLabel"
-        registerEmailLabel.Size = New Size(43, 17)
+        registerEmailLabel.Size = New Size(53, 21)
         registerEmailLabel.TabIndex = 1
         registerEmailLabel.Text = "Email"
         ' 
@@ -71,7 +76,7 @@ Partial Class Register1
         registerName.Font = New Font("Bahnschrift", 10.2F)
         registerName.Location = New Point(138, 214)
         registerName.Name = "registerName"
-        registerName.Size = New Size(45, 17)
+        registerName.Size = New Size(55, 21)
         registerName.TabIndex = 3
         registerName.Text = "Name"
         ' 
@@ -81,7 +86,7 @@ Partial Class Register1
         registerNumber.Font = New Font("Bahnschrift", 10.2F)
         registerNumber.Location = New Point(138, 308)
         registerNumber.Name = "registerNumber"
-        registerNumber.Size = New Size(74, 17)
+        registerNumber.Size = New Size(87, 21)
         registerNumber.TabIndex = 5
         registerNumber.Text = "Phone No."
         ' 
@@ -91,16 +96,16 @@ Partial Class Register1
         registerPassword.Font = New Font("Bahnschrift", 10.2F)
         registerPassword.Location = New Point(138, 400)
         registerPassword.Name = "registerPassword"
-        registerPassword.Size = New Size(71, 17)
+        registerPassword.Size = New Size(86, 21)
         registerPassword.TabIndex = 7
         registerPassword.Text = "Password"
         ' 
         ' registerConfirm
         ' 
         registerConfirm.AutoSize = True
-        registerConfirm.Location = New Point(199, 462)
+        registerConfirm.Location = New Point(138, 499)
         registerConfirm.Name = "registerConfirm"
-        registerConfirm.Size = New Size(126, 17)
+        registerConfirm.Size = New Size(151, 21)
         registerConfirm.TabIndex = 9
         registerConfirm.Text = "Confirm Password"
         ' 
@@ -108,9 +113,9 @@ Partial Class Register1
         ' 
         registerLocation.AutoSize = True
         registerLocation.Font = New Font("Bahnschrift", 10.2F)
-        registerLocation.Location = New Point(770, 300)
+        registerLocation.Location = New Point(702, 339)
         registerLocation.Name = "registerLocation"
-        registerLocation.Size = New Size(63, 17)
+        registerLocation.Size = New Size(74, 21)
         registerLocation.TabIndex = 11
         registerLocation.Text = "Location"
         ' 
@@ -118,25 +123,28 @@ Partial Class Register1
         ' 
         registerAddress.AutoSize = True
         registerAddress.Font = New Font("Bahnschrift", 10.2F)
-        registerAddress.Location = New Point(770, 382)
+        registerAddress.Location = New Point(702, 420)
         registerAddress.Name = "registerAddress"
-        registerAddress.Size = New Size(61, 17)
+        registerAddress.Size = New Size(73, 21)
         registerAddress.TabIndex = 13
         registerAddress.Text = "Address"
         ' 
         ' locationDropdown
         ' 
+        locationDropdown.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         locationDropdown.FormattingEnabled = True
-        locationDropdown.Location = New Point(770, 334)
+        locationDropdown.Items.AddRange(New Object() {"Mumbai", "Delhi", "Bangalore", "Kolkata", "Chennai", "Hyderabad", "Ahmedabad", "Pune"})
+        locationDropdown.Location = New Point(702, 370)
         locationDropdown.Name = "locationDropdown"
-        locationDropdown.Size = New Size(332, 25)
+        locationDropdown.Size = New Size(332, 29)
         locationDropdown.TabIndex = 15
         ' 
         ' registerProfilePic
         ' 
+        registerProfilePic.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         registerProfilePic.BorderStyle = BorderStyle.FixedSingle
         registerProfilePic.Cursor = Cursors.Hand
-        registerProfilePic.Location = New Point(770, 89)
+        registerProfilePic.Location = New Point(702, 107)
         registerProfilePic.Name = "registerProfilePic"
         registerProfilePic.Size = New Size(332, 208)
         registerProfilePic.SizeMode = PictureBoxSizeMode.StretchImage
@@ -145,46 +153,49 @@ Partial Class Register1
         ' 
         ' email_Text
         ' 
-        email_Text.BackColor = Color.AliceBlue
+        email_Text.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         email_Text.BorderStyle = BorderStyle.FixedSingle
-        email_Text.Location = New Point(203, 113)
+        email_Text.Location = New Point(138, 152)
         email_Text.Name = "email_Text"
-        email_Text.Size = New Size(283, 24)
+        email_Text.Size = New Size(283, 28)
         email_Text.TabIndex = 17
         ' 
         ' name_Text
         ' 
-        name_Text.BackColor = Color.AliceBlue
+        name_Text.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         name_Text.BorderStyle = BorderStyle.FixedSingle
-        name_Text.Location = New Point(206, 209)
+        name_Text.Location = New Point(138, 244)
         name_Text.Name = "name_Text"
-        name_Text.Size = New Size(286, 24)
+        name_Text.Size = New Size(286, 28)
         name_Text.TabIndex = 18
         ' 
         ' phone_Text
         ' 
-        phone_Text.BackColor = Color.AliceBlue
+        phone_Text.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         phone_Text.BorderStyle = BorderStyle.FixedSingle
-        phone_Text.Location = New Point(203, 296)
+        phone_Text.Location = New Point(138, 336)
         phone_Text.Name = "phone_Text"
-        phone_Text.Size = New Size(288, 24)
+        phone_Text.Size = New Size(288, 28)
         phone_Text.TabIndex = 19
         ' 
         ' password_Text
         ' 
-        password_Text.BackColor = Color.AliceBlue
+        password_Text.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         password_Text.BorderStyle = BorderStyle.FixedSingle
-        password_Text.Location = New Point(203, 398)
+        password_Text.Location = New Point(138, 431)
         password_Text.Name = "password_Text"
-        password_Text.Size = New Size(288, 24)
+        password_Text.PasswordChar = "*"c
+        password_Text.Size = New Size(288, 28)
         password_Text.TabIndex = 20
         ' 
         ' confirm_Text
         ' 
+        confirm_Text.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         confirm_Text.BorderStyle = BorderStyle.FixedSingle
-        confirm_Text.Location = New Point(199, 508)
+        confirm_Text.Location = New Point(138, 530)
         confirm_Text.Name = "confirm_Text"
-        confirm_Text.Size = New Size(292, 24)
+        confirm_Text.PasswordChar = "*"c
+        confirm_Text.Size = New Size(292, 28)
         confirm_Text.TabIndex = 21
         ' 
         ' OpenFileDialogRegister
@@ -196,12 +207,12 @@ Partial Class Register1
         RegisterSubmitBtn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         RegisterSubmitBtn.FlatAppearance.BorderSize = 0
         RegisterSubmitBtn.FlatStyle = FlatStyle.Flat
-        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RegisterSubmitBtn.ForeColor = Color.White
-        RegisterSubmitBtn.Location = New Point(770, 545)
+        RegisterSubmitBtn.Location = New Point(901, 552)
         RegisterSubmitBtn.Margin = New Padding(0)
         RegisterSubmitBtn.Name = "RegisterSubmitBtn"
-        RegisterSubmitBtn.Size = New Size(137, 41)
+        RegisterSubmitBtn.Size = New Size(150, 41)
         RegisterSubmitBtn.TabIndex = 23
         RegisterSubmitBtn.Text = "Submit"
         RegisterSubmitBtn.UseVisualStyleBackColor = False
@@ -212,15 +223,16 @@ Partial Class Register1
         emailValidationLabel.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         emailValidationLabel.Location = New Point(203, 144)
         emailValidationLabel.Name = "emailValidationLabel"
-        emailValidationLabel.Size = New Size(0, 13)
+        emailValidationLabel.Size = New Size(0, 16)
         emailValidationLabel.TabIndex = 24
         ' 
         ' address
         ' 
+        address.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         address.BorderStyle = BorderStyle.FixedSingle
-        address.Location = New Point(768, 415)
+        address.Location = New Point(702, 452)
         address.Name = "address"
-        address.Size = New Size(244, 73)
+        address.Size = New Size(332, 73)
         address.TabIndex = 25
         address.Text = ""
         ' 
@@ -229,7 +241,7 @@ Partial Class Register1
         Back_btn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Back_btn.FlatAppearance.BorderSize = 0
         Back_btn.FlatStyle = FlatStyle.Flat
-        Back_btn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Back_btn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Back_btn.ForeColor = Color.White
         Back_btn.Location = New Point(1035, 39)
         Back_btn.Margin = New Padding(0)
@@ -239,11 +251,72 @@ Partial Class Register1
         Back_btn.Text = "Back"
         Back_btn.UseVisualStyleBackColor = False
         ' 
+        ' labelSize
+        ' 
+        labelSize.AutoSize = True
+        labelSize.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelSize.ForeColor = Color.Red
+        labelSize.Location = New Point(443, 433)
+        labelSize.Name = "labelSize"
+        labelSize.Size = New Size(162, 16)
+        labelSize.TabIndex = 27
+        labelSize.Text = "✓ Atleast 8 characters long"
+        ' 
+        ' labelLower
+        ' 
+        labelLower.AutoSize = True
+        labelLower.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelLower.ForeColor = Color.Red
+        labelLower.Location = New Point(443, 454)
+        labelLower.Name = "labelLower"
+        labelLower.Size = New Size(134, 16)
+        labelLower.TabIndex = 27
+        labelLower.Text = "✓ Contains Lowercase"
+        ' 
+        ' labelUpper
+        ' 
+        labelUpper.AutoSize = True
+        labelUpper.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelUpper.ForeColor = Color.Red
+        labelUpper.Location = New Point(443, 475)
+        labelUpper.Name = "labelUpper"
+        labelUpper.Size = New Size(133, 16)
+        labelUpper.TabIndex = 27
+        labelUpper.Text = "✓ Contains Uppercase"
+        ' 
+        ' labelNumbers
+        ' 
+        labelNumbers.AutoSize = True
+        labelNumbers.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelNumbers.ForeColor = Color.Red
+        labelNumbers.Location = New Point(443, 496)
+        labelNumbers.Name = "labelNumbers"
+        labelNumbers.Size = New Size(124, 16)
+        labelNumbers.TabIndex = 27
+        labelNumbers.Text = "✓ Contains Numbers"
+        ' 
+        ' labelSpecial
+        ' 
+        labelSpecial.AutoSize = True
+        labelSpecial.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelSpecial.ForeColor = Color.Red
+        labelSpecial.Location = New Point(443, 517)
+        labelSpecial.Name = "labelSpecial"
+        labelSpecial.Size = New Size(150, 16)
+        labelSpecial.TabIndex = 27
+        labelSpecial.Text = "✓ Contains Special Chars"
+        ' 
         ' Register1
         ' 
-        AutoScaleDimensions = New SizeF(8F, 17F)
+        AutoScaleDimensions = New SizeF(9.0F, 21.0F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(255))
         ClientSize = New Size(1330, 686)
+        Controls.Add(labelSpecial)
+        Controls.Add(labelNumbers)
+        Controls.Add(labelUpper)
+        Controls.Add(labelLower)
+        Controls.Add(labelSize)
         Controls.Add(Back_btn)
         Controls.Add(address)
         Controls.Add(emailValidationLabel)
@@ -265,6 +338,7 @@ Partial Class Register1
         Controls.Add(signUp)
         Font = New Font("Bahnschrift", 10.2F)
         Name = "Register1"
+        StartPosition = FormStartPosition.CenterScreen
         Text = "Customer_Register"
         CType(registerProfilePic, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
@@ -302,5 +376,10 @@ Partial Class Register1
     Friend WithEvents emailValidationLabel As Label
     Friend WithEvents address As RichTextBox
     Friend WithEvents Back_btn As Button
+    Friend WithEvents labelSize As Label
+    Friend WithEvents labelLower As Label
+    Friend WithEvents labelUpper As Label
+    Friend WithEvents labelNumbers As Label
+    Friend WithEvents labelSpecial As Label
 
 End Class
