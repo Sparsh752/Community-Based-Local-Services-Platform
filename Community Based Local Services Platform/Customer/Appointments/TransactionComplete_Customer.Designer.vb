@@ -44,6 +44,7 @@ Partial Class TransactionComplete_Customer
         Label2 = New Label()
         Label1 = New Label()
         Panel1 = New Panel()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' Button2
@@ -280,11 +281,23 @@ Partial Class TransactionComplete_Customer
         Panel1.Size = New Size(410, 107)
         Panel1.TabIndex = 84
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(993, 80)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 85
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' TransactionComplete_Customer
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1226, 944)
+        Controls.Add(BackButton)
         Controls.Add(Button2)
         Controls.Add(RichTextBox1)
         Controls.Add(Label13)
@@ -335,4 +348,5 @@ Partial Class TransactionComplete_Customer
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents BackButton As Button
 End Class

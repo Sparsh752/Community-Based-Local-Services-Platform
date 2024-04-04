@@ -33,6 +33,7 @@ Partial Class Rejected_View
         RichTextBox9 = New RichTextBox()
         RichTextBox10 = New RichTextBox()
         RichTextBox11 = New RichTextBox()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' RichTextBox1
@@ -189,6 +190,17 @@ Partial Class Rejected_View
         RichTextBox11.TabIndex = 15
         RichTextBox11.Text = "Location"
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(1051, 83)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 79
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' Rejected_View
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -196,6 +208,7 @@ Partial Class Rejected_View
         BackColor = Color.White
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1500, 794)
+        Controls.Add(BackButton)
         Controls.Add(RichTextBox11)
         Controls.Add(RichTextBox10)
         Controls.Add(RichTextBox9)
@@ -224,4 +237,5 @@ Partial Class Rejected_View
     Friend WithEvents RichTextBox9 As RichTextBox
     Friend WithEvents RichTextBox10 As RichTextBox
     Friend WithEvents RichTextBox11 As RichTextBox
+    Friend WithEvents BackButton As Button
 End Class
