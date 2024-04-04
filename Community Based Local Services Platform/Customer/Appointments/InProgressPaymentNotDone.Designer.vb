@@ -44,6 +44,7 @@ Partial Class InProgressPaymentNotDone
         Button3 = New Button()
         Button2 = New Button()
         Button1 = New Button()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' TextBox1
@@ -284,12 +285,24 @@ Partial Class InProgressPaymentNotDone
         Button1.Text = "Reschedule"
         Button1.UseVisualStyleBackColor = False
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(1029, 94)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 78
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' InProgressPaymentNotDone
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1279, 918)
+        Controls.Add(BackButton)
         Controls.Add(Button1)
         Controls.Add(Button2)
         Controls.Add(Button3)
@@ -340,4 +353,5 @@ Partial Class InProgressPaymentNotDone
     Friend WithEvents Button3 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Button1 As Button
+    Friend WithEvents BackButton As Button
 End Class

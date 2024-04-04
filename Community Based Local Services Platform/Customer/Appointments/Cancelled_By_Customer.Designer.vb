@@ -36,6 +36,7 @@ Partial Class Cancelled_By_Customer
         RichTextBox12 = New RichTextBox()
         RichTextBox13 = New RichTextBox()
         RichTextBox14 = New RichTextBox()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' RichTextBox1
@@ -235,6 +236,17 @@ Partial Class Cancelled_By_Customer
         RichTextBox14.TabIndex = 19
         RichTextBox14.Text = "The refund will be processed withing 3-5 business days."
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(1060, 84)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 79
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' Cancelled_By_Customer
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -242,6 +254,7 @@ Partial Class Cancelled_By_Customer
         BackColor = Color.White
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1500, 794)
+        Controls.Add(BackButton)
         Controls.Add(RichTextBox14)
         Controls.Add(RichTextBox13)
         Controls.Add(RichTextBox12)
@@ -276,4 +289,5 @@ Partial Class Cancelled_By_Customer
     Friend WithEvents RichTextBox12 As RichTextBox
     Friend WithEvents RichTextBox13 As RichTextBox
     Friend WithEvents RichTextBox14 As RichTextBox
+    Friend WithEvents BackButton As Button
 End Class
