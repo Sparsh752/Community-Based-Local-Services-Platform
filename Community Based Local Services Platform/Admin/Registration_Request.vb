@@ -4,7 +4,7 @@ Public Class Registration_Request
 
 
     Public NotVerifiedSPs As DataTable = New DataTable()
-
+    Public Main_Panel As New Panel()
     Private Sub Page_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Configure the form
         Me.CenterToParent()
@@ -18,20 +18,26 @@ Public Class Registration_Request
         Me.Controls.Add(Header)
         Me.BackColor = ColorTranslator.FromHtml("#FFFFFF")
         ' Create and configure the FlowLayoutPanel
-        Dim Main_Panel As New Panel()
+
         Main_Panel.Size = New Size(800, 430)
         Main_Panel.Location = New Point(98, 138)
         Main_Panel.AutoScroll = True
         Me.Controls.Add(Main_Panel)
+        LoadCards()
 
-        RetrieveNotVerifiedSP()
 
 
         ' Create some sample cards
+
+
+    End Sub
+    Sub LoadCards()
+        NotVerifiedSPs.Clear()
+        Main_Panel.Controls.Clear()
+        RetrieveNotVerifiedSP()
         For i As Integer = 1 To NotVerifiedSPs.Rows.Count ' Adjust the number of cards for demonstration
             ' Dim card As New Card("pic.png", "Service Provider Name", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", "Location", "Contact", "Experience", "Services from 09:00 AM to 05:00 PM  ")
             Dim ithRow As DataRow = NotVerifiedSPs.Rows(i - 1)
-
             Dim card As New Panel()
             card.Size = New Size(734, 198)
             card.BorderStyle = BorderStyle.FixedSingle
@@ -107,7 +113,8 @@ Public Class Registration_Request
             acceptButton.ForeColor = Color.White
             acceptButton.FlatStyle = FlatStyle.Flat
             acceptButton.FlatAppearance.BorderSize = 0
-
+            AddHandler acceptButton.Click, AddressOf HandleAccept
+            acceptButton.Tag = ithRow("userID").ToString()
             Dim rejectButton As New Button()
             rejectButton.Text = "Reject"
             rejectButton.Size = New Size(107, 29)
@@ -116,7 +123,7 @@ Public Class Registration_Request
             rejectButton.ForeColor = Color.White
             rejectButton.FlatStyle = FlatStyle.Flat
             rejectButton.FlatAppearance.BorderSize = 0
-
+            AddHandler rejectButton.Click, AddressOf HandleReject
 
             card.Controls.Add(pictureBox)
             card.Controls.Add(label1)
@@ -133,10 +140,60 @@ Public Class Registration_Request
             card.Location = New Point(0, (i - 1) * 224)
             Main_Panel.Controls.Add(card)
         Next
+    End Sub
+    Sub HandleReject(sender As Object, e As EventArgs)
+        Dim button As Button = sender
+        Dim userId As String = button.Tag.ToString()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+
+            ' Connection established successfully
+
+            Dim query As String = "UPDATE ServiceProviders SET registrationStatus = 'Rejected' where userID=@userID"
+            Dim command As New MySqlCommand(query, connection)
+            command.Parameters.AddWithValue("@userID", userId)
+            Try
+                connection.Open()
+                command.ExecuteNonQuery()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+
+            LoadCards()
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        End Try
 
     End Sub
+    Sub HandleAccept(sender As Object, e As EventArgs)
+        Dim button As Button = sender
+        Dim userId As String = button.Tag.ToString()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+
+            ' Connection established successfully
+
+            Dim query As String = "UPDATE ServiceProviders SET registrationStatus = 'Approved' where userID=@userID"
+            Dim command As New MySqlCommand(query, connection)
+            command.Parameters.AddWithValue("@userID", userId)
+            Try
+                connection.Open()
+                command.ExecuteNonQuery()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+
+            LoadCards()
 
 
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        End Try
+    End Sub
 
     Private Sub RetrieveNotVerifiedSP()
         Dim connection As New MySqlConnection(SessionManager.connectionString)
