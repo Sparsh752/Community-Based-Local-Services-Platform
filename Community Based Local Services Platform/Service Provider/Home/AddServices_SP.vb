@@ -55,6 +55,12 @@ Public Class AddServices_SP
         Button2.Location = New Point(256, 560)
         Button1.Size = New Size(107, 30)
         Button2.Size = New Size(107, 30)
+        Button1.FlatAppearance.BorderSize = 0
+        Button2.FlatAppearance.BorderSize = 0
+        Button1.FlatStyle = FlatStyle.Flat
+        Button2.FlatStyle = FlatStyle.Flat
+        Submit_add.FlatAppearance.BorderSize = 0
+        Submit_add.FlatStyle = FlatStyle.Flat
     End Sub
 
     Private Sub PopulateServiceTypeComboBox()
