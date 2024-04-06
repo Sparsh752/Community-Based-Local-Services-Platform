@@ -1,6 +1,12 @@
-﻿Public Class AppointmentList_SP
-    Dim labels() As String = {"12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Pending", "link", "link", "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Scheduled", "link", "link",
-        "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Completed", "link", "link", "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Rejected", "link", "link", "12354", "Interior design", "23-Feb-2024 09:00", "Guwahati", "Canceled", "link", "link"}
+﻿Imports System.ComponentModel
+Imports MySql.Data.MySqlClient
+Imports System.Diagnostics.Eventing.Reader
+Imports System.IO
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify
+
+Public Class AppointmentList_SP
+    Private datalist As New List(Of String)()
+    Private labels As New List(Of String)()
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
@@ -44,10 +50,74 @@
 
     Private Sub AddLabelsToTableLayoutPanel()
 
+        Dim connectionString As String = SessionManager.connectionString
+
+        Dim query As String = "SELECT Appointments.appointmentID, 
+            Users.userName, ServiceTypes.serviceTypeName, 
+            ServiceAreaTimeslots.startTime, 
+            ServiceAreaTimeslots.timeslotDate, 
+            Appointments.appointmentStatus, 
+            ServiceAreas.location, 
+            Appointments.bookingAdvance 
+            FROM Appointments 
+            JOIN Users 
+            ON Appointments.customerID = Users.userID 
+            JOIN ServiceProviders 
+            ON Appointments.serviceProviderID = ServiceProviders.serviceProviderID 
+            JOIN ServiceAreaTimeslots 
+            ON Appointments.areaTimeslotID = ServiceAreaTimeslots.areaTimeslotID 
+            JOIN ServiceTypes 
+            ON ServiceAreaTimeslots.serviceTypeID = ServiceTypes.serviceID 
+            JOIN ServiceAreas 
+            ON ServiceAreaTimeslots.areaID = ServiceAreas.areaID 
+            WHERE Appointments.serviceProviderID = @UserID;"
+
+        ' Create a list to hold the data
+        Dim dataList As New List(Of String)()
+
+        ' Create a new connection object
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+            ' Create a new command object with the query and connection
+            Using command As New MySqlCommand(query, connection)
+                ' Set the parameter value for UserID
+                command.Parameters.AddWithValue("@UserID", SessionManager.userID)
+                ' Execute the command and get the data reader
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    ' Read the data
+                    While reader.Read()
+                        ' Add the data to the list
+                        dataList.Add(reader("appointmentID").ToString())
+
+                        dataList.Add(reader("serviceTypeName").ToString())
+                        Dim startTime As String = reader("startTime").ToString()
+                        Dim timeslotDate As String = CType(reader("timeslotDate"), Date).ToString("dd-MMM-yyyy")
+
+                        Dim combinedDateTime As String = $"{timeslotDate} {startTime}"
+
+
+                        dataList.Add(combinedDateTime)
+                        dataList.Add(reader("location").ToString())
+                        dataList.Add(reader("appointmentStatus").ToString())
+                        dataList.Add("view")
+                        dataList.Add("query")
+
+                    End While
+                End Using
+            End Using
+        End Using
+
+        ' Convert the list to an array
+        ' Convert the list to an array
+        labels = dataList
+
+
+        ' Call a method to add labels and buttons to the TableLayoutPanel using the array
 
         ' Determine the number of rows needed based on the labels array size
-        Dim rowCount As Integer = labels.Length \ TableLayoutPanel1.ColumnCount
-        If labels.Length Mod TableLayoutPanel1.ColumnCount <> 0 Then
+        Dim rowCount As Integer = labels.Count \ TableLayoutPanel1.ColumnCount
+        If labels.Count Mod TableLayoutPanel1.ColumnCount <> 0 Then
             rowCount += 1 ' Add an extra row if there are leftover labels
         End If
 
@@ -91,7 +161,7 @@
                         columnLabel.Text = "Status"
                     End If
                     columnLabel.Font = New Font("Bahnschrift Light", 11, FontStyle.Regular
-                                                )
+                                    )
                     columnLabel.ForeColor = Color.White
                     columnLabel.AutoSize = True
                     columnLabel.TextAlign = ContentAlignment.MiddleCenter
@@ -104,7 +174,7 @@
                 Else
 
                     Dim index As Integer = (i - 1) * (TableLayoutPanel1.ColumnCount) + j
-                    If index < labels.Length Then
+                    If index < labels.Count Then
                         If j = TableLayoutPanel1.ColumnCount - 1 Then
                             ' Add button instead of label in the last column
                             Dim button As New Button()
