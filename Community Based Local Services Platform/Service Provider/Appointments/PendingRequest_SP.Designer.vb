@@ -34,6 +34,7 @@ Partial Class PendingRequest_SP
         Button1 = New Button()
         Button2 = New Button()
         Panel1 = New Panel()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' Label1
@@ -151,11 +152,23 @@ Partial Class PendingRequest_SP
         Panel1.Size = New Size(577, 478)
         Panel1.TabIndex = 11
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(968, 63)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 86
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' PendingRequest_SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1178, 579)
+        Controls.Add(BackButton)
         Controls.Add(Button2)
         Controls.Add(Button1)
         Controls.Add(Label9)
@@ -186,4 +199,5 @@ Partial Class PendingRequest_SP
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents BackButton As Button
 End Class

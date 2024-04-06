@@ -32,6 +32,7 @@ Partial Class Query_3SP
         Label1 = New Label()
         Panel2 = New Panel()
         RichTextBox1 = New RichTextBox()
+        BackButton = New Button()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
@@ -154,11 +155,23 @@ Partial Class Query_3SP
         RichTextBox1.TabIndex = 5
         RichTextBox1.Text = ""
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(1231, 67)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 86
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' Query_3SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1456, 735)
+        Controls.Add(BackButton)
         Controls.Add(Panel1)
         Margin = New Padding(4)
         Name = "Query_3SP"
@@ -179,4 +192,5 @@ Partial Class Query_3SP
     Friend WithEvents Button1 As Button
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents BackButton As Button
 End Class

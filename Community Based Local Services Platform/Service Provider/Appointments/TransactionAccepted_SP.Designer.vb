@@ -33,6 +33,7 @@ Partial Class TransactionAccepted_SP
         Label9 = New Label()
         Label10 = New Label()
         Label11 = New Label()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' Label1
@@ -161,12 +162,24 @@ Partial Class TransactionAccepted_SP
         Label11.TabIndex = 17
         Label11.Text = "Label11"
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(612, 75)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 86
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' TransactionAccepted_SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(852, 708)
+        Controls.Add(BackButton)
         Controls.Add(Label11)
         Controls.Add(Label10)
         Controls.Add(Label9)
@@ -195,4 +208,5 @@ Partial Class TransactionAccepted_SP
     Friend WithEvents Label9 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label
+    Friend WithEvents BackButton As Button
 End Class

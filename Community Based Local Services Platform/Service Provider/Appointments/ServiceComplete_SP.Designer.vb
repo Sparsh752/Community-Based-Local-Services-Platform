@@ -44,6 +44,7 @@ Partial Class ServiceComplete_SP
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
+        BackButton = New Button()
         Panel1.SuspendLayout()
         OTP4.SuspendLayout()
         OTP3.SuspendLayout()
@@ -54,6 +55,7 @@ Partial Class ServiceComplete_SP
         ' Panel1
         ' 
         Panel1.AutoScroll = True
+        Panel1.Controls.Add(BackButton)
         Panel1.Controls.Add(OTP4)
         Panel1.Controls.Add(OTP3)
         Panel1.Controls.Add(OTP2)
@@ -313,6 +315,17 @@ Partial Class ServiceComplete_SP
         Label1.TabIndex = 39
         Label1.Text = "Service"
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(940, 67)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 86
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' ServiceComplete_SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -355,4 +368,5 @@ Partial Class ServiceComplete_SP
     Friend WithEvents RichTextBox3 As RichTextBox
     Friend WithEvents OTP2 As Panel
     Friend WithEvents RichTextBox2 As RichTextBox
+    Friend WithEvents BackButton As Button
 End Class

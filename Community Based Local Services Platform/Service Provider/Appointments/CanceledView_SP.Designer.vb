@@ -33,6 +33,7 @@ Partial Class CanceledView_SP
         RichTextBox3 = New RichTextBox()
         RichTextBox2 = New RichTextBox()
         RichTextBox1 = New RichTextBox()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' RichTextBox11
@@ -189,6 +190,17 @@ Partial Class CanceledView_SP
         RichTextBox1.TabIndex = 20
         RichTextBox1.Text = "Sitaram"
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(934, 69)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 86
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' CanceledView_SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -196,6 +208,7 @@ Partial Class CanceledView_SP
         BackColor = Color.White
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1178, 644)
+        Controls.Add(BackButton)
         Controls.Add(RichTextBox11)
         Controls.Add(RichTextBox10)
         Controls.Add(RichTextBox9)
@@ -222,4 +235,5 @@ Partial Class CanceledView_SP
     Friend WithEvents RichTextBox3 As RichTextBox
     Friend WithEvents RichTextBox2 As RichTextBox
     Friend WithEvents RichTextBox1 As RichTextBox
+    Friend WithEvents BackButton As Button
 End Class

@@ -51,6 +51,13 @@ Public Class PendingRequest_SP
         Button1.Location = New Point(450, 430)
         Button2.Location = New Point(600, 430)
 
+        BackButton.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
+        BackButton.BackColor = ColorTranslator.FromHtml("#F9754B")
+        BackButton.Size = New Size(67, 25)
+        BackButton.Location = New Point(1067, 75)
+        BackButton.FlatAppearance.BorderSize = 0
+        BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+
     End Sub
 
     Private Sub RemovePreviousForm()
@@ -84,4 +91,17 @@ Public Class PendingRequest_SP
         End With
         'MessageBox.Show("Appointment Rejected!")
     End Sub
+
+    Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
+        RemovePreviousForm()
+
+        With AppointmentList_SP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(AppointmentList_SP)
+            .BringToFront()
+            .Show()
+        End With
+    End Sub
+
 End Class

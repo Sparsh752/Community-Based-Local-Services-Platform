@@ -44,6 +44,7 @@ Partial Class TransactionComplete_SP
         RichTextBox1 = New RichTextBox()
         Button2 = New Button()
         Panel1 = New Panel()
+        BackButton = New Button()
         SuspendLayout()
         ' 
         ' Label11
@@ -281,11 +282,23 @@ Partial Class TransactionComplete_SP
         Panel1.Size = New Size(410, 107)
         Panel1.TabIndex = 63
         ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(998, 72)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 86
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
+        ' 
         ' TransactionComplete_SP
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1225, 944)
+        Controls.Add(BackButton)
         Controls.Add(Button2)
         Controls.Add(RichTextBox1)
         Controls.Add(Label13)
@@ -336,4 +349,5 @@ Partial Class TransactionComplete_SP
     Friend WithEvents RichTextBox1 As RichTextBox
     Friend WithEvents Button2 As Button
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents BackButton As Button
 End Class

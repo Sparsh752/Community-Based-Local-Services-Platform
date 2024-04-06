@@ -21,6 +21,14 @@
         For Each queryType As String In queryTypes
             ComboBox1.Items.Add(queryType)
         Next
+
+        BackButton.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
+        BackButton.BackColor = ColorTranslator.FromHtml("#F9754B")
+        BackButton.Size = New Size(67, 25)
+        BackButton.Location = New Point(1067, 75)
+        BackButton.FlatAppearance.BorderSize = 0
+        BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+
     End Sub
 
     Private Sub RemovePreviousForm()
@@ -33,6 +41,29 @@
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         MessageBox.Show("Query sent.")
+        RemovePreviousForm()
+
+        If (SessionManager.userType = "Customer") Then
+            With AppointmentList_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(AppointmentList_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        Else
+            With AppointmentList_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(AppointmentList_SP)
+                .BringToFront()
+                .Show()
+            End With
+        End If
+
+    End Sub
+
+    Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
 
         If (SessionManager.userType = "Customer") Then
