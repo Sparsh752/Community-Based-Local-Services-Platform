@@ -1,10 +1,13 @@
-﻿Public Class Form1
+﻿Public Class Notification
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.BackColor = Color.White
+        Me.FormBorderStyle = FormBorderStyle.None
+        Me.Size = New Size(446, 345)
         ' Create a Label for Notifications
         Dim lblNotifications As New Label()
         lblNotifications.Text = "Notifications"
-        lblNotifications.Font = New Font("Montserrat", 20, FontStyle.Bold) ' Set font to Montserrat, size to 20, and style to Bold
+        lblNotifications.Font = New Font(SessionManager.font_family, 16, FontStyle.Regular) ' Set font to Montserrat, size to 20, and style to Bold
         lblNotifications.Size = New Size(318, 38) ' Set size to 318x28
         lblNotifications.Location = New Point(40, 27) ' Set location to 40, 27
         Me.Controls.Add(lblNotifications)
@@ -14,7 +17,7 @@
         listBoxNotifications.Name = "notification"
         listBoxNotifications.Size = New Size(318, 28) ' Set size to 318x28
         listBoxNotifications.Location = New Point(40, 27) ' Set location to 40, 27
-        listBoxNotifications.Font = New Font("Montserrat", 20, FontStyle.Regular) ' Set font to Montserrat, size to 20, and style to Regular
+        listBoxNotifications.Font = New Font(SessionManager.font_family, 13, FontStyle.Regular) ' Set font to Montserrat, size to 20, and style to Regular
         Me.Controls.Add(listBoxNotifications)
 
         ' Create a Panel to hold the cards

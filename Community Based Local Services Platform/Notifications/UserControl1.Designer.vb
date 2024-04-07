@@ -19,7 +19,7 @@ Partial Class UserControl1
 
         ' Heading Label
         lblHeading = New System.Windows.Forms.Label()
-        lblHeading.Font = New System.Drawing.Font("Montserrat", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        lblHeading.Font = New System.Drawing.Font(SessionManager.font_family, 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         lblHeading.Location = New System.Drawing.Point(10, 5)
         lblHeading.AutoSize = True
         lblHeading.Text = "Heading"
@@ -27,7 +27,7 @@ Partial Class UserControl1
 
         ' Subheading Label
         lblSubheading = New System.Windows.Forms.Label()
-        lblSubheading.Font = New System.Drawing.Font("Montserrat", 8, System.Drawing.FontStyle.Regular) ' Set font to Montserrat, size to 10, and style to Regular
+        lblSubheading.Font = New System.Drawing.Font(SessionManager.font_family, 8, System.Drawing.FontStyle.Regular) ' Set font to Montserrat, size to 10, and style to Regular
         lblSubheading.Location = New System.Drawing.Point(10, 30)
         lblSubheading.AutoSize = True
         lblSubheading.ForeColor = Color.FromArgb(&HF9604B) ' Set color to F9604B
