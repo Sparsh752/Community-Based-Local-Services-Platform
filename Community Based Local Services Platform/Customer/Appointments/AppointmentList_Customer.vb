@@ -50,20 +50,20 @@ Public Class AppointmentList_Customer
 
     Private Sub AddLabelsToTableLayoutPanel()
 
-        Dim query As String = "SELECT Appointments.appointmentID, 
-                ServiceProviders.serviceProviderName, 
-                ServiceTypes.serviceTypeName, 
-                ServiceAreaTimeslots.startTime, 
-                ServiceAreaTimeslots.timeslotDate,
-                Appointments.appointmentStatus 
-                FROM Appointments 
-                JOIN ServiceProviders 
-                ON Appointments.serviceProviderID = ServiceProviders.serviceProviderID 
-                JOIN ServiceAreaTimeslots 
-                ON Appointments.areaTimeslotID = ServiceAreaTimeslots.areaTimeslotID 
-                JOIN ServiceTypes 
-                ON ServiceAreaTimeslots.serviceTypeID = ServiceTypes.serviceID 
-                WHERE Appointments.customerID = @UserID"
+        Dim query As String = "SELECT appointments.appointmentID, 
+                serviceproviders.serviceProviderName, 
+                serviceTypes.serviceTypeName, 
+                serviceAreaTimeslots.startTime, 
+                serviceAreaTimeslots.timeslotDate,
+                appointments.appointmentStatus 
+                FROM appointments 
+                JOIN serviceproviders 
+                ON appointments.serviceProviderID = serviceproviders.serviceProviderID 
+                JOIN serviceAreaTimeslots 
+                ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+                JOIN serviceTypes 
+                ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+                WHERE appointments.customerID = @UserID"
 
         ' Create a new SQL connection
         Using connection As New MySqlConnection(SessionManager.connectionString)

@@ -52,25 +52,26 @@ Public Class AppointmentList_SP
 
         Dim connectionString As String = SessionManager.connectionString
 
-        Dim query As String = "SELECT Appointments.appointmentID, 
-            Users.userName, ServiceTypes.serviceTypeName, 
-            ServiceAreaTimeslots.startTime, 
-            ServiceAreaTimeslots.timeslotDate, 
-            Appointments.appointmentStatus, 
-            ServiceAreas.location, 
-            Appointments.bookingAdvance 
-            FROM Appointments 
-            JOIN Users 
-            ON Appointments.customerID = Users.userID 
-            JOIN ServiceProviders 
-            ON Appointments.serviceProviderID = ServiceProviders.serviceProviderID 
-            JOIN ServiceAreaTimeslots 
-            ON Appointments.areaTimeslotID = ServiceAreaTimeslots.areaTimeslotID 
-            JOIN ServiceTypes 
-            ON ServiceAreaTimeslots.serviceTypeID = ServiceTypes.serviceID 
-            JOIN ServiceAreas 
-            ON ServiceAreaTimeslots.areaID = ServiceAreas.areaID 
-            WHERE Appointments.serviceProviderID = @UserID;"
+        Dim query As String = "SELECT appointments.appointmentID, 
+            users.userName, 
+            serviceTypes.serviceTypeName, 
+            serviceAreaTimeslots.startTime, 
+            serviceAreaTimeslots.timeslotDate, 
+            appointments.appointmentStatus, 
+            serviceAreas.location, 
+            appointments.bookingAdvance 
+            FROM appointments 
+            JOIN users 
+            ON appointments.customerID = users.userID 
+            JOIN serviceproviders 
+            ON appointments.serviceProviderID = serviceproviders.serviceProviderID 
+            JOIN serviceAreaTimeslots 
+            ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+            JOIN serviceTypes 
+            ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+            JOIN serviceAreas 
+            ON serviceAreaTimeslots.areaID = serviceAreas.areaID 
+            WHERE appointments.serviceProviderID = @UserID;"
 
         ' Create a list to hold the data
         Dim dataList As New List(Of String)()

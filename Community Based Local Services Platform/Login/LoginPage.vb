@@ -89,7 +89,7 @@
         Dim customerID As Integer = -1
 
         ' Query to retrieve customer's ID based on email and password
-        Dim query As String = "SELECT userID FROM Users " &
+        Dim query As String = "SELECT userID FROM users " &
             "WHERE email = @Email And password = @Password and userType = @UserType"
 
         Using connection As New MySqlConnection(SessionManager.connectionString)
