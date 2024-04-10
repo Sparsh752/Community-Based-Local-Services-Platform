@@ -6,7 +6,28 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify
 Public Class AppointmentList_Customer
     Private datalist As New List(Of String)()
     Private labels As New List(Of String)()
+    Dim sp_list As New List(Of SP)()
+
+    Public Class SP
+        Public Property spID As Integer
+        Public Property sp_userID As Integer
+        Public Property appointmentID As Integer
+        Public Property Status As String
+        Public Property Index As Integer
+
+        Public Sub New(ByVal index As Integer, ByVal spID As Integer, ByVal appointmentID As Integer, ByVal status As String, ByVal sp_userID As Integer)
+            Me.spID = spID
+            Me.Index = index
+            Me.Status = status
+            Me.appointmentID = appointmentID
+            Me.sp_userID = sp_userID
+        End Sub
+    End Class
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        SessionManager.customerID = SessionManager.userID
+
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
@@ -52,6 +73,8 @@ Public Class AppointmentList_Customer
 
         Dim query As String = "SELECT appointments.appointmentID, 
                 serviceproviders.serviceProviderName, 
+                serviceproviders.serviceProviderID,
+                serviceproviders.userID,
                 serviceTypes.serviceTypeName, 
                 serviceAreaTimeslots.startTime, 
                 serviceAreaTimeslots.timeslotDate,
@@ -64,6 +87,8 @@ Public Class AppointmentList_Customer
                 JOIN serviceTypes 
                 ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
                 WHERE appointments.customerID = @UserID"
+
+        Dim count As Integer = 1
 
         ' Create a new SQL connection
         Using connection As New MySqlConnection(SessionManager.connectionString)
@@ -88,6 +113,16 @@ Public Class AppointmentList_Customer
                         datalist.Add(reader("serviceTypeName").ToString())
                         datalist.Add(reader("startTime").ToString())
                         datalist.Add(reader("appointmentStatus").ToString())
+
+                        Dim spID As Integer = CInt(reader("serviceProviderID"))
+                        Dim status As String = reader("appointmentStatus")
+                        Dim appointmentID As Integer = CInt(reader("appointmentID"))
+                        Dim sp_userID As Integer = CInt(reader("userID"))
+
+                        Dim new_sp As New SP(count, spID, appointmentID, status, sp_userID)
+                        sp_list.Add(new_sp)
+                        count = count + 1
+
                         datalist.Add("view")
                         datalist.Add("query")
                     End While
@@ -171,7 +206,7 @@ Public Class AppointmentList_Customer
                             button.FlatStyle = FlatStyle.Flat
                             button.Anchor = AnchorStyles.None ' Center button horizontally and vertically
                             button.Width = 82
-                            button.Tag = labels(index - 2)
+                            button.Tag = i
                             AddHandler button.Click, AddressOf QueryButton_Click
                             TableLayoutPanel1.Controls.Add(button, j, i)
                         ElseIf j = TableLayoutPanel1.ColumnCount - 2 Then
@@ -182,7 +217,7 @@ Public Class AppointmentList_Customer
                             button.Anchor = AnchorStyles.None ' Center button horizontally and vertically
                             button.Width = 57
                             button.Padding = New Padding(0)
-                            button.Tag = labels(index - 1)
+                            button.Tag = i
                             button.FlatAppearance.BorderColor = Color.White
                             AddHandler button.Click, AddressOf ViewButton_Click
                             TableLayoutPanel1.Controls.Add(button, j, i)
@@ -220,7 +255,28 @@ Public Class AppointmentList_Customer
     ' Event handler for view button click
     Private Sub ViewButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         Dim button As Button = DirectCast(sender, Button)
-        Dim status As String = button.Tag
+        Dim status As String
+        Dim _spID As Integer
+        Dim _appointmentID As Integer
+        Dim _sp_userID As Integer
+
+        'MessageBox.Show(button.Tag)
+
+        For Each _sp In sp_list
+            If (_sp.Index = CInt(button.Tag)) Then
+                status = _sp.Status
+                _spID = _sp.spID
+                _appointmentID = _sp.appointmentID
+                _sp_userID = _sp.sp_userID
+            End If
+        Next
+
+        SessionManager.spID = _spID
+        SessionManager.appointmentID = _appointmentID
+        SessionManager.sp_userID = _sp_userID
+
+        MessageBox.Show(SessionManager.appointmentID & " " & SessionManager.customerID & " " & SessionManager.spID & " " & status)
+
         RemovePreviousForm()
         If (status = "Scheduled") Then
             With InProgressPaymentNotDone
@@ -258,6 +314,19 @@ Public Class AppointmentList_Customer
     End Sub
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim button As Button = DirectCast(sender, Button)
+        Dim status As String
+        Dim _spID As Integer
+
+        For Each _sp In sp_list
+            If (_sp.Index = CInt(button.Tag)) Then
+                status = _sp.Status
+                _spID = _sp.spID
+            End If
+        Next
+
+        SessionManager.spID = _spID
+
         RemovePreviousForm()
         With Query_3SP
             .TopLevel = False
