@@ -52,6 +52,37 @@
                 .Show()
             End With
         Else
+            ' Get the query entered by the user from RichTextBox1
+            Dim queryText As String = RichTextBox1.Text
+
+            Try
+                ' Create a MySqlConnection object
+                Using connection As New MySqlConnection(SessionManager.connectionString)
+                    ' Open the connection
+                    connection.Open()
+
+                    ' Define the SQL query to insert the query into AddressQueries table
+                    Dim query As String = "INSERT INTO AddressQueries (userID, query, queryDate, status) VALUES (@userID, @query, NOW(), @status);"
+
+                    ' Create a MySqlCommand object
+                    Using command As New MySqlCommand(query, connection)
+                        ' Set the parameters
+                        command.Parameters.AddWithValue("@userID", 1) ' Replace Your_UserID with the actual user ID
+                        command.Parameters.AddWithValue("@query", queryText)
+                        command.Parameters.AddWithValue("@status", "In Process") ' Default status is "In Process"
+
+                        ' Execute the command
+                        command.ExecuteNonQuery()
+
+                        ' Display a success message
+                        MessageBox.Show("Query inserted successfully.")
+                    End Using
+                End Using
+            Catch ex As Exception
+                ' Display an error message if an exception occurs
+                MessageBox.Show("Error: " & ex.Message)
+            End Try
+
             With AppointmentList_SP
                 .TopLevel = False
                 .Dock = DockStyle.Fill
