@@ -117,7 +117,7 @@ Public Class All_Service_Providers
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM ServiceProviders as sp JOIN ContactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Approved'"
+            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM serviceproviders as sp JOIN contactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Approved'"
             Dim command As New MySqlCommand(query, connection)
 
             Dim reader As MySqlDataReader = command.ExecuteReader()

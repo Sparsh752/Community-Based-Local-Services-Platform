@@ -124,7 +124,7 @@ Public Class Registration_Request
             rejectButton.FlatStyle = FlatStyle.Flat
             rejectButton.FlatAppearance.BorderSize = 0
             AddHandler rejectButton.Click, AddressOf HandleReject
-
+            rejectButton.Tag = ithRow("userID").ToString()
             card.Controls.Add(pictureBox)
             card.Controls.Add(label1)
             card.Controls.Add(label2)
@@ -150,7 +150,7 @@ Public Class Registration_Request
 
             ' Connection established successfully
 
-            Dim query As String = "UPDATE ServiceProviders SET registrationStatus = 'Rejected' where userID=@userID"
+            Dim query As String = "UPDATE serviceproviders SET registrationStatus = 'Rejected' where userID=@userID"
             Dim command As New MySqlCommand(query, connection)
             command.Parameters.AddWithValue("@userID", userId)
             Try
@@ -176,7 +176,7 @@ Public Class Registration_Request
 
             ' Connection established successfully
 
-            Dim query As String = "UPDATE ServiceProviders SET registrationStatus = 'Approved' where userID=@userID"
+            Dim query As String = "UPDATE serviceproviders SET registrationStatus = 'Approved' where userID=@userID"
             Dim command As New MySqlCommand(query, connection)
             command.Parameters.AddWithValue("@userID", userId)
             Try
@@ -202,7 +202,7 @@ Public Class Registration_Request
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM ServiceProviders as sp JOIN ContactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Pending'"
+            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM serviceproviders as sp JOIN contactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Pending'"
             Dim command As New MySqlCommand(query, connection)
 
             Dim reader As MySqlDataReader = command.ExecuteReader()
