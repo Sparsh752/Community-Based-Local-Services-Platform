@@ -10,14 +10,14 @@
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         RemovePreviousForm()
-        Register1.Margin = New Padding(0, 0, 0, 0)
-        With Register1
+        Edit_Profile_Customer.Margin = New Padding(0, 0, 0, 0)
+        With Edit_Profile_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(Register1)
+            SessionManager.Panel3.Controls.Add(Edit_Profile_Customer)
             .BringToFront()
             .Show()
-            Register1.Back_btn.Visible = False
+
         End With
     End Sub
 End Class
