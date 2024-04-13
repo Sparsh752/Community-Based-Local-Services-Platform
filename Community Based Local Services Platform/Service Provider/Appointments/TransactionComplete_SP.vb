@@ -1,33 +1,37 @@
-﻿Public Class TransactionComplete_SP
+﻿Imports Org.BouncyCastle.Asn1.Ocsp
+
+Public Class TransactionComplete_SP
     Private CustomerName As String
-    Private ServiceProviderAddress As String
-    Private ServiceProviderPhone As String
+    Private CustomerAddress As String
+    Private CustomerPhone As String
     Private ServiceName As String
     Private Price As String
     Private BookedSlot As String
-    Private Location As String
+    Private ServiceLocation As String
 
     Private ReviewSubmitted As Boolean = False
+    Public selectedRating As Double = 0.0
     Private Sub TransactionComplete_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         CustomerName = "Customer XYZ"
-        ServiceProviderAddress = "123 Example St, City"
-        ServiceProviderPhone = "123-456-7890"
+        CustomerAddress = "123 Example St, City"
+        CustomerPhone = "123-456-7890"
         ServiceName = "Example Service"
         Price = "$50"
         BookedSlot = "Monday, 9:00 AM"
-        Location = "Example Location"
+        ServiceLocation = "Example Location"
 
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
 
         Label5.Text = CustomerName
-        Label6.Text = ServiceProviderAddress
-        Label7.Text = ServiceProviderPhone
+        Label6.Text = CustomerAddress
+        Label7.Text = CustomerPhone
         Label8.Text = ServiceName
         Label9.Text = Price
         Label10.Text = BookedSlot
-        Label11.Text = Location
+        Label11.Text = ServiceLocation
 
         Star1.Size = New Size(20, 20)
         Star1.BackgroundImageLayout = ImageLayout.Stretch
@@ -74,7 +78,11 @@
         BackButton.FlatAppearance.BorderSize = 0
         BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
 
-        LoadChatPanel()
+        CheckIfReviewGiven()
+
+        Fetch_Appointment_Details()
+
+        'LoadChatPanel()
 
     End Sub
 
@@ -99,6 +107,7 @@
     End Sub
 
     Private Sub Star1_Click(sender As Object, e As EventArgs) Handles Star1.Click
+        selectedRating = 1.0
         If ReviewSubmitted = False Then
             Star1.BackgroundImage = My.Resources.Resource1.star_colored
             Star2.BackgroundImage = My.Resources.Resource1.star_uncolored
@@ -109,6 +118,7 @@
     End Sub
 
     Private Sub Star2_Click(sender As Object, e As EventArgs) Handles Star2.Click
+        selectedRating = 2.0
         If ReviewSubmitted = False Then
             Star1.BackgroundImage = My.Resources.Resource1.star_colored
             Star2.BackgroundImage = My.Resources.Resource1.star_colored
@@ -119,6 +129,7 @@
     End Sub
 
     Private Sub Star3_Click(sender As Object, e As EventArgs) Handles Star3.Click
+        selectedRating = 3.0
         If ReviewSubmitted = False Then
             Star1.BackgroundImage = My.Resources.Resource1.star_colored
             Star2.BackgroundImage = My.Resources.Resource1.star_colored
@@ -129,6 +140,7 @@
     End Sub
 
     Private Sub Star4_Click(sender As Object, e As EventArgs) Handles Star4.Click
+        selectedRating = 4.0
         If ReviewSubmitted = False Then
             Star1.BackgroundImage = My.Resources.Resource1.star_colored
             Star2.BackgroundImage = My.Resources.Resource1.star_colored
@@ -139,6 +151,7 @@
     End Sub
 
     Private Sub Star5_Click(sender As Object, e As EventArgs) Handles Star5.Click
+        selectedRating = 5.0
         If ReviewSubmitted = False Then
             Star1.BackgroundImage = My.Resources.Resource1.star_colored
             Star2.BackgroundImage = My.Resources.Resource1.star_colored
@@ -158,6 +171,7 @@
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+        Me.Close()
 
         With AppointmentList_SP
             .TopLevel = False
@@ -172,14 +186,173 @@
 
     End Sub
 
+    Private Sub CheckIfReviewGiven()
+        Dim query As String = "SELECT rating, reviewText 
+            FROM reviews WHERE appointmentID = @appointmentID AND givenByID = @givenByID;"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                command.Parameters.AddWithValue("@givenByID", SessionManager.sp_userID)
+
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    If reader.Read() Then
+
+                        Dim rating As Integer = reader.GetInt32("rating")
+                        Dim reviewText As String = reader.GetString("reviewText")
+                        ReviewSubmitted = True
+
+                        Label12.Text = "Given Rating"
+                        Label13.Text = "Given Review"
+
+                        Button2.Hide()
+                        RichTextBox1.Text = reviewText
+
+                        RichTextBox1.ReadOnly = True
+                        If rating >= 1 Then
+                            Star1.BackgroundImage = My.Resources.Resource1.star_colored
+                        End If
+                        If rating >= 2 Then
+                            Star2.BackgroundImage = My.Resources.Resource1.star_colored
+                        End If
+                        If rating >= 3 Then
+                            Star3.BackgroundImage = My.Resources.Resource1.star_colored
+                        End If
+                        If rating >= 4 Then
+                            Star4.BackgroundImage = My.Resources.Resource1.star_colored
+                        End If
+                        If rating >= 5 Then
+                            Star5.BackgroundImage = My.Resources.Resource1.star_colored
+                        End If
+
+                    Else
+                        ReviewSubmitted = False
+                    End If
+                End Using
+            End Using
+        End Using
+
+    End Sub
+
+    Private Sub UpdateRatingReview()
+        Dim updateQuery As String = "INSERT INTO 
+            reviews (appointmentID, rating, givenForID, givenByID, reviewText, reviewDate)
+            VALUES (@appointmentID, @rating,@givenForID, @givenByID, @review, CURDATE());"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+            Using command As New MySqlCommand(updateQuery, connection)
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                command.Parameters.AddWithValue("@rating", selectedRating)
+                command.Parameters.AddWithValue("@givenForID", SessionManager.customerID)
+                command.Parameters.AddWithValue("@givenByID", SessionManager.sp_userID)
+                command.Parameters.AddWithValue("@review", RichTextBox1.Text)
+
+                command.ExecuteNonQuery()
+                Dim rowsAffected As Integer = command.ExecuteNonQuery()
+                If rowsAffected > 0 Then
+                    MessageBox.Show("Review updated.")
+                Else
+                    MessageBox.Show("Couldn't update review.")
+                End If
+            End Using
+        End Using
+
+    End Sub
+
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        RemovePreviousForm()
-        With AppointmentList_SP
-            .TopLevel = False
-            .Dock = DockStyle.Fill
-            Panel3.Controls.Add(AppointmentList_SP)
-            .BringToFront()
-            .Show()
-        End With
+
+        UpdateRatingReview()
+
+        If Not String.IsNullOrEmpty(RichTextBox1.Text.Trim()) Then
+            RemovePreviousForm()
+            Me.Close()
+            With AppointmentList_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(AppointmentList_SP)
+                .BringToFront()
+                .Show()
+            End With
+        Else
+            MessageBox.Show("Please enter some text in the review box.")
+        End If
+
+    End Sub
+
+    Private Sub Fetch_Appointment_Details()
+
+        ' Query to retrieve customer's ID based on email and password
+        Dim query As String = "SELECT 
+            users.userName AS CustomerName, 
+            contactDetails.location AS CustomerAddress, 
+            contactDetails.mobileNumber AS CustomerPhone, 
+            serviceTypes.serviceTypeName AS ServiceName, 
+            services.price AS Price, 
+            CONCAT(serviceAreaTimeslots.timeslotDate, ' ', serviceAreaTimeslots.startTime) AS BookedSlot, 
+            serviceAreas.location AS ServiceLocation
+        FROM 
+            appointments 
+        JOIN 
+            users ON appointments.customerID = users.userID 
+        JOIN 
+            contactDetails ON users.userID = contactDetails.userID 
+        JOIN 
+            serviceproviders ON appointments.serviceProviderID = serviceproviders.serviceProviderID 
+        JOIN 
+            serviceAreaTimeslots ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+        JOIN 
+            services ON serviceAreaTimeslots.serviceTypeID = services.serviceTypeID 
+        JOIN 
+            serviceTypes ON services.serviceTypeID = serviceTypes.serviceID 
+        JOIN 
+            serviceAreas ON serviceAreaTimeslots.areaID = serviceAreas.areaID 
+        WHERE 
+            appointments.serviceProviderID = @serviceProviderID
+            AND appointments.appointmentID = @appointmentID;"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                command.Parameters.AddWithValue("@serviceProviderID", SessionManager.spID)
+
+                Try
+                    connection.Open()
+                    Dim reader As MySqlDataReader = command.ExecuteReader()
+
+                    If reader.Read() Then
+
+                        CustomerName = reader("CustomerName").ToString()
+                        CustomerAddress = reader("CustomerAddress").ToString()
+                        CustomerPhone = reader("CustomerPhone").ToString()
+                        ServiceName = reader("ServiceName").ToString()
+                        Price = reader("Price").ToString()
+                        BookedSlot = reader("BookedSlot").ToString()
+                        ServiceLocation = reader("ServiceLocation").ToString()
+
+                        Label5.Text = CustomerName
+                        Label6.Text = CustomerAddress
+                        Label7.Text = CustomerPhone
+                        Label8.Text = ServiceName
+                        Label9.Text = Price
+                        Label10.Text = BookedSlot
+                        Label11.Text = ServiceLocation
+
+                    End If
+
+                    reader.Close()
+                Catch ex As Exception
+                    MessageBox.Show("Error " & ex.Message)
+                End Try
+            End Using
+        End Using
+
+    End Sub
+
+
+    Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
+
     End Sub
 End Class
