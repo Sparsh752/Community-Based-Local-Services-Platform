@@ -279,6 +279,8 @@ Public Class AppointmentList_Customer
         'MessageBox.Show(SessionManager.appointmentID & " " & SessionManager.customerID & " " & SessionManager.spID & " " & status)
 
         RemovePreviousForm()
+        Me.Close()
+
         If (status = "Scheduled") Then
             With InProgressPaymentNotDone
                 .TopLevel = False
