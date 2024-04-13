@@ -12,6 +12,8 @@ Public Class Display_Services
         Public Property Experience As Integer
         Public Property Location As String
         Public Property TimeSlots As String
+        Public Property count As Integer
+
     End Class
 
     ' List to store service providers
@@ -26,9 +28,12 @@ Public Class Display_Services
         Me.Size = New Size(841, 635)
         currentIndexMostTrusted = 0
         currentIndexPopular = 0
-        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName " &
-                          "FROM serviceproviders AS s " &
-                          "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID "
+        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
+                      "FROM serviceproviders AS s " &
+                      "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
+                      "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
+                      "GROUP BY s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName"
+
 
         ' Create a new SQL connection
         Using connection As New MySqlConnection(SessionManager.connectionString)
@@ -55,7 +60,8 @@ Public Class Display_Services
                            .ServiceTypeID = reader("serviceTypeID").ToString(),
                            .Price = reader("price").ToString(),
                            .Location = reader("areaID").ToString(),
-                           .Experience = Convert.ToInt32(reader("rating"))
+                           .Experience = Convert.ToInt32(reader("rating")),
+                           .count = Convert.ToInt32(reader("count"))
                        }
                         ' Add the service provider to the list
                         serviceProviders.Add(serviceProvider)
@@ -80,6 +86,8 @@ Public Class Display_Services
         Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
                                       .ThenByDescending(Function(provider) provider.Experience) _
                                       .ToList()
+        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.count) _
+                                  .ToList()
         For i As Integer = 1 To 3
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
@@ -132,7 +140,7 @@ Public Class Display_Services
             lblProvider.Size = New Size(92, 18)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
             lblProvider.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 574)
-            lblProvider.Text = serviceProviders(i - 1).ServiceName
+            lblProvider.Text = sortedProviders_popular(i - 1).ServiceName
             Me.Controls.Add(lblProvider)
             lblPopularServiceName.Add(lblProvider)
 
@@ -141,7 +149,7 @@ Public Class Display_Services
             lblProviderRating.Size = New Size(92, 14)
             lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
             lblProviderRating.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 594)
-            lblProviderRating.Text = "Rating : " & serviceProviders(i - 1).Ratings
+            lblProviderRating.Text = "Rating : " & sortedProviders_popular(i - 1).Ratings
             Me.Controls.Add(lblProviderRating)
             lblPopularRating.Add(lblProviderRating)
         Next
@@ -151,14 +159,14 @@ Public Class Display_Services
         btnNextMostTrusted.Size = New Size(70, 30)
         btnNextMostTrusted.Location = New Point(750, 155)
         AddHandler btnNextMostTrusted.Click, AddressOf BtnNextMostTrusted_Click
-        'Me.Controls.Add(btnNextMostTrusted)
+        Me.Controls.Add(btnNextMostTrusted)
 
         Dim btnPrevMostTrusted As New Button()
         btnPrevMostTrusted.Text = "Previous"
         btnPrevMostTrusted.Size = New Size(70, 30)
         btnPrevMostTrusted.Location = New Point(650, 155)
         AddHandler btnPrevMostTrusted.Click, AddressOf BtnPrevMostTrusted_Click
-        'Me.Controls.Add(btnPrevMostTrusted)
+        Me.Controls.Add(btnPrevMostTrusted)
 
         ' Display next and previous buttons for popular services
         Dim btnNextPopular As New Button()
@@ -166,14 +174,14 @@ Public Class Display_Services
         btnNextPopular.Size = New Size(70, 30)
         btnNextPopular.Location = New Point(750, 408)
         AddHandler btnNextPopular.Click, AddressOf BtnNextPopular_Click
-        'Me.Controls.Add(btnNextPopular)
+        Me.Controls.Add(btnNextPopular)
 
         Dim btnPrevPopular As New Button()
         btnPrevPopular.Text = "Previous"
         btnPrevPopular.Size = New Size(70, 30)
         btnPrevPopular.Location = New Point(650, 408)
         AddHandler btnPrevPopular.Click, AddressOf BtnPrevPopular_Click
-        'Me.Controls.Add(btnPrevPopular)
+        Me.Controls.Add(btnPrevPopular)
 
     End Sub
 
@@ -359,6 +367,8 @@ Public Class Display_Services
     End Sub
 
     Private Sub UpdatePopularPictureBoxesAndLabels()
+        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.count) _
+                                  .ToList()
         ' Update picture boxes and labels for Popular section
         For i As Integer = 0 To 2
             Dim index As Integer = i + currentIndexPopular
@@ -373,8 +383,8 @@ Public Class Display_Services
                 pb.Image = Image.FromFile(imagePath)
 
                 ' Update labels
-                lblProvider.Text = serviceProviders(index).ServiceName
-                lblProviderRating.Text = "Rating : " & serviceProviders(index).Ratings
+                lblProvider.Text = sortedProviders_popular(index).ServiceName
+                lblProviderRating.Text = "Rating : " & sortedProviders_popular(index).Ratings
             Else
                 ' If index is out of bounds, clear the picture box and labels
                 pbPopular(i).Image = Nothing
