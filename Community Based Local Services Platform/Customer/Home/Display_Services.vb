@@ -64,9 +64,7 @@ Public Class Display_Services
         ' Display the default data
         DisplayDefault()
     End Sub
-    ' Variable to keep track of the current index of services being displayed for each section
-    Private currentIndexMostTrusted As Integer = 0
-    Private currentIndexPopular As Integer = 0
+
 
     ' Method to display default view
     Private Sub DisplayDefault()
@@ -87,14 +85,14 @@ Public Class Display_Services
         Me.Controls.Add(lblPopularHeading)
 
         ' Display most trusted service providers
-        For i As Integer = 0 + currentIndexMostTrusted To Math.Min(2 + currentIndexMostTrusted, sortedProviders.Count - 1)
+        For i As Integer = 0 To Math.Min(2, sortedProviders.Count - 1)
             Dim pb As New PictureBox()
             pb.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
             AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
 
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + ((i - currentIndexMostTrusted) * (32 + 169)), 155)
+            pb.Location = New Point(68 + (i * (32 + 169)), 155)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -105,7 +103,7 @@ Public Class Display_Services
             lblProvider.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider.Size = New Size(92, 14)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + ((i - currentIndexMostTrusted) * (110 + 92)) + 20, 320)
+            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 320)
             AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
 
             Dim lblProvider1 As New Label()
@@ -113,7 +111,7 @@ Public Class Display_Services
             lblProvider1.Size = New Size(92, 18)
             lblProvider1.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider1.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider1.Location = New Point(106 + ((i - currentIndexMostTrusted) * (110 + 92)) + 20, 340)
+            lblProvider1.Location = New Point(106 + (i * (110 + 92)) + 20, 340)
             AddHandler lblProvider1.Click, AddressOf Navbar_Customer.Label_Click
             Me.Controls.Add(lblProvider)
             Me.Controls.Add(lblProvider1)
@@ -151,35 +149,7 @@ Public Class Display_Services
 
             Me.Controls.Add(lblProvider)
             Me.Controls.Add(lblProvider1)
-            ' Display next and previous buttons for most trusted providers
-            Dim btnNextMostTrusted As New Button()
-            btnNextMostTrusted.Text = "Next"
-            btnNextMostTrusted.Size = New Size(70, 30)
-            btnNextMostTrusted.Location = New Point(750, 155)
-            AddHandler btnNextMostTrusted.Click, AddressOf BtnNextMostTrusted_Click
-            'Me.Controls.Add(btnNextMostTrusted)
 
-            Dim btnPrevMostTrusted As New Button()
-            btnPrevMostTrusted.Text = "Previous"
-            btnPrevMostTrusted.Size = New Size(70, 30)
-            btnPrevMostTrusted.Location = New Point(650, 155)
-            AddHandler btnPrevMostTrusted.Click, AddressOf BtnPrevMostTrusted_Click
-            'Me.Controls.Add(btnPrevMostTrusted)
-
-            ' Display next and previous buttons for popular services
-            Dim btnNextPopular As New Button()
-            btnNextPopular.Text = "Next"
-            btnNextPopular.Size = New Size(70, 30)
-            btnNextPopular.Location = New Point(750, 408)
-            AddHandler btnNextPopular.Click, AddressOf BtnNextPopular_Click
-            'Me.Controls.Add(btnNextPopular)
-
-            Dim btnPrevPopular As New Button()
-            btnPrevPopular.Text = "Previous"
-            btnPrevPopular.Size = New Size(70, 30)
-            btnPrevPopular.Location = New Point(650, 408)
-            AddHandler btnPrevPopular.Click, AddressOf BtnPrevPopular_Click
-            'Me.Controls.Add(btnPrevPopular)
 
         Next
     End Sub
@@ -329,53 +299,5 @@ Public Class Display_Services
         End With
 
     End Sub
-    Private Sub BtnNextMostTrusted_Click(sender As Object, e As EventArgs)
-        ' Increment the current index for most trusted providers
-        currentIndexMostTrusted += 3
-        ' Ensure currentIndexMostTrusted does not exceed the maximum index
-        If currentIndexMostTrusted >= serviceProviders.Count Then
-            currentIndexMostTrusted = serviceProviders.Count - 3
-        End If
-        ' Redisplay the most trusted service providers
-        Me.Controls.Clear()
-        DisplayDefault()
-    End Sub
-
-    Private Sub BtnPrevMostTrusted_Click(sender As Object, e As EventArgs)
-        ' Decrement the current index for most trusted providers
-        currentIndexMostTrusted -= 3
-        ' Ensure currentIndexMostTrusted does not go below 0
-        If currentIndexMostTrusted < 0 Then
-            currentIndexMostTrusted = 0
-        End If
-        ' Redisplay the most trusted service providers
-        Me.Controls.Clear()
-        DisplayDefault()
-    End Sub
-
-    Private Sub BtnNextPopular_Click(sender As Object, e As EventArgs)
-        ' Increment the current index for popular services
-        currentIndexPopular += 3
-        ' Ensure currentIndexPopular does not exceed the maximum index
-        If currentIndexPopular >= serviceProviders.Count Then
-            currentIndexPopular = serviceProviders.Count - 3
-        End If
-        ' Redisplay the popular services
-        Me.Controls.Clear()
-        DisplayDefault()
-    End Sub
-
-    Private Sub BtnPrevPopular_Click(sender As Object, e As EventArgs)
-        ' Decrement the current index for popular services
-        currentIndexPopular -= 3
-        ' Ensure currentIndexPopular does not go below 0
-        If currentIndexPopular < 0 Then
-            currentIndexPopular = 0
-        End If
-        ' Redisplay the popular services
-        Me.Controls.Clear()
-        DisplayDefault()
-    End Sub
-
 
 End Class
