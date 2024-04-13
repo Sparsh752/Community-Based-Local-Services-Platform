@@ -8,74 +8,40 @@
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
 
-
-        Dim query As String = "SELECT s.serviceProviderID as SID, sp.serviceProviderName as SPName,s.serviceName as SName, sp.rating as rating FROM services as s JOIN serviceproviders as sp;"
-
-        ' Create a new SQL connection
-        Using connection As New MySqlConnection(SessionManager.connectionString)
-            ' Open the connection
-            connection.Open()
-
-            ' Create a new SQL command
-            Using command As New MySqlCommand(query, connection)
-                ' Set the parameter value for UserID
-                command.Parameters.AddWithValue("@UserID", SessionManager.userID)
-
-                ' Execute the SQL command and create a data reader
-                Using reader As MySqlDataReader = command.ExecuteReader()
-
-                    ' Read data from the reader
-                    While reader.Read()
-                        ' Add data to the list
-                        spdata.Add(reader("SID").ToString())
-                        spdata.Add(reader("SPName").ToString())
-                        spdata.Add(reader("SName").ToString())
-                        spdata.Add(reader("rating").ToString())
-                    End While
-
-                End Using
-            End Using
-        End Using
-
-        ' Assuming you have a function to retrieve distinct locations from the database
-        Dim locations As List(Of String) = GetDistinctLocationsFromDB()
-
-        ' Add the retrieved locations to the ComboBox
-        For Each location As String In locations
-            ComboBox1.Items.Add(location)
-        Next
-
         searchBox.Location = New Point(27, 106)
         ' Open Display_Services.vb form inside Panel2
         Panel1.BackColor = ColorTranslator.FromHtml("#F6F6F6")
         priceLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
-        priceLabel.Location = New Point(34, 253 + x)
+
         searchBox.Font = New Font(SessionManager.font_family, 14, FontStyle.Regular)
         searchBox.Size = New Size(280, 27)
         Label3.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         Label1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
         Label2.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
         Label4.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
-        SearchBtn.Location = New Point(98, 522 + x)
+
         SearchBtn.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         SearchBtn.FlatStyle = FlatStyle.Flat
         SearchBtn.FlatAppearance.BorderSize = 0
         SearchBtn.BackColor = ColorTranslator.FromHtml("#F9754B")
         SearchBtn.Size = New Size(151, 29)
         Panel1.Size = New Size(359, 635)
-        Label1.Location = New Point(34, 276 + x)
-        Label2.Location = New Point(169, 276 + x)
-        MinCostBox.Location = New Point(34, 293 + x)
-        MaxCostBox.Location = New Point(169, 293 + x)
         MinCostBox.Size = New Size(106, 27)
         MaxCostBox.Size = New Size(106, 27)
         MinCostBox.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         MaxCostBox.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
+        TrackBar1.Size = New Size(249, 56)
+        priceLabel.Location = New Point(34, 253 + x)
+        Label1.Location = New Point(34, 276 + x)
+        Label2.Location = New Point(169, 276 + x)
+        MinCostBox.Location = New Point(34, 293 + x)
+        MaxCostBox.Location = New Point(169, 293 + x)
         Label3.Location = New Point(34, 343 + x)
         ComboBox1.Location = New Point(34, 371 + x)
         Label4.Location = New Point(34, 422 + x)
         TrackBar1.Location = New Point(34, 450 + x)
-        TrackBar1.Size = New Size(249, 56)
+        SearchBtn.Location = New Point(98, 522 + x)
+
         Dim serviceTypeHeadingLabel As New Label()
         serviceTypeHeadingLabel.Text = "Service Types"
         serviceTypeHeadingLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
@@ -97,14 +63,29 @@
         Dim currentRow As Integer = 0
         Dim currentColumn As Integer = 0
 
+        ' Create a panel to contain the buttons
+        Dim buttonsPanel As New Panel()
+        ' buttonsPanel.Dock = DockStyle.Top ' Dock to the top of the container panel
+        buttonsPanel.AutoScroll = True ' Enable scrolling for the panel
+
+        ' Add the buttons panel to the main panel
+        Panel1.Controls.Add(buttonsPanel)
+
+        ' Calculate the total height required for two rows of buttons
+        Dim totalHeightForTwoRows As Integer = (2 * (buttonHeight + 7))
+
+        ' Set the size of the buttons panel
+        buttonsPanel.Size = New Size(320, totalHeightForTwoRows)
+        buttonsPanel.Location = New Point(initialX, initialY)
+
         ' Loop through the distinct service types and create buttons dynamically
         For Each serviceType As String In serviceTypes
             Dim serviceTypeButton As New Button()
             serviceTypeButton.Text = serviceType
 
             ' Calculate the position of the button
-            Dim buttonX As Integer = initialX + (currentColumn * (buttonWidth + xOffset))
-            Dim buttonY As Integer = initialY + (currentRow * (buttonHeight + 7)) ' Vertical spacing between rows
+            Dim buttonX As Integer = (currentColumn * (buttonWidth + xOffset))
+            Dim buttonY As Integer = (currentRow * (buttonHeight + 7)) ' Vertical spacing between rows
 
             serviceTypeButton.Location = New Point(buttonX, buttonY)
             serviceTypeButton.Size = New Size(buttonWidth, buttonHeight)
@@ -117,8 +98,8 @@
             ' Attach event handler for the button click
             AddHandler serviceTypeButton.Click, AddressOf ServiceTypeButton_Click
 
-            ' Add the button to the panel
-            Panel1.Controls.Add(serviceTypeButton)
+            ' Add the button to the buttons panel
+            buttonsPanel.Controls.Add(serviceTypeButton)
 
             ' Increment the column count
             currentColumn += 1
@@ -128,6 +109,15 @@
                 currentColumn = 0
                 currentRow += 1
             End If
+        Next
+        Panel1.Controls.Add(buttonsPanel)
+
+        ' Assuming you have a function to retrieve distinct locations from the database
+        Dim locations As List(Of String) = GetDistinctLocationsFromDB()
+
+        ' Add the retrieved locations to the ComboBox
+        For Each location As String In locations
+            ComboBox1.Items.Add(location)
         Next
 
 

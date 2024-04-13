@@ -23,9 +23,6 @@ Partial Class Homepage_Customer
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Panel1 = New Panel()
-        Button3 = New Button()
-        Button2 = New Button()
-        Button1 = New Button()
         SearchBtn = New Button()
         TrackBar1 = New TrackBar()
         Label4 = New Label()
@@ -45,9 +42,6 @@ Partial Class Homepage_Customer
         ' Panel1
         ' 
         Panel1.AutoScroll = True
-        Panel1.Controls.Add(Button3)
-        Panel1.Controls.Add(Button2)
-        Panel1.Controls.Add(Button1)
         Panel1.Controls.Add(SearchBtn)
         Panel1.Controls.Add(TrackBar1)
         Panel1.Controls.Add(Label4)
@@ -64,36 +58,6 @@ Partial Class Homepage_Customer
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(362, 813)
         Panel1.TabIndex = 0
-        ' 
-        ' Button3
-        ' 
-        Button3.Location = New Point(214, 164)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(86, 29)
-        Button3.TabIndex = 2
-        Button3.Text = "Button3"
-        Button3.UseVisualStyleBackColor = True
-        Button3.Visible = False
-        ' 
-        ' Button2
-        ' 
-        Button2.Location = New Point(122, 164)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(86, 29)
-        Button2.TabIndex = 1
-        Button2.Text = "Button2"
-        Button2.UseVisualStyleBackColor = True
-        Button2.Visible = False
-        ' 
-        ' Button1
-        ' 
-        Button1.Location = New Point(30, 164)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(86, 29)
-        Button1.TabIndex = 0
-        Button1.Text = "Button1"
-        Button1.UseVisualStyleBackColor = True
-        Button1.Visible = False
         ' 
         ' SearchBtn
         ' 
@@ -235,9 +199,6 @@ Partial Class Homepage_Customer
     Friend WithEvents Panel2 As Panel
     Friend WithEvents searchBox As TextBox
     Friend WithEvents priceLabel As Label
-    Friend WithEvents Button3 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Button1 As Button
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
