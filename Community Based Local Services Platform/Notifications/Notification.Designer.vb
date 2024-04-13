@@ -24,12 +24,13 @@ Partial Class Notification
     Private Sub InitializeComponent()
         SuspendLayout()
         ' 
-        ' Form1
+        ' Notification
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(428, 328)
-        Name = "Form1"
+        ClientSize = New Size(446, 345)
+        FormBorderStyle = FormBorderStyle.None
+        Name = "Notification"
         Text = "Form1"
         ResumeLayout(False)
     End Sub
