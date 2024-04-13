@@ -6,7 +6,7 @@ Public Class Display_Services
         Public Property Name As String
         Public Property Description As String
         Public Property Price As String
-        Public Property ServiceProviderID As String
+        Public Property ServiceTypeID As String
         Public Property ServiceName As String
         Public Property Ratings As Integer
         Public Property Experience As Integer
@@ -23,7 +23,7 @@ Public Class Display_Services
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(841, 635)
 
-        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName" &
+        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName " &
                           "FROM serviceproviders AS s " &
                           "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID "
 
@@ -49,7 +49,7 @@ Public Class Display_Services
                            .Description = reader("ServiceProviderdescription").ToString(),
                            .Ratings = Convert.ToInt32(reader("rating")),
                            .ServiceName = reader("serviceName").ToString(),
-                           .ServiceProviderID = reader("serviceProviderID").ToString(),
+                           .ServiceTypeID = reader("serviceTypeID").ToString(),
                            .Price = reader("price").ToString(),
                            .Location = reader("areaID").ToString(),
                            .Experience = Convert.ToInt32(reader("rating"))
