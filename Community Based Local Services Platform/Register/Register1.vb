@@ -334,14 +334,13 @@ Public Class Register1
 
                     ' Insert into the users table
                     Dim userId As Integer = 1
-                    Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password, userPhoto) VALUES (@usrname, @usrtype, @email, @password, @userPhoto);SELECT LAST_INSERT_ID();"
+                    Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password, userPhoto,twoFactorAuth ) VALUES (@usrname, @usrtype, @email, @password, @userPhoto, @twoFactorAuth);SELECT LAST_INSERT_ID();"
                     Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
                         insertUserCommand.Parameters.AddWithValue("@usrname", name_Text.Text)
                         insertUserCommand.Parameters.AddWithValue("@usrtype", "Customer")
                         insertUserCommand.Parameters.AddWithValue("@email", email_Text.Text)
                         insertUserCommand.Parameters.AddWithValue("@password", password_Text.Text)
-                        Dim imageBytes As Byte() = PictureBoxImageToByteArray(registerProfilePic)
-
+                        insertUserCommand.Parameters.AddWithValue("@twoFactorAuth", 1)
 
                         ' Add the byte array parameter for the image
                         insertUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
