@@ -5,7 +5,8 @@ Public Class Display_Services
     Public Class ServiceProvider
         Public Property Name As String
         Public Property Description As String
-        Public Property Cost As String
+        Public Property Price As String
+        Public Property ServiceProviderID As String
         Public Property ServiceName As String
         Public Property Ratings As Integer
         Public Property Experience As Integer
@@ -22,7 +23,7 @@ Public Class Display_Services
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(841, 635)
 
-        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID " &
+        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName" &
                           "FROM serviceproviders AS s " &
                           "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID "
 
@@ -47,8 +48,9 @@ Public Class Display_Services
                            .Name = reader("serviceProviderName").ToString(),
                            .Description = reader("ServiceProviderdescription").ToString(),
                            .Ratings = Convert.ToInt32(reader("rating")),
-                           .ServiceName = reader("serviceTypeID").ToString(),
-                           .Cost = reader("price").ToString(),
+                           .ServiceName = reader("serviceName").ToString(),
+                           .ServiceProviderID = reader("serviceProviderID").ToString(),
+                           .Price = reader("price").ToString(),
                            .Location = reader("areaID").ToString(),
                            .Experience = Convert.ToInt32(reader("rating"))
                        }
@@ -174,8 +176,8 @@ Public Class Display_Services
         Dim filteredProviders = serviceProviders.Where(Function(provider) _
         (provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
         provider.Description.ToLower().Contains(searchCriteria.ToLower())) AndAlso
-        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) >= minCost) AndAlso
-        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) <= maxCost) AndAlso
+        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) >= minCost) AndAlso
+        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) <= maxCost) AndAlso
         provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating AndAlso
         (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
         (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceName.ToLower().Contains(serviceType.ToLower())))
@@ -232,7 +234,7 @@ Public Class Display_Services
             resultPanel.Controls.Add(serviceNameLabel)
 
             Dim costLabel As New Label()
-            costLabel.Text = "Rate : Rs. " & provider.Cost
+            costLabel.Text = "Rate : Rs. " & provider.Price
             costLabel.Size = New Size(280, 14)
             costLabel.Location = New Point(208, 76)
             costLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
