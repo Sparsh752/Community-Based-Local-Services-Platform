@@ -16,13 +16,16 @@ Public Class Display_Services
 
     ' List to store service providers
     Private serviceProviders As New List(Of ServiceProvider)()
-
+    ' Variable to keep track of the current index of services being displayed for each section
+    Private currentIndexMostTrusted As Integer = 0
+    Private currentIndexPopular As Integer = 0
     Private Sub Display_Services_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Configure the form
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(841, 635)
-
+        currentIndexMostTrusted = 0
+        currentIndexPopular = 0
         Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName " &
                           "FROM serviceproviders AS s " &
                           "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID "
@@ -77,81 +80,101 @@ Public Class Display_Services
         Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
                                       .ThenByDescending(Function(provider) provider.Experience) _
                                       .ToList()
+        For i As Integer = 1 To 3
+            Dim pb As New PictureBox()
+            pb.SizeMode = PictureBoxSizeMode.StretchImage
+            pb.Size = New Size(169, 157)
+            pb.Location = New Point(68 + ((i - 1) * (32 + 169)), 155)
+            ' Load sample image for service provider
+            Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+            pb.Image = Image.FromFile(imagePath)
+            Me.Controls.Add(pb)
+            pbMostTrusted.Add(pb)
+
+            Dim lblProvider As New Label()
+            lblProvider.Size = New Size(92, 18)
+            lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProvider.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 320)
+            lblProvider.Text = sortedProviders(i - 1).ServiceName
+
+            Me.Controls.Add(lblProvider)
+            lblMostTrustedServiceName.Add(lblProvider)
+
+            ' Update labels
+            Dim lblProviderRating As New Label()
+            lblProviderRating.Size = New Size(92, 18)
+            lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProviderRating.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 340)
+            lblProviderRating.Text = "Rating : " & sortedProviders(i - 1).Ratings
+
+            Me.Controls.Add(lblProviderRating)
+            lblMostTrustedRating.Add(lblProviderRating)
+        Next
         Dim lblPopularHeading As New Label()
         lblPopularHeading.Text = "Trending Services"
         lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
         lblPopularHeading.Size = New Size(280, 28)
         lblPopularHeading.Location = New Point(71, 371)
         Me.Controls.Add(lblPopularHeading)
-
-        ' Display most trusted service providers
-        For i As Integer = 0 To Math.Min(2, sortedProviders.Count - 1)
+        ' Create picture boxes and labels for Popular section
+        For i As Integer = 1 To 3
             Dim pb As New PictureBox()
-            pb.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
-            AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
-
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + (i * (32 + 169)), 155)
+            pb.Location = New Point(68 + ((i - 1) * (32 + 169)), 408)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
             Me.Controls.Add(pb)
+            pbPopular.Add(pb)
 
             Dim lblProvider As New Label()
-            lblProvider.Text = sortedProviders(i).Name
-            lblProvider.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
-            lblProvider.Size = New Size(92, 14)
-            lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 320)
-            AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
-
-            Dim lblProvider1 As New Label()
-            lblProvider1.Text = "Rating : " & sortedProviders(i).Ratings
-            lblProvider1.Size = New Size(92, 18)
-            lblProvider1.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
-            lblProvider1.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider1.Location = New Point(106 + (i * (110 + 92)) + 20, 340)
-            AddHandler lblProvider1.Click, AddressOf Navbar_Customer.Label_Click
-            Me.Controls.Add(lblProvider)
-            Me.Controls.Add(lblProvider1)
-
-        Next
-
-        ' Display popular services
-        For i As Integer = 0 To 2
-            Dim pb As New PictureBox()
-            pb.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
-            AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
-            pb.SizeMode = PictureBoxSizeMode.StretchImage
-            pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + (i * (32 + 169)), 408)
-            ' Load sample image for service provider
-            Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-            pb.Image = Image.FromFile(imagePath)
-            Me.Controls.Add(pb)
-
-            Dim lblProvider As New Label()
-            lblProvider.Text = serviceProviders(i).Name
             lblProvider.Size = New Size(92, 18)
-            lblProvider.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 574)
-            AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
-
-            Dim lblProvider1 As New Label()
-            lblProvider1.Text = "Rating : " & serviceProviders(i).Ratings
-            lblProvider1.Size = New Size(92, 14)
-            lblProvider1.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
-            lblProvider1.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider1.Location = New Point(106 + (i * (110 + 92)) + 20, 594)
-            AddHandler lblProvider1.Click, AddressOf Navbar_Customer.Label_Click
-
+            lblProvider.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 574)
+            lblProvider.Text = serviceProviders(i - 1).ServiceName
             Me.Controls.Add(lblProvider)
-            Me.Controls.Add(lblProvider1)
+            lblPopularServiceName.Add(lblProvider)
 
-
+            ' Update labels
+            Dim lblProviderRating As New Label()
+            lblProviderRating.Size = New Size(92, 14)
+            lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProviderRating.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 594)
+            lblProviderRating.Text = "Rating : " & serviceProviders(i - 1).Ratings
+            Me.Controls.Add(lblProviderRating)
+            lblPopularRating.Add(lblProviderRating)
         Next
+        ' Display next and previous buttons for most trusted providers
+        Dim btnNextMostTrusted As New Button()
+        btnNextMostTrusted.Text = "Next"
+        btnNextMostTrusted.Size = New Size(70, 30)
+        btnNextMostTrusted.Location = New Point(750, 155)
+        AddHandler btnNextMostTrusted.Click, AddressOf BtnNextMostTrusted_Click
+        'Me.Controls.Add(btnNextMostTrusted)
+
+        Dim btnPrevMostTrusted As New Button()
+        btnPrevMostTrusted.Text = "Previous"
+        btnPrevMostTrusted.Size = New Size(70, 30)
+        btnPrevMostTrusted.Location = New Point(650, 155)
+        AddHandler btnPrevMostTrusted.Click, AddressOf BtnPrevMostTrusted_Click
+        'Me.Controls.Add(btnPrevMostTrusted)
+
+        ' Display next and previous buttons for popular services
+        Dim btnNextPopular As New Button()
+        btnNextPopular.Text = "Next"
+        btnNextPopular.Size = New Size(70, 30)
+        btnNextPopular.Location = New Point(750, 408)
+        AddHandler btnNextPopular.Click, AddressOf BtnNextPopular_Click
+        'Me.Controls.Add(btnNextPopular)
+
+        Dim btnPrevPopular As New Button()
+        btnPrevPopular.Text = "Previous"
+        btnPrevPopular.Size = New Size(70, 30)
+        btnPrevPopular.Location = New Point(650, 408)
+        AddHandler btnPrevPopular.Click, AddressOf BtnPrevPopular_Click
+        'Me.Controls.Add(btnPrevPopular)
+
     End Sub
 
     ' Method to update services based on search criteria
@@ -195,7 +218,13 @@ Public Class Display_Services
         End If
         ' End If
     End Sub
+    Private pbMostTrusted As New List(Of PictureBox)()
+    Private lblMostTrustedServiceName As New List(Of Label)()
+    Private lblMostTrustedRating As New List(Of Label)()
 
+    Private pbPopular As New List(Of PictureBox)()
+    Private lblPopularServiceName As New List(Of Label)()
+    Private lblPopularRating As New List(Of Label)()
     ' Method to display search results
     Private Sub DisplaySearchResults(providers As List(Of ServiceProvider), minRating As Integer, maxRating As Integer)
         Me.AutoScroll = True
@@ -299,5 +328,104 @@ Public Class Display_Services
         End With
 
     End Sub
+    Private Sub UpdateMostTrustedPictureBoxesAndLabels()
+        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
+                                  .ThenByDescending(Function(provider) provider.Experience) _
+                                  .ToList()
 
+        ' Update picture boxes and labels for Most Trusted section
+        For i As Integer = 0 To 2
+            Dim index As Integer = i + currentIndexMostTrusted
+            If index < sortedProviders.Count Then
+                Dim pb As PictureBox = pbMostTrusted(i)
+                Dim lblProvider As Label = lblMostTrustedServiceName(i)
+                Dim lblProviderRating As Label = lblMostTrustedRating(i)
+
+                ' Update picture box
+                ' Load sample image for service provider
+                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                pb.Image = Image.FromFile(imagePath)
+
+                ' Update labels
+                lblProvider.Text = sortedProviders(index).ServiceName
+                lblProviderRating.Text = "Rating : " & sortedProviders(index).Ratings
+            Else
+                ' If index is out of bounds, clear the picture box and labels
+                pbMostTrusted(i).Image = Nothing
+                lblMostTrustedServiceName(i).Text = ""
+                lblMostTrustedRating(i).Text = ""
+            End If
+        Next
+    End Sub
+
+    Private Sub UpdatePopularPictureBoxesAndLabels()
+        ' Update picture boxes and labels for Popular section
+        For i As Integer = 0 To 2
+            Dim index As Integer = i + currentIndexPopular
+            If index < serviceProviders.Count Then
+                Dim pb As PictureBox = pbPopular(i)
+                Dim lblProvider As Label = lblPopularServiceName(i)
+                Dim lblProviderRating As Label = lblPopularRating(i)
+
+                ' Update picture box
+                ' Load sample image for service provider
+                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                pb.Image = Image.FromFile(imagePath)
+
+                ' Update labels
+                lblProvider.Text = serviceProviders(index).ServiceName
+                lblProviderRating.Text = "Rating : " & serviceProviders(index).Ratings
+            Else
+                ' If index is out of bounds, clear the picture box and labels
+                pbPopular(i).Image = Nothing
+                lblPopularServiceName(i).Text = ""
+                lblPopularRating(i).Text = ""
+            End If
+        Next
+    End Sub
+
+
+    Private Sub BtnNextMostTrusted_Click(sender As Object, e As EventArgs)
+        ' Increment the current index for most trusted providers
+        currentIndexMostTrusted += 3
+        ' Ensure currentIndexMostTrusted does not exceed the maximum index
+        If currentIndexMostTrusted >= serviceProviders.Count Then
+            currentIndexMostTrusted = serviceProviders.Count - 3
+        End If
+        ' Update picture boxes and labels for Most Trusted section
+        UpdateMostTrustedPictureBoxesAndLabels()
+    End Sub
+
+    Private Sub BtnPrevMostTrusted_Click(sender As Object, e As EventArgs)
+        ' Decrement the current index for most trusted providers
+        currentIndexMostTrusted -= 3
+        ' Ensure currentIndexMostTrusted does not go below 0
+        If currentIndexMostTrusted < 0 Then
+            currentIndexMostTrusted = 0
+        End If
+        ' Update picture boxes and labels for Most Trusted section
+        UpdateMostTrustedPictureBoxesAndLabels()
+    End Sub
+
+    Private Sub BtnNextPopular_Click(sender As Object, e As EventArgs)
+        ' Increment the current index for popular services
+        currentIndexPopular += 3
+        ' Ensure currentIndexPopular does not exceed the maximum index
+        If currentIndexPopular >= serviceProviders.Count Then
+            currentIndexPopular = serviceProviders.Count - 3
+        End If
+        ' Update picture boxes and labels for Popular section
+        UpdatePopularPictureBoxesAndLabels()
+    End Sub
+
+    Private Sub BtnPrevPopular_Click(sender As Object, e As EventArgs)
+        ' Decrement the current index for popular services
+        currentIndexPopular -= 3
+        ' Ensure currentIndexPopular does not go below 0
+        If currentIndexPopular < 0 Then
+            currentIndexPopular = 0
+        End If
+        ' Update picture boxes and labels for Popular section
+        UpdatePopularPictureBoxesAndLabels()
+    End Sub
 End Class
