@@ -28,6 +28,48 @@ Public Class Navbar_Customer
         Panel1.BackColor = ColorTranslator.FromHtml("#0F2A37")
         Me.StartPosition = FormStartPosition.CenterScreen
         Me.Size = New Size(1200, 700)
+
+
+        Dim NotificationButton As New Button()
+        NotificationButton.Size() = New Size(52, 30)
+        NotificationButton.BackColor = ColorTranslator.FromHtml("#0F2A37")
+        NotificationButton.Location = New Point(49, 18)
+        NotificationButton.Text = "Notifications"
+        NotificationButton.ForeColor = Color.White
+        NotificationButton.Font = New Font("Bahnschrift Light", 11, FontStyle.Regular)
+        NotificationButton.FlatStyle = FlatStyle.Flat
+        NotificationButton.FlatAppearance.BorderSize = 0
+        NotificationButton.Padding = New Padding(0, 0, 0, 0)
+        NotificationButton.TextAlign = ContentAlignment.MiddleCenter
+        NotificationButton.AutoSize = True
+
+        Panel1.Controls.Add(NotificationButton)
+
+
+        Dim NotificationIcon As New PictureBox With {
+            .BackgroundImage = My.Resources.Resource1.notification_icon,
+            .Location = New Point(155, 25),
+            .Name = "NotificationIcon",
+            .Size = New Size(17, 18),
+            .TabIndex = 1,
+            .TabStop = False
+        }
+        Panel1.Controls.Add(NotificationIcon)
+
+        Dim NotificationBadge As New PictureBox With {
+            .BackgroundImage = My.Resources.Resource1.notification_badge,
+            .Location = New Point(168, 20),
+            .Name = "NotificationIcon",
+            .Size = New Size(7, 7),
+            .TabIndex = 1,
+            .TabStop = False
+        }
+
+        Panel1.Controls.Add(NotificationBadge)
+        NotificationBadge.BringToFront()
+        NotificationBadge.Visible = False
+
+
         Dim HomeButton As New Button()
         HomeButton.Size() = New Size(52, 30)
 
