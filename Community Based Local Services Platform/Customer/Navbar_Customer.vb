@@ -1,4 +1,5 @@
 ﻿Imports Community_Based_Local_Services_Platform.Display_Services
+Imports System.IO
 Imports System.Runtime.InteropServices
 
 Public Class Navbar_Customer
@@ -246,7 +247,7 @@ Public Class Navbar_Customer
             'retrieve data
 
             ' Dim loadQuery As String = "SELECT email, location, mobileNumber,address FROM ContactDetails WHERE BINARY userID='" & SessionManager.userID & "'"
-            Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName " &
+            Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName, U.userPhoto " &
                           "FROM contactDetails CD " &
                           "JOIN users U ON CD.userID = U.userID " &
                           "WHERE BINARY CD.userID='" & SessionManager.userID & "'"
@@ -273,6 +274,23 @@ Public Class Navbar_Customer
                             Profile_Customer.contact_tb.Text = cus_mobile
                             Profile_Customer.address_tb.Text = cus_address
                             Profile_Customer.customerName_tb.Text = cus_username
+
+                            ' Retrieve the user photo byte array from the database
+                            If Not reader.IsDBNull(reader.GetOrdinal("userPhoto")) Then
+                                Dim userPhoto As Byte() = DirectCast(reader("userPhoto"), Byte())
+
+                                ' Check if user photo is not null
+                                If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                                    ' Convert byte array to image and display it in the picture box
+                                    Using ms As New MemoryStream(userPhoto)
+                                        Profile_Customer.customerProfilePicture.SizeMode = PictureBoxSizeMode.StretchImage
+                                        Profile_Customer.customerProfilePicture.Image = Image.FromStream(ms)
+                                    End Using
+                                Else
+                                    ' If user photo is null, set a default image or display a placeholder
+                                    Profile_Customer.customerProfilePicture.Image = My.Resources.Resource1.displayPicture
+                                End If
+                            End If
 
                         End If
                     Catch ex As Exception
