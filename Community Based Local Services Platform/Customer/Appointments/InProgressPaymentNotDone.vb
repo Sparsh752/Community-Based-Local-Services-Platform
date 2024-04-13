@@ -128,16 +128,46 @@ Public Class InProgressPaymentNotDone
         End If
     End Sub
 
+    Private Sub UpdateAppointment()
+        Dim updateQuery As String = "UPDATE appointments " &
+                            "SET appointmentStatus = 'Cancelled' " &
+                            "WHERE appointmentID = @appointmentID"
+
+        ' Create a new connection object
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+            ' Create a new command object with the query and connection
+            Using command As New MySqlCommand(updateQuery, connection)
+                ' Set the parameter value for AppointmentID
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                ' Execute the command and get the number of rows affected
+                Dim rowsAffected As Integer = command.ExecuteNonQuery()
+                If rowsAffected > 0 Then
+                    MessageBox.Show("Appointment status updated successfully.")
+                Else
+                    MessageBox.Show("No appointment found or status already updated.")
+                End If
+            End Using
+        End Using
+
+    End Sub
+
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        RemovePreviousForm()
-        Me.Close()
-        With AppointmentList_Customer
-            .TopLevel = False
-            .Dock = DockStyle.Fill
-            Panel3.Controls.Add(AppointmentList_Customer)
-            .BringToFront()
-            .Show()
-        End With
+        Dim result As DialogResult = MessageBox.Show("Are you sure you want to cancel the appointment?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result = DialogResult.Yes Then
+            UpdateAppointment()
+            RemovePreviousForm()
+            Me.Close()
+            With AppointmentList_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(AppointmentList_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        End If
     End Sub
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
