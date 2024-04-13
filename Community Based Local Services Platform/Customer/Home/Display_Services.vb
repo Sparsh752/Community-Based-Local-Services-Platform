@@ -8,6 +8,7 @@ Public Class Display_Services
         Public Property Price As String
         Public Property ServiceTypeID As String
         Public Property ServiceName As String
+        Public Property ServiceDescription As String
         Public Property Ratings As Integer
         Public Property Experience As Integer
         Public Property Location As String
@@ -18,22 +19,24 @@ Public Class Display_Services
 
     ' List to store service providers
     Private serviceProviders As New List(Of ServiceProvider)()
+
     ' Variable to keep track of the current index of services being displayed for each section
     Private currentIndexMostTrusted As Integer = 0
     Private currentIndexPopular As Integer = 0
+
     Private Sub Display_Services_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Configure the form
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(841, 635)
+
         currentIndexMostTrusted = 0
         currentIndexPopular = 0
-        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
+        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, se.serviceDescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
                       "FROM serviceproviders AS s " &
                       "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
                       "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
                       "GROUP BY s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName"
-
 
         ' Create a new SQL connection
         Using connection As New MySqlConnection(SessionManager.connectionString)
@@ -47,7 +50,7 @@ Public Class Display_Services
 
                 ' Execute the SQL command and create a data reader
                 Using reader As MySqlDataReader = command.ExecuteReader()
-                    ' Create a list to hold the labels data
+                    ' Create a list to hold the labels data 
                     Dim labels As New List(Of String)()
 
                     ' Read data from the reader
@@ -57,12 +60,13 @@ Public Class Display_Services
                            .Description = reader("ServiceProviderdescription").ToString(),
                            .Ratings = Convert.ToInt32(reader("rating")),
                            .ServiceName = reader("serviceName").ToString(),
+                           .ServiceDescription = reader("serviceDescription").ToString(),
                            .ServiceTypeID = reader("serviceTypeID").ToString(),
                            .Price = reader("price").ToString(),
                            .Location = reader("areaID").ToString(),
                            .Experience = Convert.ToInt32(reader("rating")),
                            .count = Convert.ToInt32(reader("count"))
-                       }
+                        }
                         ' Add the service provider to the list
                         serviceProviders.Add(serviceProvider)
                     End While
@@ -74,6 +78,13 @@ Public Class Display_Services
         DisplayDefault()
     End Sub
 
+    Private pbMostTrusted As New List(Of PictureBox)()
+    Private lblMostTrustedServiceName As New List(Of Label)()
+    Private lblMostTrustedRating As New List(Of Label)()
+
+    Private pbPopular As New List(Of PictureBox)()
+    Private lblPopularServiceName As New List(Of Label)()
+    Private lblPopularRating As New List(Of Label)()
 
     ' Method to display default view
     Private Sub DisplayDefault()
@@ -86,8 +97,7 @@ Public Class Display_Services
         Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
                                       .ThenByDescending(Function(provider) provider.Experience) _
                                       .ToList()
-        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.count) _
-                                  .ToList()
+
         For i As Integer = 1 To 3
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
@@ -103,7 +113,7 @@ Public Class Display_Services
             lblProvider.Size = New Size(92, 18)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
             lblProvider.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 320)
-            lblProvider.Text = sortedProviders(i - 1).ServiceName
+            lblProvider.Text = sortedProviders(i - 1).Name
 
             Me.Controls.Add(lblProvider)
             lblMostTrustedServiceName.Add(lblProvider)
@@ -118,12 +128,16 @@ Public Class Display_Services
             Me.Controls.Add(lblProviderRating)
             lblMostTrustedRating.Add(lblProviderRating)
         Next
+
         Dim lblPopularHeading As New Label()
         lblPopularHeading.Text = "Trending Services"
         lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
         lblPopularHeading.Size = New Size(280, 28)
         lblPopularHeading.Location = New Point(91, 371)
         Me.Controls.Add(lblPopularHeading)
+        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.count) _
+                                  .ToList()
+
         ' Create picture boxes and labels for Popular section
         For i As Integer = 1 To 3
             Dim pb As New PictureBox()
@@ -153,6 +167,7 @@ Public Class Display_Services
             Me.Controls.Add(lblProviderRating)
             lblPopularRating.Add(lblProviderRating)
         Next
+
         ' Display next and previous buttons for most trusted providers
         Dim btnNextMostTrusted As New Button()
         With btnNextMostTrusted
@@ -215,7 +230,6 @@ Public Class Display_Services
         End With
         'Me.Controls.Add(btnPrevPopular)
 
-
     End Sub
 
     ' Method to update services based on search criteria
@@ -239,12 +253,14 @@ Public Class Display_Services
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
         Dim filteredProviders = serviceProviders.Where(Function(provider) _
         (provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
-        provider.Description.ToLower().Contains(searchCriteria.ToLower())) AndAlso
+        provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
+        provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
+        provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
         (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) >= minCost) AndAlso
         (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) <= maxCost) AndAlso
         provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating AndAlso
         (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
-        (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceName.ToLower().Contains(serviceType.ToLower())))
+        (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
         ).ToList()
 
         ' Check if there are any results
@@ -259,13 +275,7 @@ Public Class Display_Services
         End If
         ' End If
     End Sub
-    Private pbMostTrusted As New List(Of PictureBox)()
-    Private lblMostTrustedServiceName As New List(Of Label)()
-    Private lblMostTrustedRating As New List(Of Label)()
 
-    Private pbPopular As New List(Of PictureBox)()
-    Private lblPopularServiceName As New List(Of Label)()
-    Private lblPopularRating As New List(Of Label)()
     ' Method to display search results
     Private Sub DisplaySearchResults(providers As List(Of ServiceProvider), minRating As Integer, maxRating As Integer)
         Me.AutoScroll = True
@@ -297,7 +307,7 @@ Public Class Display_Services
             resultPanel.Controls.Add(nameLabel)
 
             Dim serviceNameLabel As New Label()
-            serviceNameLabel.Text = provider.Name
+            serviceNameLabel.Text = provider.ServiceName
             serviceNameLabel.Size = New Size(280, 28)
             serviceNameLabel.Location = New Point(208, 50)
             serviceNameLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
