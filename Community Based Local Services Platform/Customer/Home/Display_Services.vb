@@ -81,7 +81,7 @@ Public Class Display_Services
         lblMostTrustedHeading.Text = "Most Trusted Service Providers"
         lblMostTrustedHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
         lblMostTrustedHeading.Size = New Size(360, 28)
-        lblMostTrustedHeading.Location = New Point(71, 118)
+        lblMostTrustedHeading.Location = New Point(91, 118)
         Me.Controls.Add(lblMostTrustedHeading)
         Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
                                       .ThenByDescending(Function(provider) provider.Experience) _
@@ -92,7 +92,7 @@ Public Class Display_Services
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + ((i - 1) * (32 + 169)), 155)
+            pb.Location = New Point(108 + ((i - 1) * (32 + 169)), 155)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -102,7 +102,7 @@ Public Class Display_Services
             Dim lblProvider As New Label()
             lblProvider.Size = New Size(92, 18)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 320)
+            lblProvider.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 320)
             lblProvider.Text = sortedProviders(i - 1).ServiceName
 
             Me.Controls.Add(lblProvider)
@@ -112,7 +112,7 @@ Public Class Display_Services
             Dim lblProviderRating As New Label()
             lblProviderRating.Size = New Size(92, 18)
             lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProviderRating.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 340)
+            lblProviderRating.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 340)
             lblProviderRating.Text = "Rating : " & sortedProviders(i - 1).Ratings
 
             Me.Controls.Add(lblProviderRating)
@@ -122,14 +122,14 @@ Public Class Display_Services
         lblPopularHeading.Text = "Trending Services"
         lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
         lblPopularHeading.Size = New Size(280, 28)
-        lblPopularHeading.Location = New Point(71, 371)
+        lblPopularHeading.Location = New Point(91, 371)
         Me.Controls.Add(lblPopularHeading)
         ' Create picture boxes and labels for Popular section
         For i As Integer = 1 To 3
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + ((i - 1) * (32 + 169)), 408)
+            pb.Location = New Point(108 + ((i - 1) * (32 + 169)), 408)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -139,7 +139,7 @@ Public Class Display_Services
             Dim lblProvider As New Label()
             lblProvider.Size = New Size(92, 18)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 574)
+            lblProvider.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 574)
             lblProvider.Text = sortedProviders_popular(i - 1).ServiceName
             Me.Controls.Add(lblProvider)
             lblPopularServiceName.Add(lblProvider)
@@ -148,40 +148,73 @@ Public Class Display_Services
             Dim lblProviderRating As New Label()
             lblProviderRating.Size = New Size(92, 14)
             lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProviderRating.Location = New Point(106 + ((i - 1) * (110 + 92)) + 20, 594)
+            lblProviderRating.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 594)
             lblProviderRating.Text = "Rating : " & sortedProviders_popular(i - 1).Ratings
             Me.Controls.Add(lblProviderRating)
             lblPopularRating.Add(lblProviderRating)
         Next
         ' Display next and previous buttons for most trusted providers
         Dim btnNextMostTrusted As New Button()
-        btnNextMostTrusted.Text = "Next"
-        btnNextMostTrusted.Size = New Size(70, 30)
-        btnNextMostTrusted.Location = New Point(750, 155)
-        AddHandler btnNextMostTrusted.Click, AddressOf BtnNextMostTrusted_Click
-        Me.Controls.Add(btnNextMostTrusted)
+        With btnNextMostTrusted
+            .Text = "▶" ' Unicode character for right-pointing triangle
+            .Size = New Size(30, 60)
+            .Location = New Point(700, 195)
+            .BackColor = ColorTranslator.FromHtml("#124E55")
+            .ForeColor = Color.White
+            .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
+
+            AddHandler .Click, AddressOf BtnNextMostTrusted_Click
+            AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
+            AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
+        End With
+        'Me.Controls.Add(btnNextMostTrusted)
 
         Dim btnPrevMostTrusted As New Button()
-        btnPrevMostTrusted.Text = "Previous"
-        btnPrevMostTrusted.Size = New Size(70, 30)
-        btnPrevMostTrusted.Location = New Point(650, 155)
-        AddHandler btnPrevMostTrusted.Click, AddressOf BtnPrevMostTrusted_Click
-        Me.Controls.Add(btnPrevMostTrusted)
+        With btnPrevMostTrusted
+            .Text = "◀" ' Unicode character for left-pointing triangle
+            .Size = New Size(30, 60)
+            .Location = New Point(60, 195)
+            .BackColor = ColorTranslator.FromHtml("#124E55")
+            .ForeColor = Color.White
+            .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
+
+            AddHandler .Click, AddressOf BtnPrevMostTrusted_Click
+            AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
+            AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
+        End With
+        'Me.Controls.Add(btnPrevMostTrusted)
 
         ' Display next and previous buttons for popular services
         Dim btnNextPopular As New Button()
-        btnNextPopular.Text = "Next"
-        btnNextPopular.Size = New Size(70, 30)
-        btnNextPopular.Location = New Point(750, 408)
-        AddHandler btnNextPopular.Click, AddressOf BtnNextPopular_Click
-        Me.Controls.Add(btnNextPopular)
+        With btnNextPopular
+            .Text = "▶" ' Unicode character for right-pointing triangle
+            .Size = New Size(30, 60)
+            .Location = New Point(700, 438)
+            .BackColor = ColorTranslator.FromHtml("#124E55")
+            .ForeColor = Color.White
+            .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
+
+            AddHandler .Click, AddressOf BtnNextPopular_Click
+            AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
+            AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
+        End With
+        'Me.Controls.Add(btnNextPopular)
 
         Dim btnPrevPopular As New Button()
-        btnPrevPopular.Text = "Previous"
-        btnPrevPopular.Size = New Size(70, 30)
-        btnPrevPopular.Location = New Point(650, 408)
-        AddHandler btnPrevPopular.Click, AddressOf BtnPrevPopular_Click
-        Me.Controls.Add(btnPrevPopular)
+        With btnPrevPopular
+            .Text = "◀" ' Unicode character for left-pointing triangle
+            .Size = New Size(30, 60)
+            .Location = New Point(60, 438)
+            .BackColor = ColorTranslator.FromHtml("#124E55")
+            .ForeColor = Color.White
+            .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
+
+            AddHandler .Click, AddressOf BtnPrevPopular_Click
+            AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
+            AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
+        End With
+        'Me.Controls.Add(btnPrevPopular)
+
 
     End Sub
 
