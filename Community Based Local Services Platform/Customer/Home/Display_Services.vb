@@ -8,6 +8,7 @@ Public Class Display_Services
         Public Property Cost As String
         Public Property ServiceName As String
         Public Property Ratings As Integer
+        Public Property Experience As Integer
         Public Property Location As String
         Public Property TimeSlots As String
     End Class
@@ -21,18 +22,43 @@ Public Class Display_Services
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(841, 635)
 
-        ' Populate the serviceProviders list with query from DB
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs", .Cost = "5000", .ServiceName = "Electrical Services", .Ratings = 4, .Location = "Mumbai", .TimeSlots = "9:00 AM - 5:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Experienced in plumbing works", .Cost = "6000", .ServiceName = "Plumbing Services", .Ratings = 4, .Location = "Delhi", .TimeSlots = "8:00 AM - 6:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Gardener", .Description = "Provides garden maintenance services", .Cost = "5500", .ServiceName = "Gardening Services", .Ratings = 3, .Location = "Bangalore", .TimeSlots = "10:00 AM - 4:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Cleaner", .Description = "Offers professional cleaning services", .Cost = "8000", .ServiceName = "Cleaning Services", .Ratings = 5, .Location = "Chennai", .TimeSlots = "7:00 AM - 3:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Painter", .Description = "Specializes in interior and exterior painting", .Cost = "9000", .ServiceName = "Painting Services", .Ratings = 4, .Location = "Kolkata", .TimeSlots = "9:00 AM - 6:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Carpenter", .Description = "Skilled in carpentry and woodworking", .Cost = "8500", .ServiceName = "Carpentry Services", .Ratings = 3, .Location = "Hyderabad", .TimeSlots = "8:00 AM - 5:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Mover", .Description = "Offers moving and relocation services", .Cost = "7500", .ServiceName = "Moving Services", .Ratings = 4, .Location = "Mumbai", .TimeSlots = "10:00 AM - 6:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Tutor", .Description = "Provides tutoring services for various subjects", .Cost = "6500", .ServiceName = "Tutoring Services", .Ratings = 4, .Location = "Delhi", .TimeSlots = "4:00 PM - 8:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs and installation", .Cost = "7000", .ServiceName = "Electrical Services", .Ratings = 2, .Location = "Hyderabad", .TimeSlots = "8:00 AM - 4:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Offers plumbing solutions for households and businesses", .Cost = "6500", .ServiceName = "Plumbing Services", .Ratings = 3, .Location = "Chennai", .TimeSlots = "9:00 AM - 6:00 PM"})
+        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID " &
+                          "FROM serviceproviders AS s " &
+                          "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID "
 
+        ' Create a new SQL connection
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+
+            ' Create a new SQL command
+            Using command As New MySqlCommand(query, connection)
+                ' Set the parameter value for UserID
+                command.Parameters.AddWithValue("@UserID", SessionManager.userID)
+
+                ' Execute the SQL command and create a data reader
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    ' Create a list to hold the labels data
+                    Dim labels As New List(Of String)()
+
+                    ' Read data from the reader
+                    While reader.Read()
+                        Dim serviceProvider As New ServiceProvider() With {
+                           .Name = reader("serviceProviderName").ToString(),
+                           .Description = reader("ServiceProviderdescription").ToString(),
+                           .Ratings = Convert.ToInt32(reader("rating")),
+                           .ServiceName = reader("serviceTypeID").ToString(),
+                           .Cost = reader("price").ToString(),
+                           .Location = reader("areaID").ToString(),
+                           .Experience = Convert.ToInt32(reader("rating"))
+                       }
+                        ' Add the service provider to the list
+                        serviceProviders.Add(serviceProvider)
+                    End While
+
+                End Using
+            End Using
+        End Using
         ' Display the default data
         DisplayDefault()
     End Sub
@@ -46,8 +72,9 @@ Public Class Display_Services
         lblMostTrustedHeading.Size = New Size(360, 28)
         lblMostTrustedHeading.Location = New Point(71, 118)
         Me.Controls.Add(lblMostTrustedHeading)
-        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings).ToList()
-
+        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
+                                      .ThenByDescending(Function(provider) provider.Experience) _
+                                      .ToList()
         Dim lblPopularHeading As New Label()
         lblPopularHeading.Text = "Trending Services"
         lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
@@ -77,7 +104,16 @@ Public Class Display_Services
             lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 320)
             AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
 
+            Dim lblProvider1 As New Label()
+            lblProvider1.Text = "Rating : " & sortedProviders(i).Ratings
+            lblProvider1.Size = New Size(92, 18)
+            lblProvider1.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
+            lblProvider1.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProvider1.Location = New Point(106 + (i * (110 + 92)) + 20, 340)
+            AddHandler lblProvider1.Click, AddressOf Navbar_Customer.Label_Click
             Me.Controls.Add(lblProvider)
+            Me.Controls.Add(lblProvider1)
+
         Next
 
         ' Display popular services
@@ -94,14 +130,25 @@ Public Class Display_Services
             Me.Controls.Add(pb)
 
             Dim lblProvider As New Label()
-            lblProvider.Text = serviceProviders(i).ServiceName
-            lblProvider.Size = New Size(92, 14)
+            lblProvider.Text = serviceProviders(i).Name
+            lblProvider.Size = New Size(92, 18)
             lblProvider.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
             lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 574)
             AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
 
+            Dim lblProvider1 As New Label()
+            lblProvider1.Text = "Rating : " & serviceProviders(i).Ratings
+            lblProvider1.Size = New Size(92, 14)
+            lblProvider1.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
+            lblProvider1.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProvider1.Location = New Point(106 + (i * (110 + 92)) + 20, 594)
+            AddHandler lblProvider1.Click, AddressOf Navbar_Customer.Label_Click
+
             Me.Controls.Add(lblProvider)
+            Me.Controls.Add(lblProvider1)
+
+
         Next
     End Sub
 
@@ -178,7 +225,7 @@ Public Class Display_Services
             resultPanel.Controls.Add(nameLabel)
 
             Dim serviceNameLabel As New Label()
-            serviceNameLabel.Text = provider.ServiceName
+            serviceNameLabel.Text = provider.Name
             serviceNameLabel.Size = New Size(280, 28)
             serviceNameLabel.Location = New Point(208, 50)
             serviceNameLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
