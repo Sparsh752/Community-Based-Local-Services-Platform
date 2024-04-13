@@ -34,6 +34,9 @@ Partial Class Rejected_View
         RichTextBox10 = New RichTextBox()
         RichTextBox11 = New RichTextBox()
         BackButton = New Button()
+        RichTextBox14 = New RichTextBox()
+        RichTextBox13 = New RichTextBox()
+        RichTextBox12 = New RichTextBox()
         SuspendLayout()
         ' 
         ' RichTextBox1
@@ -201,6 +204,49 @@ Partial Class Rejected_View
         BackButton.Text = "Back"
         BackButton.UseVisualStyleBackColor = True
         ' 
+        ' RichTextBox14
+        ' 
+        RichTextBox14.BackColor = Color.White
+        RichTextBox14.BorderStyle = BorderStyle.None
+        RichTextBox14.Font = New Font("Microsoft Sans Serif", 20F)
+        RichTextBox14.ForeColor = SystemColors.WindowText
+        RichTextBox14.Location = New Point(107, 716)
+        RichTextBox14.Margin = New Padding(4)
+        RichTextBox14.Name = "RichTextBox14"
+        RichTextBox14.ReadOnly = True
+        RichTextBox14.ScrollBars = RichTextBoxScrollBars.None
+        RichTextBox14.Size = New Size(605, 119)
+        RichTextBox14.TabIndex = 82
+        RichTextBox14.Text = "The refund will be processed withing 3-5 business days."
+        ' 
+        ' RichTextBox13
+        ' 
+        RichTextBox13.BackColor = Color.White
+        RichTextBox13.BorderStyle = BorderStyle.None
+        RichTextBox13.Font = New Font("Bahnschrift", 16.2F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RichTextBox13.Location = New Point(107, 636)
+        RichTextBox13.Margin = New Padding(4)
+        RichTextBox13.Name = "RichTextBox13"
+        RichTextBox13.ScrollBars = RichTextBoxScrollBars.None
+        RichTextBox13.Size = New Size(371, 35)
+        RichTextBox13.TabIndex = 81
+        RichTextBox13.Text = "Rs 15000"
+        ' 
+        ' RichTextBox12
+        ' 
+        RichTextBox12.BackColor = Color.White
+        RichTextBox12.BorderStyle = BorderStyle.None
+        RichTextBox12.Font = New Font("Bahnschrift", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RichTextBox12.ForeColor = Color.Gray
+        RichTextBox12.Location = New Point(107, 602)
+        RichTextBox12.Margin = New Padding(4)
+        RichTextBox12.Name = "RichTextBox12"
+        RichTextBox12.ReadOnly = True
+        RichTextBox12.ScrollBars = RichTextBoxScrollBars.None
+        RichTextBox12.Size = New Size(156, 26)
+        RichTextBox12.TabIndex = 80
+        RichTextBox12.Text = "Refund Amount"
+        ' 
         ' Rejected_View
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -208,6 +254,9 @@ Partial Class Rejected_View
         BackColor = Color.White
         BackgroundImageLayout = ImageLayout.None
         ClientSize = New Size(1500, 794)
+        Controls.Add(RichTextBox14)
+        Controls.Add(RichTextBox13)
+        Controls.Add(RichTextBox12)
         Controls.Add(BackButton)
         Controls.Add(RichTextBox11)
         Controls.Add(RichTextBox10)
@@ -238,4 +287,7 @@ Partial Class Rejected_View
     Friend WithEvents RichTextBox10 As RichTextBox
     Friend WithEvents RichTextBox11 As RichTextBox
     Friend WithEvents BackButton As Button
+    Friend WithEvents RichTextBox14 As RichTextBox
+    Friend WithEvents RichTextBox13 As RichTextBox
+    Friend WithEvents RichTextBox12 As RichTextBox
 End Class

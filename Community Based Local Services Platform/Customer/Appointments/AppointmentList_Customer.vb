@@ -2,11 +2,33 @@
 Imports System.Diagnostics.Eventing.Reader
 Imports System.IO
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify
+Imports Google.Protobuf.WellKnownTypes
 
 Public Class AppointmentList_Customer
     Private datalist As New List(Of String)()
     Private labels As New List(Of String)()
+    Dim sp_list As New List(Of SP)()
+
+    Public Class SP
+        Public Property spID As Integer
+        Public Property sp_userID As Integer
+        Public Property appointmentID As Integer
+        Public Property Status As String
+        Public Property Index As Integer
+
+        Public Sub New(ByVal index As Integer, ByVal spID As Integer, ByVal appointmentID As Integer, ByVal status As String, ByVal sp_userID As Integer)
+            Me.spID = spID
+            Me.Index = index
+            Me.Status = status
+            Me.appointmentID = appointmentID
+            Me.sp_userID = sp_userID
+        End Sub
+    End Class
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        SessionManager.customerID = SessionManager.userID
+
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
@@ -52,6 +74,8 @@ Public Class AppointmentList_Customer
 
         Dim query As String = "SELECT appointments.appointmentID, 
                 serviceproviders.serviceProviderName, 
+                serviceproviders.serviceProviderID,
+                serviceproviders.userID,
                 serviceTypes.serviceTypeName, 
                 serviceAreaTimeslots.startTime, 
                 serviceAreaTimeslots.timeslotDate,
@@ -64,6 +88,8 @@ Public Class AppointmentList_Customer
                 JOIN serviceTypes 
                 ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
                 WHERE appointments.customerID = @UserID"
+
+        Dim count As Integer = 1
 
         ' Create a new SQL connection
         Using connection As New MySqlConnection(SessionManager.connectionString)
@@ -88,6 +114,16 @@ Public Class AppointmentList_Customer
                         datalist.Add(reader("serviceTypeName").ToString())
                         datalist.Add(reader("startTime").ToString())
                         datalist.Add(reader("appointmentStatus").ToString())
+
+                        Dim spID As Integer = CInt(reader("serviceProviderID"))
+                        Dim status As String = reader("appointmentStatus")
+                        Dim appointmentID As Integer = CInt(reader("appointmentID"))
+                        Dim sp_userID As Integer = CInt(reader("userID"))
+
+                        Dim new_sp As New SP(count, spID, appointmentID, status, sp_userID)
+                        sp_list.Add(new_sp)
+                        count = count + 1
+
                         datalist.Add("view")
                         datalist.Add("query")
                     End While
@@ -171,7 +207,7 @@ Public Class AppointmentList_Customer
                             button.FlatStyle = FlatStyle.Flat
                             button.Anchor = AnchorStyles.None ' Center button horizontally and vertically
                             button.Width = 82
-                            button.Tag = labels(index - 2)
+                            button.Tag = i
                             AddHandler button.Click, AddressOf QueryButton_Click
                             TableLayoutPanel1.Controls.Add(button, j, i)
                         ElseIf j = TableLayoutPanel1.ColumnCount - 2 Then
@@ -182,7 +218,7 @@ Public Class AppointmentList_Customer
                             button.Anchor = AnchorStyles.None ' Center button horizontally and vertically
                             button.Width = 57
                             button.Padding = New Padding(0)
-                            button.Tag = labels(index - 1)
+                            button.Tag = i
                             button.FlatAppearance.BorderColor = Color.White
                             AddHandler button.Click, AddressOf ViewButton_Click
                             TableLayoutPanel1.Controls.Add(button, j, i)
@@ -220,13 +256,108 @@ Public Class AppointmentList_Customer
     ' Event handler for view button click
     Private Sub ViewButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         Dim button As Button = DirectCast(sender, Button)
-        Dim status As String = button.Tag
+        Dim status As String
+        Dim _spID As Integer
+        Dim _appointmentID As Integer
+        Dim _sp_userID As Integer
+
+        'MessageBox.Show(button.Tag)
+
+        For Each _sp In sp_list
+            If (_sp.Index = CInt(button.Tag)) Then
+                status = _sp.Status
+                _spID = _sp.spID
+                _appointmentID = _sp.appointmentID
+                _sp_userID = _sp.sp_userID
+            End If
+        Next
+
+        SessionManager.spID = _spID
+        SessionManager.appointmentID = _appointmentID
+        SessionManager.sp_userID = _sp_userID
+
+        'MessageBox.Show(SessionManager.appointmentID & " " & SessionManager.customerID & " " & SessionManager.spID & " " & status)
+
         RemovePreviousForm()
+        Me.Close()
+
         If (status = "Scheduled") Then
             With InProgressPaymentNotDone
                 .TopLevel = False
                 .Dock = DockStyle.Fill
                 Panel3.Controls.Add(InProgressPaymentNotDone)
+                Dim query As String =
+                "SELECT appointments.appointmentID, 
+                serviceproviders.serviceProviderName, 
+                serviceTypes.serviceTypeName, 
+                serviceAreaTimeslots.startTime, 
+                contactDetails.mobileNumber,
+                serviceAreas.location,
+                services.price,
+                appointments.bookingAdvance,
+                serviceAreaTimeslots.timeslotDate,
+                appointments.appointmentStatus 
+                FROM appointments 
+                JOIN serviceproviders 
+                ON appointments.serviceProviderID = serviceproviders.serviceProviderID 
+                JOIN serviceAreaTimeslots 
+                ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+                JOIN contactDetails 
+                ON contactDetails.UserID = serviceproviders.userID
+                JOIN serviceAreas 
+                ON serviceAreas.areaID = serviceAreaTimeslots.areaID
+                JOIN services
+                ON services.serviceTypeID = serviceAreaTimeslots.serviceTypeID
+                AND services.serviceProviderID = serviceAreaTimeslots.serviceProviderID 
+                JOIN serviceTypes 
+                ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+                WHERE appointments.customerID = @customerID
+                AND appointments.appointmentID = @appointmentID"
+                ' Create a new SQL connection
+                Using connection As New MySqlConnection(SessionManager.connectionString)
+                    ' Open the connection
+                    connection.Open()
+
+                    ' Create a new SQL command
+                    Using command As New MySqlCommand(query, connection)
+                        ' Set the parameter value for UserID
+                        command.Parameters.AddWithValue("@customerID", SessionManager.customerID)
+                        command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+
+                        ' Execute the SQL command and create a data reader
+                        Using reader As MySqlDataReader = command.ExecuteReader()
+                            ' Create a list to hold the labels data
+                            Dim labels As New List(Of String)()
+
+                            ' Read data from the reader
+                            If reader.Read() Then
+
+                                Dim sp_name As String = reader("serviceProviderName").ToString()
+                                Dim sp_service As String = reader("serviceTypeName").ToString()
+                                Dim sp_date As String = reader("timeslotDate").ToString()
+                                Dim dateObject As DateTime = DateTime.ParseExact(sp_date, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)
+
+                                ' Format the DateTime object to display only the date
+                                Dim formattedDate As String = dateObject.ToString("dd-MM-yyyy")
+                                Dim appoinment_slot As String = reader("startTime").ToString()
+                                Dim sp_num As String = reader("mobileNumber").ToString()
+                                Dim sp_loc As String = reader("location").ToString()
+                                Dim sp_price As String = reader("price").ToString()
+                                Dim sp_adv As String = reader("bookingAdvance").ToString()
+                                ' Set the retrieved values to the corresponding textboxes
+                                InProgressPaymentNotDone.SP_name_tb.Text = sp_name
+                                InProgressPaymentNotDone.SP_service_tb.Text = sp_service
+                                InProgressPaymentNotDone.Booked_slot_tb.Text = formattedDate + "  " + appoinment_slot
+                                InProgressPaymentNotDone.SP_contactno.Text = sp_num
+                                InProgressPaymentNotDone.SP_loc.Text = sp_loc
+                                InProgressPaymentNotDone.SP_price.Text = sp_price
+                                InProgressPaymentNotDone.advpaid.Text = sp_adv
+                                InProgressPaymentNotDone.rembal.Text = sp_price - sp_adv
+                            End If
+                        End Using
+                    End Using
+                End Using
+
                 .BringToFront()
                 .Show()
             End With
@@ -238,7 +369,7 @@ Public Class AppointmentList_Customer
                 .BringToFront()
                 .Show()
             End With
-        ElseIf (status = "Canceled") Then
+        ElseIf (status = "Cancelled") Then
             With Cancelled_By_Customer
                 .TopLevel = False
                 .Dock = DockStyle.Fill
@@ -258,6 +389,19 @@ Public Class AppointmentList_Customer
     End Sub
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim button As Button = DirectCast(sender, Button)
+        Dim status As String
+        Dim _spID As Integer
+
+        For Each _sp In sp_list
+            If (_sp.Index = CInt(button.Tag)) Then
+                status = _sp.Status
+                _spID = _sp.spID
+            End If
+        Next
+
+        SessionManager.spID = _spID
+
         RemovePreviousForm()
         With Query_3SP
             .TopLevel = False

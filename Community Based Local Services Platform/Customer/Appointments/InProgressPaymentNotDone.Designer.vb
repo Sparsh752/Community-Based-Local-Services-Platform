@@ -4,7 +4,7 @@ Partial Class InProgressPaymentNotDone
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -21,23 +21,23 @@ Partial Class InProgressPaymentNotDone
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        TextBox1 = New TextBox()
-        TextBox2 = New TextBox()
+        SP_name_tb = New TextBox()
+        SP_contactno = New TextBox()
         Label1 = New Label()
         Label2 = New Label()
         Label3 = New Label()
         Label4 = New Label()
         Label5 = New Label()
         Label6 = New Label()
-        TextBox3 = New TextBox()
-        TextBox4 = New TextBox()
-        TextBox5 = New TextBox()
-        TextBox6 = New TextBox()
-        TextBox7 = New TextBox()
-        TextBox8 = New TextBox()
-        TextBox9 = New TextBox()
+        SP_service_tb = New TextBox()
+        SP_loc = New TextBox()
+        Booked_slot_tb = New TextBox()
+        SP_price = New TextBox()
+        advpaid = New TextBox()
+        rembal = New TextBox()
+        OTP_box = New TextBox()
         Label7 = New Label()
         Label8 = New Label()
         Label9 = New Label()
@@ -47,27 +47,27 @@ Partial Class InProgressPaymentNotDone
         BackButton = New Button()
         SuspendLayout()
         ' 
-        ' TextBox1
+        ' SP_name_tb
         ' 
-        TextBox1.BorderStyle = BorderStyle.None
-        TextBox1.Font = New Font("Bahnschrift", 20F)
-        TextBox1.Location = New Point(125, 193)
-        TextBox1.Margin = New Padding(0)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(245, 49)
-        TextBox1.TabIndex = 0
-        TextBox1.Text = "SP Name"
+        SP_name_tb.BorderStyle = BorderStyle.None
+        SP_name_tb.Font = New Font("Bahnschrift", 20.0F)
+        SP_name_tb.Location = New Point(125, 193)
+        SP_name_tb.Margin = New Padding(0)
+        SP_name_tb.Name = "SP_name_tb"
+        SP_name_tb.Size = New Size(245, 49)
+        SP_name_tb.TabIndex = 0
+        SP_name_tb.Text = "SP Name"
         ' 
-        ' TextBox2
+        ' SP_contactno
         ' 
-        TextBox2.BorderStyle = BorderStyle.None
-        TextBox2.Font = New Font("Bahnschrift", 10F)
-        TextBox2.Location = New Point(125, 244)
-        TextBox2.Margin = New Padding(2)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(228, 25)
-        TextBox2.TabIndex = 1
-        TextBox2.Text = "993956584"
+        SP_contactno.BorderStyle = BorderStyle.None
+        SP_contactno.Font = New Font("Bahnschrift", 10.0F)
+        SP_contactno.Location = New Point(125, 244)
+        SP_contactno.Margin = New Padding(2, 2, 2, 2)
+        SP_contactno.Name = "SP_contactno"
+        SP_contactno.Size = New Size(228, 25)
+        SP_contactno.TabIndex = 1
+        SP_contactno.Text = "993956584"
         ' 
         ' Label1
         ' 
@@ -135,87 +135,87 @@ Partial Class InProgressPaymentNotDone
         Label6.TabIndex = 7
         Label6.Text = "Remaining Balance"
         ' 
-        ' TextBox3
+        ' SP_service_tb
         ' 
-        TextBox3.BorderStyle = BorderStyle.None
-        TextBox3.Font = New Font("Bahnschrift", 16F)
-        TextBox3.Location = New Point(125, 328)
-        TextBox3.Margin = New Padding(0)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(245, 39)
-        TextBox3.TabIndex = 8
-        TextBox3.Text = "Interior Design"
+        SP_service_tb.BorderStyle = BorderStyle.None
+        SP_service_tb.Font = New Font("Bahnschrift", 16.0F)
+        SP_service_tb.Location = New Point(125, 328)
+        SP_service_tb.Margin = New Padding(0)
+        SP_service_tb.Name = "SP_service_tb"
+        SP_service_tb.Size = New Size(245, 39)
+        SP_service_tb.TabIndex = 8
+        SP_service_tb.Text = "Interior Design"
         ' 
-        ' TextBox4
+        ' SP_loc
         ' 
-        TextBox4.BorderStyle = BorderStyle.None
-        TextBox4.Font = New Font("Bahnschrift", 16F)
-        TextBox4.Location = New Point(125, 389)
-        TextBox4.Margin = New Padding(0)
-        TextBox4.Name = "TextBox4"
-        TextBox4.Size = New Size(245, 39)
-        TextBox4.TabIndex = 9
-        TextBox4.Text = "Guwahati"
+        SP_loc.BorderStyle = BorderStyle.None
+        SP_loc.Font = New Font("Bahnschrift", 16.0F)
+        SP_loc.Location = New Point(125, 389)
+        SP_loc.Margin = New Padding(0)
+        SP_loc.Name = "SP_loc"
+        SP_loc.Size = New Size(245, 39)
+        SP_loc.TabIndex = 9
+        SP_loc.Text = "Guwahati"
         ' 
-        ' TextBox5
+        ' Booked_slot_tb
         ' 
-        TextBox5.BorderStyle = BorderStyle.None
-        TextBox5.Font = New Font("Bahnschrift", 16F)
-        TextBox5.Location = New Point(125, 457)
-        TextBox5.Margin = New Padding(0)
-        TextBox5.Name = "TextBox5"
-        TextBox5.Size = New Size(335, 39)
-        TextBox5.TabIndex = 10
-        TextBox5.Text = "23-Mar-2024 09:00 AM"
+        Booked_slot_tb.BorderStyle = BorderStyle.None
+        Booked_slot_tb.Font = New Font("Bahnschrift", 16.0F)
+        Booked_slot_tb.Location = New Point(125, 457)
+        Booked_slot_tb.Margin = New Padding(0)
+        Booked_slot_tb.Name = "Booked_slot_tb"
+        Booked_slot_tb.Size = New Size(335, 39)
+        Booked_slot_tb.TabIndex = 10
+        Booked_slot_tb.Text = "23-Mar-2024 09:00 AM"
         ' 
-        ' TextBox6
+        ' SP_price
         ' 
-        TextBox6.BorderStyle = BorderStyle.None
-        TextBox6.Font = New Font("Bahnschrift", 16F)
-        TextBox6.Location = New Point(572, 329)
-        TextBox6.Margin = New Padding(0)
-        TextBox6.Name = "TextBox6"
-        TextBox6.Size = New Size(245, 39)
-        TextBox6.TabIndex = 11
-        TextBox6.Text = "Rs. 15000"
+        SP_price.BorderStyle = BorderStyle.None
+        SP_price.Font = New Font("Bahnschrift", 16.0F)
+        SP_price.Location = New Point(572, 329)
+        SP_price.Margin = New Padding(0)
+        SP_price.Name = "SP_price"
+        SP_price.Size = New Size(245, 39)
+        SP_price.TabIndex = 11
+        SP_price.Text = "Rs. 15000"
         ' 
-        ' TextBox7
+        ' advpaid
         ' 
-        TextBox7.BorderStyle = BorderStyle.None
-        TextBox7.Font = New Font("Bahnschrift", 16F)
-        TextBox7.Location = New Point(572, 389)
-        TextBox7.Margin = New Padding(0)
-        TextBox7.Name = "TextBox7"
-        TextBox7.Size = New Size(245, 39)
-        TextBox7.TabIndex = 12
-        TextBox7.Text = "Rs. 7500"
+        advpaid.BorderStyle = BorderStyle.None
+        advpaid.Font = New Font("Bahnschrift", 16.0F)
+        advpaid.Location = New Point(572, 389)
+        advpaid.Margin = New Padding(0)
+        advpaid.Name = "advpaid"
+        advpaid.Size = New Size(245, 39)
+        advpaid.TabIndex = 12
+        advpaid.Text = "Rs. 7500"
         ' 
-        ' TextBox8
+        ' rembal
         ' 
-        TextBox8.BorderStyle = BorderStyle.None
-        TextBox8.Font = New Font("Bahnschrift", 16F)
-        TextBox8.Location = New Point(572, 457)
-        TextBox8.Margin = New Padding(0)
-        TextBox8.Name = "TextBox8"
-        TextBox8.Size = New Size(245, 39)
-        TextBox8.TabIndex = 13
-        TextBox8.Text = "Rs. 7500"
+        rembal.BorderStyle = BorderStyle.None
+        rembal.Font = New Font("Bahnschrift", 16.0F)
+        rembal.Location = New Point(572, 457)
+        rembal.Margin = New Padding(0)
+        rembal.Name = "rembal"
+        rembal.Size = New Size(245, 39)
+        rembal.TabIndex = 13
+        rembal.Text = "Rs. 7500"
         ' 
-        ' TextBox9
+        ' OTP_box
         ' 
-        TextBox9.BorderStyle = BorderStyle.None
-        TextBox9.Font = New Font("Bahnschrift Light", 16F)
-        TextBox9.Location = New Point(208, 750)
-        TextBox9.Margin = New Padding(0)
-        TextBox9.Name = "TextBox9"
-        TextBox9.Size = New Size(122, 39)
-        TextBox9.TabIndex = 14
-        TextBox9.Text = "781039"
+        OTP_box.BorderStyle = BorderStyle.None
+        OTP_box.Font = New Font("Bahnschrift Light", 16.0F)
+        OTP_box.Location = New Point(208, 750)
+        OTP_box.Margin = New Padding(0)
+        OTP_box.Name = "OTP_box"
+        OTP_box.Size = New Size(122, 39)
+        OTP_box.TabIndex = 14
+        OTP_box.Text = "781039"
         ' 
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Font = New Font("Bahnschrift", 16F)
+        Label7.Font = New Font("Bahnschrift", 16.0F)
         Label7.Location = New Point(118, 750)
         Label7.Margin = New Padding(0)
         Label7.Name = "Label7"
@@ -225,7 +225,7 @@ Partial Class InProgressPaymentNotDone
         ' 
         ' Label8
         ' 
-        Label8.Font = New Font("Bahnschrift", 10F)
+        Label8.Font = New Font("Bahnschrift", 10.0F)
         Label8.Location = New Point(125, 802)
         Label8.Margin = New Padding(0)
         Label8.Name = "Label8"
@@ -235,7 +235,7 @@ Partial Class InProgressPaymentNotDone
         ' 
         ' Label9
         ' 
-        Label9.Font = New Font("Bahnschrift", 10F)
+        Label9.Font = New Font("Bahnschrift", 10.0F)
         Label9.Location = New Point(125, 829)
         Label9.Margin = New Padding(0)
         Label9.Name = "Label9"
@@ -247,10 +247,10 @@ Partial Class InProgressPaymentNotDone
         ' 
         Button3.BackColor = Color.Coral
         Button3.FlatStyle = FlatStyle.Flat
-        Button3.Font = New Font("Bahnschrift", 12F)
+        Button3.Font = New Font("Bahnschrift", 12.0F)
         Button3.ForeColor = Color.White
         Button3.Location = New Point(572, 627)
-        Button3.Margin = New Padding(4)
+        Button3.Margin = New Padding(4, 4, 4, 4)
         Button3.Name = "Button3"
         Button3.Size = New Size(261, 60)
         Button3.TabIndex = 75
@@ -261,10 +261,10 @@ Partial Class InProgressPaymentNotDone
         ' 
         Button2.BackColor = Color.Coral
         Button2.FlatStyle = FlatStyle.Flat
-        Button2.Font = New Font("Bahnschrift", 12F)
+        Button2.Font = New Font("Bahnschrift", 12.0F)
         Button2.ForeColor = Color.White
         Button2.Location = New Point(125, 627)
-        Button2.Margin = New Padding(4)
+        Button2.Margin = New Padding(4, 4, 4, 4)
         Button2.Name = "Button2"
         Button2.Size = New Size(261, 60)
         Button2.TabIndex = 76
@@ -275,10 +275,10 @@ Partial Class InProgressPaymentNotDone
         ' 
         Button1.BackColor = Color.Coral
         Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Bahnschrift", 12F)
+        Button1.Font = New Font("Bahnschrift", 12.0F)
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(125, 512)
-        Button1.Margin = New Padding(4)
+        Button1.Location = New Point(125, 525)
+        Button1.Margin = New Padding(4, 4, 4, 4)
         Button1.Name = "Button1"
         Button1.Size = New Size(187, 54)
         Button1.TabIndex = 77
@@ -298,10 +298,10 @@ Partial Class InProgressPaymentNotDone
         ' 
         ' InProgressPaymentNotDone
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(10.0F, 25.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(1279, 918)
+        ClientSize = New Size(1279, 864)
         Controls.Add(BackButton)
         Controls.Add(Button1)
         Controls.Add(Button2)
@@ -309,44 +309,44 @@ Partial Class InProgressPaymentNotDone
         Controls.Add(Label9)
         Controls.Add(Label8)
         Controls.Add(Label7)
-        Controls.Add(TextBox9)
-        Controls.Add(TextBox8)
-        Controls.Add(TextBox7)
-        Controls.Add(TextBox6)
-        Controls.Add(TextBox5)
-        Controls.Add(TextBox4)
-        Controls.Add(TextBox3)
+        Controls.Add(OTP_box)
+        Controls.Add(rembal)
+        Controls.Add(advpaid)
+        Controls.Add(SP_price)
+        Controls.Add(Booked_slot_tb)
+        Controls.Add(SP_loc)
+        Controls.Add(SP_service_tb)
         Controls.Add(Label6)
         Controls.Add(Label5)
         Controls.Add(Label4)
         Controls.Add(Label3)
         Controls.Add(Label2)
         Controls.Add(Label1)
-        Controls.Add(TextBox2)
-        Controls.Add(TextBox1)
+        Controls.Add(SP_contactno)
+        Controls.Add(SP_name_tb)
         FormBorderStyle = FormBorderStyle.None
-        Margin = New Padding(2)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "InProgressPaymentNotDone"
         Text = "Appointmentdetail"
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents SP_name_tb As TextBox
+    Friend WithEvents SP_contactno As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents TextBox4 As TextBox
-    Friend WithEvents TextBox5 As TextBox
-    Friend WithEvents TextBox6 As TextBox
-    Friend WithEvents TextBox7 As TextBox
-    Friend WithEvents TextBox8 As TextBox
-    Friend WithEvents TextBox9 As TextBox
+    Friend WithEvents SP_service_tb As TextBox
+    Friend WithEvents SP_loc As TextBox
+    Friend WithEvents Booked_slot_tb As TextBox
+    Friend WithEvents SP_price As TextBox
+    Friend WithEvents advpaid As TextBox
+    Friend WithEvents rembal As TextBox
+    Friend WithEvents OTP_box As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents Label9 As Label

@@ -7,4 +7,8 @@
     'Public connectionString As String = "server=localhost;userid=root;database=communityservice;sslmode=none"
     Public mailVerified As Boolean = False
     Public userEmail As String
+    Public customerID As Integer
+    Public spID As Integer
+    Public appointmentID As Integer
+    Public sp_userID As Integer ' for userID from service provider table
 End Module

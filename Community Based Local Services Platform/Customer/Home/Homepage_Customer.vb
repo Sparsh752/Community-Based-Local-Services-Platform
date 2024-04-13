@@ -1,46 +1,47 @@
 ﻿Public Class Homepage_Customer
+
+    Private spdata As New List(Of String)()
     Private Sub HomePage_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Configure the form
         Dim x = 20
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
-        ComboBox1.Items.Add("Mumbai")
-        ComboBox1.Items.Add("Hyderabad")
-        ComboBox1.Items.Add("Chennai")
-        ComboBox1.Items.Add("Delhi")
-        ComboBox1.Items.Add("Bangalore")
+
         searchBox.Location = New Point(27, 106)
         ' Open Display_Services.vb form inside Panel2
         Panel1.BackColor = ColorTranslator.FromHtml("#F6F6F6")
         priceLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
-        priceLabel.Location = New Point(34, 253 + x)
+
         searchBox.Font = New Font(SessionManager.font_family, 14, FontStyle.Regular)
         searchBox.Size = New Size(280, 27)
         Label3.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         Label1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
         Label2.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
         Label4.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
-        SearchBtn.Location = New Point(98, 522 + x)
+
         SearchBtn.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         SearchBtn.FlatStyle = FlatStyle.Flat
         SearchBtn.FlatAppearance.BorderSize = 0
         SearchBtn.BackColor = ColorTranslator.FromHtml("#F9754B")
         SearchBtn.Size = New Size(151, 29)
         Panel1.Size = New Size(359, 635)
-        Label1.Location = New Point(34, 276 + x)
-        Label2.Location = New Point(169, 276 + x)
-        MinCostBox.Location = New Point(34, 293 + x)
-        MaxCostBox.Location = New Point(169, 293 + x)
         MinCostBox.Size = New Size(106, 27)
         MaxCostBox.Size = New Size(106, 27)
         MinCostBox.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         MaxCostBox.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
+        TrackBar1.Size = New Size(249, 56)
+        priceLabel.Location = New Point(34, 253 + x)
+        Label1.Location = New Point(34, 276 + x)
+        Label2.Location = New Point(169, 276 + x)
+        MinCostBox.Location = New Point(34, 293 + x)
+        MaxCostBox.Location = New Point(169, 293 + x)
         Label3.Location = New Point(34, 343 + x)
         ComboBox1.Location = New Point(34, 371 + x)
         Label4.Location = New Point(34, 422 + x)
         TrackBar1.Location = New Point(34, 450 + x)
-        TrackBar1.Size = New Size(249, 56)
+        SearchBtn.Location = New Point(98, 522 + x)
+
         Dim serviceTypeHeadingLabel As New Label()
         serviceTypeHeadingLabel.Text = "Service Types"
         serviceTypeHeadingLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
@@ -48,67 +49,132 @@
         serviceTypeHeadingLabel.Location = New Point(34, 140 + x)
         serviceTypeHeadingLabel.AutoSize = True
         Panel1.Controls.Add(serviceTypeHeadingLabel)
-        Dim Servicetypelabel1 As New Button()
-        Dim Servicetypelabel2 As New Button()
-        Dim Servicetypelabel3 As New Button()
-        Dim Servicetypelabel4 As New Button()
-        Dim Servicetypelabel5 As New Button()
-        Servicetypelabel1.Text = "Cleaning"
-        Servicetypelabel2.Text = "Plumbing"
-        Servicetypelabel3.Text = "Electrical"
-        Servicetypelabel4.Text = "Carpentry"
-        Servicetypelabel5.Text = "Painting"
-        Servicetypelabel1.Location = New Point(34, 171 + x)
-        Servicetypelabel2.Location = New Point(122, 171 + x)
-        Servicetypelabel3.Location = New Point(211, 171 + x)
-        Servicetypelabel4.Location = New Point(34, 202 + x)
-        Servicetypelabel5.Location = New Point(122, 202 + x)
-        Servicetypelabel1.Size = New Size(84, 24)
-        Servicetypelabel2.Size = New Size(84, 24)
-        Servicetypelabel3.Size = New Size(84, 24)
-        Servicetypelabel4.Size = New Size(84, 24)
-        Servicetypelabel5.Size = New Size(84, 24)
-        Servicetypelabel1.FlatStyle = FlatStyle.Flat
-        Servicetypelabel2.FlatStyle = FlatStyle.Flat
-        Servicetypelabel3.FlatStyle = FlatStyle.Flat
-        Servicetypelabel4.FlatStyle = FlatStyle.Flat
-        Servicetypelabel5.FlatStyle = FlatStyle.Flat
-        Servicetypelabel1.FlatAppearance.BorderSize = 0
-        Servicetypelabel2.FlatAppearance.BorderSize = 0
-        Servicetypelabel3.FlatAppearance.BorderSize = 0
-        Servicetypelabel4.FlatAppearance.BorderSize = 0
-        Servicetypelabel5.FlatAppearance.BorderSize = 0
-        Servicetypelabel1.BackColor = ColorTranslator.FromHtml("#124E55")
-        Servicetypelabel2.BackColor = ColorTranslator.FromHtml("#124E55")
-        Servicetypelabel3.BackColor = ColorTranslator.FromHtml("#124E55")
-        Servicetypelabel4.BackColor = ColorTranslator.FromHtml("#124E55")
-        Servicetypelabel5.BackColor = ColorTranslator.FromHtml("#124E55")
-        Servicetypelabel1.ForeColor = Color.White
-        Servicetypelabel2.ForeColor = Color.White
-        Servicetypelabel3.ForeColor = Color.White
-        Servicetypelabel4.ForeColor = Color.White
-        Servicetypelabel5.ForeColor = Color.White
-        Servicetypelabel1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
-        Servicetypelabel2.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
-        Servicetypelabel3.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
-        Servicetypelabel4.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
-        Servicetypelabel5.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
-        AddHandler Servicetypelabel1.Click, AddressOf ServiceTypeButton_Click
-        AddHandler Servicetypelabel2.Click, AddressOf ServiceTypeButton_Click
-        AddHandler Servicetypelabel3.Click, AddressOf ServiceTypeButton_Click
-        AddHandler Servicetypelabel4.Click, AddressOf ServiceTypeButton_Click
-        AddHandler Servicetypelabel5.Click, AddressOf ServiceTypeButton_Click
-        Panel1.Controls.Add(Servicetypelabel1)
-        Panel1.Controls.Add(Servicetypelabel2)
-        Panel1.Controls.Add(Servicetypelabel3)
-        Panel1.Controls.Add(Servicetypelabel4)
-        Panel1.Controls.Add(Servicetypelabel5)
+
+        ' Assuming you have a function to retrieve distinct service types from the database
+        Dim serviceTypes As List(Of String) = GetDistinctServiceTypesFromDB()
+
+        ' Define the initial position and size of the buttons
+        Dim initialX As Integer = 34
+        Dim initialY As Integer = 171 + x
+        Dim buttonWidth As Integer = 84
+        Dim buttonHeight As Integer = 24
+        Dim xOffset As Integer = 15 ' Horizontal spacing between buttons
+        Dim maxButtonsPerRow As Integer = 3 ' Maximum buttons per row
+        Dim currentRow As Integer = 0
+        Dim currentColumn As Integer = 0
+
+        ' Create a panel to contain the buttons
+        Dim buttonsPanel As New Panel()
+        ' buttonsPanel.Dock = DockStyle.Top ' Dock to the top of the container panel
+        buttonsPanel.AutoScroll = True ' Enable scrolling for the panel
+
+        ' Add the buttons panel to the main panel
+        Panel1.Controls.Add(buttonsPanel)
+
+        ' Calculate the total height required for two rows of buttons
+        Dim totalHeightForTwoRows As Integer = (2 * (buttonHeight + 7))
+
+        ' Set the size of the buttons panel
+        buttonsPanel.Size = New Size(320, totalHeightForTwoRows)
+        buttonsPanel.Location = New Point(initialX, initialY)
+
+        ' Loop through the distinct service types and create buttons dynamically
+        For Each serviceType As String In serviceTypes
+            Dim serviceTypeButton As New Button()
+            serviceTypeButton.Text = serviceType
+
+            ' Calculate the position of the button
+            Dim buttonX As Integer = (currentColumn * (buttonWidth + xOffset))
+            Dim buttonY As Integer = (currentRow * (buttonHeight + 7)) ' Vertical spacing between rows
+
+            serviceTypeButton.Location = New Point(buttonX, buttonY)
+            serviceTypeButton.Size = New Size(buttonWidth, buttonHeight)
+            serviceTypeButton.FlatStyle = FlatStyle.Flat
+            serviceTypeButton.FlatAppearance.BorderSize = 0
+            serviceTypeButton.BackColor = ColorTranslator.FromHtml("#124E55")
+            serviceTypeButton.ForeColor = Color.White
+            serviceTypeButton.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+
+            ' Attach event handler for the button click
+            AddHandler serviceTypeButton.Click, AddressOf ServiceTypeButton_Click
+
+            ' Add the button to the buttons panel
+            buttonsPanel.Controls.Add(serviceTypeButton)
+
+            ' Increment the column count
+            currentColumn += 1
+
+            ' If the maximum buttons per row is reached, reset column count and increment row count
+            If currentColumn >= maxButtonsPerRow Then
+                currentColumn = 0
+                currentRow += 1
+            End If
+        Next
+        Panel1.Controls.Add(buttonsPanel)
+
+        ' Assuming you have a function to retrieve distinct locations from the database
+        Dim locations As List(Of String) = GetDistinctLocationsFromDB()
+
+        ' Add the retrieved locations to the ComboBox
+        For Each location As String In locations
+            ComboBox1.Items.Add(location)
+        Next
+
 
         ' Load default services in Panel2
         LoadDefaultServices()
         ' Add labels over the TrackBar
         AddTrackBarLabels()
     End Sub
+
+    Private Function GetDistinctLocationsFromDB() As List(Of String)
+        Dim distinctLocations As New List(Of String)()
+        ' Query the database to retrieve distinct locations
+        Dim query As String = "SELECT DISTINCT location FROM serviceAreas"
+        ' Create a new SQL connection
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+
+            ' Create a new SQL command
+            Using command As New MySqlCommand(query, connection)
+                ' Execute the SQL command and create a data reader
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    ' Read data from the reader
+                    While reader.Read()
+                        ' Add the location to the list
+                        distinctLocations.Add(reader("location").ToString())
+                    End While
+                End Using
+            End Using
+        End Using
+        Return distinctLocations
+    End Function
+
+    Private Function GetDistinctServiceTypesFromDB() As List(Of String)
+        Dim distinctServiceTypes As New List(Of String)()
+        ' Query the database to retrieve distinct service types
+        Dim query As String = "SELECT DISTINCT serviceTypeName FROM serviceTypes"
+        ' Create a new SQL connection
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+
+            ' Create a new SQL command
+            Using command As New MySqlCommand(query, connection)
+                ' Execute the SQL command and create a data reader
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    ' Read data from the reader
+                    While reader.Read()
+                        ' Add the location to the list
+                        distinctServiceTypes.Add(reader("serviceTypeName").ToString())
+                    End While
+                End Using
+            End Using
+        End Using
+        Return distinctServiceTypes
+    End Function
+
     Private selectedservices As New List(Of Button)()
 
     Private Sub ServiceTypeButton_Click(sender As Object, e As EventArgs)
@@ -180,7 +246,7 @@
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
 
         ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Cost, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Price, provider.ServiceName)
         spProfileForm.ShowDialog() ' Show the form as a dialog
     End Sub
 

@@ -58,7 +58,7 @@ Partial Class AppointmentList_SP
         Controls.Add(TableLayoutPanel1)
         Margin = New Padding(4)
         Name = "AppointmentList_SP"
-        Text = "Form1"
+        Text = "AppointmentList_SP"
         ResumeLayout(False)
     End Sub
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel

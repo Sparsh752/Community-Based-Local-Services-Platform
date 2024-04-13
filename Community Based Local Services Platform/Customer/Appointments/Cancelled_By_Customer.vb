@@ -1,4 +1,7 @@
-﻿Public Class Cancelled_By_Customer
+﻿Imports Community_Based_Local_Services_Platform.Display_Services
+Imports Mysqlx.Crud
+
+Public Class Cancelled_By_Customer
     Private Sub Cancelled_By_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size() = New Size(1200, 700)
         Me.BackColor = Color.White
@@ -10,6 +13,69 @@
         BackButton.Location = New Point(1067, 75)
         BackButton.FlatAppearance.BorderSize = 0
         BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+
+        Dim query As String = "Select appointments.appointmentID, 
+                serviceproviders.serviceProviderName,
+                serviceTypes.serviceTypeName,
+                serviceAreaTimeslots.startTime,
+                contactDetails.mobileNumber,
+                serviceAreas.location,
+                services.price,
+                appointments.bookingAdvance,
+                serviceAreaTimeslots.timeslotDate,
+                appointments.appointmentStatus 
+                From appointments
+                Join serviceproviders
+                On appointments.serviceProviderID = serviceproviders.serviceProviderID 
+                Join serviceAreaTimeslots
+                On appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+                Join contactDetails
+                On contactDetails.UserID = serviceproviders.userID
+                Join serviceAreas
+                On serviceAreas.areaID = serviceAreaTimeslots.areaID
+                Join services
+                On services.serviceTypeID = serviceAreaTimeslots.serviceTypeID
+                And services.serviceProviderID = serviceAreaTimeslots.serviceProviderID 
+                Join serviceTypes 
+                On serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+                WHERE appointments.customerID = @customerID
+                And appointments.appointmentID = @appointmentID;"
+
+        ' Create a new connection object
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+            ' Create a new command object with the query and connection
+            Using command As New MySqlCommand(query, connection)
+                ' Set the parameter value for UserID
+                command.Parameters.AddWithValue("@customerID", SessionManager.customerID)
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                ' Execute the command and get the data reader
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    ' Read the data
+
+                    ' Check if data is available
+                    If reader.Read() Then
+                        ' Populate RichTextBox controls with fetched data
+                        RichTextBox1.Text = reader("mobileNumber").ToString()
+                        RichTextBox7.Text = reader("serviceProviderName").ToString()
+                        RichTextBox2.Text = reader("serviceTypeName").ToString()
+                        RichTextBox3.Text = reader("price").ToString()
+                        Dim _date As String = reader("timeslotDate").ToString()
+                        Dim dateObject As DateTime = DateTime.ParseExact(_date, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)
+                        Dim formattedDate As String = dateObject.ToString("dd-MM-yyyy")
+                        RichTextBox4.Text = formattedDate
+                        RichTextBox5.Text = reader("location").ToString()
+                        RichTextBox13.Text = reader("bookingAdvance").ToString()
+                    Else
+                        MessageBox.Show("Appointment not found.")
+                    End If
+                End Using
+            End Using
+
+            ' Close connection
+            connection.Close()
+        End Using
 
     End Sub
 

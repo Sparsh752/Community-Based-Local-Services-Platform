@@ -5,9 +5,11 @@ Public Class Display_Services
     Public Class ServiceProvider
         Public Property Name As String
         Public Property Description As String
-        Public Property Cost As String
+        Public Property Price As String
+        Public Property ServiceTypeID As String
         Public Property ServiceName As String
         Public Property Ratings As Integer
+        Public Property Experience As Integer
         Public Property Location As String
         Public Property TimeSlots As String
     End Class
@@ -21,22 +23,50 @@ Public Class Display_Services
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(841, 635)
 
-        ' Populate the serviceProviders list with query from DB
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs", .Cost = "5000", .ServiceName = "Electrical Services", .Ratings = 4, .Location = "Mumbai", .TimeSlots = "9:00 AM - 5:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Experienced in plumbing works", .Cost = "6000", .ServiceName = "Plumbing Services", .Ratings = 4, .Location = "Delhi", .TimeSlots = "8:00 AM - 6:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Gardener", .Description = "Provides garden maintenance services", .Cost = "5500", .ServiceName = "Gardening Services", .Ratings = 3, .Location = "Bangalore", .TimeSlots = "10:00 AM - 4:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Cleaner", .Description = "Offers professional cleaning services", .Cost = "8000", .ServiceName = "Cleaning Services", .Ratings = 5, .Location = "Chennai", .TimeSlots = "7:00 AM - 3:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Painter", .Description = "Specializes in interior and exterior painting", .Cost = "9000", .ServiceName = "Painting Services", .Ratings = 4, .Location = "Kolkata", .TimeSlots = "9:00 AM - 6:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Carpenter", .Description = "Skilled in carpentry and woodworking", .Cost = "8500", .ServiceName = "Carpentry Services", .Ratings = 3, .Location = "Hyderabad", .TimeSlots = "8:00 AM - 5:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Mover", .Description = "Offers moving and relocation services", .Cost = "7500", .ServiceName = "Moving Services", .Ratings = 4, .Location = "Mumbai", .TimeSlots = "10:00 AM - 6:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Tutor", .Description = "Provides tutoring services for various subjects", .Cost = "6500", .ServiceName = "Tutoring Services", .Ratings = 4, .Location = "Delhi", .TimeSlots = "4:00 PM - 8:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Electrician", .Description = "Expert in electrical repairs and installation", .Cost = "7000", .ServiceName = "Electrical Services", .Ratings = 2, .Location = "Hyderabad", .TimeSlots = "8:00 AM - 4:00 PM"})
-        serviceProviders.Add(New ServiceProvider() With {.Name = "Plumber", .Description = "Offers plumbing solutions for households and businesses", .Cost = "6500", .ServiceName = "Plumbing Services", .Ratings = 3, .Location = "Chennai", .TimeSlots = "9:00 AM - 6:00 PM"})
+        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName " &
+                          "FROM serviceproviders AS s " &
+                          "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID "
 
+        ' Create a new SQL connection
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+
+            ' Create a new SQL command
+            Using command As New MySqlCommand(query, connection)
+                ' Set the parameter value for UserID
+                command.Parameters.AddWithValue("@UserID", SessionManager.userID)
+
+                ' Execute the SQL command and create a data reader
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    ' Create a list to hold the labels data
+                    Dim labels As New List(Of String)()
+
+                    ' Read data from the reader
+                    While reader.Read()
+                        Dim serviceProvider As New ServiceProvider() With {
+                           .Name = reader("serviceProviderName").ToString(),
+                           .Description = reader("ServiceProviderdescription").ToString(),
+                           .Ratings = Convert.ToInt32(reader("rating")),
+                           .ServiceName = reader("serviceName").ToString(),
+                           .ServiceTypeID = reader("serviceTypeID").ToString(),
+                           .Price = reader("price").ToString(),
+                           .Location = reader("areaID").ToString(),
+                           .Experience = Convert.ToInt32(reader("rating"))
+                       }
+                        ' Add the service provider to the list
+                        serviceProviders.Add(serviceProvider)
+                    End While
+
+                End Using
+            End Using
+        End Using
         ' Display the default data
         DisplayDefault()
     End Sub
-
+    ' Variable to keep track of the current index of services being displayed for each section
+    Private currentIndexMostTrusted As Integer = 0
+    Private currentIndexPopular As Integer = 0
 
     ' Method to display default view
     Private Sub DisplayDefault()
@@ -46,8 +76,9 @@ Public Class Display_Services
         lblMostTrustedHeading.Size = New Size(360, 28)
         lblMostTrustedHeading.Location = New Point(71, 118)
         Me.Controls.Add(lblMostTrustedHeading)
-        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings).ToList()
-
+        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
+                                      .ThenByDescending(Function(provider) provider.Experience) _
+                                      .ToList()
         Dim lblPopularHeading As New Label()
         lblPopularHeading.Text = "Trending Services"
         lblPopularHeading.Font = New Font(SessionManager.font_family, 14, FontStyle.Bold)
@@ -56,14 +87,14 @@ Public Class Display_Services
         Me.Controls.Add(lblPopularHeading)
 
         ' Display most trusted service providers
-        For i As Integer = 0 To Math.Min(2, sortedProviders.Count - 1)
+        For i As Integer = 0 + currentIndexMostTrusted To Math.Min(2 + currentIndexMostTrusted, sortedProviders.Count - 1)
             Dim pb As New PictureBox()
             pb.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
             AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
 
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            pb.Location = New Point(68 + (i * (32 + 169)), 155)
+            pb.Location = New Point(68 + ((i - currentIndexMostTrusted) * (32 + 169)), 155)
             ' Load sample image for service provider
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
@@ -74,10 +105,19 @@ Public Class Display_Services
             lblProvider.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider.Size = New Size(92, 14)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 320)
+            lblProvider.Location = New Point(106 + ((i - currentIndexMostTrusted) * (110 + 92)) + 20, 320)
             AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
 
+            Dim lblProvider1 As New Label()
+            lblProvider1.Text = "Rating : " & sortedProviders(i).Ratings
+            lblProvider1.Size = New Size(92, 18)
+            lblProvider1.Tag = sortedProviders(i) ' Store ServiceProvider object in Tag property
+            lblProvider1.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProvider1.Location = New Point(106 + ((i - currentIndexMostTrusted) * (110 + 92)) + 20, 340)
+            AddHandler lblProvider1.Click, AddressOf Navbar_Customer.Label_Click
             Me.Controls.Add(lblProvider)
+            Me.Controls.Add(lblProvider1)
+
         Next
 
         ' Display popular services
@@ -94,14 +134,53 @@ Public Class Display_Services
             Me.Controls.Add(pb)
 
             Dim lblProvider As New Label()
-            lblProvider.Text = serviceProviders(i).ServiceName
-            lblProvider.Size = New Size(92, 14)
+            lblProvider.Text = serviceProviders(i).Name
+            lblProvider.Size = New Size(92, 18)
             lblProvider.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
             lblProvider.Location = New Point(106 + (i * (110 + 92)) + 20, 574)
             AddHandler lblProvider.Click, AddressOf Navbar_Customer.Label_Click
 
+            Dim lblProvider1 As New Label()
+            lblProvider1.Text = "Rating : " & serviceProviders(i).Ratings
+            lblProvider1.Size = New Size(92, 14)
+            lblProvider1.Tag = serviceProviders(i) ' Store ServiceProvider object in Tag property
+            lblProvider1.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
+            lblProvider1.Location = New Point(106 + (i * (110 + 92)) + 20, 594)
+            AddHandler lblProvider1.Click, AddressOf Navbar_Customer.Label_Click
+
             Me.Controls.Add(lblProvider)
+            Me.Controls.Add(lblProvider1)
+            ' Display next and previous buttons for most trusted providers
+            Dim btnNextMostTrusted As New Button()
+            btnNextMostTrusted.Text = "Next"
+            btnNextMostTrusted.Size = New Size(70, 30)
+            btnNextMostTrusted.Location = New Point(750, 155)
+            AddHandler btnNextMostTrusted.Click, AddressOf BtnNextMostTrusted_Click
+            'Me.Controls.Add(btnNextMostTrusted)
+
+            Dim btnPrevMostTrusted As New Button()
+            btnPrevMostTrusted.Text = "Previous"
+            btnPrevMostTrusted.Size = New Size(70, 30)
+            btnPrevMostTrusted.Location = New Point(650, 155)
+            AddHandler btnPrevMostTrusted.Click, AddressOf BtnPrevMostTrusted_Click
+            'Me.Controls.Add(btnPrevMostTrusted)
+
+            ' Display next and previous buttons for popular services
+            Dim btnNextPopular As New Button()
+            btnNextPopular.Text = "Next"
+            btnNextPopular.Size = New Size(70, 30)
+            btnNextPopular.Location = New Point(750, 408)
+            AddHandler btnNextPopular.Click, AddressOf BtnNextPopular_Click
+            'Me.Controls.Add(btnNextPopular)
+
+            Dim btnPrevPopular As New Button()
+            btnPrevPopular.Text = "Previous"
+            btnPrevPopular.Size = New Size(70, 30)
+            btnPrevPopular.Location = New Point(650, 408)
+            AddHandler btnPrevPopular.Click, AddressOf BtnPrevPopular_Click
+            'Me.Controls.Add(btnPrevPopular)
+
         Next
     End Sub
 
@@ -127,8 +206,8 @@ Public Class Display_Services
         Dim filteredProviders = serviceProviders.Where(Function(provider) _
         (provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
         provider.Description.ToLower().Contains(searchCriteria.ToLower())) AndAlso
-        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) >= minCost) AndAlso
-        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Cost, Nothing) AndAlso Integer.Parse(provider.Cost) <= maxCost) AndAlso
+        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) >= minCost) AndAlso
+        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) <= maxCost) AndAlso
         provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating AndAlso
         (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
         (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceName.ToLower().Contains(serviceType.ToLower())))
@@ -178,14 +257,14 @@ Public Class Display_Services
             resultPanel.Controls.Add(nameLabel)
 
             Dim serviceNameLabel As New Label()
-            serviceNameLabel.Text = provider.ServiceName
+            serviceNameLabel.Text = provider.Name
             serviceNameLabel.Size = New Size(280, 28)
             serviceNameLabel.Location = New Point(208, 50)
             serviceNameLabel.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
             resultPanel.Controls.Add(serviceNameLabel)
 
             Dim costLabel As New Label()
-            costLabel.Text = "Rate : Rs. " & provider.Cost
+            costLabel.Text = "Rate : Rs. " & provider.Price
             costLabel.Size = New Size(280, 14)
             costLabel.Location = New Point(208, 76)
             costLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
@@ -250,5 +329,53 @@ Public Class Display_Services
         End With
 
     End Sub
+    Private Sub BtnNextMostTrusted_Click(sender As Object, e As EventArgs)
+        ' Increment the current index for most trusted providers
+        currentIndexMostTrusted += 3
+        ' Ensure currentIndexMostTrusted does not exceed the maximum index
+        If currentIndexMostTrusted >= serviceProviders.Count Then
+            currentIndexMostTrusted = serviceProviders.Count - 3
+        End If
+        ' Redisplay the most trusted service providers
+        Me.Controls.Clear()
+        DisplayDefault()
+    End Sub
+
+    Private Sub BtnPrevMostTrusted_Click(sender As Object, e As EventArgs)
+        ' Decrement the current index for most trusted providers
+        currentIndexMostTrusted -= 3
+        ' Ensure currentIndexMostTrusted does not go below 0
+        If currentIndexMostTrusted < 0 Then
+            currentIndexMostTrusted = 0
+        End If
+        ' Redisplay the most trusted service providers
+        Me.Controls.Clear()
+        DisplayDefault()
+    End Sub
+
+    Private Sub BtnNextPopular_Click(sender As Object, e As EventArgs)
+        ' Increment the current index for popular services
+        currentIndexPopular += 3
+        ' Ensure currentIndexPopular does not exceed the maximum index
+        If currentIndexPopular >= serviceProviders.Count Then
+            currentIndexPopular = serviceProviders.Count - 3
+        End If
+        ' Redisplay the popular services
+        Me.Controls.Clear()
+        DisplayDefault()
+    End Sub
+
+    Private Sub BtnPrevPopular_Click(sender As Object, e As EventArgs)
+        ' Decrement the current index for popular services
+        currentIndexPopular -= 3
+        ' Ensure currentIndexPopular does not go below 0
+        If currentIndexPopular < 0 Then
+            currentIndexPopular = 0
+        End If
+        ' Redisplay the popular services
+        Me.Controls.Clear()
+        DisplayDefault()
+    End Sub
+
 
 End Class
