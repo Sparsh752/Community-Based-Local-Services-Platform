@@ -23,7 +23,16 @@ Public Class AppointmentList_SP
             Me.appointmentID = appointmentID
         End Sub
     End Class
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    'Private Sub AppointmentList_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+    '    MessageBox.Show("act")
+    'End Sub
+
+    'Public Sub AppointmentList_Show(sender As Object, e As EventArgs) Handles Me.Shown
+    '    MessageBox.Show("Show")
+    'End Sub
+    Private Sub AppointmentList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'MessageBox.Show("Load")
 
         SessionManager.spID = SessionManager.userID
 
@@ -93,7 +102,7 @@ Public Class AppointmentList_SP
             ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
             JOIN serviceAreas 
             ON serviceAreaTimeslots.areaID = serviceAreas.areaID 
-            WHERE appointments.serviceProviderID = @UserID;"
+            WHERE serviceproviders.userID = @userID;"
 
 
         Dim count As Integer = 1
@@ -108,7 +117,7 @@ Public Class AppointmentList_SP
             ' Create a new command object with the query and connection
             Using command As New MySqlCommand(query, connection)
                 ' Set the parameter value for UserID
-                command.Parameters.AddWithValue("@UserID", SessionManager.userID)
+                command.Parameters.AddWithValue("@userID", SessionManager.userID)
                 ' Execute the command and get the data reader
                 Using reader As MySqlDataReader = command.ExecuteReader()
                     ' Read the data
@@ -287,8 +296,9 @@ Public Class AppointmentList_SP
         SessionManager.customerID = _customerID
         SessionManager.appointmentID = _appointmentID
 
-        MessageBox.Show(SessionManager.sp_userID & " " & SessionManager.customerID & " " & SessionManager.spID & " ")
-
+        'MessageBox.Show(SessionManager.sp_userID & " " & SessionManager.customerID & " " & SessionManager.spID & " ")
+        RemovePreviousForm()
+        Me.Close()
         If (status = "Pending") Then
             With PendingRequest_SP
                 .TopLevel = False
@@ -313,7 +323,7 @@ Public Class AppointmentList_SP
                 .BringToFront()
                 .Show()
             End With
-        ElseIf (status = "Canceled") Then
+        ElseIf (status = "Cancelled") Then
             With CanceledView_SP
                 .TopLevel = False
                 .Dock = DockStyle.Fill
