@@ -1,9 +1,49 @@
 ﻿Imports System.IO
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class InProgressPaymentNotDone
+
+    Public Sub CheckOrGenerateOTP(appointmentID As Integer)
+        Dim checkQuery As String = "SELECT otpCode 
+            FROM OTPs 
+            WHERE appointmentID = @appointmentID"
+
+        Dim insertQuery As String = "INSERT INTO OTPs (appointmentID, otpCode, otpExpiration) 
+            VALUES (@appointmentID, @otp, ADDTIME(NOW(), '00:15:00'))"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+
+            Using checkCommand As New MySqlCommand(checkQuery, connection)
+                checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+
+                Dim existingOTP As String = checkCommand.ExecuteScalar()?.ToString()
+
+                If Not String.IsNullOrEmpty(existingOTP) Then
+                    OTP_box.Text = existingOTP
+                Else
+                    Dim random As New Random()
+                    Dim newOTP As Integer = random.Next(100000, 999999)
+
+                    Using insertCommand As New MySqlCommand(insertQuery, connection)
+                        insertCommand.Parameters.AddWithValue("@appointmentID", appointmentID)
+                        insertCommand.Parameters.AddWithValue("@otp", newOTP)
+                        insertCommand.ExecuteNonQuery()
+                        OTP_box.Text = newOTP.ToString()
+                    End Using
+                End If
+            End Using
+
+            connection.Close()
+        End Using
+    End Sub
+
     Private Sub Appointmentdetail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = BorderStyle.None
+
+        OTP_box.ReadOnly = True
+        OTP_box.BackColor = Me.BackColor
 
         BackButton.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
         BackButton.BackColor = ColorTranslator.FromHtml("#F9754B")
@@ -11,7 +51,7 @@ Public Class InProgressPaymentNotDone
         BackButton.Location = New Point(1067, 75)
         BackButton.FlatAppearance.BorderSize = 0
         BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
-
+        CheckOrGenerateOTP(SessionManager.appointmentID)
         LoadChatPanel()
 
     End Sub
@@ -35,21 +75,7 @@ Public Class InProgressPaymentNotDone
         End With
 
     End Sub
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
 
-    End Sub
-
-    Private Sub TextBox3_TextChanged(sender As Object, e As EventArgs) Handles TextBox3.TextChanged
-
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
-
-    End Sub
-
-    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
-
-    End Sub
 
     Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
@@ -75,20 +101,36 @@ Public Class InProgressPaymentNotDone
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        RemovePreviousForm()
 
-        With Payment_Gateway
-            .TopLevel = False
-            .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Payment_Gateway)
-            .BringToFront()
-            .Show()
-        End With
+        Dim currentDateTime As DateTime = DateTime.Now
+        Dim restrictedTimeString As String = Booked_slot_tb.Text
+        Dim restrictedDateTime As DateTime
+
+        If DateTime.TryParse(restrictedTimeString, restrictedDateTime) Then
+            ' Check if the current date is past the restricted date
+            If currentDateTime.Date > restrictedDateTime.Date OrElse (currentDateTime.Date = restrictedDateTime.Date AndAlso currentDateTime.TimeOfDay >= restrictedDateTime.TimeOfDay) Then
+                ' If past the restricted date and time, proceed to show the Payment_Gateway form
+                ' Remove any previous form
+                RemovePreviousForm()
+                With Payment_Gateway
+                    .TopLevel = False
+                    .Dock = DockStyle.Fill
+                    Panel3.Controls.Add(Payment_Gateway)
+                    .BringToFront()
+                    .Show()
+                End With
+            Else
+                MessageBox.Show("Button click is not allowed yet.")
+            End If
+        Else
+
+            MessageBox.Show("Error parsing TextBox value to DateTime.")
+        End If
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         RemovePreviousForm()
-
+        Me.Close()
         With AppointmentList_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
@@ -100,7 +142,7 @@ Public Class InProgressPaymentNotDone
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
-
+        Me.Close()
         With AppointmentList_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
@@ -109,4 +151,5 @@ Public Class InProgressPaymentNotDone
             .Show()
         End With
     End Sub
+
 End Class

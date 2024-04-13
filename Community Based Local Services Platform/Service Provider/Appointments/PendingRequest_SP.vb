@@ -58,6 +58,66 @@ Public Class PendingRequest_SP
         BackButton.FlatAppearance.BorderSize = 0
         BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
 
+        Dim query As String = "SELECT appointments.appointmentID, 
+            users.userName, serviceTypes.serviceTypeName, 
+            serviceAreaTimeslots.startTime, 
+            serviceAreaTimeslots.timeslotDate, 
+            appointments.appointmentStatus, 
+            serviceAreas.location, 
+            appointments.bookingAdvance, 
+            contactDetails.mobileNumber
+            FROM appointments 
+            JOIN users  
+            ON appointments.customerID = users.userID 
+            JOIN serviceproviders 
+            ON appointments.serviceProviderID = serviceproviders.serviceProviderID 
+            JOIN serviceAreaTimeslots 
+            ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+            JOIN serviceTypes 
+            ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+            JOIN serviceAreas 
+            ON serviceAreaTimeslots.areaID = serviceAreas.areaID 
+            JOIN contactDetails 
+            ON contactDetails.userID = appointments.customerID 
+            WHERE appointments.serviceProviderID = @spID
+            AND appointments.appointmentID = @appointmentID;"
+
+
+        ' Create a new connection object
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+            ' Create a new command object with the query and connection
+            Using command As New MySqlCommand(query, connection)
+                ' Set the parameter value for UserID
+                command.Parameters.AddWithValue("@spID", SessionManager.spID)
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                ' Execute the command and get the data reader
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    ' Read the data
+
+                    ' Check if data is available
+                    If reader.Read() Then
+                        ' Populate RichTextBox controls with fetched data
+                        Label1.Text = reader("userName").ToString()
+                        Label5.Text = reader("serviceTypeName").ToString()
+                        Label9.Text = reader("bookingAdvance").ToString()
+                        Label7.Text = reader("timeslotDate").ToString()
+                        Label2.Text = reader("location").ToString()
+                        Label3.Text = reader("mobileNumber").ToString()
+
+                    Else
+                        MessageBox.Show("Appointment not found.")
+                    End If
+
+
+                End Using
+            End Using
+
+            ' Close connection
+            connection.Close()
+        End Using
+
     End Sub
 
     Private Sub RemovePreviousForm()
@@ -68,7 +128,59 @@ Public Class PendingRequest_SP
         End If
     End Sub
 
+    Private Sub UpdateAppointment()
+        Dim updateQuery As String = "UPDATE appointments " &
+                            "SET appointmentStatus = 'Scheduled' " &
+                            "WHERE appointmentID = @appointmentID"
+
+        ' Create a new connection object
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+            ' Create a new command object with the query and connection
+            Using command As New MySqlCommand(updateQuery, connection)
+                ' Set the parameter value for AppointmentID
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                ' Execute the command and get the number of rows affected
+                Dim rowsAffected As Integer = command.ExecuteNonQuery()
+                If rowsAffected > 0 Then
+                    MessageBox.Show("Appointment status updated successfully.")
+                Else
+                    MessageBox.Show("No appointment found or status already updated.")
+                End If
+            End Using
+        End Using
+
+    End Sub
+
+    Private Sub UpdateAppointment1()
+        Dim updateQuery As String = "UPDATE appointments " &
+                            "SET appointmentStatus = 'Rejected' " &
+                            "WHERE appointmentID = @appointmentID"
+
+        ' Create a new connection object
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            ' Open the connection
+            connection.Open()
+            ' Create a new command object with the query and connection
+            Using command As New MySqlCommand(updateQuery, connection)
+                ' Set the parameter value for AppointmentID
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                ' Execute the command and get the number of rows affected
+                command.ExecuteNonQuery()
+                Dim rowsAffected As Integer = command.ExecuteNonQuery()
+                If rowsAffected > 0 Then
+                    MessageBox.Show("Appointment status updated successfully.")
+                Else
+                    MessageBox.Show("No appointment found or status already updated.")
+                End If
+            End Using
+        End Using
+
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        UpdateAppointment()
         RemovePreviousForm()
         With AppointmentList_SP
             .TopLevel = False
@@ -81,6 +193,7 @@ Public Class PendingRequest_SP
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        UpdateAppointment1()
         RemovePreviousForm()
         With AppointmentList_SP
             .TopLevel = False
