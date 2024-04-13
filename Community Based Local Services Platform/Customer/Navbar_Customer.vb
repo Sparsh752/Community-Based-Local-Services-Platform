@@ -247,8 +247,8 @@ Public Class Navbar_Customer
 
             ' Dim loadQuery As String = "SELECT email, location, mobileNumber,address FROM ContactDetails WHERE BINARY userID='" & SessionManager.userID & "'"
             Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName " &
-                          "FROM ContactDetails CD " &
-                          "JOIN Users U ON CD.userID = U.userID " &
+                          "FROM contactDetails CD " &
+                          "JOIN users U ON CD.userID = U.userID " &
                           "WHERE BINARY CD.userID='" & SessionManager.userID & "'"
 
             Using connection As New MySqlConnection(SessionManager.connectionString)
