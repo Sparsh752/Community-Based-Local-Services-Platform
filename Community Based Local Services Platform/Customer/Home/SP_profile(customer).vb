@@ -5,15 +5,15 @@ Imports Community_Based_Local_Services_Platform.Display_Services
 Public Class SP_profile
     ' Constructor to receive and display details
     Dim serviceProviderID As String
-    Public Sub New(name As String, description As String, cost As String, serviceName As String, serviceProviderID As Integer)
+    Public Sub New(provider As ServiceProvider)
         InitializeComponent()
 
         ' Display the details received
-        Label1.Text = name
-        Label2.Text = description
-        Label3.Text = "Available from : " & cost
-        Label4.Text = serviceName
-        Me.serviceProviderID = serviceProviderID
+        Label1.Text = provider.Name
+        Label2.Text = provider.Location
+        Label3.Text = "Available from : " & provider.Price   ' yash change this once the db team adds the endtime to serviceAreaTimeslots table
+        Label4.Text = provider.Experience & " years of experience"
+        Me.serviceProviderID = provider.ID
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -29,8 +29,6 @@ Public Class SP_profile
 
         Panel1.Location = New Point(843, 65)
         Panel2.Location = New Point(10, 64)
-
-
 
 
         Dim connection3 As New MySqlConnection(SessionManager.connectionString)

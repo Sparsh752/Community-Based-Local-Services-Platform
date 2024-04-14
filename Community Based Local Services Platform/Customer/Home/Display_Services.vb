@@ -3,6 +3,7 @@
 Public Class Display_Services
     ' Define the service provider class
     Public Class ServiceProvider
+        Public Property ID As String
         Public Property Name As String
         Public Property Description As String
         Public Property Price As String
@@ -32,7 +33,7 @@ Public Class Display_Services
 
         currentIndexMostTrusted = 0
         currentIndexPopular = 0
-        Dim query As String = "SELECT s.serviceProviderName, s.ServiceProviderdescription, se.serviceDescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
+        Dim query As String = "SELECT s.serviceProviderID, s.serviceProviderName, s.ServiceProviderdescription, se.serviceDescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
                       "FROM serviceproviders AS s " &
                       "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
                       "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
@@ -56,6 +57,7 @@ Public Class Display_Services
                     ' Read data from the reader
                     While reader.Read()
                         Dim serviceProvider As New ServiceProvider() With {
+                           .ID = reader("serviceProviderID").ToString(),
                            .Name = reader("serviceProviderName").ToString(),
                            .Description = reader("ServiceProviderdescription").ToString(),
                            .Ratings = Convert.ToInt32(reader("rating")),

@@ -261,17 +261,6 @@
         End If
     End Sub
 
-
-    ' Event handler for "View Details" button click
-    Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
-        ' Retrieve the provider details from the Tag property of the button
-        Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
-
-        ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Price, provider.ServiceName, 4)
-        spProfileForm.ShowDialog() ' Show the form as a dialog
-    End Sub
-
     ' Event handler for SearchBtn click event
     Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchBtn.Click
         ' Retrieve search criteria from text box or other UI elements in Panel1
