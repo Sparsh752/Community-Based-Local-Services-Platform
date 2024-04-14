@@ -369,7 +369,7 @@ Public Class AppointmentList_Customer
                 .BringToFront()
                 .Show()
             End With
-        ElseIf (status = "Cancelled") Then
+        ElseIf (status = "Canceled") Then
             With Cancelled_By_Customer
                 .TopLevel = False
                 .Dock = DockStyle.Fill
