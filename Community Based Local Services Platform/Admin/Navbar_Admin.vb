@@ -121,8 +121,8 @@ Public Class Navbar_Admin
 
             notificationForm = New Notification()
             ' Set the location of the Notification form to be just below the NotificationButton
-            Dim xPosition As Integer = Me.Location.X + 49
-            Dim yPosition As Integer = Me.Location.Y + 78
+            Dim xPosition As Integer = Me.Location.X + 45
+            Dim yPosition As Integer = Me.Location.Y + 98
 
             notificationForm.StartPosition = FormStartPosition.Manual
             notificationForm.Location = New Point(xPosition, yPosition)
