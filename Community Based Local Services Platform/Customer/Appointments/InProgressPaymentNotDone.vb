@@ -3,6 +3,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class InProgressPaymentNotDone
 
     Private chatPanel As New Panel()
+    Public _serviceID As String
     Public Sub CheckOrGenerateOTP(appointmentID As Integer)
         Dim checkQuery As String = "SELECT otpCode 
             FROM OTPs 
@@ -89,7 +90,7 @@ Public Class InProgressPaymentNotDone
         RemovePreviousForm()
 
         Dim str As String = "Reschedule"
-        Dim appointmentBookingForm As New Appointment_booking(str, serviceID:="") ' need to get serviceID in this form
+        Dim appointmentBookingForm As New Appointment_booking(str, serviceID:=_serviceID) ' need to get serviceID in this form
 
         With appointmentBookingForm
             .TopLevel = False
