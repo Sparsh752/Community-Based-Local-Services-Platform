@@ -46,9 +46,10 @@ Public Class SP_profile
             Dim reader As MySqlDataReader = command.ExecuteReader()
 
             ' Loop through the result set and populate userList
-            reader.Read()
-            Label1.Text = reader("serviceProviderName")
-            Label4.Text = "Experience : " & reader("experienceYears") & " years"
+            If (reader.Read()) Then
+                Label1.Text = reader("serviceProviderName")
+                Label4.Text = "Experience : " & reader("experienceYears") & " years"
+            End If
             reader.Close()
 
 
@@ -58,19 +59,21 @@ Public Class SP_profile
             ' Execute the SQL query
             Dim reader2 As MySqlDataReader = command2.ExecuteReader()
 
-            reader2.Read()
-            Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " AM to 6:00 PM"
+            If (reader2.Read()) Then
+                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " AM to 6:00 PM"
+            End If
             reader2.Close()
 
 
-            Dim command3 As New MySqlCommand(query3, connection3)
+                Dim command3 As New MySqlCommand(query3, connection3)
 
             ' Execute the SQL query
             Dim reader3 As MySqlDataReader = command3.ExecuteReader()
 
-            reader3.Read()
-            Label2.Text = reader3("location")
-            reader2.Close()
+            If (reader3.Read()) Then
+                Label2.Text = reader3("location")
+            End If
+            reader3.Close()
             ' Close the reader
         Catch ex As Exception
             ' Display error message if loading fails
@@ -150,6 +153,7 @@ Public Class SP_profile
 
             ' Close the reader
             reader.Close()
+            connection1.Close()
         Catch ex As Exception
             ' Display error message if loading fails
             MessageBox.Show("Failed to load users. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -253,6 +257,7 @@ Public Class SP_profile
 
             ' Close the reader
             reader.Close()
+            connection2.Close()
         Catch ex As Exception
             ' Display error message if loading fails
             MessageBox.Show("Failed to load reviews. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
