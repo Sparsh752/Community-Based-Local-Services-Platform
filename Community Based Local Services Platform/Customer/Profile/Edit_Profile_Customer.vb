@@ -222,18 +222,21 @@ Public Class Edit_Profile_Customer
         End If
 
 
-
-        Dim connectionString As String = SessionManager.connectionString
         Dim query As String = "UPDATE users AS u
-                          INNER JOIN contactDetails AS cd ON u.userID = cd.userID
-                          SET u.userName = @userName, 
-                              u.email = @email, 
-                              u.password = @password,
-                              cd.location = @location, 
-                              cd.address = @address, 
-                              cd.mobileNumber = @mobile,
-                              u.userPhoto = @userPhoto
-                          WHERE u.userID = @userID"
+                      INNER JOIN contactDetails AS cd ON u.userID = cd.userID
+                      SET u.userName = @userName, 
+                          u.email = @email, 
+                          u.password = @password,
+                          cd.location = @location, 
+                          cd.address = @address, 
+                          cd.mobileNumber = @mobile"
+
+        ' Only include the userPhoto field in the update query if a new image is selected
+        If imageBytes IsNot Nothing Then
+            query &= ", u.userPhoto = @userPhoto"
+        End If
+
+        query &= " WHERE u.userID = @userID"
 
         Using connection As New MySqlConnection(connectionString)
             Using command As New MySqlCommand(query, connection)
@@ -247,7 +250,10 @@ Public Class Edit_Profile_Customer
                 ' Set the userID parameter to identify the user to update
                 command.Parameters.AddWithValue("@userID", SessionManager.userID)
 
-                command.Parameters.AddWithValue("@userPhoto", imageBytes)
+                ' Only set the userPhoto parameter if a new image is selected
+                If imageBytes IsNot Nothing Then
+                    command.Parameters.AddWithValue("@userPhoto", imageBytes)
+                End If
 
                 Try
                     connection.Open()
@@ -263,11 +269,8 @@ Public Class Edit_Profile_Customer
                 Finally
                     connection.Close()
                 End Try
-
-
             End Using
         End Using
-
 
         RemovePreviousForm()
         Dim profileCustomerForm As New Profile_Customer()
@@ -279,7 +282,6 @@ Public Class Edit_Profile_Customer
             .BringToFront()
             .Show()
         End With
-
     End Sub
     Private Sub Edit_Profile_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Assuming you have the userID stored in SessionManager.userID
