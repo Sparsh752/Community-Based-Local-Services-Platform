@@ -11,7 +11,7 @@
         Panel1.BackColor = ColorTranslator.FromHtml("#F6F6F6")
         Panel1.Size = New Size(359, 635)
 
-        searchBox.Location = New Point(27, 106)
+        searchBox.Location = New Point(34, 106)
         searchBox.Font = New Font(SessionManager.font_family, 14, FontStyle.Regular)
         searchBox.Size = New Size(280, 27)
 
@@ -259,17 +259,6 @@
         If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
         End If
-    End Sub
-
-
-    ' Event handler for "View Details" button click
-    Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
-        ' Retrieve the provider details from the Tag property of the button
-        Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
-
-        ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Price, provider.ServiceName)
-        spProfileForm.ShowDialog() ' Show the form as a dialog
     End Sub
 
     ' Event handler for SearchBtn click event

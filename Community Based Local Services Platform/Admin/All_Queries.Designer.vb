@@ -26,11 +26,11 @@ Partial Class All_Queries
         Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         DataGridView1 = New DataGridView()
-        QueryType = New DataGridViewTextBoxColumn()
-        QueryBy = New DataGridViewTextBoxColumn()
+        QueryID = New DataGridViewTextBoxColumn()
+        Type = New DataGridViewTextBoxColumn()
+        UserID = New DataGridViewTextBoxColumn()
         AppointmentID = New DataGridViewTextBoxColumn()
         QueryDate = New DataGridViewTextBoxColumn()
-        Description = New DataGridViewTextBoxColumn()
         Status = New DataGridViewTextBoxColumn()
         View = New DataGridViewButtonColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -52,7 +52,7 @@ Partial Class All_Queries
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
         DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {QueryType, QueryBy, AppointmentID, QueryDate, Description, Status, View})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {QueryID, Type, UserID, AppointmentID, QueryDate, Status, View})
         DataGridView1.Cursor = Cursors.Hand
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.BackColor = Color.White
@@ -75,19 +75,26 @@ Partial Class All_Queries
         DataGridView1.Size = New Size(1353, 768)
         DataGridView1.TabIndex = 0
         ' 
-        ' QueryType
+        ' QueryID
         ' 
-        QueryType.HeaderText = "Query Type"
-        QueryType.MinimumWidth = 6
-        QueryType.Name = "QueryType"
-        QueryType.ReadOnly = True
+        QueryID.HeaderText = "Query ID"
+        QueryID.MinimumWidth = 6
+        QueryID.Name = "QueryID"
+        QueryID.ReadOnly = True
         ' 
-        ' QueryBy
+        ' Type
         ' 
-        QueryBy.HeaderText = "Query By"
-        QueryBy.MinimumWidth = 6
-        QueryBy.Name = "QueryBy"
-        QueryBy.ReadOnly = True
+        Type.HeaderText = "Type"
+        Type.MinimumWidth = 6
+        Type.Name = "Type"
+        Type.ReadOnly = True
+        ' 
+        ' UserID
+        ' 
+        UserID.HeaderText = "User ID"
+        UserID.MinimumWidth = 6
+        UserID.Name = "UserID"
+        UserID.ReadOnly = True
         ' 
         ' AppointmentID
         ' 
@@ -102,13 +109,6 @@ Partial Class All_Queries
         QueryDate.MinimumWidth = 6
         QueryDate.Name = "QueryDate"
         QueryDate.ReadOnly = True
-        ' 
-        ' Description
-        ' 
-        Description.HeaderText = "Description"
-        Description.MinimumWidth = 6
-        Description.Name = "Description"
-        Description.ReadOnly = True
         ' 
         ' Status
         ' 
@@ -147,11 +147,11 @@ Partial Class All_Queries
     End Sub
 
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents QueryType As DataGridViewTextBoxColumn
-    Friend WithEvents QueryBy As DataGridViewTextBoxColumn
+    Friend WithEvents QueryID As DataGridViewTextBoxColumn
+    Friend WithEvents Type As DataGridViewTextBoxColumn
+    Friend WithEvents UserID As DataGridViewTextBoxColumn
     Friend WithEvents AppointmentID As DataGridViewTextBoxColumn
     Friend WithEvents QueryDate As DataGridViewTextBoxColumn
-    Friend WithEvents Description As DataGridViewTextBoxColumn
     Friend WithEvents Status As DataGridViewTextBoxColumn
     Friend WithEvents View As DataGridViewButtonColumn
 

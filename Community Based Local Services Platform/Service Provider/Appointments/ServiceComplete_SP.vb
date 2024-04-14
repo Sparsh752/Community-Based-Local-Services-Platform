@@ -8,6 +8,8 @@
     Private ServiceLocation As String
     Private appointmentID As String
     Private spID As String
+
+    Private chatPanel As New Panel()
     Private Sub ServiceComplete_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Dim query As String = "SELECT 
@@ -49,8 +51,8 @@
             ' Create a new command object with the query and connection
             Using command As New MySqlCommand(query, connection)
                 ' Set the parameter value for appointmentID
-                command.Parameters.AddWithValue("@appointmentID", 1) ' Replace YourAppointmentID with the actual appointment ID you want to retrieve details for
-                command.Parameters.AddWithValue("@spID", 1) ' Replace spID with the actual SP ID you want to retrieve details for
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID) ' Replace YourAppointmentID with the actual appointment ID you want to retrieve details for
+                command.Parameters.AddWithValue("@spID", SessionManager.spID) ' Replace spID with the actual SP ID you want to retrieve details for
                 ' Execute the command and get the data reader
                 Using reader As MySqlDataReader = command.ExecuteReader()
                     ' Read the data
@@ -124,7 +126,6 @@
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle
@@ -219,6 +220,15 @@
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
 
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+
+        Me.Close()
+
         With AppointmentList_SP
             .TopLevel = False
             .Dock = DockStyle.Fill
@@ -228,35 +238,64 @@
         End With
     End Sub
 
+    Private Sub DeleteOtpAfterCompletion()
+        Dim query As String = "DELETE FROM OTPs
+            WHERE appointmentID = @appointmentID;"
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                command.ExecuteReader()
+            End Using
+            connection.Close()
+        End Using
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ' Concatenate the text from four RichTextBoxes
         Dim enteredOTP As String = RichTextBox1.Text & RichTextBox2.Text & RichTextBox3.Text & RichTextBox4.Text
 
         ' Fetch the OTP and its expiration time for the given appointment ID (replace 123 with the actual appointment ID)
-        Dim appointmentID As Integer = 123
-        Dim otpTuple As (otp As String, expirationTime As DateTime) = FetchOTP(appointmentID:=1)
+        'Dim appointmentID As Integer = 123
+        Dim otpTuple As (otp As String, expirationTime As DateTime) = FetchOTP(appointmentID:=SessionManager.appointmentID)
 
         ' Check if the OTP has expired
-        If otpTuple.expirationTime < DateTime.Now Then
-            MessageBox.Show("OTP has expired.")
-            Return
-        Else
-            ' Compare the entered OTP with the fetched OTP
-            If enteredOTP = otpTuple.otp Then
-                MessageBox.Show("OTP entered is correct!")
-                RemovePreviousForm()
-                With TransactionComplete_SP
-                    .TopLevel = False
-                    .Dock = DockStyle.Fill
-                    Panel3.Controls.Add(TransactionComplete_SP)
-                    .BringToFront()
-                    .Show()
-                End With
-            Else
-                MessageBox.Show("OTP entered is incorrect.")
-            End If
+        'If otpTuple.expirationTime < DateTime.Now Then
+        '    MessageBox.Show("OTP has expired.")
+        '    Return
+        'Else
+        ' Compare the entered OTP with the fetched OTP
 
+        'Not using OTP expiration
+        'OTP match - assumption money is tranferred to service provider
+
+        If enteredOTP = otpTuple.otp Then
+            MessageBox.Show("OTP entered is correct!")
+            DeleteOtpAfterCompletion()
+            RemovePreviousForm()
+
+            For Each ctrl As Control In chatPanel.Controls
+                If TypeOf ctrl Is Form Then
+                    Dim formCtrl As Form = DirectCast(ctrl, Form)
+                    formCtrl.Close()
+                End If
+            Next
+
+            Me.Close()
+
+            With TransactionComplete_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(TransactionComplete_SP)
+                .BringToFront()
+                .Show()
+            End With
+        Else
+            MessageBox.Show("OTP entered is incorrect.")
         End If
 
+        'End If
+
     End Sub
+
 End Class

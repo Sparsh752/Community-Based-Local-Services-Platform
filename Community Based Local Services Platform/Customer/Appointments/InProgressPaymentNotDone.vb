@@ -2,6 +2,7 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class InProgressPaymentNotDone
 
+    Private chatPanel As New Panel()
     Public Sub CheckOrGenerateOTP(appointmentID As Integer)
         Dim checkQuery As String = "SELECT otpCode 
             FROM OTPs 
@@ -22,7 +23,7 @@ Public Class InProgressPaymentNotDone
                     OTP_box.Text = existingOTP
                 Else
                     Dim random As New Random()
-                    Dim newOTP As Integer = random.Next(100000, 999999)
+                    Dim newOTP As Integer = random.Next(1000, 9999)
 
                     Using insertCommand As New MySqlCommand(insertQuery, connection)
                         insertCommand.Parameters.AddWithValue("@appointmentID", appointmentID)
@@ -58,7 +59,6 @@ Public Class InProgressPaymentNotDone
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle
@@ -130,7 +130,7 @@ Public Class InProgressPaymentNotDone
 
     Private Sub UpdateAppointment()
         Dim updateQuery As String = "UPDATE appointments " &
-                            "SET appointmentStatus = 'Cancelled' " &
+                            "SET appointmentStatus = 'Canceled' " &
                             "WHERE appointmentID = @appointmentID"
 
         ' Create a new connection object
@@ -172,6 +172,15 @@ Public Class InProgressPaymentNotDone
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+
+
         Me.Close()
         With AppointmentList_Customer
             .TopLevel = False
