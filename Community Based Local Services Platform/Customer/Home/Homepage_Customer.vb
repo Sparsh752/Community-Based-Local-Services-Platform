@@ -276,14 +276,8 @@
         End If
 
         ' Call the method to update services based on search criteria and rating filter
-        UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, locationCriteria)
-    End Sub
-
-    ' Method to update services in Panel2 based on search criteria and rating filter
-    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, locationCriteria As String)
-        ' Retrieve rating filter value from TrackBar1
-        Dim minRating As Integer = TrackBar1.Value
-        Dim maxRating As Integer = 5 ' Maximum rating value is 5
+        Dim minRating As Decimal = TrackBar1.Value
+        Dim maxRating As Decimal = 5.0 ' Maximum rating value is 5
 
         Dim selectedServiceTypes As New List(Of String)()
         For Each button As Button In selectedservices
@@ -298,5 +292,4 @@
             displayServicesForm.UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, minRating, maxRating, locationCriteria, selectedServiceTypes)
         End If
     End Sub
-
 End Class

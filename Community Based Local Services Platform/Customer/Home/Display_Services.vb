@@ -6,12 +6,12 @@ Public Class Display_Services
         Public Property ID As String
         Public Property Name As String
         Public Property Description As String
-        Public Property Price As String
+        Public Property Price As Decimal
         Public Property ServiceID As String
         Public Property ServiceTypeID As String
         Public Property ServiceName As String
         Public Property ServiceDescription As String
-        Public Property Ratings As Integer
+        Public Property Ratings As Decimal
         Public Property Experience As Integer
         Public Property Location As String
         Public Property TimeSlots As String
@@ -58,15 +58,13 @@ Public Class Display_Services
                     ' Read data from the reader
                     While reader.Read()
                         Dim serviceProvider As New ServiceProvider() With {
-                           .ID = reader("serviceProviderID").ToString(),
                            .Name = reader("serviceProviderName").ToString(),
                            .Description = reader("ServiceProviderdescription").ToString(),
-                           .Ratings = Convert.ToInt32(reader("rating")),
-                           .ServiceID = reader("serviceID").ToString(),
+                           .Ratings = Convert.ToDecimal(reader("rating")),
                            .ServiceName = reader("serviceName").ToString(),
                            .ServiceDescription = reader("serviceDescription").ToString(),
                            .ServiceTypeID = reader("serviceTypeID").ToString(),
-                           .Price = reader("price").ToString(),
+                           .Price = Convert.ToDecimal(reader("price")), ' Change to Convert.ToDecimal
                            .Location = reader("areaID").ToString(),
                            .Experience = Convert.ToInt32(reader("rating")),
                            .count = Convert.ToInt32(reader("count"))
@@ -74,6 +72,7 @@ Public Class Display_Services
                         ' Add the service provider to the list
                         serviceProviders.Add(serviceProvider)
                     End While
+
 
                 End Using
             End Using
@@ -244,19 +243,36 @@ Public Class Display_Services
     End Sub
 
     ' Method to update services based on search criteria
-    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Integer, maxRating As Integer, locationCriteria As String, selectedServiceTypes As List(Of String))
+    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Decimal, maxRating As Decimal, locationCriteria As String, selectedServiceTypes As List(Of String))
         ' Clear existing controls from the form
         Me.Controls.Clear()
 
         ' Convert min and max cost criteria to integers
-        Dim minCost As Integer
-        Dim maxCost As Integer
-        Integer.TryParse(minCostCriteria, minCost)
-        Integer.TryParse(maxCostCriteria, maxCost)
+        Dim minCost As Decimal
+        Dim maxCost As Decimal
+
+        ' Attempt to parse minCostCriteria
+        If String.IsNullOrEmpty(minCostCriteria) Then
+            minCost = 0D ' Default value
+        ElseIf Decimal.TryParse(minCostCriteria, minCost) Then
+            ' Parsing successful
+        Else
+            minCost = 0D ' Default value
+        End If
+
+        ' Attempt to parse maxCostCriteria
+        If String.IsNullOrEmpty(maxCostCriteria) Then
+            maxCost = Decimal.MaxValue ' Default value to represent maximum possible decimal value
+        ElseIf Decimal.TryParse(maxCostCriteria, maxCost) Then
+            ' Parsing successful
+        Else
+            maxCost = Decimal.MaxValue ' Default value to represent maximum possible decimal value
+        End If
+
 
         ' Convert min and max rating criteria to integers
-        Dim minRatingValue As Integer = Math.Max(0, Math.Min(5, minRating))
-        Dim maxRatingValue As Integer = Math.Max(0, Math.Min(5, maxRating))
+        Dim minRatingValue As Decimal = minRating
+        Dim maxRatingValue As Decimal = 5.0
 
         ' Print filter inputs for debugging
         MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
@@ -277,12 +293,15 @@ Public Class Display_Services
         provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
         provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
         provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
-        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) >= minCost) AndAlso
-        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) <= maxCost) AndAlso
+        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse
+        Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
+        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
+        Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
         (provider.Ratings >= minRatingValue AndAlso provider.Ratings <= maxRatingValue) AndAlso
         (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
         (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
     ).ToList()
+
 
         ' Check if there are any results
         If filteredProviders.Count = 0 Then
