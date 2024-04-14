@@ -125,12 +125,28 @@
 
         ' Add the retrieved locations to the ComboBox
         For Each Location As Tuple(Of String, String) In locations
-            ComboBox1.Items.Add(Location)
+            ComboBox1.Items.Add(New LocationItem(Location.Item1, Location.Item2))
         Next
+
 
         ' Add labels over the TrackBar
         AddTrackBarLabels()
     End Sub
+
+    Public Class LocationItem
+        Public Property AreaID As String
+        Public Property DisplayString As String
+
+        Public Sub New(ByVal areaID As String, ByVal displayString As String)
+            Me.AreaID = areaID
+            Me.DisplayString = displayString
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return DisplayString
+        End Function
+    End Class
+
 
     Private Function GetDistinctLocationsFromDB() As List(Of Tuple(Of String, String))
         Dim distinctLocations As New List(Of Tuple(Of String, String))()
@@ -262,20 +278,16 @@
         Dim searchCriteria As String = searchBox.Text
         Dim minCostCriteria As String = MinCostBox.Text
         Dim maxCostCriteria As String = MaxCostBox.Text
+        Dim locationCriteria As String = ""
 
-        ' Check if any item is selected in the ComboBox
-        If ComboBox1.SelectedIndex <> -1 Then
-            ' Get the selected item from the ComboBox
-            Dim selectedLocation As Tuple(Of String, String) = DirectCast(ComboBox1.SelectedItem, Tuple(Of String, String))
-            ' Extract the serviceTypeID from the tuple
-            Dim locationCriteria As String = selectedLocation.Item1
-
-            ' Call the method to update services based on search criteria and rating filter
-            UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, locationCriteria)
-        Else
-            ' If no location is selected, pass an empty string or handle accordingly
-            UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, "")
+        If ComboBox1.SelectedItem IsNot Nothing Then
+            ' Get the selected location criteria
+            Dim selectedLocation As LocationItem = DirectCast(ComboBox1.SelectedItem, LocationItem)
+            locationCriteria = selectedLocation.AreaID
         End If
+
+        ' Call the method to update services based on search criteria and rating filter
+        UpdateServices(searchCriteria, minCostCriteria, maxCostCriteria, locationCriteria)
     End Sub
 
     ' Method to update services in Panel2 based on search criteria and rating filter

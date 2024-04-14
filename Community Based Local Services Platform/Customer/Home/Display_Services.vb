@@ -243,25 +243,35 @@ Public Class Display_Services
         Integer.TryParse(minCostCriteria, minCost)
         Integer.TryParse(maxCostCriteria, maxCost)
 
-        ' Check if the search criteria is empty
-        ' If String.IsNullOrWhiteSpace(searchCriteria) Then
-        ' Load the default view
-        ' DisplayDefault()
-        ' Show a "No results" popup
-        ' MessageBox.Show("Please enter a search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        ' Else
+        ' Convert min and max rating criteria to integers
+        Dim minRatingValue As Integer = Math.Max(0, Math.Min(5, minRating))
+        Dim maxRatingValue As Integer = Math.Max(0, Math.Min(5, maxRating))
+
+        ' Print filter inputs for debugging
+        MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
+                    "Minimum Cost Criteria: " & minCostCriteria & vbCrLf &
+                    "Maximum Cost Criteria: " & maxCostCriteria & vbCrLf &
+                    "Minimum Rating Criteria: " & minRating & vbCrLf &
+                    "Maximum Rating Criteria: " & maxRating & vbCrLf &
+                    "Location Criteria: " & locationCriteria & vbCrLf &
+                    "Selected Service Types: " & String.Join(", ", selectedServiceTypes),
+                    "Filter Inputs",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information)
+
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
         Dim filteredProviders = serviceProviders.Where(Function(provider) _
-        (provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
+        (String.IsNullOrWhiteSpace(searchCriteria) OrElse
+        provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
         provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
         provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
         provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
         (String.IsNullOrWhiteSpace(minCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) >= minCost) AndAlso
         (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse Integer.TryParse(provider.Price, Nothing) AndAlso Integer.Parse(provider.Price) <= maxCost) AndAlso
-        provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating AndAlso
+        (provider.Ratings >= minRatingValue AndAlso provider.Ratings <= maxRatingValue) AndAlso
         (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
         (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
-        ).ToList()
+    ).ToList()
 
         ' Check if there are any results
         If filteredProviders.Count = 0 Then
@@ -271,10 +281,11 @@ Public Class Display_Services
             MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             ' Display the filtered service providers
-            DisplaySearchResults(filteredProviders, minRating, maxRating)
+            DisplaySearchResults(filteredProviders, minRatingValue, maxRatingValue)
         End If
-        ' End If
     End Sub
+
+
 
     ' Method to display search results
     Private Sub DisplaySearchResults(providers As List(Of ServiceProvider), minRating As Integer, maxRating As Integer)
