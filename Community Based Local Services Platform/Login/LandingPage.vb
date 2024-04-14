@@ -41,7 +41,7 @@
         AdminButton.FlatAppearance.BorderSize = 0
         AdminButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
 
-        PictureBox1.Size = New Size(180, 180)
+        PictureBox1.Size = New Size(200, 200)
         PictureBox1.Location = New Point(200, 200)
         PictureBox1.BackColor = ColorTranslator.FromHtml("#0F2A37")
 

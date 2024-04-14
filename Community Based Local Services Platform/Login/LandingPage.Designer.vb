@@ -22,6 +22,7 @@ Partial Class LandingPage
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(LandingPage))
         PictureBox1 = New PictureBox()
         Label7 = New Label()
         CustomerButton = New Button()
@@ -34,7 +35,7 @@ Partial Class LandingPage
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.BackgroundImage = My.Resources.Resource1.image_removebg_preview_2
+        PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), Image)
         PictureBox1.BackgroundImageLayout = ImageLayout.Stretch
         PictureBox1.Location = New Point(192, 127)
         PictureBox1.Margin = New Padding(3, 4, 3, 4)

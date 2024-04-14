@@ -1,9 +1,15 @@
 ﻿Public Class Homepage_Admin
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
-        If SessionManager.Panel3.Controls.Count > 0 Then
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+        If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
-            SessionManager.Panel3.Controls.Clear()
+            Panel3.Controls.Clear()
         End If
     End Sub
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked

@@ -162,6 +162,13 @@ Public Class Navbar_SP
     End Sub
     Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
@@ -261,6 +268,7 @@ Public Class Navbar_SP
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
         ' here you have add the logic of reverting the state of shared variable for cureent user to null
         ' Whoever is doing the bankend part will do this part.
+        RemovePreviousForm()
 
         Me.Hide()
 

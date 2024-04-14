@@ -321,7 +321,7 @@ Public Class Navbar_Customer
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
         ' here you have add the logic of reverting the state of shared variable for cureent user to null
         ' Whoever is doing the bankend part will do this part.
-
+        RemovePreviousForm()
         Me.Hide()
 
         Dim form As New LandingPage()
@@ -337,6 +337,13 @@ Public Class Navbar_Customer
     ' Method to handle navigation to SP_profile form
     Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
+        For Each ctrl As Control In SessionManager.Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If SessionManager.Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             SessionManager.Panel3.Controls.Clear()
