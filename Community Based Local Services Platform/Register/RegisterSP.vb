@@ -542,20 +542,19 @@ Public Class RegisterSP
                 ' Insert into workHours table (if required)
 
 
-                Dim insertWorkHoursCommandText As String = "INSERT INTO workHours (serviceProviderID, dayOfWeek, startTime, endTime) VALUES (@serviceProviderID, @dayOfWeek, @startTime, @endTime)"
+                Dim insertWorkHoursCommandText As String = "INSERT INTO workHours (serviceProviderID, startTime, endTime) VALUES (@serviceProviderID, @startTime, @endTime)"
 
 
                 ' Insert work hours for all days of the week
-                Dim daysOfWeek() As String = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
-                For Each day As String In daysOfWeek
-                    Using insertWorkHoursCommand As New MySqlCommand(insertWorkHoursCommandText, connection)
-                        insertWorkHoursCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderId)
-                        insertWorkHoursCommand.Parameters.AddWithValue("@dayOfWeek", day)
-                        insertWorkHoursCommand.Parameters.AddWithValue("@startTime", startingTime)
-                        insertWorkHoursCommand.Parameters.AddWithValue("@endTime", closingTime)
-                        insertWorkHoursCommand.ExecuteNonQuery()
-                    End Using
-                Next
+
+
+                Using insertWorkHoursCommand As New MySqlCommand(insertWorkHoursCommandText, connection)
+                    insertWorkHoursCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderId)
+                    insertWorkHoursCommand.Parameters.AddWithValue("@startTime", startingTime)
+                    insertWorkHoursCommand.Parameters.AddWithValue("@endTime", closingTime)
+                    insertWorkHoursCommand.ExecuteNonQuery()
+                End Using
+
 
 
 
