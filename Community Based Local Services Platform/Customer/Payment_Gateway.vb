@@ -6,6 +6,43 @@ Public Class Payment_Gateway
     Dim C_Card_button As New Button()
     Dim QR_button As New Button()
     Dim Panel2 As New Panel()
+    Dim Price As String
+    Dim PaymentType As Boolean
+
+
+
+    Public Sub RetrievePrice()
+        Dim checkQuery As String = "SELECT bookingAdvance
+            FROM appointments
+            WHERE appointmentID = @appointmentID"
+
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+
+            Using checkCommand As New MySqlCommand(checkQuery, connection)
+                checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+
+                Dim reader As MySqlDataReader = checkCommand.ExecuteReader()
+
+                If reader.HasRows Then
+                    ' If the query returns any record
+                    While reader.Read()
+                        Dim bookingAdvance As Decimal = reader.GetDecimal(0) ' Assuming bookingAdvance is a decimal field
+
+                        Price = bookingAdvance.ToString()
+                    End While
+                    PaymentType = 1
+                Else
+
+                End If
+
+                reader.Close() ' Close the reader when done reading
+            End Using
+
+            connection.Close()
+        End Using
+    End Sub
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
@@ -83,6 +120,7 @@ Public Class Payment_Gateway
         AddHandler C_Card_button.Click, AddressOf C_Card_button_Click
         AddHandler QR_button.Click, AddressOf QR_button_Click
         RemovePreviousForm()
+        RetrievePrice()
         LoadUPI()
     End Sub
     Private Sub UPI_button_Click(sender As Object, e As EventArgs)
@@ -110,10 +148,7 @@ Public Class Payment_Gateway
         LoadCard()
     End Sub
 
-    Private Sub Proceed_Button_Click(sender As Object, e As EventArgs)
-        Dim confirmationForm As New Confirmation()
-        confirmationForm.ShowDialog()
-    End Sub
+
 
     Private Sub C_Card_button_Click(sender As Object, e As EventArgs)
         C_Card_button.BackColor = ColorTranslator.FromHtml("#F9754B")
@@ -143,6 +178,14 @@ Public Class Payment_Gateway
     Private Sub RemovePreviousForm()
         Panel2.Controls.Clear()
     End Sub
+
+    Private Sub RemovePreviousPanel3Form()
+        ' Check if any form is already in Panel5
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
+        End If
+    End Sub
     Private Sub LoadUPI()
         Dim Amount_label As New Label()
         Amount_label.Text = "Amount"
@@ -151,7 +194,7 @@ Public Class Payment_Gateway
         Panel2.Controls.Add(Amount_label)
         Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
         Dim Amount As New Label()
-        Amount.Text = "Rs. 15000"
+        Amount.Text = Price
         Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
         Amount.Location = New Point(137, 179)
         Panel2.Controls.Add(Amount)
@@ -189,7 +232,7 @@ Public Class Payment_Gateway
         Panel2.Controls.Add(Amount_label)
         Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
         Dim Amount As New Label()
-        Amount.Text = "Rs. 15000"
+        Amount.Text = Price
         Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
         Amount.Location = New Point(137, 179)
         Panel2.Controls.Add(Amount)
@@ -270,7 +313,7 @@ Public Class Payment_Gateway
         Panel2.Controls.Add(Amount_label)
         Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
         Dim Amount As New Label()
-        Amount.Text = "Rs. 15000"
+        Amount.Text = Price
         Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
         Amount.Location = New Point(137, 179)
         Panel2.Controls.Add(Amount)
@@ -296,6 +339,40 @@ Public Class Payment_Gateway
         Proceed_Button.ForeColor = Color.White
         AddHandler Proceed_Button.Click, AddressOf Proceed_Button_Click
 
+    End Sub
+
+    Private Sub Proceed_Button_Click(sender As Object, e As EventArgs)
+        Dim confirmationMessage As String = "Rs. " & Price & " will be deducted from your bank account."
+        Dim result As DialogResult = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
+
+        If result = DialogResult.OK And PaymentType = True Then
+            Dim checkQuery As String = "UPDATE appointments SET appointmentStatus='Completed' WHERE appointmentID = @appointmentID"
+
+            Using connection As New MySqlConnection(SessionManager.connectionString)
+                connection.Open()
+
+                Using checkCommand As New MySqlCommand(checkQuery, connection)
+                    checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                    checkCommand.ExecuteNonQuery() ' Use ExecuteNonQuery for UPDATE queries
+
+                    ' After executing the query, you can show a success message or perform any other necessary actions
+                    MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Using
+
+                connection.Close()
+            End Using
+            RemovePreviousPanel3Form()
+            With AppointmentList_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(AppointmentList_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        Else
+            ' User clicked Cancel, do nothing or show a message
+            MessageBox.Show("Payment cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
 
 End Class
