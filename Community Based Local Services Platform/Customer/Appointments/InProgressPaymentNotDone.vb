@@ -89,7 +89,7 @@ Public Class InProgressPaymentNotDone
         RemovePreviousForm()
 
         Dim str As String = "Reschedule"
-        Dim appointmentBookingForm As New Appointment_booking(str)
+        Dim appointmentBookingForm As New Appointment_booking(str, serviceID:="") ' need to get serviceID in this form
 
         With appointmentBookingForm
             .TopLevel = False
