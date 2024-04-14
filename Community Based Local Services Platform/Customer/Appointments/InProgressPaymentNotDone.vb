@@ -22,7 +22,7 @@ Public Class InProgressPaymentNotDone
                     OTP_box.Text = existingOTP
                 Else
                     Dim random As New Random()
-                    Dim newOTP As Integer = random.Next(100000, 999999)
+                    Dim newOTP As Integer = random.Next(1000, 9999)
 
                     Using insertCommand As New MySqlCommand(insertQuery, connection)
                         insertCommand.Parameters.AddWithValue("@appointmentID", appointmentID)
@@ -130,7 +130,7 @@ Public Class InProgressPaymentNotDone
 
     Private Sub UpdateAppointment()
         Dim updateQuery As String = "UPDATE appointments " &
-                            "SET appointmentStatus = 'Cancelled' " &
+                            "SET appointmentStatus = 'Canceled' " &
                             "WHERE appointmentID = @appointmentID"
 
         ' Create a new connection object
