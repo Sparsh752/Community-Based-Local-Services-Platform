@@ -306,7 +306,7 @@ Public Class SP_profile
         RemovePreviousForm()
 
         Dim str As String = "Proceed to Pay"
-        Dim appointmentBookingForm As New Appointment_booking(str)
+        Dim appointmentBookingForm As New Appointment_booking(str, serviceserviceID)
 
         With appointmentBookingForm
             .TopLevel = False

@@ -7,6 +7,7 @@ Public Class Display_Services
         Public Property Name As String
         Public Property Description As String
         Public Property Price As String
+        Public Property ServiceID As String
         Public Property ServiceTypeID As String
         Public Property ServiceName As String
         Public Property ServiceDescription As String
@@ -33,7 +34,7 @@ Public Class Display_Services
 
         currentIndexMostTrusted = 0
         currentIndexPopular = 0
-        Dim query As String = "SELECT s.serviceProviderID, s.serviceProviderName, s.ServiceProviderdescription, se.serviceDescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
+        Dim query As String = "SELECT s.serviceProviderID, s.serviceProviderName, s.ServiceProviderdescription, se.serviceDescription, s.rating, se.serviceID, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
                       "FROM serviceproviders AS s " &
                       "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
                       "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
@@ -61,6 +62,7 @@ Public Class Display_Services
                            .Name = reader("serviceProviderName").ToString(),
                            .Description = reader("ServiceProviderdescription").ToString(),
                            .Ratings = Convert.ToInt32(reader("rating")),
+                           .ServiceID = reader("serviceID").ToString(),
                            .ServiceName = reader("serviceName").ToString(),
                            .ServiceDescription = reader("serviceDescription").ToString(),
                            .ServiceTypeID = reader("serviceTypeID").ToString(),
@@ -369,7 +371,7 @@ Public Class Display_Services
             bookNowBtn.ForeColor = Color.White
             bookNowBtn.FlatStyle = FlatStyle.Flat
             bookNowBtn.FlatAppearance.BorderSize = 0
-            AddHandler bookNowBtn.Click, AddressOf BookNowButton_Click
+            AddHandler bookNowBtn.Click, Sub(s, ev) BookNowButton_Click(s, ev, provider.ServiceID)
             resultPanel.Controls.Add(bookNowBtn)
 
             Me.Controls.Add(resultPanel)
@@ -384,11 +386,11 @@ Public Class Display_Services
         End If
     End Sub
 
-    Private Sub BookNowButton_Click(sender As Object, e As EventArgs)
+    Private Sub BookNowButton_Click(sender As Object, e As EventArgs, serviceID As String)
         RemovePreviousForm()
 
         Dim str As String = "Proceed to Pay"
-        Dim appointmentBookingForm As New Appointment_booking(str)
+        Dim appointmentBookingForm As New Appointment_booking(str, serviceID)
 
         With appointmentBookingForm
             .TopLevel = False
