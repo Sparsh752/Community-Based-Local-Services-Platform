@@ -151,6 +151,7 @@ Public Class Homepage_SP
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         serviceProviderID = SessionManager.spID
+
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)

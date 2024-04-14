@@ -34,7 +34,7 @@ Public Class AppointmentList_SP
     Private Sub AppointmentList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'MessageBox.Show("Load")
 
-        SessionManager.spID = SessionManager.userID
+        'SessionManager.spID = SessionManager.userID
 
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
