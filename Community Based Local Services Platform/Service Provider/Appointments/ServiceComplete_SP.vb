@@ -8,6 +8,8 @@
     Private ServiceLocation As String
     Private appointmentID As String
     Private spID As String
+
+    Private chatPanel As New Panel()
     Private Sub ServiceComplete_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Dim query As String = "SELECT 
@@ -124,7 +126,6 @@
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle
@@ -219,6 +220,15 @@
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
 
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+
+        Me.Close()
+
         With AppointmentList_SP
             .TopLevel = False
             .Dock = DockStyle.Fill
@@ -260,21 +270,32 @@
         'OTP match - assumption money is tranferred to service provider
 
         If enteredOTP = otpTuple.otp Then
-                MessageBox.Show("OTP entered is correct!")
-                DeleteOtpAfterCompletion()
-                RemovePreviousForm()
-                With TransactionComplete_SP
-                    .TopLevel = False
-                    .Dock = DockStyle.Fill
-                    Panel3.Controls.Add(TransactionComplete_SP)
-                    .BringToFront()
-                    .Show()
-                End With
-            Else
-                MessageBox.Show("OTP entered is incorrect.")
-            End If
+            MessageBox.Show("OTP entered is correct!")
+            DeleteOtpAfterCompletion()
+            RemovePreviousForm()
+
+            For Each ctrl As Control In chatPanel.Controls
+                If TypeOf ctrl Is Form Then
+                    Dim formCtrl As Form = DirectCast(ctrl, Form)
+                    formCtrl.Close()
+                End If
+            Next
+
+            Me.Close()
+
+            With TransactionComplete_SP
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(TransactionComplete_SP)
+                .BringToFront()
+                .Show()
+            End With
+        Else
+            MessageBox.Show("OTP entered is incorrect.")
+        End If
 
         'End If
 
     End Sub
+
 End Class
