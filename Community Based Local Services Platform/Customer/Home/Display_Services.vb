@@ -58,6 +58,7 @@ Public Class Display_Services
                     ' Read data from the reader
                     While reader.Read()
                         Dim serviceProvider As New ServiceProvider() With {
+                           .ID = reader("serviceProviderID").ToString(),
                            .Name = reader("serviceProviderName").ToString(),
                            .Description = reader("ServiceProviderdescription").ToString(),
                            .Ratings = Convert.ToDecimal(reader("rating")),
