@@ -22,38 +22,14 @@ Partial Class Reply_Query
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-
-
-
         TextBox1 = New TextBox()
         Button3 = New Button()
         Button2 = New Button()
-        Button1 = New Button()
         Label5 = New Label()
         Label4 = New Label()
-        Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
-        Me.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' Panel1
-        ' 
-        Me.BackColor = Color.White
-        Me.Controls.Add(TextBox1)
-        Me.Controls.Add(Button3)
-        Me.Controls.Add(Button2)
-        Me.Controls.Add(Button1)
-        Me.Controls.Add(Label5)
-        Me.Controls.Add(Label4)
-        Me.Controls.Add(Label3)
-        Me.Controls.Add(Label2)
-        Me.Controls.Add(Label1)
-        Me.Location = New Point(0, 0)
-        Me.Margin = New Padding(3, 4, 3, 4)
-        Me.Name = "Panel1"
-        Me.Size = New Size(791, 587)
-        Me.TabIndex = 0
         ' 
         ' TextBox1
         ' 
@@ -89,18 +65,6 @@ Partial Class Reply_Query
         Button2.Text = "Resolve"
         Button2.UseVisualStyleBackColor = False
         ' 
-        ' Button1
-        ' 
-        Button1.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-        Button1.ForeColor = Color.White
-        Button1.Location = New Point(657, 232)
-        Button1.Margin = New Padding(3, 4, 3, 4)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(99, 51)
-        Button1.TabIndex = 5
-        Button1.Text = "Reply"
-        Button1.UseVisualStyleBackColor = False
-        ' 
         ' Label5
         ' 
         Label5.AutoSize = True
@@ -121,16 +85,6 @@ Partial Class Reply_Query
         Label4.TabIndex = 3
         Label4.Text = "10:40 am          Today"
         ' 
-        ' Label3
-        ' 
-        Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 9.75F)
-        Label3.Location = New Point(39, 137)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(203, 23)
-        Label3.TabIndex = 2
-        Label3.Text = "Lorem Ipsum descripition"
-        ' 
         ' Label2
         ' 
         Label2.AutoSize = True
@@ -144,35 +98,37 @@ Partial Class Reply_Query
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Microsoft Sans Serif", 18.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.Location = New Point(39, 60)
         Label1.Name = "Label1"
         Label1.Size = New Size(653, 36)
         Label1.TabIndex = 0
         Label1.Text = "Provided service but did not recived payment"
         ' 
-        ' Form1
+        ' Reply_Query
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.White
+        ClientSize = New Size(786, 551)
+        Controls.Add(TextBox1)
+        Controls.Add(Button3)
+        Controls.Add(Button2)
+        Controls.Add(Label5)
+        Controls.Add(Label4)
+        Controls.Add(Label2)
+        Controls.Add(Label1)
         Margin = New Padding(3, 4, 3, 4)
-        Name = "Form1"
+        Name = "Reply_Query"
         Text = "Form1"
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
         ResumeLayout(False)
-        Me.CenterToParent()
-        Me.WindowState = FormWindowState.Normal
-        Me.Size = New Size(713, 480)
+        PerformLayout()
     End Sub
-
-    Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button3 As Button
     Friend WithEvents Button2 As Button
-    Friend WithEvents Button1 As Button
     Friend WithEvents Label5 As Label
     Friend WithEvents Label4 As Label
 
