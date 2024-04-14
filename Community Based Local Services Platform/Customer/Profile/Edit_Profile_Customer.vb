@@ -1,5 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.IO
+Imports iTextSharp.text.pdf.parser
 
 Public Class Edit_Profile_Customer
 
@@ -269,14 +270,14 @@ Public Class Edit_Profile_Customer
 
 
         RemovePreviousForm()
-        Profile_Customer.Margin = New Padding(0, 0, 0, 0)
-        With Profile_Customer
+        Dim profileCustomerForm As New Profile_Customer()
+
+        With profileCustomerForm
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(Profile_Customer)
+            Panel3.Controls.Add(profileCustomerForm)
             .BringToFront()
             .Show()
-
         End With
 
     End Sub
