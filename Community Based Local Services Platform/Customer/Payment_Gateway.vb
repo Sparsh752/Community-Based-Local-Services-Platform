@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Mysqlx
 
 Public Class Payment_Gateway
     Dim UPI_button As New Button()
@@ -16,7 +17,6 @@ Public Class Payment_Gateway
             FROM appointments
             WHERE appointmentID = @appointmentID"
 
-
         Using connection As New MySqlConnection(SessionManager.connectionString)
             connection.Open()
 
@@ -33,8 +33,6 @@ Public Class Payment_Gateway
                         Price = bookingAdvance.ToString()
                     End While
                     PaymentType = 1
-                Else
-
                 End If
 
                 reader.Close() ' Close the reader when done reading
@@ -42,6 +40,36 @@ Public Class Payment_Gateway
 
             connection.Close()
         End Using
+
+        If Not PaymentType Then
+            checkQuery = "SELECT s.price
+                FROM services as s
+                WHERE s.serviceID = @serviceID"
+
+            Using connection As New MySqlConnection(SessionManager.connectionString)
+                connection.Open()
+
+                Using checkCommand As New MySqlCommand(checkQuery, connection)
+                    checkCommand.Parameters.AddWithValue("@serviceID", SessionManager.serviceID)
+
+                    Dim reader As MySqlDataReader = checkCommand.ExecuteReader()
+
+                    If reader.HasRows Then
+                        ' If the query returns any record
+                        While reader.Read()
+                            Dim bookingAdvance As Decimal = reader.GetDecimal(0) ' Assuming bookingAdvance is a decimal field
+                            bookingAdvance /= 2
+                            Price = bookingAdvance.ToString()
+                        End While
+                        PaymentType = False
+                    End If
+
+                    reader.Close() ' Close the reader when done reading
+                End Using
+
+                connection.Close()
+            End Using
+        End If
     End Sub
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
@@ -119,6 +147,7 @@ Public Class Payment_Gateway
         AddHandler D_Card_button.Click, AddressOf D_Card_button_Click
         AddHandler C_Card_button.Click, AddressOf C_Card_button_Click
         AddHandler QR_button.Click, AddressOf QR_button_Click
+        PaymentType = False
         RemovePreviousForm()
         RetrievePrice()
         LoadUPI()
@@ -361,6 +390,48 @@ Public Class Payment_Gateway
 
                 connection.Close()
             End Using
+            RemovePreviousPanel3Form()
+            With AppointmentList_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(AppointmentList_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        ElseIf result = DialogResult.OK And PaymentType = False Then
+
+            ' inserting into appointment table
+            Dim countQuery As String = "SELECT COUNT(*) FROM appointments"
+            Dim checkQuery As String = "Insert into appointments values (@appointmentID, @serviceProviderID, @customerID, areaTimeSlotID, @bookingAdvance, @serviceID, 'Scheduled'"
+
+
+
+            Using connection As New MySqlConnection(SessionManager.connectionString)
+                connection.Open()
+
+                Using countCommand As New MySqlCommand(countQuery, connection)
+                    Dim count As Integer = Convert.ToInt32(countCommand.ExecuteScalar())
+
+                    ' Add 1 to the count and store it in SessionManager.appointmentID
+                    SessionManager.appointmentID = count + 1
+                End Using
+
+                Using checkCommand As New MySqlCommand(checkQuery, connection)
+                    checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                    checkCommand.Parameters.AddWithValue("@serviceProviderID", SessionManager.spID)
+                    checkCommand.Parameters.AddWithValue("@customerID", SessionManager.customerID)
+                    checkCommand.Parameters.AddWithValue("@areaTimeSlotID", SessionManager.appointmentID)
+                    checkCommand.Parameters.AddWithValue("@bookingAdvance", Price)
+                    checkCommand.Parameters.AddWithValue("@serviceID", SessionManager.serviceID)
+                    checkCommand.ExecuteNonQuery() ' Use ExecuteNonQuery for Insert queries
+
+                    ' After executing the query, you can show a success message or perform any other necessary actions
+                    MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End Using
+
+                connection.Close()
+            End Using
+
             RemovePreviousPanel3Form()
             With AppointmentList_Customer
                 .TopLevel = False
