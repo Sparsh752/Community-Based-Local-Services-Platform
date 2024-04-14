@@ -109,6 +109,10 @@ Public Class Display_Services
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
             Me.Controls.Add(pb)
+            ' Set the Tag property of the picturebox to store the provider details
+            pb.Tag = sortedProviders(i - 1)
+            ' Attach event handler for the picturebox click
+            AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
             pbMostTrusted.Add(pb)
 
             Dim lblProvider As New Label()
@@ -116,7 +120,6 @@ Public Class Display_Services
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
             lblProvider.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 320)
             lblProvider.Text = sortedProviders(i - 1).Name
-
             Me.Controls.Add(lblProvider)
             lblMostTrustedServiceName.Add(lblProvider)
 
@@ -150,6 +153,10 @@ Public Class Display_Services
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
             pb.Image = Image.FromFile(imagePath)
             Me.Controls.Add(pb)
+            ' Set the Tag property of the picturebox to store the provider details
+            pb.Tag = sortedProviders_popular(i - 1)
+            ' Attach event handler for the button click
+            AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
             pbPopular.Add(pb)
 
             Dim lblProvider As New Label()

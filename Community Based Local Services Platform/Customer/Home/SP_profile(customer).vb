@@ -12,7 +12,7 @@ Public Class SP_profile
         Label1.Text = provider.Name
         Label2.Text = provider.Location
         Label3.Text = "Available from : " & provider.Price   ' yash change this once the db team adds the endtime to serviceAreaTimeslots table
-        Label4.Text = provider.Experience & " years of experience"
+        Label4.Text = provider.Experience & " years"
         Me.serviceProviderID = provider.ID
     End Sub
 
