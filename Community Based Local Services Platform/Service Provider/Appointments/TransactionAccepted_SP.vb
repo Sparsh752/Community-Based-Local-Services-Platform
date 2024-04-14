@@ -48,8 +48,8 @@
             ' Create a new command object with the query and connection
             Using command As New MySqlCommand(query, connection)
                 ' Set the parameter value for appointmentID
-                command.Parameters.AddWithValue("@appointmentID", 1) ' Replace YourAppointmentID with the actual appointment ID you want to retrieve details for
-                command.Parameters.AddWithValue("@spID", 1) ' Replace spID with the actual SP ID you want to retrieve details for
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID) ' Replace YourAppointmentID with the actual appointment ID you want to retrieve details for
+                command.Parameters.AddWithValue("@spID", SessionManager.spID) ' Replace spID with the actual SP ID you want to retrieve details for
                 ' Execute the command and get the data reader
                 Using reader As MySqlDataReader = command.ExecuteReader()
                     ' Read the data

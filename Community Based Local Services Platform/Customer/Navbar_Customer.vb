@@ -1,4 +1,6 @@
 ﻿Imports Community_Based_Local_Services_Platform.Display_Services
+Imports System.IO
+Imports System.Runtime.InteropServices
 
 Public Class Navbar_Customer
 
@@ -14,6 +16,24 @@ Public Class Navbar_Customer
     ' Method to highlight the active button
     Public Panel3 As New Panel()
     Public line As New Panel()
+    Public NotificationButton As New Button()
+    Public notificationForm As New Notification()
+    ' Import user32.dll for smooth scrolling
+    <DllImport("user32.dll")>
+    Public Shared Function AnimateWindow(hWnd As IntPtr, time As Integer, flags As AnimateWindowFlags) As Boolean
+    End Function
+
+    Public Enum AnimateWindowFlags As Integer
+        AW_HOR_POSITIVE = &H1
+        AW_HOR_NEGATIVE = &H2
+        AW_VER_POSITIVE = &H4
+        AW_VER_NEGATIVE = &H8
+        AW_CENTER = &H10
+        AW_HIDE = &H10000
+        AW_ACTIVATE = &H20000
+        AW_SLIDE = &H40000
+        AW_BLEND = &H80000
+    End Enum
 
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -30,7 +50,7 @@ Public Class Navbar_Customer
         Me.Size = New Size(1200, 700)
 
 
-        Dim NotificationButton As New Button()
+
         NotificationButton.Size() = New Size(52, 30)
         NotificationButton.BackColor = ColorTranslator.FromHtml("#0F2A37")
         NotificationButton.Location = New Point(49, 18)
@@ -44,7 +64,7 @@ Public Class Navbar_Customer
         NotificationButton.AutoSize = True
 
         Panel1.Controls.Add(NotificationButton)
-
+        AddHandler NotificationButton.Click, AddressOf NotificationButton_Click
 
         Dim NotificationIcon As New PictureBox With {
             .BackgroundImage = My.Resources.Resource1.notification_icon,
@@ -151,6 +171,40 @@ Public Class Navbar_Customer
             .Show()
         End With
     End Sub
+
+
+    Public isNotificationFormOpen As Boolean = False
+    Private Sub NotificationButton_Click(sender As Object, e As EventArgs)
+
+        If Not isNotificationFormOpen Then
+
+            notificationForm = New Notification()
+            ' Set the location of the Notification form to be just below the NotificationButton
+            Dim xPosition As Integer = Me.Location.X + 49
+            Dim yPosition As Integer = Me.Location.Y + 78
+
+            notificationForm.StartPosition = FormStartPosition.Manual
+            notificationForm.Location = New Point(xPosition, yPosition)
+
+            ' Adjust the position of the CustomerForm to simulate scrolling
+            'Dim formStartPosition As Point = Me.Location
+            'Dim formEndPosition As Point = New Point(Me.Location.X, Me.Location.Y + NotificationButton.Location.Y + NotificationButton.Height)
+
+            ' Show the Notification form with smooth scrolling effect
+            AnimateWindow(notificationForm.Handle, 500, AnimateWindowFlags.AW_VER_POSITIVE Or AnimateWindowFlags.AW_SLIDE)
+            notificationForm.Show()
+
+            isNotificationFormOpen = True
+        Else
+            ' Reverse the scrolling animation to close the form
+
+            ' Close the Notification form with smooth scrolling effect
+            AnimateWindow(notificationForm.Handle, 500, AnimateWindowFlags.AW_VER_NEGATIVE Or AnimateWindowFlags.AW_SLIDE Or AnimateWindowFlags.AW_HIDE)
+            notificationForm.Close()
+            notificationForm.Dispose()
+            isNotificationFormOpen = False
+        End If
+    End Sub
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         line.Size = New Size(52, 2)
@@ -185,51 +239,66 @@ Public Class Navbar_Customer
         'SetActiveForm(Profile)
         line.Size = New Size(60, 2)
         line.Location = New Point(825, 47)
+
+        'retrieve data
+
+        ' Dim loadQuery As String = "SELECT email, location, mobileNumber,address FROM ContactDetails WHERE BINARY userID='" & SessionManager.userID & "'"
+        Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName, U.userPhoto " &
+                          "FROM contactDetails CD " &
+                          "JOIN users U ON CD.userID = U.userID " &
+                          "WHERE BINARY CD.userID='" & SessionManager.userID & "'"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(loadQuery, connection)
+                Try
+                    connection.Open()
+                    Dim reader As MySqlDataReader = command.ExecuteReader()
+
+                    If reader.Read() Then
+
+                        Dim cus_email As String = reader("email").ToString()
+                        Dim cus_location As String = reader("location").ToString()
+                        Dim cus_mobile As String = reader("mobileNumber").ToString()
+                        Dim cus_address As String = reader("address").ToString()
+                        Dim cus_username As String = reader("userName").ToString()
+
+
+
+                        ' Set the retrieved values to the corresponding textboxes
+                        Profile_Customer.email_tb.Text = cus_email
+                        Profile_Customer.location_tb.Text = cus_location
+                        Profile_Customer.contact_tb.Text = cus_mobile
+                        Profile_Customer.address_tb.Text = cus_address
+                        Profile_Customer.customerName_tb.Text = cus_username
+
+                        ' Retrieve the user photo byte array from the database
+                        If Not reader.IsDBNull(reader.GetOrdinal("userPhoto")) Then
+                            Dim userPhoto As Byte() = DirectCast(reader("userPhoto"), Byte())
+
+                            ' Check if user photo is not null
+                            If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                                ' Convert byte array to image and display it in the picture box
+                                Using ms As New MemoryStream(userPhoto)
+                                    Profile_Customer.customerProfilePicture.SizeMode = PictureBoxSizeMode.StretchImage
+                                    Profile_Customer.customerProfilePicture.Image = Image.FromStream(ms)
+                                End Using
+                            Else
+                                ' If user photo is null, set a default image or display a placeholder
+                                Profile_Customer.customerProfilePicture.Image = My.Resources.Resource1.displayPicture
+                            End If
+                        End If
+
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
+                End Try
+            End Using
+        End Using
+
         With Profile_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
             Panel3.Controls.Add(Profile_Customer)
-
-            'retrieve data
-
-            ' Dim loadQuery As String = "SELECT email, location, mobileNumber,address FROM ContactDetails WHERE BINARY userID='" & SessionManager.userID & "'"
-            Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName " &
-                          "FROM ContactDetails CD " &
-                          "JOIN Users U ON CD.userID = U.userID " &
-                          "WHERE BINARY CD.userID='" & SessionManager.userID & "'"
-
-            Using connection As New MySqlConnection(SessionManager.connectionString)
-                Using command As New MySqlCommand(loadQuery, connection)
-                    Try
-                        connection.Open()
-                        Dim reader As MySqlDataReader = command.ExecuteReader()
-
-                        If reader.Read() Then
-
-                            Dim cus_email As String = reader("email").ToString()
-                            Dim cus_location As String = reader("location").ToString()
-                            Dim cus_mobile As String = reader("mobileNumber").ToString()
-                            Dim cus_address As String = reader("address").ToString()
-                            Dim cus_username As String = reader("userName").ToString()
-
-
-
-                            ' Set the retrieved values to the corresponding textboxes
-                            Profile_Customer.email_tb.Text = cus_email
-                            Profile_Customer.location_tb.Text = cus_location
-                            Profile_Customer.contact_tb.Text = cus_mobile
-                            Profile_Customer.address_tb.Text = cus_address
-                            Profile_Customer.customerName_tb.Text = cus_username
-
-                        End If
-                    Catch ex As Exception
-                        MessageBox.Show("Error: " & ex.Message)
-                    End Try
-                End Using
-            End Using
-
-
-
             .BringToFront()
             .Show()
         End With

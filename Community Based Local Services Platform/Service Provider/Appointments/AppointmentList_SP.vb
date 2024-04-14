@@ -276,6 +276,28 @@ Public Class AppointmentList_SP
         End If
     End Sub
 
+    Private Function CheckIfOtpPresent() As Integer
+        Dim query As String = "SELECT COUNT(*) AS count_appointments
+            FROM OTPs
+            WHERE appointmentID = @appointmentID;"
+
+        Dim count As Integer = 0
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+            Using command As New MySqlCommand(query, connection)
+
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                count = Convert.ToInt32(command.ExecuteScalar())
+                MessageBox.Show("Count = " & count)
+            End Using
+            connection.Close()
+        End Using
+
+        Return count
+
+    End Function
+
     ' Event handler for view button click
     Private Sub ViewButton_Click(ByVal sender As Object, ByVal e As EventArgs)
         Dim button As Button = DirectCast(sender, Button)
@@ -316,14 +338,29 @@ Public Class AppointmentList_SP
                 .Show()
             End With
         ElseIf (status = "Completed") Then
-            With ServiceComplete_SP
-                .TopLevel = False
-                .Dock = DockStyle.Fill
-                Panel3.Controls.Add(ServiceComplete_SP)
-                .BringToFront()
-                .Show()
-            End With
-        ElseIf (status = "Cancelled") Then
+
+            Dim count As Integer = CheckIfOtpPresent()
+
+            If count > 0 Then
+                With ServiceComplete_SP
+                    .TopLevel = False
+                    .Dock = DockStyle.Fill
+                    Panel3.Controls.Add(ServiceComplete_SP)
+                    .BringToFront()
+                    .Show()
+                End With
+            Else
+                With TransactionComplete_SP
+                    .TopLevel = False
+                    .Dock = DockStyle.Fill
+                    Panel3.Controls.Add(TransactionComplete_SP)
+                    .BringToFront()
+                    .Show()
+                End With
+            End If
+
+
+        ElseIf (status = "Canceled") Then
             With CanceledView_SP
                 .TopLevel = False
                 .Dock = DockStyle.Fill

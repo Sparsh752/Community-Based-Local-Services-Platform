@@ -1,7 +1,26 @@
-﻿Public Class Navbar_Admin
+﻿Imports System.Runtime.InteropServices
+Public Class Navbar_Admin
     ' Method to highlight the active button
     Public Panel3 As New Panel()
     Public line As New Panel()
+    Public NotificationButton As New Button()
+    Public notificationForm As New Notification()
+    ' Import user32.dll for smooth scrolling
+    <DllImport("user32.dll")>
+    Public Shared Function AnimateWindow(hWnd As IntPtr, time As Integer, flags As AnimateWindowFlags) As Boolean
+    End Function
+
+    Public Enum AnimateWindowFlags As Integer
+        AW_HOR_POSITIVE = &H1
+        AW_HOR_NEGATIVE = &H2
+        AW_VER_POSITIVE = &H4
+        AW_VER_NEGATIVE = &H8
+        AW_CENTER = &H10
+        AW_HIDE = &H10000
+        AW_ACTIVATE = &H20000
+        AW_SLIDE = &H40000
+        AW_BLEND = &H80000
+    End Enum
     Private Sub Navbar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         line.BackColor = ColorTranslator.FromHtml("#F9754B")
         line.Size = New Size(52, 2)
@@ -13,7 +32,7 @@
         Me.WindowState = FormWindowState.Normal
         Panel1.BackColor = ColorTranslator.FromHtml("#0F2A37")
 
-        Dim NotificationButton As New Button()
+
         NotificationButton.Size() = New Size(52, 30)
         NotificationButton.BackColor = ColorTranslator.FromHtml("#0F2A37")
         NotificationButton.Location = New Point(49, 18)
@@ -27,7 +46,7 @@
         NotificationButton.AutoSize = True
 
         Panel1.Controls.Add(NotificationButton)
-
+        AddHandler NotificationButton.Click, AddressOf NotificationButton_Click
 
         Dim NotificationIcon As New PictureBox With {
             .BackgroundImage = My.Resources.Resource1.notification_icon,
@@ -95,7 +114,38 @@
         End If
     End Sub
 
+    Public isNotificationFormOpen As Boolean = False
+    Private Sub NotificationButton_Click(sender As Object, e As EventArgs)
 
+        If Not isNotificationFormOpen Then
+
+            notificationForm = New Notification()
+            ' Set the location of the Notification form to be just below the NotificationButton
+            Dim xPosition As Integer = Me.Location.X + 49
+            Dim yPosition As Integer = Me.Location.Y + 78
+
+            notificationForm.StartPosition = FormStartPosition.Manual
+            notificationForm.Location = New Point(xPosition, yPosition)
+
+            ' Adjust the position of the CustomerForm to simulate scrolling
+            'Dim formStartPosition As Point = Me.Location
+            'Dim formEndPosition As Point = New Point(Me.Location.X, Me.Location.Y + NotificationButton.Location.Y + NotificationButton.Height)
+
+            ' Show the Notification form with smooth scrolling effect
+            AnimateWindow(notificationForm.Handle, 500, AnimateWindowFlags.AW_VER_POSITIVE Or AnimateWindowFlags.AW_SLIDE)
+            notificationForm.Show()
+
+            isNotificationFormOpen = True
+        Else
+            ' Reverse the scrolling animation to close the form
+
+            ' Close the Notification form with smooth scrolling effect
+            AnimateWindow(notificationForm.Handle, 500, AnimateWindowFlags.AW_VER_NEGATIVE Or AnimateWindowFlags.AW_SLIDE Or AnimateWindowFlags.AW_HIDE)
+            notificationForm.Close()
+            notificationForm.Dispose()
+            isNotificationFormOpen = False
+        End If
+    End Sub
 
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
