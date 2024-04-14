@@ -2,6 +2,9 @@
     Public QueryID As Integer
     Dim AppointmentID As Integer
     Dim UserID As Integer
+    Public title = ""
+    Public description = ""
+    Public status = ""
 
     Private Sub Reply_Query_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Using conn As New MySqlConnection(SessionManager.connectionString)
@@ -26,6 +29,9 @@
                 conn.Close()
             End Try
         End Using
+        title = Label1.Text
+        description = Label2.Text
+        status = "Pending"
     End Sub
 
     Private Sub Delete_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -72,14 +78,5 @@
         End Using
 
         Me.Close()
-    End Sub    Public title = ""
-    Public description = ""
-    Public status = ""
-
-
-    Private Sub Reply_Query_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Label1.Text = title
-        Label2.Text = status
-        Label3.Text = description
     End Sub
 End Class
