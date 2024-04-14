@@ -161,11 +161,47 @@ Public Class InProgressPaymentNotDone
 
     End Sub
 
+    Private Sub UpdateCancelationAmount()
+
+        Dim query =
+        "INSERT INTO cancelledAppointments (cancellationTime, refundAmount, appointmentID)
+        SELECT 
+            NOW() AS cancellationTime,
+            CASE
+                WHEN TIMESTAMPDIFF(HOUR, NOW(), CONCAT(DATE(serviceAreaTimeslots.timeslotDate), ' ', serviceAreaTimeslots.startTime)) >= 48 THEN appointments.bookingAdvance
+                WHEN TIMESTAMPDIFF(HOUR, NOW(), CONCAT(DATE(serviceAreaTimeslots.timeslotDate), ' ', serviceAreaTimeslots.startTime)) < 24 THEN 0
+                ELSE ((TIMESTAMPDIFF(HOUR, NOW(), CONCAT(DATE(serviceAreaTimeslots.timeslotDate), ' ', serviceAreaTimeslots.startTime)) - 24) / 25.0) * appointments.bookingAdvance
+            END AS refundAmount,
+            appointments.appointmentID
+        FROM 
+            appointments
+        INNER JOIN 
+            serviceAreaTimeslots ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID
+        WHERE 
+            appointments.appointmentID = @appointmentID;
+"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+
+            Using command As New MySqlCommand(query, connection)
+
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                command.ExecuteScalar()
+
+            End Using
+            connection.Close()
+        End Using
+
+    End Sub
+
+
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Dim result As DialogResult = MessageBox.Show("Are you sure you want to cancel the appointment?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If result = DialogResult.Yes Then
             UpdateAppointment()
+            UpdateCancelationAmount()
             RemovePreviousForm()
             Me.Close()
             With AppointmentList_Customer

@@ -23,10 +23,13 @@ Public Class Cancelled_By_Customer
                 services.price,
                 appointments.bookingAdvance,
                 serviceAreaTimeslots.timeslotDate,
+                cancelledAppointments.refundAmount,
                 appointments.appointmentStatus 
                 From appointments
                 Join serviceproviders
                 On appointments.serviceProviderID = serviceproviders.serviceProviderID 
+                Join cancelledAppointments
+                On appointments.appointmentID = cancelledAppointments.appointmentID
                 Join serviceAreaTimeslots
                 On appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
                 Join contactDetails
@@ -66,7 +69,7 @@ Public Class Cancelled_By_Customer
                         Dim formattedDate As String = dateObject.ToString("dd-MM-yyyy")
                         RichTextBox4.Text = formattedDate
                         RichTextBox5.Text = reader("location").ToString()
-                        RichTextBox13.Text = reader("bookingAdvance").ToString()
+                        RichTextBox13.Text = reader("refundAmount").ToString()
                     Else
                         MessageBox.Show("Appointment not found.")
                     End If
