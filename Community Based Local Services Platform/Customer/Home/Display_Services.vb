@@ -361,6 +361,22 @@ Public Class Display_Services
             costLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
             resultPanel.Controls.Add(costLabel)
 
+            ' Display ratings as stars
+            Dim ratingsLabel As New Label()
+            Dim ratingStars As String = ""
+            For i As Integer = 1 To 5
+                If i <= provider.Ratings Then
+                    ratingStars &= "★" ' Full star
+                Else
+                    ratingStars &= "☆" ' Empty star
+                End If
+            Next
+            ratingsLabel.Text = "Ratings: " & ratingStars
+            ratingsLabel.Size = New Size(280, 14)
+            ratingsLabel.Location = New Point(591, 76)
+            ratingsLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
+            resultPanel.Controls.Add(ratingsLabel)
+
             Dim descriptionLabel As New Label()
             descriptionLabel.Text = provider.Description
             descriptionLabel.Size = New Size(490, 47)
