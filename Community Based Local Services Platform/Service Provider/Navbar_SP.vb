@@ -263,6 +263,7 @@ Public Class Navbar_SP
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
         ' here you have add the logic of reverting the state of shared variable for cureent user to null
         ' Whoever is doing the bankend part will do this part.
+        RemovePreviousForm()
 
         Me.Hide()
 
