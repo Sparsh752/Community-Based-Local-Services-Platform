@@ -1,4 +1,4 @@
-﻿Imports System.Runtime.InteropServices
+
 
 Public Class Navbar_SP
 
@@ -142,14 +142,15 @@ Public Class Navbar_SP
         Panel3.BackColor = Color.Aqua
         Panel3.Padding = New Padding(0, 0, 0, 0)
 
-        RemovePreviousForm()
 
         'SetActiveForm(Homepage)
-        Homepage_SP.Margin = New Padding(0, 0, 0, 0)
-        With Homepage_SP
+        Dim homePageSP As New Homepage_SP(5)
+        RemovePreviousForm()
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_SP)
+            Panel3.Controls.Add(homePageSP)
             .BringToFront()
             .Show()
         End With
@@ -199,11 +200,12 @@ Public Class Navbar_SP
         RemovePreviousForm()
         line.Size = New Size(52, 2)
         line.Location = New Point(715, 47)
-        'SetActiveForm(Homepage)
-        With Homepage_SP
+        Dim homePageSP As New Homepage_SP(5)
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_SP)
+            Panel3.Controls.Add(homePageSP)
             .BringToFront()
             .Show()
         End With

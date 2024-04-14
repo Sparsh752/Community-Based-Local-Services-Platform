@@ -346,7 +346,7 @@ Public Class Navbar_Customer
     Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
 
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName, 5)
         spProfileForm.TopLevel = False
         spProfileForm.FormBorderStyle = FormBorderStyle.None
         spProfileForm.Dock = DockStyle.Fill
@@ -367,7 +367,7 @@ Public Class Navbar_Customer
     Public Sub PictureBox_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, PictureBox).Tag, ServiceProvider)
         ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName, 5)
         spProfileForm.TopLevel = False
         spProfileForm.FormBorderStyle = FormBorderStyle.None
         spProfileForm.Dock = DockStyle.Fill
@@ -388,7 +388,7 @@ Public Class Navbar_Customer
     Public Sub Label_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Label).Tag, ServiceProvider)
         ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName, 5)
         spProfileForm.TopLevel = False
         spProfileForm.FormBorderStyle = FormBorderStyle.None
         spProfileForm.Dock = DockStyle.Fill

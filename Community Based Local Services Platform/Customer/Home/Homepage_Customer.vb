@@ -268,7 +268,7 @@
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
 
         ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Price, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider.Name, provider.Description, provider.Price, provider.ServiceName, 4)
         spProfileForm.ShowDialog() ' Show the form as a dialog
     End Sub
 
