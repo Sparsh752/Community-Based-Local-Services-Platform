@@ -7,6 +7,7 @@ Public Class Register1
 
     Dim isStrongPassword As Boolean = False
 
+    Dim imageByte As Byte()
     Private Sub Register1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
         Me.Size = New Size(1200, 700)
@@ -104,6 +105,8 @@ Public Class Register1
             OpenFileDialogRegister.ShowDialog()
             If OpenFileDialogRegister.FileName <> "" Then
                 registerProfilePic.Image = System.Drawing.Image.FromFile(OpenFileDialogRegister.FileName)
+
+                imageByte = File.ReadAllBytes(OpenFileDialogRegister.FileName)
             End If
         Catch ex As Exception
             ' Handle any exceptions here
@@ -240,6 +243,14 @@ Public Class Register1
         isStrongPassword = True
     End Sub
 
+    Private Function PictureBoxImageToByteArray(pictureBox As PictureBox) As Byte()
+        Dim ms As New MemoryStream()
+        pictureBox.Image.Save(ms, pictureBox.Image.RawFormat) ' Save the image using its original format
+        Return ms.ToArray()
+    End Function
+
+
+
 
     Private Sub RegisterSubmitBtn_Click(sender As Object, e As EventArgs) Handles RegisterSubmitBtn.Click
         ' Check if the text in the password_Text and confirm_Text textboxes match
@@ -287,7 +298,7 @@ Public Class Register1
                 connection.Open()
                 ' Check if the email already exists
                 Dim emailExists As Boolean = False
-                Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM Users WHERE email = @email"
+                Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM users WHERE email = @email"
                 Using checkEmailCommand As New MySqlCommand(checkEmailCommandText, connection)
                     checkEmailCommand.Parameters.AddWithValue("@email", email_Text.Text)
                     Dim count As Integer = Convert.ToInt32(checkEmailCommand.ExecuteScalar())
@@ -310,51 +321,88 @@ Public Class Register1
             Dim twofa As New TwoFA()
             twofa.Show()
 
-            Return
+            'Return
         End If
 
-        Using connection As New MySqlConnection(SessionManager.connectionString)
-            'Dim transaction As MySqlTransaction = connection.BeginTransaction()
-            'transaction.Commit()
-            Try
-                connection.Open()
 
-                ' Insert into the users table
-                Dim insertUserCommandText As String = "INSERT INTO Users (userName, userType, email, password) VALUES (@usrname, @usrtype, @email, @password);"
-                Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
-                    insertUserCommand.Parameters.AddWithValue("@usrname", name_Text.Text)
-                    insertUserCommand.Parameters.AddWithValue("@usrtype", "Customer")
-                    insertUserCommand.Parameters.AddWithValue("@email", email_Text.Text)
-                    insertUserCommand.Parameters.AddWithValue("@password", password_Text.Text)
-                    insertUserCommand.ExecuteNonQuery()
-                End Using
-
-                ' Insert into the contactDetails table
-                Dim insertContactCommandText As String = "INSERT INTO ContactDetails (userID, email, address, location) VALUES (@userID, @email, @address, @location)"
-                Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
-                    insertContactCommand.Parameters.AddWithValue("@userID", userID)
-                    insertContactCommand.Parameters.AddWithValue("@email", email_Text.Text)
-                    insertContactCommand.Parameters.AddWithValue("@address", address.Text)
-                    insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString()) ' Assuming dropdownLocation is the name of your dropdown
-                    insertContactCommand.ExecuteNonQuery()
-                End Using
-
-                Dim getUserIdCommandText As String = "SELECT userID FROM Users WHERE email = @email"
-                Using getUserIdCommand As New MySqlCommand(getUserIdCommandText, connection)
-                    getUserIdCommand.Parameters.AddWithValue("@email", email_Text.Text)
-                    Dim userid = Convert.ToInt32(getUserIdCommand.ExecuteScalar())
-                    SessionManager.userID = userid
-                End Using
-
+        While Not SessionManager.mailVerified
+            Using connection As New MySqlConnection(SessionManager.connectionString)
+                'Dim transaction As MySqlTransaction = connection.BeginTransaction()
                 'transaction.Commit()
+                Try
+                    connection.Open()
 
-            Catch ex As Exception
-                'transaction.Rollback()
+                    ' Insert into the users table
+                    Dim userId As Integer = 1
+                    Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password, userPhoto,twoFactorAuth ) VALUES (@usrname, @usrtype, @email, @password, @userPhoto, @twoFactorAuth);SELECT LAST_INSERT_ID();"
+                    Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
+                        insertUserCommand.Parameters.AddWithValue("@usrname", name_Text.Text)
+                        insertUserCommand.Parameters.AddWithValue("@usrtype", "Customer")
+                        insertUserCommand.Parameters.AddWithValue("@email", email_Text.Text)
+                        insertUserCommand.Parameters.AddWithValue("@password", password_Text.Text)
+                        insertUserCommand.Parameters.AddWithValue("@twoFactorAuth", 1)
 
-                MessageBox.Show("An error occurred: " & ex.Message)
-                Return
-            End Try
-        End Using
+                        ' Add the byte array parameter for the image
+                        insertUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
+                        If insertUserCommand.ExecuteNonQuery() = 1 Then
+                            ' MessageBox.Show("User Inserted")
+                        Else
+                            'MessageBox.Show("User Not Inserted")
+                            Return
+                        End If
+                        'userId = Convert.ToInt32(insertUserCommand.ExecuteScalar()) ' Get the userID of the inserted user
+                        ' After insertion, you can retrieve the last inserted ID
+
+                        Dim getLastInsertedIdQuery As String = "SELECT LAST_INSERT_ID();"
+                        Using getLastInsertedIdCommand As New MySqlCommand(getLastInsertedIdQuery, connection)
+                            userId = Convert.ToInt32(getLastInsertedIdCommand.ExecuteScalar()) ' Get the userID of the inserted user
+                        End Using
+
+                    End Using
+
+                    'userId = 999
+                    'MessageBox.Show(userId)
+                    If userId > 0 Then
+                        'MessageBox.Show("contact details entered")
+                        ' Insert into the contactDetails table
+                        Dim insertContactCommandText As String = "INSERT INTO contactDetails (userID, email, address, location, mobileNumber) VALUES (@userID, @email, @address, @location, @mobileNumber)"
+                        Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
+                            insertContactCommand.Parameters.AddWithValue("@userID", userId)
+                            insertContactCommand.Parameters.AddWithValue("@email", email_Text.Text)
+                            insertContactCommand.Parameters.AddWithValue("@address", address.Text)
+                            insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString()) ' Assuming dropdownLocation is the name of your dropdown
+                            insertContactCommand.Parameters.AddWithValue("@mobileNumber", phone_Text.Text) ' Assuming dropdownLocation is the name of your dropdown
+
+                            If insertContactCommand.ExecuteNonQuery() = 1 Then
+                                ' MessageBox.Show("Details Inserted")
+                            Else
+                                ' MessageBox.Show("Details Not Inserted")
+                                Return
+                            End If
+                            Exit While
+                        End Using
+
+                    Else
+                        MessageBox.Show("Error inserting user.")
+                        Return
+                    End If
+                    SessionManager.userID = userId
+
+                Catch ex As Exception
+                    'transaction.Rollback()
+
+                    MessageBox.Show("An error occurred: " & ex.Message)
+                    Return
+                End Try
+
+                'MessageBox.Show("Exiting While")
+                Exit While
+            End Using
+
+        End While
+
+
+
 
         Dim loginform As New LoginPage()
         loginform.Show()
@@ -363,6 +411,13 @@ Public Class Register1
 
 
     End Sub
+
+
+
+
+
+
+
 
     Private Sub PopulateCountriesDropdown()
         ' Add countries manually to the dropdown list

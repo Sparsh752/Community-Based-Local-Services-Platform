@@ -11,6 +11,8 @@ Public Class TransactionComplete_SP
 
     Private ReviewSubmitted As Boolean = False
     Public selectedRating As Double = 0.0
+
+    Private chatPanel As New Panel()
     Private Sub TransactionComplete_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         CustomerName = "Customer XYZ"
@@ -88,7 +90,6 @@ Public Class TransactionComplete_SP
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle
@@ -171,6 +172,12 @@ Public Class TransactionComplete_SP
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         Me.Close()
 
         With AppointmentList_SP
@@ -268,6 +275,12 @@ Public Class TransactionComplete_SP
 
         If Not String.IsNullOrEmpty(RichTextBox1.Text.Trim()) Then
             RemovePreviousForm()
+            For Each ctrl As Control In chatPanel.Controls
+                If TypeOf ctrl Is Form Then
+                    Dim formCtrl As Form = DirectCast(ctrl, Form)
+                    formCtrl.Close()
+                End If
+            Next
             Me.Close()
             With AppointmentList_SP
                 .TopLevel = False

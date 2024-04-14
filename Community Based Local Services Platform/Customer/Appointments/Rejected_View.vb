@@ -78,6 +78,21 @@
             connection.Close()
         End Using
 
+        RichTextBox1.ReadOnly = True
+        RichTextBox2.ReadOnly = True
+        RichTextBox3.ReadOnly = True
+        RichTextBox4.ReadOnly = True
+        RichTextBox5.ReadOnly = True
+        RichTextBox6.ReadOnly = True
+        RichTextBox7.ReadOnly = True
+        RichTextBox8.ReadOnly = True
+        RichTextBox9.ReadOnly = True
+        RichTextBox10.ReadOnly = True
+        RichTextBox11.ReadOnly = True
+        RichTextBox12.ReadOnly = True
+        RichTextBox13.ReadOnly = True
+        RichTextBox14.ReadOnly = True
+
     End Sub
 
     Private Sub RemovePreviousForm()

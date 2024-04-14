@@ -1,8 +1,11 @@
 ﻿Imports System.Text.RegularExpressions
+Imports System.IO
+Imports iTextSharp.text.pdf.parser
 
 Public Class Edit_Profile_Customer
 
     Dim isStrongPassword As Boolean = False
+    Public imageBytes As Byte()
     Private Sub registerLocation_Click(sender As Object, e As EventArgs) Handles registerLocation.Click
 
     End Sub
@@ -73,6 +76,8 @@ Public Class Edit_Profile_Customer
             OpenFileDialogRegister.ShowDialog()
             If OpenFileDialogRegister.FileName <> "" Then
                 registerProfilePic.Image = System.Drawing.Image.FromFile(OpenFileDialogRegister.FileName)
+                ' Read the selected image file into a byte array
+                imageBytes = File.ReadAllBytes(OpenFileDialogRegister.FileName)
             End If
         Catch ex As Exception
             ' Handle any exceptions here
@@ -217,17 +222,21 @@ Public Class Edit_Profile_Customer
         End If
 
 
-
-        Dim connectionString As String = SessionManager.connectionString
         Dim query As String = "UPDATE users AS u
-                          INNER JOIN contactDetails AS cd ON u.userID = cd.userID
-                          SET u.userName = @userName, 
-                              u.email = @email, 
-                              u.password = @password,
-                              cd.location = @location, 
-                              cd.address = @address, 
-                              cd.mobileNumber = @mobile 
-                          WHERE u.userID = @userID"
+                      INNER JOIN contactDetails AS cd ON u.userID = cd.userID
+                      SET u.userName = @userName, 
+                          u.email = @email, 
+                          u.password = @password,
+                          cd.location = @location, 
+                          cd.address = @address, 
+                          cd.mobileNumber = @mobile"
+
+        ' Only include the userPhoto field in the update query if a new image is selected
+        If imageBytes IsNot Nothing Then
+            query &= ", u.userPhoto = @userPhoto"
+        End If
+
+        query &= " WHERE u.userID = @userID"
 
         Using connection As New MySqlConnection(connectionString)
             Using command As New MySqlCommand(query, connection)
@@ -240,6 +249,11 @@ Public Class Edit_Profile_Customer
                 command.Parameters.AddWithValue("@mobile", phone_Text.Text)
                 ' Set the userID parameter to identify the user to update
                 command.Parameters.AddWithValue("@userID", SessionManager.userID)
+
+                ' Only set the userPhoto parameter if a new image is selected
+                If imageBytes IsNot Nothing Then
+                    command.Parameters.AddWithValue("@userPhoto", imageBytes)
+                End If
 
                 Try
                     connection.Open()
@@ -255,23 +269,19 @@ Public Class Edit_Profile_Customer
                 Finally
                     connection.Close()
                 End Try
-
-
             End Using
         End Using
 
-
         RemovePreviousForm()
-        Profile_Customer.Margin = New Padding(0, 0, 0, 0)
-        With Profile_Customer
+        Dim profileCustomerForm As New Profile_Customer()
+
+        With profileCustomerForm
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(Profile_Customer)
+            Panel3.Controls.Add(profileCustomerForm)
             .BringToFront()
             .Show()
-
         End With
-
     End Sub
     Private Sub Edit_Profile_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Assuming you have the userID stored in SessionManager.userID
@@ -285,7 +295,7 @@ Public Class Edit_Profile_Customer
 
     Private Sub LoadUserDetails(userId As Integer)
         Dim connectionString As String = SessionManager.connectionString
-        Dim query As String = "SELECT  users.password, users.userName, users.email AS user_email, contactDetails.email AS contact_email, contactDetails.mobileNumber AS contact_mobile, contactDetails.address, contactDetails.location 
+        Dim query As String = "SELECT  users.password, users.userName,users.userPhoto, users.email AS user_email, contactDetails.email AS contact_email, contactDetails.mobileNumber AS contact_mobile, contactDetails.address, contactDetails.location 
 FROM users 
 INNER JOIN contactDetails ON users.userID = contactDetails.userID 
 WHERE users.userID = @userID
@@ -310,6 +320,22 @@ WHERE users.userID = @userID
                         password_Text.Text = reader.GetString("password")
                         confirm_Text.Text = reader.GetString("password")
 
+                        ' Retrieve the user photo byte array from the database
+                        If Not reader.IsDBNull(reader.GetOrdinal("userPhoto")) Then
+                            Dim userPhoto As Byte() = DirectCast(reader("userPhoto"), Byte())
+
+                            ' Check if user photo is not null
+                            If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                                ' Convert byte array to image and display it in the picture box
+                                Using ms As New MemoryStream(userPhoto)
+                                    registerProfilePic.SizeMode = PictureBoxSizeMode.StretchImage
+                                    registerProfilePic.Image = Image.FromStream(ms)
+                                End Using
+                            Else
+                                ' If user photo is null, set a default image or display a placeholder
+                                Profile_Customer.customerProfilePicture.Image = My.Resources.Resource1.displayPicture
+                            End If
+                        End If
 
                     Else
                         MessageBox.Show("User not found.")

@@ -7,11 +7,14 @@ Public Class Appointment_booking
     Private selectedLocation As String
     Private selectedDate As DateTime
     Private selectedTimeSlot As String
+    Private serviceID As String
+    Private userID As String = SessionManager.userID
 
     ' Constructor to accept the string parameter
-    Public Sub New(ByVal str As String)
+    Public Sub New(ByVal str As String, serviceID As String)
         InitializeComponent()
         appointmentType = str
+        Me.serviceID = serviceID
     End Sub
 
     Private Sub Appointment_booking_Load(sender As Object, e As EventArgs) Handles MyBase.Load

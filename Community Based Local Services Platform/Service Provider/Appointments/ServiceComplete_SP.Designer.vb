@@ -23,6 +23,7 @@ Partial Class ServiceComplete_SP
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Panel1 = New Panel()
+        BackButton = New Button()
         OTP4 = New Panel()
         RichTextBox4 = New RichTextBox()
         OTP3 = New Panel()
@@ -44,7 +45,6 @@ Partial Class ServiceComplete_SP
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
-        BackButton = New Button()
         Panel1.SuspendLayout()
         OTP4.SuspendLayout()
         OTP3.SuspendLayout()
@@ -79,6 +79,17 @@ Partial Class ServiceComplete_SP
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(1178, 844)
         Panel1.TabIndex = 0
+        ' 
+        ' BackButton
+        ' 
+        BackButton.FlatStyle = FlatStyle.Flat
+        BackButton.Location = New Point(940, 67)
+        BackButton.Margin = New Padding(4, 3, 4, 3)
+        BackButton.Name = "BackButton"
+        BackButton.Size = New Size(187, 50)
+        BackButton.TabIndex = 86
+        BackButton.Text = "Back"
+        BackButton.UseVisualStyleBackColor = True
         ' 
         ' OTP4
         ' 
@@ -314,17 +325,6 @@ Partial Class ServiceComplete_SP
         Label1.Size = New Size(78, 24)
         Label1.TabIndex = 39
         Label1.Text = "Service"
-        ' 
-        ' BackButton
-        ' 
-        BackButton.FlatStyle = FlatStyle.Flat
-        BackButton.Location = New Point(940, 67)
-        BackButton.Margin = New Padding(4, 3, 4, 3)
-        BackButton.Name = "BackButton"
-        BackButton.Size = New Size(187, 50)
-        BackButton.TabIndex = 86
-        BackButton.Text = "Back"
-        BackButton.UseVisualStyleBackColor = True
         ' 
         ' ServiceComplete_SP
         ' 

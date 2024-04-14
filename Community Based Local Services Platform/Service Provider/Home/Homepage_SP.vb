@@ -1,7 +1,39 @@
-﻿Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
+
+
+
+
+Public Class Services
+    Public Property serviceID As Integer
+    Public Property serviceTypeID As Integer
+    Public Property serviceName As String
+    Public Property price As Double
+    Public Property serviceDescription As String
+    Public Property completionTime As String
+    Public Property areaID As String
+End Class
+
+
+Public Class Reviews
+    Public Property reviewID As Integer
+    Public Property appointmentID As Integer
+    Public Property rating As Double
+    Public Property reviewText As String
+    Public Property reviewDate As String
+    Public Property givenForID As Integer
+    Public Property givenByID As Integer
+End Class
 
 
 Public Class Homepage_SP
+    Dim serviceProviderID As Integer
+    Public Sub New(serviceProviderID As Integer)
+        InitializeComponent()
+        Me.serviceProviderID = serviceProviderID
+
+    End Sub
     Public Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
         If SessionManager.Panel3.Controls.Count > 0 Then
@@ -9,6 +41,8 @@ Public Class Homepage_SP
             SessionManager.Panel3.Controls.Clear()
         End If
     End Sub
+
+
 
 
     Private Sub AddServicesButton_Click(sender As Object, e As EventArgs)
@@ -53,10 +87,57 @@ Public Class Homepage_SP
 
 
 
-    Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs)
-        MessageBox.Show("service is deleted!")
-    End Sub
+    Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs, serviceID As Integer)
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
 
+        Try
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete the service?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+            ' Check the user's response
+            If result = DialogResult.No Then
+                ' Delete the service (write your deletion logic here)
+                ' For example:
+                Return
+
+            End If
+
+
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = "DELETE FROM services WHERE serviceID = " & serviceID
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim rowsAffected As Integer = command.ExecuteNonQuery()
+
+            ' Check if any rows were deleted
+            If rowsAffected > 0 Then
+                MessageBox.Show("The entry has been successfully deleted from the server.", "Entry Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Dim homePageSP As New Homepage_SP(serviceProviderID)
+                RemovePreviousForm()
+                homePageSP.Margin = New Padding(0, 0, 0, 0)
+                With homePageSP
+                    .TopLevel = False
+                    .Dock = DockStyle.Fill
+                    Panel3.Controls.Add(homePageSP)
+                    .BringToFront()
+                    .Show()
+                End With
+            Else
+                MessageBox.Show("No matching rows found to delete.", "No Rows Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        Finally
+            ' Close the connection
+            If connection.State = ConnectionState.Open Then
+                connection.Close()
+            End If
+        End Try
+
+    End Sub
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -75,18 +156,63 @@ Public Class Homepage_SP
         Panel6.Location = New Point(10, 64)
 
 
+        Dim connection3 As New MySqlConnection(SessionManager.connectionString)
+
+        ' Create a MySqlCommand object with the SQL query and connection
+        Try
+            ' Open the connection
+            connection3.Open()
+            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
+            Dim query2 As String = "SELECT * FROM serviceAreaTimeslots as spat WHERE spat.serviceProviderID =" & serviceProviderID
+            Dim query3 As String = "SELECT * FROM serviceAreaTimeslots as sat JOIN serviceAreas as sa ON sat.areaID= sa.areaID WHERE sat.serviceProviderID= " & serviceProviderID
+            Dim command As New MySqlCommand(query, connection3)
+
+            ' Execute the SQL query
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Loop through the result set and populate userList
+            reader.Read()
+            Label1.Text = reader("serviceProviderName")
+            Label4.Text = "Experience : " & reader("experienceYears") & " years"
+            reader.Close()
+
+
+
+            Dim command2 As New MySqlCommand(query2, connection3)
+
+            ' Execute the SQL query
+            Dim reader2 As MySqlDataReader = command2.ExecuteReader()
+
+            reader2.Read()
+            Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " AM to 6:00 PM"
+            reader2.Close()
+
+
+            Dim command3 As New MySqlCommand(query3, connection3)
+
+            ' Execute the SQL query
+            Dim reader3 As MySqlDataReader = command3.ExecuteReader()
+
+            reader3.Read()
+            Label2.Text = reader3("location")
+            reader2.Close()
+            ' Close the reader
+        Catch ex As Exception
+            ' Display error message if loading fails
+            MessageBox.Show("Failed to load serviceprovider. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
 
 
         Dim textSize As Size = Label2.Location
         Label2.Location = textSize
         textSize.Width = textSize.Width + Label2.Size.Width
-        Label6.Location = New Point(textSize.Width - 5, textSize.Height - 13)
-        textSize.Width = textSize.Width + Label6.Size.Width - 5
+        Label6.Location = New Point(textSize.Width, textSize.Height - 13)
+        textSize.Width = textSize.Width + Label6.Size.Width
         Label3.Location = textSize
         textSize.Width = textSize.Width + Label3.Size.Width
-        Label7.Location = New Point(textSize.Width - 5, textSize.Height - 13)
-        textSize.Width = textSize.Width + Label7.Size.Width - 5
+        Label7.Location = New Point(textSize.Width, textSize.Height - 13)
+        textSize.Width = textSize.Width + Label7.Size.Width
         Label4.Location = textSize
 
         Dim newButton3 As New Button()
@@ -147,7 +273,63 @@ Public Class Homepage_SP
 
         Dim yPosition As Integer = 0
 
-        For i As Integer = 1 To numGroups
+
+
+
+
+
+
+
+
+        Dim servicesList As New List(Of Services)()
+
+        Dim connection1 As New MySqlConnection(SessionManager.connectionString)
+
+        ' Create a MySqlCommand object with the SQL query and connection
+        Try
+            ' Open the connection
+            connection1.Open()
+            Dim query As String = "SELECT * FROM services WHERE services.serviceProviderID = " & serviceProviderID
+            Dim command As New MySqlCommand(query, connection1)
+
+            ' Execute the SQL query
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Loop through the result set and populate userList
+
+
+
+            While reader.Read()
+                Dim service As New Services()
+                service.serviceID = reader("serviceID")
+                service.serviceTypeID = reader("serviceTypeID")
+                service.serviceName = reader("serviceName")
+                service.price = reader("price")
+                service.serviceDescription = reader("serviceDescription")
+                service.completionTime = reader("completionTime")
+                service.areaID = reader("areaID")
+                ' Add more properties as needed
+                servicesList.Add(service)
+            End While
+
+            ' Close the reader
+            reader.Close()
+        Catch ex As Exception
+            ' Display error message if loading fails
+            MessageBox.Show("Failed to load services. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+
+
+
+
+
+
+
+        For i As Integer = 0 To servicesList.Count
+            If (i >= servicesList.Count) Then
+                Exit For
+            End If
             Dim groupBox As New GroupBox()
             groupBox.Size = groupSize
             groupBox.Location = New Point(50, yPosition)
@@ -163,7 +345,7 @@ Public Class Homepage_SP
             groupBox.Controls.Add(im)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Service " & i
+            headingLabel.Text = servicesList(i).serviceName
             headingLabel.Font = New Font("Arial", 12, FontStyle.Bold)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(200, 20)
@@ -171,7 +353,7 @@ Public Class Homepage_SP
             groupBox.Controls.Add(headingLabel)
 
             Dim subheadingLabel As New Label()
-            subheadingLabel.Text = "Rate: Rs 500"
+            subheadingLabel.Text = "Rate: Rs " & servicesList(i).price
             subheadingLabel.Font = New Font("Arial", 10)
             subheadingLabel.AutoSize = True
             subheadingLabel.Location = New Point(200, 50)
@@ -179,7 +361,7 @@ Public Class Homepage_SP
             groupBox.Controls.Add(subheadingLabel)
 
             Dim descriptionLabel As New Label()
-            descriptionLabel.Text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."
+            descriptionLabel.Text = servicesList(i).serviceDescription
             descriptionLabel.AutoSize = False
             descriptionLabel.Size = New Size(500, 80)
             descriptionLabel.Location = New Point(200, 80)
@@ -187,7 +369,6 @@ Public Class Homepage_SP
             descriptionLabel.BorderStyle = BorderStyle.None
 
             groupBox.Controls.Add(descriptionLabel)
-
 
             Dim newButton1 As New Button()
 
@@ -201,7 +382,8 @@ Public Class Homepage_SP
             newButton1.FlatStyle = FlatStyle.Flat
             newButton1.FlatAppearance.BorderSize = 0
             newButton1.Padding = New Padding(newButton1.Padding.Left, newButton1.Padding.Top, newButton1.Padding.Right, newButton1.Padding.Bottom - 10)
-            AddHandler newButton1.Click, AddressOf DeleteServiceButton_Click
+            Dim serviceIDThis As Integer = servicesList(i).serviceID
+            AddHandler newButton1.Click, Sub(s, ev) DeleteServiceButton_Click(s, ev, serviceIDThis)
             groupBox.Controls.Add(newButton1)
 
 
@@ -227,13 +409,53 @@ Public Class Homepage_SP
 
 
 
+        Dim reviewsList As New List(Of Reviews)()
+
+        Dim connection2 As New MySqlConnection(SessionManager.connectionString)
+
+        ' Create a MySqlCommand object with the SQL query and connection
+        Try
+            ' Open the connection
+            connection2.Open()
+            Dim query As String = "SELECT * FROM reviews as r WHERE r.givenForID = " & serviceProviderID
+            Dim command As New MySqlCommand(query, connection2)
+
+            ' Execute the SQL query
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Loop through the result set and populate userList
+
+
+
+            While reader.Read()
+                Dim review As New Reviews()
+                review.reviewID = Convert.ToInt32(reader("reviewID"))
+                review.appointmentID = reader("appointmentID")
+                review.rating = reader("rating")
+                review.reviewText = reader("reviewText")
+                review.reviewDate = reader("reviewDate")
+                review.givenForID = reader("givenForID")
+                review.givenByID = reader("givenByID")
+                ' Add more properties as needed
+                reviewsList.Add(review)
+            End While
+
+            ' Close the reader
+            reader.Close()
+        Catch ex As Exception
+            ' Display error message if loading fails
+            MessageBox.Show("Failed to load reviews. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
 
         Dim numItems As Integer = 10
 
         Dim yPosition2 As Integer = 38
         Panel6.AutoScroll = True
-        For i As Integer = 1 To numItems
+        For i As Integer = 0 To reviewsList.Count
+            If (i >= reviewsList.Count) Then
+                Exit For
+            End If
             Dim itemPanel As New Panel()
             itemPanel.Size = New Size(275, 125)
             itemPanel.Location = New Point(16, yPosition2)
@@ -241,7 +463,7 @@ Public Class Homepage_SP
             Panel6.Controls.Add(itemPanel)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Name " & i
+            headingLabel.Text = "Review " & (i + 1)
             headingLabel.Font = New Font("Segoe", 9)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(20, 10)
@@ -251,7 +473,7 @@ Public Class Homepage_SP
 
 
             Dim textLabel As New Label()
-            textLabel.Text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis " & i
+            textLabel.Text = reviewsList(i).reviewText.ToString()
             textLabel.Font = New Font("Segoe", 8)
             textLabel.AutoSize = False
             textLabel.Size = New Size(240, 81)

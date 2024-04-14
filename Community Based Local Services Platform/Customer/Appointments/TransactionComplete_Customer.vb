@@ -9,6 +9,8 @@
 
     Private ReviewSubmitted As Boolean = False
     Public selectedRating As Double = 0.0
+
+    Private chatPanel As New Panel()
     Private Sub TransactionComplete_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ServiceProviderName = "Service Provider XYZ"
         ServiceProviderAddress = "123 Example St, City"
@@ -84,7 +86,6 @@
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle
@@ -251,6 +252,12 @@
 
         If Not String.IsNullOrEmpty(RichTextBox1.Text.Trim()) Then
             RemovePreviousForm()
+            For Each ctrl As Control In chatPanel.Controls
+                If TypeOf ctrl Is Form Then
+                    Dim formCtrl As Form = DirectCast(ctrl, Form)
+                    formCtrl.Close()
+                End If
+            Next
             Me.Close()
             With AppointmentList_Customer
                 .TopLevel = False
@@ -267,6 +274,12 @@
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         Me.Close()
 
         With AppointmentList_Customer
