@@ -145,7 +145,7 @@
                 customerForm.Show()
                 Me.Hide()
             ElseIf SessionManager.userType = "Service Provider" Then
-                Dim serviceProviderForm As New Navbar_SP(15)
+                Dim serviceProviderForm As New Navbar_SP(SessionManager.spID)
                 serviceProviderForm.Show()
                 Me.Hide()
             ElseIf SessionManager.userType = "Admin" Then
