@@ -11,7 +11,7 @@
         Panel1.BackColor = ColorTranslator.FromHtml("#F6F6F6")
         Panel1.Size = New Size(359, 635)
 
-        searchBox.Location = New Point(27, 106)
+        searchBox.Location = New Point(34, 106)
         searchBox.Font = New Font(SessionManager.font_family, 14, FontStyle.Regular)
         searchBox.Size = New Size(280, 27)
 
