@@ -16,6 +16,11 @@ Public Class Navbar_SP
     Public Panel3 As New Panel()
     Public NotificationButton As New Button()
     Public notificationForm As New Notification()
+    Dim serviceProviderID As Integer
+    Public Sub New(serviceProviderID As Integer)
+        InitializeComponent()
+        Me.serviceProviderID = serviceProviderID
+    End Sub
     ' Import user32.dll for smooth scrolling
     <DllImport("user32.dll")>
     Public Shared Function AnimateWindow(hWnd As IntPtr, time As Integer, flags As AnimateWindowFlags) As Boolean
@@ -144,7 +149,7 @@ Public Class Navbar_SP
 
 
         'SetActiveForm(Homepage)
-        Dim homePageSP As New Homepage_SP(5)
+        Dim homePageSP As New Homepage_SP(serviceProviderID)
         RemovePreviousForm()
         homePageSP.Margin = New Padding(0, 0, 0, 0)
         With homePageSP
@@ -207,7 +212,7 @@ Public Class Navbar_SP
         RemovePreviousForm()
         line.Size = New Size(52, 2)
         line.Location = New Point(715, 47)
-        Dim homePageSP As New Homepage_SP(5)
+        Dim homePageSP As New Homepage_SP(serviceProviderID)
         homePageSP.Margin = New Padding(0, 0, 0, 0)
         With homePageSP
             .TopLevel = False
