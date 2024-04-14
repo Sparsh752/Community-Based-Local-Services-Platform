@@ -58,6 +58,7 @@ Public Class Display_Services
                     ' Read data from the reader
                     While reader.Read()
                         Dim serviceProvider As New ServiceProvider() With {
+                           .ID = reader("serviceProviderID").ToString(),
                            .Name = reader("serviceProviderName").ToString(),
                            .Description = reader("ServiceProviderdescription").ToString(),
                            .Ratings = Convert.ToDecimal(reader("rating")),
@@ -397,11 +398,18 @@ Public Class Display_Services
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
 
     Private Sub BookNowButton_Click(sender As Object, e As EventArgs, serviceID As String)
