@@ -151,7 +151,7 @@
     Private Function GetDistinctLocationsFromDB() As List(Of Tuple(Of String, String))
         Dim distinctLocations As New List(Of Tuple(Of String, String))()
         ' Query the database to retrieve distinct locations
-        Dim query As String = "SELECT areaID, area, location FROM serviceAreas"
+        Dim query As String = "SELECT areaID, location FROM serviceAreas"
         ' Create a new SQL connection
         Using connection As New MySqlConnection(SessionManager.connectionString)
             ' Open the connection
@@ -164,7 +164,7 @@
                     ' Read data from the reader
                     While reader.Read()
                         ' Add the location to the list
-                        distinctLocations.Add(Tuple.Create(reader("areaID").ToString(), reader("area").ToString() + ", " + reader("location").ToString()))
+                        distinctLocations.Add(Tuple.Create(reader("areaID").ToString(), reader("location").ToString()))
                     End While
                 End Using
             End Using
@@ -276,7 +276,7 @@
         End If
 
         ' Call the method to update services based on search criteria and rating filter
-        Dim minRating As Decimal = TrackBar1.Value
+        Dim minRating As Decimal = Convert.ToDecimal(TrackBar1.Value)
         Dim maxRating As Decimal = 5.0 ' Maximum rating value is 5
 
         Dim selectedServiceTypes As New List(Of String)()

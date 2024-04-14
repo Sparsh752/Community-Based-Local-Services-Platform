@@ -274,17 +274,7 @@ Public Class Display_Services
         Dim minRatingValue As Decimal = minRating
         Dim maxRatingValue As Decimal = 5.0
 
-        ' Print filter inputs for debugging
-        MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
-                    "Minimum Cost Criteria: " & minCostCriteria & vbCrLf &
-                    "Maximum Cost Criteria: " & maxCostCriteria & vbCrLf &
-                    "Minimum Rating Criteria: " & minRating & vbCrLf &
-                    "Maximum Rating Criteria: " & maxRating & vbCrLf &
-                    "Location Criteria: " & locationCriteria & vbCrLf &
-                    "Selected Service Types: " & String.Join(", ", selectedServiceTypes),
-                    "Filter Inputs",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information)
+
 
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
         Dim filteredProviders = serviceProviders.Where(Function(provider) _
@@ -297,12 +287,23 @@ Public Class Display_Services
         Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
         (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
         Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
-        (provider.Ratings >= minRatingValue AndAlso provider.Ratings <= maxRatingValue) AndAlso
+        (provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating) AndAlso
         (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
         (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
     ).ToList()
 
-
+        ' Print filter inputs for debugging
+        MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
+                    "Minimum Cost Criteria: " & minCostCriteria & vbCrLf &
+                    "Maximum Cost Criteria: " & maxCostCriteria & vbCrLf &
+                    "Minimum Rating Criteria: " & minRating & vbCrLf &
+                    "Maximum Rating Criteria: " & maxRating & vbCrLf &
+                    "Location Criteria: " & locationCriteria & vbCrLf &
+                    "Selected Service Types: " & String.Join(", ", selectedServiceTypes) & vbCrLf &
+                    "Filter Inputs: " & filteredProviders.Count,
+                    "Filter Inputs",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information)
         ' Check if there are any results
         If filteredProviders.Count = 0 Then
             ' Load the default view
@@ -314,8 +315,6 @@ Public Class Display_Services
             DisplaySearchResults(filteredProviders, minRatingValue, maxRatingValue)
         End If
     End Sub
-
-
 
     ' Method to display search results
     Private Sub DisplaySearchResults(providers As List(Of ServiceProvider), minRating As Integer, maxRating As Integer)
