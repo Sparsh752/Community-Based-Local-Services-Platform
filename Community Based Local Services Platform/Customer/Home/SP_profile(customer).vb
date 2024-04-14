@@ -6,6 +6,7 @@ Public Class SP_profile
     ' Constructor to receive and display details
     Dim serviceProviderID As String
     Dim ratings As Integer
+    Dim servicePhoto As Byte()
     Public Sub New(provider As ServiceProvider)
         InitializeComponent()
 
@@ -16,6 +17,7 @@ Public Class SP_profile
         Label3.Text = "Available from : " & provider.Price   ' yash change this once the db team adds the endtime to serviceAreaTimeslots table
         Label4.Text = provider.Experience & " years"
         Me.serviceProviderID = provider.ID
+        Me.servicePhoto = provider.ServicePhoto
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -129,18 +131,6 @@ Public Class SP_profile
         Label4.Location = textSize
 
 
-
-        Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-
-        Try
-            If Not File.Exists(imagePath) Then
-                MessageBox.Show("Image file not found: " & imagePath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error loading image: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-
-
         Dim panel As New Panel()
         panel.Location = New Point(10, 175)
         panel.Size = New Size(833, 450)
@@ -205,7 +195,17 @@ Public Class SP_profile
             im.SizeMode = PictureBoxSizeMode.StretchImage
             im.Size = New Size(170, 170)
             im.Location = New Point(10, 20)
-            im.Image = Image.FromFile(imagePath)
+
+            ' Load image from binary data
+            If servicePhoto IsNot Nothing AndAlso servicePhoto.Length > 0 Then
+                Using ms As New MemoryStream(servicePhoto)
+                    im.Image = Image.FromStream(ms)
+                End Using
+            Else
+                ' Handle the case where image data is not available or empty
+                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                im.Image = Image.FromFile(imagePath)
+            End If
 
             groupBox.Controls.Add(im)
 

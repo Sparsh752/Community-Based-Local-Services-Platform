@@ -498,8 +498,8 @@ Public Class RegisterSP
                     insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderDescription", descriptionText.Text)
                     ' Set default values for rating, experienceYears, and minimumNoticeHours
                     insertServiceProviderCommand.Parameters.AddWithValue("@rating", 0)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", 0)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", 0)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", ExperienceDropdown.SelectedValue.ToString())
+                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", NoticeHourDropdown.SelectedValue.ToString())
                     insertServiceProviderCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted service provider
@@ -646,4 +646,5 @@ Public Class RegisterSP
             confirmSP_Text.PasswordChar = "*"
         End If
     End Sub
+
 End Class
