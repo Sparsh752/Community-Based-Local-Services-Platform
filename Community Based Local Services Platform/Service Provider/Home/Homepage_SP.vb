@@ -32,7 +32,7 @@ Public Class Homepage_SP
     Dim serviceProviderID As Integer
     Public Sub New(serviceProviderID As Integer)
         InitializeComponent()
-        Me.serviceProviderID = serviceProviderID
+        Me.serviceProviderID = 1
 
     End Sub
     Public Sub RemovePreviousForm()
@@ -48,24 +48,26 @@ Public Class Homepage_SP
 
     Private Sub AddServicesButton_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
-        AddServices_SP.Margin = New Padding(0, 0, 0, 0)
-        With AddServices_SP
+        Dim newpage As AddServices_SP = New AddServices_SP(serviceProviderID)
+        newpage.Margin = New Padding(0, 0, 0, 0)
+        With newpage
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(AddServices_SP)
+            SessionManager.Panel3.Controls.Add(newpage)
             .BringToFront()
             .Show()
         End With
     End Sub
 
 
-    Private Sub EditServicesButton_Click(sender As Object, e As EventArgs)
+    Private Sub EditServicesButton_Click(sender As Object, e As EventArgs, serviceID As Integer)
         RemovePreviousForm()
-        UpdateServices_SP.Margin = New Padding(0, 0, 0, 0)
-        With UpdateServices_SP
+        Dim newpage As UpdateServices_SP = New UpdateServices_SP(serviceProviderID, serviceID)
+        newpage.Margin = New Padding(0, 0, 0, 0)
+        With newpage
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(UpdateServices_SP)
+            SessionManager.Panel3.Controls.Add(newpage)
             .BringToFront()
             .Show()
         End With
@@ -142,6 +144,7 @@ Public Class Homepage_SP
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        MessageBox.Show(serviceProviderID)
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
@@ -401,7 +404,7 @@ Public Class Homepage_SP
             newButton2.FlatStyle = FlatStyle.Flat
             newButton2.FlatAppearance.BorderSize = 0
             newButton2.Padding = New Padding(newButton2.Padding.Left, newButton2.Padding.Top, newButton2.Padding.Right, newButton2.Padding.Bottom - 10)
-            AddHandler newButton2.Click, AddressOf EditServicesButton_Click
+            AddHandler newButton2.Click, Sub(s, ev) EditServicesButton_Click(s, ev, serviceIDThis)
             groupBox.Controls.Add(newButton2)
 
             yPosition += groupSize.Height + groupSpacing
