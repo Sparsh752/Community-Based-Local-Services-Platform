@@ -439,7 +439,7 @@ Public Class UpdateServices_SP
         End If
     End Sub
 
-    Private Sub BackButton_Click(sender As Object, e As EventArgs)
+    Private Sub BackButton_Click_1(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
         Me.Close()
         Dim homePageSP As New Homepage_SP(SessionManager.spID)
@@ -452,6 +452,4 @@ Public Class UpdateServices_SP
             .Show()
         End With
     End Sub
-
-
 End Class
