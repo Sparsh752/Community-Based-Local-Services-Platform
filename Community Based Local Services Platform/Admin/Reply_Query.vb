@@ -1,10 +1,27 @@
 ﻿Public Class Reply_Query
-    Public QueryID As Integer
+    Public QueryID As String
     Dim AppointmentID As Integer
     Dim UserID As Integer
     Public title = ""
     Public description = ""
     Public status = ""
+
+
+    Private Sub RemovePreviousForm()
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+
+        If Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            Panel3.Controls.Clear()
+        End If
+
+    End Sub
 
     Private Sub Reply_Query_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Using conn As New MySqlConnection(SessionManager.connectionString)
@@ -42,15 +59,22 @@
                 Dim command As New MySqlCommand(query, conn)
                 command.Parameters.AddWithValue("@queryid", QueryID)
                 command.ExecuteNonQuery()
-
+                MessageBox.Show("Query deleted successfully!")
             Catch ex As Exception
                 MessageBox.Show("Error: " & ex.Message)
             Finally
                 conn.Close()
             End Try
         End Using
-
         Me.Close()
+        RemovePreviousForm()
+        With Homepage_Admin
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Homepage_Admin)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
     Private Sub Resolve_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -64,12 +88,12 @@
         Using conn As New MySqlConnection(SessionManager.connectionString)
             Try
                 conn.Open()
-                Dim query As String = "UPDATE AddressQueries SET reply = @reply, resolutionDate = NOW() WHERE queryID = @queryid"
+                Dim query As String = "UPDATE AddressQueries SET reply = @reply, status = 'Resolved', resolutionDate = NOW() WHERE queryID = @queryid"
                 Dim command As New MySqlCommand(query, conn)
                 command.Parameters.AddWithValue("@queryid", QueryID)
                 command.Parameters.AddWithValue("@reply", reply)
                 command.ExecuteNonQuery()
-
+                MessageBox.Show("Query reply sent!")
             Catch ex As Exception
                 MessageBox.Show("Error: " & ex.Message)
             Finally
@@ -78,5 +102,13 @@
         End Using
 
         Me.Close()
+        RemovePreviousForm()
+        With Homepage_Admin
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Homepage_Admin)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 End Class
