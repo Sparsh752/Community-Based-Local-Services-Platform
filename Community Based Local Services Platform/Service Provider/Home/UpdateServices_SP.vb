@@ -442,7 +442,7 @@ Public Class UpdateServices_SP
     Private Sub BackButton_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
         Close()
-        Dim homePageSP As New Homepage_SP(spID)
+        Dim homePageSP As New Homepage_SP(SessionManager.spID)
         homePageSP.Margin = New Padding(0, 0, 0, 0)
         With homePageSP
             .TopLevel = False
