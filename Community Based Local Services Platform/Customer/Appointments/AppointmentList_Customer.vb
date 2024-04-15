@@ -388,6 +388,14 @@ Public Class AppointmentList_Customer
                 .BringToFront()
                 .Show()
             End With
+        ElseIf (status = "Pending") Then
+            With Rejected_View
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(Rejected_View)
+                .BringToFront()
+                .Show()
+            End With
         End If
     End Sub
 
@@ -395,15 +403,18 @@ Public Class AppointmentList_Customer
         Dim button As Button = DirectCast(sender, Button)
         Dim status As String
         Dim _spID As Integer
+        Dim _appointmentID As Integer
 
         For Each _sp In sp_list
             If (_sp.Index = CInt(button.Tag)) Then
                 status = _sp.Status
                 _spID = _sp.spID
+                _appointmentID = _sp.appointmentID
             End If
         Next
 
         SessionManager.spID = _spID
+        SessionManager.appointmentID = _appointmentID
 
         RemovePreviousForm()
         With Query_3SP

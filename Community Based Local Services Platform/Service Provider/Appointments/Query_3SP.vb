@@ -3,7 +3,7 @@
     Public AppointmentId As String
 
     Private Sub Query_3SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AppointmentId = "1"
+        'AppointmentId = "1"
         Me.Size = New Size(1200, 700)
         Me.FormBorderStyle = FormBorderStyle.None
         Me.BackColor = Color.White
@@ -11,7 +11,7 @@
         Panel1.BorderStyle = BorderStyle.FixedSingle
         Panel1.Location = New Point(400, 100)
         Panel1.Size = New Size(380, 410)
-        Label3.Text = AppointmentId
+        Label3.Text = SessionManager.appointmentID
 
         queryTypes.Add("Services")
         queryTypes.Add("Timings")
@@ -50,17 +50,9 @@
         MessageBox.Show("Query sent.")
         RemovePreviousForm()
 
-        If (SessionManager.userType = "Customer") Then
-            With AppointmentList_Customer
-                .TopLevel = False
-                .Dock = DockStyle.Fill
-                Panel3.Controls.Add(AppointmentList_Customer)
-                .BringToFront()
-                .Show()
-            End With
-        Else
-            ' Get the query entered by the user from RichTextBox1
-            Dim queryText As String = RichTextBox1.Text
+
+        ' Get the query entered by the user from RichTextBox1
+        Dim queryText As String = RichTextBox1.Text
 
             Try
                 ' Create a MySqlConnection object
@@ -74,8 +66,8 @@
                     ' Create a MySqlCommand object
                     Using command As New MySqlCommand(query, connection)
                         ' Set the parameters
-                        command.Parameters.AddWithValue("@appointmentID", AppointmentId) ' Replace Your_UserID with the actual user ID
-                        command.Parameters.AddWithValue("@userID", 1) ' Replace Your_UserID with the actual user ID
+                        command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID) ' Replace Your_UserID with the actual user ID
+                        command.Parameters.AddWithValue("@userID", SessionManager.userID) ' Replace Your_UserID with the actual user ID
                         command.Parameters.AddWithValue("@type", ComboBox1.SelectedItem.ToString())
                         command.Parameters.AddWithValue("@query", queryText)
 
@@ -91,6 +83,18 @@
                 MessageBox.Show("Error: " & ex.Message)
             End Try
 
+            RemovePreviousForm()
+            Me.Close()
+
+        If (SessionManager.userType = "Customer") Then
+            With AppointmentList_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(AppointmentList_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        Else
             With AppointmentList_SP
                 .TopLevel = False
                 .Dock = DockStyle.Fill
@@ -104,6 +108,7 @@
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+        Me.Close()
 
         If (SessionManager.userType = "Customer") Then
             With AppointmentList_Customer

@@ -387,6 +387,24 @@ Public Class AppointmentList_SP
     End Sub
 
     Private Sub QueryButton_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Dim button As Button = DirectCast(sender, Button)
+        Dim status As String
+        Dim _customerID As Integer
+        Dim _appointmentID As Integer
+
+        'MessageBox.Show(button.Tag)
+
+        For Each _customer In customer_list
+            If (_customer.Index = CInt(button.Tag)) Then
+                status = _customer.Status
+                _customerID = _customer.customerID
+                _appointmentID = _customer.appointmentID
+            End If
+        Next
+
+        SessionManager.customerID = _customerID
+        SessionManager.appointmentID = _appointmentID
+
         RemovePreviousForm()
         With Query_3SP
             .TopLevel = False
