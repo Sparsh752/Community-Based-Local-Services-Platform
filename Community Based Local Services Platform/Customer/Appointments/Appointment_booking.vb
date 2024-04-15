@@ -490,6 +490,8 @@ Public Class Appointment_booking
 
         ' Determine which button was clicked and extract the selected time slot
         Dim clickedButton As Button = DirectCast(sender, Button)
+        clickedButton.BackColor = Color.Black
+        clickedButton.ForeColor = Color.White
 
         '' Check if a date is selected
         'If DateTimePicker1.Value.Date = Date.Today Then

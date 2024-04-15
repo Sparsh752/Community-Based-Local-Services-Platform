@@ -1,4 +1,6 @@
-﻿Public Class Rejected_View
+﻿Imports ZstdSharp.Unsafe
+
+Public Class Rejected_View
     Private Sub Rejected_View_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size() = New Size(1200, 700)
         Me.BackColor = Color.White
@@ -10,6 +12,8 @@
         BackButton.Location = New Point(1067, 75)
         BackButton.FlatAppearance.BorderSize = 0
         BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+
+        Dim _status As String = "Pending"
 
         Dim query As String = "Select appointments.appointmentID, 
                 serviceproviders.serviceProviderName,
@@ -66,6 +70,8 @@
                         RichTextBox5.Text = reader("location").ToString()
                         RichTextBox13.Text = reader("bookingAdvance").ToString()
 
+                        _status = reader("appointmentStatus").ToString()
+
                     Else
                         MessageBox.Show("Appointment not found.")
                     End If
@@ -92,6 +98,15 @@
         RichTextBox12.ReadOnly = True
         RichTextBox13.ReadOnly = True
         RichTextBox14.ReadOnly = True
+
+        If _status = "Pending" Then
+            RichTextBox6.Text = "This appointment is pending at service provider's end."
+            RichTextBox12.Text = ""
+            RichTextBox13.Text = ""
+            RichTextBox14.Text = ""
+        Else
+            RichTextBox6.Text = "This booking was canceled by the service provider."
+        End If
 
     End Sub
 
