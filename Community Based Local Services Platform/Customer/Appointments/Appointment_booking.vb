@@ -385,6 +385,13 @@ Public Class Appointment_booking
             With Payment_Gateway
                 .TopLevel = False
                 .Dock = DockStyle.Fill
+                .serviceID = serviceID
+                .Price = advancepayment.ToString()
+                .serviceLocation = selectedLocation
+                .selectedDate = selectedDate
+                .selectedTimeSlot = selectedTimeSlot
+                .serviceProviderID = serviceProviderID
+                .serviceTypeID = serviceTypeID
                 Panel3.Controls.Add(Payment_Gateway)
                 .BringToFront()
                 .Show()

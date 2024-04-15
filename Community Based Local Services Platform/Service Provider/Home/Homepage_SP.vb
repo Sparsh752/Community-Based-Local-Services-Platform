@@ -98,7 +98,7 @@ Public Class Homepage_SP
 
 
 
-    Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs, serviceTypeID As Integer)
+    Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs, serviceName As String)
         Dim connection As New MySqlConnection(SessionManager.connectionString)
 
         Try
@@ -116,8 +116,8 @@ Public Class Homepage_SP
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = "Update Services as s SET s.flagbit = 0 WHERE s.serviceTypeID = " & serviceTypeID & "AND s.serviceProviderID=" & serviceProviderID
-
+            Dim query As String = "Update services as s SET s.flagbit = 0 WHERE s.serviceName = '" & serviceName & "' AND s.serviceProviderID = " & serviceProviderID
+            MessageBox.Show(serviceProviderID)
             Dim command As New MySqlCommand(query, connection)
 
             Dim rowsAffected As Integer = command.ExecuteNonQuery()
@@ -414,8 +414,8 @@ Public Class Homepage_SP
             newButton1.FlatStyle = FlatStyle.Flat
             newButton1.FlatAppearance.BorderSize = 0
             newButton1.Padding = New Padding(newButton1.Padding.Left, newButton1.Padding.Top, newButton1.Padding.Right, newButton1.Padding.Bottom - 10)
-            Dim serviceTypeIDThis As Integer = servicesList(i).serviceTypeID
-            AddHandler newButton1.Click, Sub(s, ev) DeleteServiceButton_Click(s, ev, serviceTypeIDThis)
+            Dim serviceNameThis As String = servicesList(i).serviceName
+            AddHandler newButton1.Click, Sub(s, ev) DeleteServiceButton_Click(s, ev, serviceNameThis)
             groupBox.Controls.Add(newButton1)
 
 

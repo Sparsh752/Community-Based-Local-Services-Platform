@@ -43,6 +43,7 @@ Public Class AppointmentList_SP
         ' Call the method to add labels to TableLayoutPanel
         AddLabelsToTableLayoutPanel()
         TableLayoutPanel1.Show()
+        TableLayoutPanel1.AutoScroll = True
 
     End Sub
     Private Sub TableLayoutPanel1_Paint(sender As Object, e As PaintEventArgs) Handles TableLayoutPanel1.Paint
@@ -296,7 +297,6 @@ Public Class AppointmentList_SP
 
                 command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
                 count = Convert.ToInt32(command.ExecuteScalar())
-                MessageBox.Show("Count = " & count)
             End Using
             connection.Close()
         End Using
