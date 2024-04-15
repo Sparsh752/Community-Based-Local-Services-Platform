@@ -5,12 +5,14 @@ Imports Community_Based_Local_Services_Platform.Display_Services
 Public Class SP_profile
     ' Constructor to receive and display details
     Dim serviceProviderID As String
+    Dim ratings As Integer
     Public Sub New(provider As ServiceProvider)
         InitializeComponent()
 
         ' Display the details received
         Label1.Text = provider.Name
         Label2.Text = provider.Location
+        ratings = provider.Ratings
         Label3.Text = "Available from : " & provider.Price   ' yash change this once the db team adds the endtime to serviceAreaTimeslots table
         Label4.Text = provider.Experience & " years"
         Me.serviceProviderID = provider.ID
@@ -29,6 +31,39 @@ Public Class SP_profile
 
         Panel1.Location = New Point(843, 65)
         Panel2.Location = New Point(10, 64)
+
+        ' Create a label for stars
+        Dim starsLabel As New Label()
+
+        ' Calculate the number of full stars and empty stars
+        Dim fullStars As Integer = ratings
+        Dim emptyStars As Integer = Math.Max(0, 5 - ratings)
+
+        ' Generate the text for full and empty stars
+        Dim fullStarsText As String = New String("★"c, fullStars)
+        Dim emptyStarsText As String = New String("☆"c, emptyStars)
+
+        ' Combine full and empty stars text
+        Dim combinedText As String = fullStarsText & emptyStarsText
+
+        ' Set text and properties for stars label
+        starsLabel.Text = combinedText
+        starsLabel.ForeColor = ColorTranslator.FromHtml("#124E55") ' Set color to yellow for full stars
+        starsLabel.Font = New Font(SessionManager.font_family, 16, FontStyle.Regular)
+        starsLabel.AutoSize = True ' Automatically adjust the size of the label
+        starsLabel.Location = New Point(586, 130)
+
+        ' Create label for "Rating"
+        Dim ratingTextLabel As New Label()
+        ratingTextLabel.Text = "Rating:"
+        ratingTextLabel.Size = New Size(70, 20) ' Reduce the size of the label
+        ratingTextLabel.Location = New Point(591, 115) ' Move further right
+        ratingTextLabel.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular) ' Reduce the font size
+        ratingTextLabel.ForeColor = Color.Black ' Set color to black
+
+        ' Add all labels to the result panel
+        Me.Controls.Add(ratingTextLabel)
+        Me.Controls.Add(starsLabel)
 
 
         Dim connection3 As New MySqlConnection(SessionManager.connectionString)
