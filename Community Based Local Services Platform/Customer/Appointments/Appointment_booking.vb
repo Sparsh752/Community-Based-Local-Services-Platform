@@ -7,10 +7,30 @@ Public Class Appointment_booking
     Private selectedLocation As String
     Private selectedDate As DateTime
     Private selectedTimeSlot As String
+    Private advancepayment As Decimal
+
     Private serviceID As String
+    Private serviceProviderID As String
+    Private serviceTypeID As String
+    Private serviceName As String
     Private userID As String = SessionManager.userID
+    Private loadingForm As Boolean = True ' Flag to track form loading
+
+    Dim startTime As TimeSpan
+    Dim endTime As TimeSpan
+
+
+    Dim buttonWidth As Integer = 75
+    Dim buttonHeight As Integer = 30
+    Dim buttonSpacing As Integer = 100
+    Dim hourFormat As String = "HH:mm:ss" ' Time format in the database
+
 
     ' Constructor to accept the string parameter
+    Public Sub New(ByVal str As String)
+        InitializeComponent()
+        appointmentType = str
+    End Sub
     Public Sub New(ByVal str As String, serviceID As String)
         InitializeComponent()
         appointmentType = str
@@ -22,26 +42,6 @@ Public Class Appointment_booking
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
 
-        ' MessageBox.Show("service ID: " & serviceID, "serviceID", MessageBoxButtons.OK,
-        'MessageBoxIcon.Information)
-
-        Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\appointment-book.png")
-
-        Try
-            If Not File.Exists(imagePath) Then
-                MessageBox.Show("Image file not found: " & imagePath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error loading image: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-
-        Dim im As New PictureBox()
-        im.SizeMode = PictureBoxSizeMode.StretchImage
-        im.Size = New Size(220, 220)
-        im.Location = New Point(800, 150)
-        im.Image = Image.FromFile(imagePath)
-
-        Me.Controls.Add(im)
 
         If (appointmentType = "Reschedule") Then
             Button10.Text = "Reschedule"
@@ -49,7 +49,51 @@ Public Class Appointment_booking
             Button10.Text = "Proceed to Pay"
         End If
 
+
+        ' Fetch service name and service provider name from the database
+        Dim serviceProviderName As String = ""
+        GetServiceProviderID(serviceID)
+
+        FetchServiceProviderTiming(serviceProviderID)
+
+        GetServiceProviderName(serviceProviderID, serviceProviderName)
+
+        ' Display service name and service provider name in a label
+        Label2.Text = serviceName & ", " & serviceProviderName
+
+        ' Fetch all locations for the given service ID and populate them in the combobox dropdown
+        FetchLocations(serviceTypeID, serviceName, serviceProviderID)
+
+        ' Select the first item in the ComboBox
+        ComboBox1.SelectedIndex = 0
+
+        Dim minimumNoticeHours As Integer = GetMinimumNoticeHours(serviceProviderID)
+
+        ' Set the minimum date of the DateTimePicker
+        DateTimePicker1.MinDate = DateTime.Now.AddHours(minimumNoticeHours)
+
+        ' Set loadingForm flag to false after initial setup
+        loadingForm = False
+
     End Sub
+
+    Private Function GetMinimumNoticeHours(serviceProviderID As String) As Integer
+        Dim query As String = "SELECT minimumNoticeHours FROM serviceproviders WHERE serviceProviderID = @ServiceProviderID"
+        Dim minimumNoticeHours As Integer = 0
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@ServiceProviderID", serviceProviderID)
+                connection.Open()
+                Dim result As Object = command.ExecuteScalar()
+                If result IsNot Nothing AndAlso Not DBNull.Value.Equals(result) Then
+                    minimumNoticeHours = Convert.ToInt32(result)
+                End If
+            End Using
+        End Using
+
+        Return minimumNoticeHours
+    End Function
 
     Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
@@ -58,6 +102,207 @@ Public Class Appointment_booking
             Panel3.Controls.Clear()
         End If
     End Sub
+
+    Private Function GetServiceProviderID(serviceID As String) As String
+
+        Dim query As String = "SELECT * FROM services WHERE serviceID = @ServiceID"
+        Using connection As New MySqlConnection(connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@ServiceID", serviceID)
+                connection.Open()
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    If reader.Read() Then
+                        serviceProviderID = reader("serviceProviderID").ToString()
+                        serviceName = reader("serviceName").ToString()
+                        serviceTypeID = reader("serviceTypeID").ToString()
+                    End If
+                End Using
+            End Using
+        End Using
+    End Function
+
+    Private Function GetServiceProviderName(serviceID As String, ByRef serviceProviderName As String) As String
+
+        Dim query As String = "SELECT * FROM serviceproviders WHERE serviceProviderID = @ServiceProviderID"
+        Using connection As New MySqlConnection(connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@ServiceProviderID", serviceProviderID)
+                connection.Open()
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    If reader.Read() Then
+                        serviceProviderName = reader("serviceProviderName").ToString()
+                    End If
+                End Using
+            End Using
+        End Using
+    End Function
+
+
+    Private Sub FetchServiceProviderTiming(serviceProviderID As String)
+        ' Fetch start and end time of the service provider for the selected day of the week from the database
+        Dim query As String = "SELECT * FROM workHours AS wh WHERE wh.serviceProviderID = @ServiceProviderID LIMIT 1"
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@ServiceProviderID", serviceProviderID)
+                connection.Open()
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    If reader.Read() Then
+                        startTime = reader.GetTimeSpan(reader.GetOrdinal("startTime"))
+                        endTime = reader.GetTimeSpan(reader.GetOrdinal("endTime"))
+                    End If
+                End Using
+            End Using
+        End Using
+    End Sub
+
+
+    Private Sub FetchLocations(serviceTypeID As String, serviceName As String, serviceProviderID As String)
+        ' Clear existing items in ComboBox1
+        ComboBox1.Items.Clear()
+
+        ' Query to fetch locations based on serviceTypeID, serviceName, and serviceProviderID
+        Dim query As String = "SELECT sa.location " &
+                          "FROM services AS s " &
+                          "INNER JOIN serviceAreas AS sa ON s.areaID = sa.areaID " &
+                          "WHERE s.serviceTypeID = @ServiceTypeID " &
+                          "AND s.serviceName = @ServiceName " &
+                          "AND s.serviceProviderID = @ServiceProviderID"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@ServiceTypeID", serviceTypeID)
+                command.Parameters.AddWithValue("@ServiceName", serviceName)
+                command.Parameters.AddWithValue("@ServiceProviderID", serviceProviderID)
+                connection.Open()
+                Using reader As MySqlDataReader = command.ExecuteReader()
+                    While reader.Read()
+                        ' Add each location to ComboBox1
+                        ComboBox1.Items.Add(reader("location").ToString())
+                    End While
+                End Using
+            End Using
+        End Using
+    End Sub
+
+
+    Private Function CheckAppointmentExists(serviceID As Integer, startTime As TimeSpan, location As String, timeslotDate As DateTime, appointmentStatus As String) As Boolean
+        Dim query As String = "SELECT COUNT(*) FROM appointments AS a " &
+                          "INNER JOIN serviceAreaTimeslots AS sat ON a.areaTimeslotID = sat.areaTimeslotID " &
+                          "INNER JOIN serviceAreas AS sa ON sat.areaID = sa.areaID " &
+                          "WHERE a.serviceID = @ServiceID " &
+                          "AND sat.startTime = @StartTime " &
+                          "AND sa.location = @Location " &
+                          "AND DATE(sat.timeslotDate) = @TimeslotDate " &
+                          "AND a.appointmentStatus = @AppointmentStatus"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@ServiceID", serviceID)
+                command.Parameters.AddWithValue("@StartTime", startTime.ToString("hh\:mm\:ss")) ' Convert TimeSpan to string in HH:mm:ss format
+                command.Parameters.AddWithValue("@Location", location)
+                command.Parameters.AddWithValue("@TimeslotDate", timeslotDate.Date) ' Extract date part
+                command.Parameters.AddWithValue("@AppointmentStatus", appointmentStatus)
+                connection.Open()
+                Dim count As Integer = Convert.ToInt32(command.ExecuteScalar())
+                Return count > 0
+            End Using
+        End Using
+    End Function
+
+
+
+
+    Private Function GetServicePrice(serviceID As String) As Decimal
+        ' Retrieve the price of the service from the database using the service ID
+        Dim query As String = "SELECT price FROM services WHERE serviceID = @ServiceID"
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@ServiceID", serviceID)
+                connection.Open()
+                Dim price As Object = command.ExecuteScalar()
+                If price IsNot Nothing AndAlso Not Convert.IsDBNull(price) Then
+                    Return Convert.ToDecimal(price)
+                Else
+                    Return 0 ' Return 0 if price not found (handle appropriately in your application)
+                End If
+            End Using
+        End Using
+    End Function
+
+
+    Private Sub DisplayButtons(selectedDate As DateTime)
+
+        Dim morningButtons As New List(Of Button)()
+        Dim afternoonButtons As New List(Of Button)()
+        Dim eveningButtons As New List(Of Button)()
+        Dim nightButtons As New List(Of Button)()
+
+        ' Display buttons for each hour between start and end times
+        Dim currentTime As TimeSpan = startTime
+        Dim verticalPosition As Integer = 350 ' Initial vertical position
+
+        Do While currentTime <= endTime
+            Dim button As New Button()
+
+            button.Text = TimeSpanToDateTime(selectedDate, currentTime).ToString("hh tt") ' Display hour in 12-hour format
+            button.Width = buttonWidth
+            button.Height = buttonHeight
+
+            button.Font = New Font("Bahnschrift Light", 10, FontStyle.Regular)
+            button.ForeColor = Color.Black
+            button.BackColor = Color.White
+            button.FlatStyle = FlatStyle.Flat
+
+
+            ' Determine the time period (morning, afternoon, evening, night) and set the horizontal position accordingly
+            If currentTime.Hours < 12 Then
+                button.Left = 150 + (morningButtons.Count * buttonSpacing) ' Morning
+                morningButtons.Add(button)
+            ElseIf currentTime.Hours < 17 Then
+                button.Left = 150 + (afternoonButtons.Count * buttonSpacing) ' Afternoon
+                afternoonButtons.Add(button)
+            ElseIf currentTime.Hours < 20 Then
+                button.Left = 150 + (eveningButtons.Count * buttonSpacing) ' Evening
+                eveningButtons.Add(button)
+            Else
+                button.Left = 150 + (nightButtons.Count * buttonSpacing) ' Night
+                nightButtons.Add(button)
+            End If
+
+
+            Dim location As String = If(ComboBox1.SelectedItem IsNot Nothing, ComboBox1.SelectedItem.ToString(), "")
+
+            ' Check if an appointment exists for the selected location, date, and start time
+            Dim appointmentExists As Boolean = CheckAppointmentExists(serviceID, currentTime, location, selectedDate, "Scheduled")
+
+            ' Set button state based on appointment existence
+            button.Enabled = Not appointmentExists
+
+            ' Add button click event handler
+            AddHandler button.Click, AddressOf Button_Click
+
+            button.Top = verticalPosition ' Set the vertical position of buttons
+            Me.Controls.Add(button)
+
+
+            ' Move to the next hour
+            currentTime = currentTime.Add(New TimeSpan(1, 0, 0))
+
+            ' Update the vertical position for the next row
+            If currentTime.Hours = 12 OrElse currentTime.Hours = 17 OrElse currentTime.Hours = 20 Then
+                verticalPosition += 50 ' Increase vertical position for the next row
+            End If
+        Loop
+    End Sub
+
+    ' Helper function to convert TimeSpan to DateTime with a specific date
+    Private Function TimeSpanToDateTime(selectedDate As DateTime, time As TimeSpan) As DateTime
+        ' Combine selectedDate with the time component from the TimeSpan
+        Dim dateTimeWithTime As DateTime = selectedDate.Date.Add(time)
+        Return dateTimeWithTime
+    End Function
+
+
 
     Private Sub RescheduleAppointment(appointmentID As Integer, newDate As DateTime, newTime As String, newLocation As String)
         ' Define the SQL query to update the appointment details
@@ -99,19 +344,30 @@ Public Class Appointment_booking
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
 
-        Me.Close()
+        If ComboBox1.SelectedItem Is Nothing Then
+            MessageBox.Show("Please select a location before selecting a time slot.", "Select Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return
+        End If
 
-        If (appointmentType = "Reschedule") Then
-            Dim currentDateTime As DateTime = DateTime.Now
+        ' Check if a time slot is selected
+        If selectedTimeSlot Is Nothing Then
+            MessageBox.Show("Please select a time slot before proceeding with payment.", "Select Time Slot", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return
+        End If
+
+        Close()
+
+        If appointmentType = "Reschedule" Then
+            Dim currentDateTime = Date.Now
 
             ' Combine selected date and time
-            Dim selectedDateTime As DateTime = selectedDate.Date + TimeSpan.Parse(selectedTimeSlot)
+            Dim selectedDateTime = selectedDate.Date + TimeSpan.Parse(selectedTimeSlot)
             ' Check if the selected date and time are in the past
             If selectedDateTime <= currentDateTime Then
                 MessageBox.Show("Selected date and time cannot be in the past. Please select a future date and time for rescheduling.")
             Else
                 RemovePreviousForm()
-                RescheduleAppointment(SessionManager.appointmentID, selectedDate, selectedTimeSlot, selectedLocation)
+                RescheduleAppointment(appointmentID, selectedDate, selectedTimeSlot, selectedLocation)
                 'MessageBox.Show("Reschedule request sent.")
                 With AppointmentList_Customer
                     .TopLevel = False
@@ -123,6 +379,7 @@ Public Class Appointment_booking
             End If
         Else
             RemovePreviousForm()
+
             With Payment_Gateway
                 .TopLevel = False
                 .Dock = DockStyle.Fill
@@ -134,20 +391,125 @@ Public Class Appointment_booking
 
     End Sub
 
+    Private Function GetServiceID(serviceTypeID As String, serviceName As String, serviceProviderID As String, location As String) As String
+        ' Check if serviceTypeID, serviceName, and serviceProviderID are not empty
+        If Not String.IsNullOrEmpty(serviceTypeID) AndAlso Not String.IsNullOrEmpty(serviceName) AndAlso Not String.IsNullOrEmpty(serviceProviderID) Then
+            ' Query to find the serviceID based on location, serviceTypeID, serviceName, and serviceProviderID
+            Dim query As String = "SELECT s.serviceID " &
+                              "FROM services AS s " &
+                              "INNER JOIN serviceAreas AS sa ON s.areaID = sa.areaID " &
+                              "WHERE s.serviceTypeID = @ServiceTypeID " &
+                              "AND s.serviceName = @ServiceName " &
+                              "AND s.serviceProviderID = @ServiceProviderID " &
+                              "AND sa.location = @Location"
+
+            Using connection As New MySqlConnection(SessionManager.connectionString)
+                Using command As New MySqlCommand(query, connection)
+                    command.Parameters.AddWithValue("@ServiceTypeID", serviceTypeID)
+                    command.Parameters.AddWithValue("@ServiceName", serviceName)
+                    command.Parameters.AddWithValue("@ServiceProviderID", serviceProviderID)
+                    command.Parameters.AddWithValue("@Location", location)
+                    connection.Open()
+                    Dim result As Object = command.ExecuteScalar()
+                    If result IsNot Nothing AndAlso Not DBNull.Value.Equals(result) Then
+                        ' Return the serviceID as string
+                        Return result.ToString()
+                    End If
+                End Using
+            End Using
+        End If
+
+        ' If serviceID is not found, return an empty string
+        Return ""
+    End Function
 
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
-        selectedLocation = ComboBox1.SelectedItem.ToString()
+
+        ' Check if nothing is selected in ComboBox1 (index is -1)
+        If ComboBox1.SelectedIndex = -1 Then
+            ' Set selectedLocation to Nothing
+            selectedLocation = Nothing
+        Else
+            ' Clear existing buttons
+            ClearButtons()
+
+            ' Get the selected location from ComboBox1
+            selectedLocation = ComboBox1.SelectedItem.ToString()
+
+            ' Get the serviceID based on the selected location and previously found service parameters
+            serviceID = GetServiceID(serviceTypeID, serviceName, serviceProviderID, selectedLocation)
+
+            ' Check if serviceID is empty
+            If String.IsNullOrEmpty(serviceID) Then
+                MessageBox.Show("Service ID not found for the selected location.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+
+            ' Display buttons for each hour between start and end times
+            DisplayButtons(selectedDate)
+        End If
+
+
     End Sub
 
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
-        selectedDate = DateTimePicker1.Value
+
+    Private Sub ClearButtons()
+        For i As Integer = Me.Controls.Count - 1 To 0 Step -1
+            If TypeOf Me.Controls(i) Is Button AndAlso Me.Controls(i) IsNot Button10 AndAlso Me.Controls(i) IsNot Button11 Then
+                Me.Controls.RemoveAt(i)
+            End If
+        Next
     End Sub
-    Private Sub ButtonTimeSlot_Click(sender As Object, e As EventArgs) Handles Button1.Click, Button2.Click, Button3.Click, Button4.Click, Button5.Click, Button6.Click, Button7.Click, Button8.Click, Button9.Click
+
+
+    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
+        ' Clear existing buttons
+        ClearButtons()
+
+        selectedTimeSlot = Nothing
+
+        If Not loadingForm Then
+            If ComboBox1.SelectedIndex = -1 Then
+                MessageBox.Show("please select a location before choosing a date.", "select location", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                'datetimepicker1.value = datetime.today ' reset the date picker
+                Return
+            End If
+        End If
+
+
+        Dim selectedDate As DateTime = DateTimePicker1.Value
+
+        ' Fetch service provider timings for the selected day of the week
+        'Dim dayOfWeek As DayOfWeek = selectedDate.DayOfWeek
+
+        ' Display buttons for each hour between start and end times
+        DisplayButtons(selectedDate)
+    End Sub
+
+
+    Private Sub Button_Click(sender As Object, e As EventArgs)
+
         ' Determine which button was clicked and extract the selected time slot
         Dim clickedButton As Button = DirectCast(sender, Button)
-        Dim timeValue As String = clickedButton.Text
-        Dim parsedTime As DateTime = DateTime.ParseExact(timeValue, "hh:mm tt", CultureInfo.InvariantCulture)
+
+        '' Check if a date is selected
+        'If DateTimePicker1.Value.Date = Date.Today Then
+        '    MessageBox.Show("Please select a date before selecting a time slot.", "Select Date", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    Return
+        'End If
+
+        ' Parse the time from the clicked button
+        Dim parsedTime = Date.ParseExact(clickedButton.Text, "hh tt", CultureInfo.InvariantCulture)
         selectedTimeSlot = parsedTime.ToString("HH:mm:ss")
+
+        ' Calculate the price of the service using the service ID from the database
+        Dim servicePrice = GetServicePrice(serviceID)
+
+        ' Print the price in a label
+        Label12.Text = "Rs. " & servicePrice.ToString("0.00")
+
+        ' Calculate and print 50% of the price in a different label
+        advancepayment = servicePrice * 0.5
+        Label13.Text = "Rs. " & advancepayment.ToString("0.00")
     End Sub
 
 End Class
