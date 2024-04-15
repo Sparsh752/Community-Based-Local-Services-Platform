@@ -23,7 +23,7 @@ Public Class Appointment_booking
         Me.Size = New Size(1200, 700)
 
         ' MessageBox.Show("service ID: " & serviceID, "serviceID", MessageBoxButtons.OK,
-        MessageBoxIcon.Information)
+        'MessageBoxIcon.Information)
 
         Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\appointment-book.png")
 
