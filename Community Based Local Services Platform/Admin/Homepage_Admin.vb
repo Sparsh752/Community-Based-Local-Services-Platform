@@ -1,4 +1,12 @@
-﻿Public Class Homepage_Admin
+﻿Imports System.Diagnostics.Eventing
+Imports System.IO
+
+Public Class Homepage_Admin
+
+
+    Public Queries As DataTable = New DataTable()
+    Public NotVerifiedSPs As DataTable = New DataTable()
+    Public VerifiedSPs As DataTable = New DataTable()
     Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
         If SessionManager.Panel3.Controls.Count > 0 Then
@@ -6,6 +14,74 @@
             SessionManager.Panel3.Controls.Clear()
         End If
     End Sub
+
+    Private Sub RetrieveVerifiedSP()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName as name,sp.serviceProviderPhotos as photos,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM serviceproviders as sp JOIN contactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Approved'"
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            VerifiedSPs.Load(reader)
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        Finally
+            connection.Close()
+        End Try
+
+    End Sub
+
+    Private Sub RetrieveNotVerifiedSP()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName as name, sp.serviceProviderPhotos as photos, sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM serviceproviders as sp JOIN contactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Pending'"
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            NotVerifiedSPs.Load(reader)
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        End Try
+
+    End Sub
+
+    Private Sub RetrieveQueries()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = $"SELECT type AS QueryType, userID AS QueryBy, appointmentID as AppointmentID, queryDate AS QueryDate, description AS Description, status AS Status FROM AddressQueries as aq ORDER BY queryDate DESC;"
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            Queries.Load(reader)
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        Finally
+            connection.Close()
+        End Try
+
+    End Sub
+
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         RemovePreviousForm()
         All_Queries.Margin = New Padding(10, 10, 10, 10)
@@ -37,12 +113,114 @@
         Me.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
         DataGridView1.ColumnHeadersDefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
         DataGridView1.DefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
+        Queries.Clear()
+        VerifiedSPs.Clear()
+        NotVerifiedSPs.Clear()
+        RetrieveQueries()
+        RetrieveNotVerifiedSP()
+        RetrieveVerifiedSP()
+        For i As Integer = 1 To Math.Min(6, Queries.Rows.Count)
+            Dim ithRow As DataRow = Queries.Rows(i - 1)
+            Dim queryType As String = ithRow("QueryType").ToString()
+            Dim queryBy As String = ithRow("QueryBy").ToString()
+            Dim appointmentID As String = ithRow("AppointmentID").ToString()
+            Dim queryDate As String = ithRow("QueryDate").ToString()
+            Dim description As String = ithRow("Description").ToString()
+            Dim status As String = ithRow("Status").ToString()
+            DataGridView1.Rows.Add(queryType, queryBy, appointmentID, queryDate, description, status)
+        Next
+        If VerifiedSPs.Rows.Count >= 1 Then
+            Dim row As DataRow = VerifiedSPs.Rows(0)
+            Label6.Text = row("name")
+            If Not row.IsNull("photos") Then
+                ' Retrieve the byte array from the "userPhoto" column
+                Dim userPhoto As Byte() = DirectCast(row("photos"), Byte())
+
+                ' Check if user photo is not null
+                If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                    ' Convert byte array to image and display it
+                    Using ms As New MemoryStream(userPhoto)
+                        ' Set the PictureBox properties and display the image
+                        PictureBox4.SizeMode = PictureBoxSizeMode.StretchImage
+                        PictureBox4.Image = Image.FromStream(ms)
+                    End Using
+                Else
+                    ' If user photo is null, set a default image or display a placeholder
+                    PictureBox4.Image = My.Resources.Resource1.displayPicture
+                End If
+            End If
+        End If
+
+        If VerifiedSPs.Rows.Count >= 2 Then
+            Dim row As DataRow = VerifiedSPs.Rows(1)
+            Label7.Text = row("name")
+            If Not row.IsNull("photos") Then
+                ' Retrieve the byte array from the "userPhoto" column
+                Dim userPhoto As Byte() = DirectCast(row("photos"), Byte())
+
+                ' Check if user photo is not null
+                If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                    ' Convert byte array to image and display it
+                    Using ms As New MemoryStream(userPhoto)
+                        ' Set the PictureBox properties and display the image
+                        PictureBox3.SizeMode = PictureBoxSizeMode.StretchImage
+                        PictureBox3.Image = Image.FromStream(ms)
+                    End Using
+                Else
+                    ' If user photo is null, set a default image or display a placeholder
+                    PictureBox3.Image = My.Resources.Resource1.displayPicture
+                End If
+            End If
+        End If
+
+        If NotVerifiedSPs.Rows.Count >= 1 Then
+            Dim row As DataRow = NotVerifiedSPs.Rows(0)
+            Label5.Text = row("name")
+            If Not row.IsNull("photos") Then
+                ' Retrieve the byte array from the "userPhoto" column
+                Dim userPhoto As Byte() = DirectCast(row("photos"), Byte())
+
+                ' Check if user photo is not null
+                If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                    ' Convert byte array to image and display it
+                    Using ms As New MemoryStream(userPhoto)
+                        ' Set the PictureBox properties and display the image
+                        PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
+                        PictureBox1.Image = Image.FromStream(ms)
+                    End Using
+                Else
+                    ' If user photo is null, set a default image or display a placeholder
+                    PictureBox1.Image = My.Resources.Resource1.displayPicture
+                End If
+            End If
+        End If
+
+        If NotVerifiedSPs.Rows.Count >= 2 Then
+            Dim row As DataRow = NotVerifiedSPs.Rows(1)
+            Label4.Text = row("name")
+            If Not row.IsNull("photos") Then
+                ' Retrieve the byte array from the "userPhoto" column
+                Dim userPhoto As Byte() = DirectCast(row("photos"), Byte())
+
+                ' Check if user photo is not null
+                If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                    ' Convert byte array to image and display it
+                    Using ms As New MemoryStream(userPhoto)
+                        ' Set the PictureBox properties and display the image
+                        PictureBox2.SizeMode = PictureBoxSizeMode.StretchImage
+                        PictureBox2.Image = Image.FromStream(ms)
+                    End Using
+                Else
+                    ' If user photo is null, set a default image or display a placeholder
+                    PictureBox2.Image = My.Resources.Resource1.displayPicture
+                End If
+            End If
+        End If
+
+
+
+
+
         LinkLabel1.LinkBehavior = LinkBehavior.NeverUnderline
         LinkLabel2.LinkBehavior = LinkBehavior.NeverUnderline
         LinkLabel3.LinkBehavior = LinkBehavior.NeverUnderline
@@ -102,6 +280,9 @@
             Next
 
             Dim Reply As New Reply_Query()
+            Reply.description = Queries.Rows(e.RowIndex)("Description")
+            Reply.status = Queries.Rows(e.RowIndex)("Status")
+            Reply.title = Queries.Rows(e.RowIndex)("QueryType")
             Reply.Show()
         End If
     End Sub

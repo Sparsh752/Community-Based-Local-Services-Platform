@@ -127,6 +127,8 @@ Public Class All_Service_Providers
         Catch ex As Exception
             ' Handle connection errors
             MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        Finally
+            connection.Close()
         End Try
 
     End Sub

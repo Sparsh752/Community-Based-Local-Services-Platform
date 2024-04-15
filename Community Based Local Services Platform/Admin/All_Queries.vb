@@ -1,4 +1,5 @@
 ﻿Public Class All_Queries
+    Public Queries As DataTable = New DataTable()
     Private Sub DataGridView1_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles DataGridView1.CellPainting
         If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 AndAlso e.ColumnIndex <= 5 Then
             ' Draw cell border
@@ -15,6 +16,29 @@
             e.Handled = True
         End If
     End Sub
+    Private Sub RetrieveQueries()
+        Dim connection As New MySqlConnection(SessionManager.connectionString)
+
+        Try
+            connection.Open()
+            ' Connection established successfully
+
+            Dim query As String = $"SELECT type AS QueryType, userID AS QueryBy, appointmentID as AppointmentID, queryDate AS QueryDate, description AS Description, status AS Status FROM AddressQueries as aq ORDER BY queryDate DESC;"
+            Dim command As New MySqlCommand(query, connection)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            Queries.Load(reader)
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        Finally
+            connection.Close()
+        End Try
+
+    End Sub
+
     Private Sub All_Queries_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.BackColor = Color.White
         Me.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
@@ -23,40 +47,18 @@
         DataGridView1.DefaultCellStyle.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
         Me.Size = New Size(1200, 700)
         DataGridView1.Location = New Point(0, 0)
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
-        DataGridView1.Rows.Add("1", "John", "30", "1", "John", "30")
 
+        RetrieveQueries()
+        For i As Integer = 1 To Queries.Rows.Count
+            Dim ithRow As DataRow = Queries.Rows(i - 1)
+            Dim queryType As String = ithRow("QueryType").ToString()
+            Dim queryBy As String = ithRow("QueryBy").ToString()
+            Dim appointmentID As String = ithRow("AppointmentID").ToString()
+            Dim queryDate As String = ithRow("QueryDate").ToString()
+            Dim description As String = ithRow("Description").ToString()
+            Dim status As String = ithRow("Status").ToString()
+            DataGridView1.Rows.Add(queryType, queryBy, appointmentID, queryDate, description, status)
+        Next
         ' Subscribe to the CellContentClick event of the DataGridView
         AddHandler DataGridView1.CellContentClick, AddressOf DataGridView1_CellContentClick
     End Sub
