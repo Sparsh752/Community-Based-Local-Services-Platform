@@ -2,6 +2,8 @@
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Public Class InProgressPaymentNotDone
 
+    Private chatPanel As New Panel()
+    Public _serviceID As String
     Public Sub CheckOrGenerateOTP(appointmentID As Integer)
         Dim checkQuery As String = "SELECT otpCode 
             FROM OTPs 
@@ -22,7 +24,7 @@ Public Class InProgressPaymentNotDone
                     OTP_box.Text = existingOTP
                 Else
                     Dim random As New Random()
-                    Dim newOTP As Integer = random.Next(100000, 999999)
+                    Dim newOTP As Integer = random.Next(1000, 9999)
 
                     Using insertCommand As New MySqlCommand(insertQuery, connection)
                         insertCommand.Parameters.AddWithValue("@appointmentID", appointmentID)
@@ -58,7 +60,6 @@ Public Class InProgressPaymentNotDone
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle
@@ -78,18 +79,25 @@ Public Class InProgressPaymentNotDone
 
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         RemovePreviousForm()
 
         Dim str As String = "Reschedule"
-        Dim appointmentBookingForm As New Appointment_booking(str)
+        Dim appointmentBookingForm As New Appointment_booking(str, serviceID:=_serviceID) ' need to get serviceID in this form
 
         With appointmentBookingForm
             .TopLevel = False
@@ -130,7 +138,7 @@ Public Class InProgressPaymentNotDone
 
     Private Sub UpdateAppointment()
         Dim updateQuery As String = "UPDATE appointments " &
-                            "SET appointmentStatus = 'Cancelled' " &
+                            "SET appointmentStatus = 'Canceled' " &
                             "WHERE appointmentID = @appointmentID"
 
         ' Create a new connection object
@@ -153,11 +161,47 @@ Public Class InProgressPaymentNotDone
 
     End Sub
 
+    Private Sub UpdateCancelationAmount()
+
+        Dim query =
+        "INSERT INTO cancelledAppointments (cancellationTime, refundAmount, appointmentID)
+        SELECT 
+            NOW() AS cancellationTime,
+            CASE
+                WHEN TIMESTAMPDIFF(HOUR, NOW(), CONCAT(DATE(serviceAreaTimeslots.timeslotDate), ' ', serviceAreaTimeslots.startTime)) >= 48 THEN appointments.bookingAdvance
+                WHEN TIMESTAMPDIFF(HOUR, NOW(), CONCAT(DATE(serviceAreaTimeslots.timeslotDate), ' ', serviceAreaTimeslots.startTime)) < 24 THEN 0
+                ELSE ((TIMESTAMPDIFF(HOUR, NOW(), CONCAT(DATE(serviceAreaTimeslots.timeslotDate), ' ', serviceAreaTimeslots.startTime)) - 24) / 25.0) * appointments.bookingAdvance
+            END AS refundAmount,
+            appointments.appointmentID
+        FROM 
+            appointments
+        INNER JOIN 
+            serviceAreaTimeslots ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID
+        WHERE 
+            appointments.appointmentID = @appointmentID;
+"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+
+            Using command As New MySqlCommand(query, connection)
+
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                command.ExecuteScalar()
+
+            End Using
+            connection.Close()
+        End Using
+
+    End Sub
+
+
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Dim result As DialogResult = MessageBox.Show("Are you sure you want to cancel the appointment?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If result = DialogResult.Yes Then
             UpdateAppointment()
+            UpdateCancelationAmount()
             RemovePreviousForm()
             Me.Close()
             With AppointmentList_Customer
@@ -172,6 +216,15 @@ Public Class InProgressPaymentNotDone
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+
+
         Me.Close()
         With AppointmentList_Customer
             .TopLevel = False

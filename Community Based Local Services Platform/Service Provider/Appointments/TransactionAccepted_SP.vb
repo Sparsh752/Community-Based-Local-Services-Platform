@@ -8,6 +8,8 @@
     Private ServiceLocation As String
     Private appointmentID As String
     Private spID As String
+
+    Private chatPanel As New Panel()
     Private Sub TransactionAccepted_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim query As String = "SELECT 
             users.userName AS CustomerName, 
@@ -48,8 +50,8 @@
             ' Create a new command object with the query and connection
             Using command As New MySqlCommand(query, connection)
                 ' Set the parameter value for appointmentID
-                command.Parameters.AddWithValue("@appointmentID", 1) ' Replace YourAppointmentID with the actual appointment ID you want to retrieve details for
-                command.Parameters.AddWithValue("@spID", 1) ' Replace spID with the actual SP ID you want to retrieve details for
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID) ' Replace YourAppointmentID with the actual appointment ID you want to retrieve details for
+                command.Parameters.AddWithValue("@spID", SessionManager.spID) ' Replace spID with the actual SP ID you want to retrieve details for
                 ' Execute the command and get the data reader
                 Using reader As MySqlDataReader = command.ExecuteReader()
                     ' Read the data
@@ -102,16 +104,32 @@
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
 
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+
+        Me.Close()
 
         With AppointmentList_SP
             .TopLevel = False
@@ -124,7 +142,6 @@
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle

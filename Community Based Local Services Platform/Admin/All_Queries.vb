@@ -16,6 +16,7 @@
             e.Handled = True
         End If
     End Sub
+    
     Private Sub RetrieveQueries()
         Dim connection As New MySqlConnection(SessionManager.connectionString)
 
@@ -68,6 +69,7 @@
         If e.ColumnIndex = DataGridView1.Columns("View").Index AndAlso e.RowIndex >= 0 Then
             ' Handle the "View" button click for the specific row
             Dim appointmentId As String = DataGridView1.Rows(e.RowIndex).Cells("AppointmentID").Value.ToString()
+            Dim queryId As String = DataGridView1.Rows(e.RowIndex).Cells("QueryID").Value.ToString()
             ' You can perform actions based on the appointment ID, such as opening a new form or displaying details
             ' Check if a Reply_Query form is already open
             For Each form As Form In Application.OpenForms
@@ -78,6 +80,7 @@
             Next
 
             Dim Reply As New Reply_Query()
+            Reply.QueryID = queryId
             Reply.Show()
         End If
     End Sub

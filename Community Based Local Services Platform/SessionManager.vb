@@ -11,4 +11,5 @@
     Public spID As Integer
     Public appointmentID As Integer
     Public sp_userID As Integer ' for userID from service provider table
+    Public serviceID As Integer
 End Module

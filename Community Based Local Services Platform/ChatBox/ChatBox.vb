@@ -1,4 +1,5 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Community_Based_Local_Services_Platform.ChatBox
 
 Public Class ChatBox
 
@@ -11,10 +12,10 @@ Public Class ChatBox
         Public Property IsRead As Boolean
         Public Property MessageID As Integer
 
-        Public Sub New(ByVal time As DateTime, ByVal text As String, ByVal sender As String, ByVal isRead As Boolean, ByVal messageID As Integer)
+        Public Sub New(ByVal time As DateTime, ByVal text As String, ByVal sender1 As String, ByVal isRead As Boolean, ByVal messageID As Integer)
             Me.Time = time
             Me.Text = text
-            Me.Sender = sender
+            Me.Sender = sender1
             Me.IsRead = isRead
             Me.MessageID = messageID
         End Sub
@@ -24,8 +25,9 @@ Public Class ChatBox
     Dim messages1 As New List(Of Message)()
     Private Sub ChatBox_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        'messages(0) = "hello"
-        'messages(1) = "welcome"
+        messages.Clear()
+        messages1.Clear()
+
         curMessageID = -2
 
         Me.Size = New Size(437, 506)
@@ -34,6 +36,7 @@ Public Class ChatBox
 
         Label1.Location = New Point(150, 6)
 
+        Panel1.Controls.Clear()
         Panel1.Location = New Point(37, 45)
         Panel1.Size = New Size(361, 340)
         Panel1.BackColor = Color.White
@@ -92,6 +95,7 @@ Public Class ChatBox
             End If
 
             Panel1.Controls.Add(newMessageLabel)
+            'MessageBox.Show(message.MessageID & " ww")
             curMessageID = message.MessageID
 
             If Panel1.Controls.Count > 1 Then
@@ -101,6 +105,14 @@ Public Class ChatBox
             currentLastLocation = newMessageLabel.Bottom + 10
             Panel1.AutoScrollPosition = New Point(0, Panel1.VerticalScroll.Maximum)
         Next
+
+        'MessageBox.Show(curMessageID)
+
+        If refreshTimer.Enabled = False Then
+            refreshTimer.Enabled = True
+            'MessageBox.Show("Timer start")
+        End If
+
     End Function
 
     Private Sub RealTimeLoad()
@@ -119,11 +131,15 @@ Public Class ChatBox
             Dim textSize As SizeF = TextRenderer.MeasureText(message.Text, newMessageLabel.Font)
             newMessageLabel.Width = CInt(textSize.Width) + 10
 
+            'MessageBox.Show(message.Sender & message.MessageID)
+
             If (message.Sender = "Me") Then
+                'MessageBox.Show("Me : " & message.Text)
                 newMessageLabel.Width = CInt(textSize.Width) + 16
                 newMessageLabel.Left = Panel1.Width - newMessageLabel.Width - 20
                 newMessageLabel.BackColor = ColorTranslator.FromHtml("#F9754B")
             Else
+                'MessageBox.Show("Rec : " & message.Text)
                 newMessageLabel.Left = 20
                 newMessageLabel.BackColor = ColorTranslator.FromHtml("#124E55")
             End If
@@ -168,6 +184,7 @@ Public Class ChatBox
     End Sub
 
     Private Sub LoadOldMessages()
+        'MessageBox.Show(SessionManager.appointmentID)
         Dim query As String = "SELECT m.*, 
            CASE 
                WHEN m.senderID = @senderID THEN 'Me' 
@@ -195,10 +212,11 @@ Public Class ChatBox
                     While reader.Read()
                         Dim time As DateTime = Convert.ToDateTime(reader("sentDateTime"))
                         Dim text As String = reader("messageText")
-                        Dim sender As String = If(reader("messageSide").ToString() = "Me", "Me", "Receiver")
+                        Dim sender1 As String = reader("messageSide").ToString()
                         Dim isRead As Boolean = reader("isRead")
                         Dim messageID As Integer = reader("messageID")
-                        Dim message As New Message(time, text, sender, isRead, messageID)
+                        'MessageBox.Show(messageID & " * " & sender1)
+                        Dim message As New Message(time, text, sender1, isRead, messageID)
                         messages.Add(message)
                     End While
                 End Using
@@ -213,7 +231,7 @@ Public Class ChatBox
 
     Public Sub New()
         refreshTimer.Interval = 3000
-        refreshTimer.Enabled = True
+        refreshTimer.Enabled = False
         InitializeComponent()
     End Sub
 
@@ -248,9 +266,10 @@ Public Class ChatBox
                     While reader.Read()
                         Dim time As DateTime = Convert.ToDateTime(reader("sentDateTime"))
                         Dim text As String = reader("messageText")
-                        Dim sender1 As String = If(reader("messageSide").ToString() = "Me", "Me", "Receiver")
+                        Dim sender1 As String = reader("messageSide").ToString()
                         Dim isRead As Boolean = reader("isRead")
                         Dim messageID As Integer = reader("messageID")
+                        'MessageBox.Show(messageID & " " & sender1)
                         Dim message As New Message(time, text, sender1, isRead, messageID)
                         messages1.Add(message)
                     End While

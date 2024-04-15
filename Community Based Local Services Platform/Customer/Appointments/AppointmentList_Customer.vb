@@ -294,6 +294,7 @@ Public Class AppointmentList_Customer
                 contactDetails.mobileNumber,
                 serviceAreas.location,
                 services.price,
+                services.serviceID,
                 appointments.bookingAdvance,
                 serviceAreaTimeslots.timeslotDate,
                 appointments.appointmentStatus 
@@ -344,6 +345,7 @@ Public Class AppointmentList_Customer
                                 Dim sp_loc As String = reader("location").ToString()
                                 Dim sp_price As String = reader("price").ToString()
                                 Dim sp_adv As String = reader("bookingAdvance").ToString()
+                                Dim serviceID As String = reader("serviceID").ToString()
                                 ' Set the retrieved values to the corresponding textboxes
                                 InProgressPaymentNotDone.SP_name_tb.Text = sp_name
                                 InProgressPaymentNotDone.SP_service_tb.Text = sp_service
@@ -353,6 +355,7 @@ Public Class AppointmentList_Customer
                                 InProgressPaymentNotDone.SP_price.Text = sp_price
                                 InProgressPaymentNotDone.advpaid.Text = sp_adv
                                 InProgressPaymentNotDone.rembal.Text = sp_price - sp_adv
+                                InProgressPaymentNotDone._serviceID = serviceID
                             End If
                         End Using
                     End Using
@@ -369,7 +372,7 @@ Public Class AppointmentList_Customer
                 .BringToFront()
                 .Show()
             End With
-        ElseIf (status = "Cancelled") Then
+        ElseIf (status = "Canceled") Then
             With Cancelled_By_Customer
                 .TopLevel = False
                 .Dock = DockStyle.Fill

@@ -43,9 +43,14 @@ Public Class Registration_Request
             card.BorderStyle = BorderStyle.FixedSingle
             Dim pictureBox As New PictureBox()
             pictureBox.Size = New Size(169, 157)
-            pictureBox.SizeMode = PictureBoxSizeMode.Zoom
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage
             pictureBox.Location = New Point(21, 21)
             pictureBox.Image = My.Resources.Resource1.sample_SP
+            If Not ithRow("userPhoto") Is DBNull.Value Then
+                Dim bytes As Byte() = CType(ithRow("userPhoto"), Byte())
+                Dim ms As New MemoryStream(bytes)
+                pictureBox.Image = Image.FromStream(ms)
+            End If
             Dim label1 As New Label()
             label1.Text = ithRow("serviceProviderName").ToString()
             label1.AutoSize = False
@@ -97,7 +102,9 @@ Public Class Registration_Request
             label5.ForeColor = Color.FromArgb(0, 0, 0)
 
             Dim label6 As New Label()
-            label6.Text = "Services from 09:00 AM to 05:00 PM"
+            Dim starttime As String = ithRow("startTime").ToString()
+            Dim endtime As String = ithRow("endTime").ToString()
+            label6.Text = "Services from " & starttime & " to " & endtime
             label6.AutoSize = False
             label6.Size = New Size(268, 14)
             label6.Location = New Point(208, 76)
@@ -202,7 +209,8 @@ Public Class Registration_Request
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM serviceproviders as sp JOIN contactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Pending'"
+            Dim query As String = $"SELECT DISTINCT sp.userID, sp.serviceProviderName, sp.serviceProviderdescription, sp.experienceYears, cd.location, cd.mobileNumber, u.userPhoto, wh.startTime, wh.endTime FROM serviceproviders AS sp JOIN contactDetails AS cd ON sp.userID = cd.userID JOIN users AS u ON sp.userID = u.userID JOIN workHours AS wh ON sp.serviceProviderID = wh.serviceProviderID WHERE sp.registrationStatus = 'Pending'"
+
             Dim command As New MySqlCommand(query, connection)
 
             Dim reader As MySqlDataReader = command.ExecuteReader()

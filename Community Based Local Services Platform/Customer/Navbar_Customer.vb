@@ -180,8 +180,8 @@ Public Class Navbar_Customer
 
             notificationForm = New Notification()
             ' Set the location of the Notification form to be just below the NotificationButton
-            Dim xPosition As Integer = Me.Location.X + 49
-            Dim yPosition As Integer = Me.Location.Y + 78
+            Dim xPosition As Integer = Me.Location.X + 45
+            Dim yPosition As Integer = Me.Location.Y + 98
 
             notificationForm.StartPosition = FormStartPosition.Manual
             notificationForm.Location = New Point(xPosition, yPosition)
@@ -239,68 +239,66 @@ Public Class Navbar_Customer
         'SetActiveForm(Profile)
         line.Size = New Size(60, 2)
         line.Location = New Point(825, 47)
-        With Profile_Customer
-            .TopLevel = False
-            .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Profile_Customer)
 
-            'retrieve data
+        'retrieve data
 
-            ' Dim loadQuery As String = "SELECT email, location, mobileNumber,address FROM ContactDetails WHERE BINARY userID='" & SessionManager.userID & "'"
-            Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName, U.userPhoto " &
+        ' Dim loadQuery As String = "SELECT email, location, mobileNumber,address FROM ContactDetails WHERE BINARY userID='" & SessionManager.userID & "'"
+        Dim loadQuery As String = "SELECT CD.email, CD.location, CD.mobileNumber, CD.address, U.userName, U.userPhoto " &
                           "FROM contactDetails CD " &
                           "JOIN users U ON CD.userID = U.userID " &
                           "WHERE BINARY CD.userID='" & SessionManager.userID & "'"
 
-            Using connection As New MySqlConnection(SessionManager.connectionString)
-                Using command As New MySqlCommand(loadQuery, connection)
-                    Try
-                        connection.Open()
-                        Dim reader As MySqlDataReader = command.ExecuteReader()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(loadQuery, connection)
+                Try
+                    connection.Open()
+                    Dim reader As MySqlDataReader = command.ExecuteReader()
 
-                        If reader.Read() Then
+                    If reader.Read() Then
 
-                            Dim cus_email As String = reader("email").ToString()
-                            Dim cus_location As String = reader("location").ToString()
-                            Dim cus_mobile As String = reader("mobileNumber").ToString()
-                            Dim cus_address As String = reader("address").ToString()
-                            Dim cus_username As String = reader("userName").ToString()
+                        Dim cus_email As String = reader("email").ToString()
+                        Dim cus_location As String = reader("location").ToString()
+                        Dim cus_mobile As String = reader("mobileNumber").ToString()
+                        Dim cus_address As String = reader("address").ToString()
+                        Dim cus_username As String = reader("userName").ToString()
 
 
 
-                            ' Set the retrieved values to the corresponding textboxes
-                            Profile_Customer.email_tb.Text = cus_email
-                            Profile_Customer.location_tb.Text = cus_location
-                            Profile_Customer.contact_tb.Text = cus_mobile
-                            Profile_Customer.address_tb.Text = cus_address
-                            Profile_Customer.customerName_tb.Text = cus_username
+                        ' Set the retrieved values to the corresponding textboxes
+                        Profile_Customer.email_tb.Text = cus_email
+                        Profile_Customer.location_tb.Text = cus_location
+                        Profile_Customer.contact_tb.Text = cus_mobile
+                        Profile_Customer.address_tb.Text = cus_address
+                        Profile_Customer.customerName_tb.Text = cus_username
 
-                            ' Retrieve the user photo byte array from the database
-                            If Not reader.IsDBNull(reader.GetOrdinal("userPhoto")) Then
-                                Dim userPhoto As Byte() = DirectCast(reader("userPhoto"), Byte())
+                        ' Retrieve the user photo byte array from the database
+                        If Not reader.IsDBNull(reader.GetOrdinal("userPhoto")) Then
+                            Dim userPhoto As Byte() = DirectCast(reader("userPhoto"), Byte())
 
-                                ' Check if user photo is not null
-                                If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
-                                    ' Convert byte array to image and display it in the picture box
-                                    Using ms As New MemoryStream(userPhoto)
-                                        Profile_Customer.customerProfilePicture.SizeMode = PictureBoxSizeMode.StretchImage
-                                        Profile_Customer.customerProfilePicture.Image = Image.FromStream(ms)
-                                    End Using
-                                Else
-                                    ' If user photo is null, set a default image or display a placeholder
-                                    Profile_Customer.customerProfilePicture.Image = My.Resources.Resource1.displayPicture
-                                End If
+                            ' Check if user photo is not null
+                            If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                                ' Convert byte array to image and display it in the picture box
+                                Using ms As New MemoryStream(userPhoto)
+                                    Profile_Customer.customerProfilePicture.SizeMode = PictureBoxSizeMode.StretchImage
+                                    Profile_Customer.customerProfilePicture.Image = Image.FromStream(ms)
+                                End Using
+                            Else
+                                ' If user photo is null, set a default image or display a placeholder
+                                Profile_Customer.customerProfilePicture.Image = My.Resources.Resource1.displayPicture
                             End If
-
                         End If
-                    Catch ex As Exception
-                        MessageBox.Show("Error: " & ex.Message)
-                    End Try
-                End Using
+
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
+                End Try
             End Using
+        End Using
 
-
-
+        With Profile_Customer
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Profile_Customer)
             .BringToFront()
             .Show()
         End With
@@ -323,7 +321,7 @@ Public Class Navbar_Customer
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
         ' here you have add the logic of reverting the state of shared variable for cureent user to null
         ' Whoever is doing the bankend part will do this part.
-
+        RemovePreviousForm()
         Me.Hide()
 
         Dim form As New LandingPage()
@@ -339,6 +337,13 @@ Public Class Navbar_Customer
     ' Method to handle navigation to SP_profile form
     Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
+        For Each ctrl As Control In SessionManager.Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If SessionManager.Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             SessionManager.Panel3.Controls.Clear()
@@ -348,7 +353,7 @@ Public Class Navbar_Customer
     Public Sub ViewDetails_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Button).Tag, Display_Services.ServiceProvider)
 
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider)
         spProfileForm.TopLevel = False
         spProfileForm.FormBorderStyle = FormBorderStyle.None
         spProfileForm.Dock = DockStyle.Fill
@@ -369,7 +374,7 @@ Public Class Navbar_Customer
     Public Sub PictureBox_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, PictureBox).Tag, ServiceProvider)
         ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider)
         spProfileForm.TopLevel = False
         spProfileForm.FormBorderStyle = FormBorderStyle.None
         spProfileForm.Dock = DockStyle.Fill
@@ -390,7 +395,7 @@ Public Class Navbar_Customer
     Public Sub Label_Click(sender As Object, e As EventArgs)
         Dim provider As Display_Services.ServiceProvider = DirectCast(DirectCast(sender, Label).Tag, ServiceProvider)
         ' Open the SP_profile form and pass the provider details
-        Dim spProfileForm As New SP_profile(provider.Name, provider.Location, provider.TimeSlots, provider.ServiceName)
+        Dim spProfileForm As New SP_profile(provider)
         spProfileForm.TopLevel = False
         spProfileForm.FormBorderStyle = FormBorderStyle.None
         spProfileForm.Dock = DockStyle.Fill

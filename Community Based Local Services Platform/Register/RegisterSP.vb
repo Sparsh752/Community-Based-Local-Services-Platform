@@ -1,16 +1,18 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.IO
 
 Public Class RegisterSP
     Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
-
+    Public imageByte As Byte()
     Dim isStrongPassword As Boolean = False
 
     Private Sub RegisterSP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PopulateCountriesDropdown()
         YearsExperienceDropdown()
         PopulateNoticeHourDropdown()
+        PopulateTime()
         Me.Size = New Size(1200, 700)
         Me.CenterToScreen()
         Me.WindowState = FormWindowState.Normal
@@ -25,8 +27,8 @@ Public Class RegisterSP
         passwordSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         confirmSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         ExperienceDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        closingHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        startHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        GroupBox2.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        GroupBox3.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPaccText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         accHolderText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         ifscText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
@@ -68,17 +70,15 @@ Public Class RegisterSP
         locationDropdown.Font = labelfont
         Label1.Location = New Point(138, 624)
         Label1.Font = labelfont
-        startHoursText.Location = New Point(138, 655)
-        startHoursText.Font = labelfont
+        GroupBox2.Location = New Point(138, 655)
+        GroupBox3.Location = New Point(643, 655)
         closingHours.Location = New Point(643, 624)
         closingHours.Font = labelfont
-        closingHoursText.Location = New Point(643, 655)
-        closingHoursText.Font = labelfont
         SPdescription.Location = New Point(138, 716)
         SPdescription.Font = labelfont
-        TextBox2.Location = New Point(138, 748)
-        TextBox2.Font = labelfont
-        TextBox2.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        descriptionText.Location = New Point(138, 748)
+        descriptionText.Font = labelfont
+        descriptionText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPnoticeHours.Location = New Point(138, 855)
         SPnoticeHours.Font = labelfont
         NoticeHourDropdown.Location = New Point(138, 883)
@@ -111,8 +111,6 @@ Public Class RegisterSP
         RegisterSPSubmitBtn.Font = labelfont
         RegisterSPSubmitBtn.Size = New Size(150, 41)
         ExperienceDropdown.Size = New Size(286, 41)
-        closingHoursText.Size = New Size(286, 41)
-        startHoursText.Size = New Size(286, 41)
         SPaccText.Size = New Size(286, 41)
         accHolderText.Size = New Size(286, 41)
         bankNameText.Size = New Size(286, 41)
@@ -136,16 +134,6 @@ Public Class RegisterSP
             ' If the length exceeds 10 characters and the pressed key is not a control character, suppress it
             e.Handled = True
         End If
-    End Sub
-
-    Private Sub startHoursText_MouseHover(sender As Object, e As EventArgs) Handles startHoursText.MouseHover
-        ' Display a tooltip with the correct format for the start time
-        ToolTip1.Show("Enter time in format HH:MM:SS", startHoursText, 2000)
-    End Sub
-
-    Private Sub closingHoursText_MouseHover(sender As Object, e As EventArgs) Handles closingHoursText.MouseHover
-        ' Display a tooltip with the correct format for the closing time
-        ToolTip1.Show("Enter time in format HH:MM:SS", closingHoursText, 2000)
     End Sub
 
 
@@ -193,13 +181,16 @@ Public Class RegisterSP
     End Function
 
 
+    'Function for uploading profile picture
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles registerSPProfilePic.Click
         Try
             OpenFileDialogRegister.Title = "Open Picture"
-            OpenFileDialogRegister.Filter = "JPEG Files|*.jpg;*.jpeg|PNG Files|*.png|All Files|*.*"
+            OpenFileDialogRegister.Filter = "JPEG Files|.jpg;.jpeg|PNG Files|.png|All Files|.*"
             OpenFileDialogRegister.ShowDialog()
             If OpenFileDialogRegister.FileName <> "" Then
                 registerSPProfilePic.Image = System.Drawing.Image.FromFile(OpenFileDialogRegister.FileName)
+
+                imageByte = File.ReadAllBytes(OpenFileDialogRegister.FileName)
             End If
         Catch ex As Exception
             ' Handle any exceptions here
@@ -238,7 +229,136 @@ Public Class RegisterSP
         End If
     End Function
 
+    'Convert startTime, closingTime entered in textbox to TIMESPAN.
+    'Private Function ConvertToTimeSpan(timeString As String) As TimeSpan
+    '    Dim timeParts() As String = timeString.Split(":")
+    '    If timeParts.Length <> 2 Then
+    '        Throw New ArgumentException("Enter time (HH:MM)")
+    '    End If
 
+    '    Dim hours As Integer
+    '    Dim minutes As Integer
+
+    '    If Not Integer.TryParse(timeParts(0), hours) OrElse Not Integer.TryParse(timeParts(1), minutes) Then
+    '        Throw New ArgumentException("Invalid time format. Time should be in the format HH:mm.")
+    '    End If
+
+    '    If hours < 0 OrElse hours > 23 Then
+    '        Throw New ArgumentException("Hours should be between 0 and 23.")
+    '    End If
+
+    '    If minutes < 0 OrElse minutes > 59 Then
+    '        Throw New ArgumentException("Minutes should be between 0 and 59.")
+    '    End If
+
+    '    Return New TimeSpan(hours, minutes, 0)
+    'End Function
+
+
+    Function ContainsUpperCase(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Char.IsUpper(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+    Function ContainsLowerCase(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Char.IsLower(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+    Function ContainsDigit(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Char.IsDigit(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+    Function ContainsSpecialCharacter(ByVal inputString As String) As Boolean
+        For Each character As Char In inputString
+            If Not Char.IsLetterOrDigit(character) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+
+    Private Sub password_Text_TextChanged(sender As Object, e As EventArgs) Handles passwordSP_Text.TextChanged
+        Dim password As String = passwordSP_Text.Text
+
+        Dim checksPassed As Integer = 0
+
+        ' Checking length criteria
+        If password.Length >= 8 Then
+            checksPassed += 1
+            labelSize.Text = "✓" & labelSize.Text.Substring(1)
+            labelSize.ForeColor = Color.Green
+        Else
+            labelSize.Text = "✗" & labelSize.Text.Substring(1)
+            labelSize.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has a digit
+        If ContainsDigit(password) Then
+            checksPassed += 1
+            labelNumbers.Text = "✓" & labelNumbers.Text.Substring(1)
+            labelNumbers.ForeColor = Color.Green
+        Else
+            labelNumbers.Text = "✗" & labelNumbers.Text.Substring(1)
+            labelNumbers.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has a lowercase letter
+        If ContainsLowerCase(password) Then
+            checksPassed += 1
+            labelLower.Text = "✓" & labelLower.Text.Substring(1)
+            labelLower.ForeColor = Color.Green
+        Else
+            labelLower.Text = "✗" & labelLower.Text.Substring(1)
+            labelLower.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has a special character
+        If ContainsSpecialCharacter(password) Then
+            checksPassed += 1
+            labelSpecial.Text = "✓" & labelSpecial.Text.Substring(1)
+            labelSpecial.ForeColor = Color.Green
+        Else
+            labelSpecial.Text = "✗" & labelSpecial.Text.Substring(1)
+            labelSpecial.ForeColor = Color.Red
+        End If
+
+        ' Checking if the password has an uppercase letter
+        If ContainsUpperCase(password) Then
+            checksPassed += 1
+            labelUpper.Text = "✓" & labelUpper.Text.Substring(1)
+            labelUpper.ForeColor = Color.Green
+        Else
+            labelUpper.Text = "✗" & labelUpper.Text.Substring(1)
+            labelUpper.ForeColor = Color.Red
+        End If
+
+        If checksPassed < 5 Then
+            Return
+        End If
+
+        isStrongPassword = True
+    End Sub
+
+    Private Function PictureBoxImageToByteArray(pictureBox As PictureBox) As Byte()
+        Dim ms As New MemoryStream()
+        pictureBox.Image.Save(ms, pictureBox.Image.RawFormat) ' Save the image using its original format
+        Return ms.ToArray()
+    End Function
     Private Sub RegisterSubmitBtn_Click(sender As Object, e As EventArgs) Handles RegisterSPSubmitBtn.Click
         ' Check if the text in the password_Text and confirm_Text textboxes match
         ' Check if any of the textboxes are empty
@@ -269,27 +389,185 @@ Public Class RegisterSP
 
         End If
 
+        If Not isStrongPassword Then
+            MessageBox.Show("Enter a strong password.")
+            Return
+        End If
+
         If String.IsNullOrWhiteSpace(emailSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(nameSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(ExperienceDropdown.Text) OrElse
-       String.IsNullOrWhiteSpace(closingHoursText.Text) OrElse
+       String.IsNullOrWhiteSpace(confirmSP_Text.Text) OrElse
+       String.IsNullOrWhiteSpace(comboClosingHours.Text) OrElse
+       String.IsNullOrWhiteSpace(comboClosingMins.Text) OrElse
        String.IsNullOrWhiteSpace(startHoursText.Text) OrElse
+       NoticeHourDropdown.SelectedItem Is Nothing OrElse
+       String.IsNullOrWhiteSpace(NoticeHourDropdown.SelectedItem.ToString) OrElse
+       ExperienceDropdown.SelectedItem Is Nothing OrElse
+       String.IsNullOrWhiteSpace(ExperienceDropdown.SelectedItem.ToString) OrElse
+       locationDropdown.SelectedItem Is Nothing OrElse
+       String.IsNullOrWhiteSpace(locationDropdown.SelectedItem.ToString) OrElse
        String.IsNullOrWhiteSpace(SPaccText.Text) OrElse
        String.IsNullOrWhiteSpace(accHolderText.Text) OrElse
        String.IsNullOrWhiteSpace(ifscText.Text) OrElse
        String.IsNullOrWhiteSpace(bankNameText.Text) OrElse
-       String.IsNullOrWhiteSpace(branchText.Text) OrElse
-       String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(confirmSP_Text.Text) Then
+       String.IsNullOrWhiteSpace(branchText.Text) Then
             ' If any field is empty, display error message
             MessageBox.Show("Please fill in all fields.")
             Return ' Exit the event handler
         End If
 
-        Dim customerID = -1
+        Dim startingTime As TimeSpan
+        Dim closingTime As TimeSpan
+
+        Try
+            If comboStartingHours.SelectedIndex < 0 Or comboStartingMins.SelectedIndex < 0 Then
+                MessageBox.Show("Enter time (HH:MM)")
+                Return
+            End If
+            If comboClosingHours.SelectedIndex < 0 Or comboClosingMins.SelectedIndex < 0 Then
+                MessageBox.Show("Enter time (HH:MM)")
+                Return
+            End If
+
+            startingTime = New TimeSpan(Convert.ToInt32(comboStartingHours.SelectedItem), Convert.ToInt32(comboStartingMins.SelectedItem), 0)
+            closingTime = New TimeSpan(Convert.ToInt32(comboClosingHours.SelectedItem), Convert.ToInt32(comboClosingMins.SelectedItem), 0)
+
+            ' Check if start time is less than end time
+            If startingTime >= closingTime Then
+                MessageBox.Show("Start time must be before closing time.")
+                Return
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Return
+        End Try
+
+        ' Now you can insert startTime and endTime into the workHours table
+
+
+
+        ' Establish connection to the database
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Try
+                connection.Open()
+
+                ' Check if the email already exists
+                Dim emailExists As Boolean = False
+                Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM users WHERE email = @email"
+                Using checkEmailCommand As New MySqlCommand(checkEmailCommandText, connection)
+                    checkEmailCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
+                    Dim count As Integer = Convert.ToInt32(checkEmailCommand.ExecuteScalar())
+                    If count > 0 Then
+                        emailExists = True
+                    End If
+                End Using
+
+                If emailExists Then
+                    MessageBox.Show("Email already exists. Please use a different email address.")
+                    Return
+                End If
+
+                ' Insert user's information into the database
+                Dim userId As Integer
+                Dim serviceProviderId As Integer
+                Dim contactId As Integer
+                Dim bankDetailId As Integer
+
+                ' Insert into users table
+                Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password, userPhoto) VALUES (@userName, @userType, @email, @password, @userPhoto)"
+                Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
+                    insertUserCommand.Parameters.AddWithValue("@userName", nameSP_Text.Text)
+                    insertUserCommand.Parameters.AddWithValue("@userType", "Service Provider")
+                    insertUserCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
+                    insertUserCommand.Parameters.AddWithValue("@password", passwordSP_Text.Text)
+                    insertUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
+                    insertUserCommand.ExecuteNonQuery()
+
+                    ' Get the ID of the inserted user
+                    userId = CInt(insertUserCommand.LastInsertedId)
+                End Using
+
+                ' Insert into serviceproviders table
+                Dim insertServiceProviderCommandText As String = "INSERT INTO serviceproviders (userID, serviceProviderName, serviceProviderEmail, serviceProviderdescription, rating, experienceYears, minimumNoticeHours) VALUES (@userID, @serviceProviderName, @serviceProviderEmail, @serviceProviderDescription, @rating, @experienceYears, @minimumNoticeHours)"
+                Using insertServiceProviderCommand As New MySqlCommand(insertServiceProviderCommandText, connection)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@userID", userId)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderName", nameSP_Text.Text)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderEmail", emailSP_Text.Text)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderDescription", descriptionText.Text)
+                    ' Set default values for rating, experienceYears, and minimumNoticeHours
+                    insertServiceProviderCommand.Parameters.AddWithValue("@rating", 0)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", 0)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", 0)
+                    insertServiceProviderCommand.ExecuteNonQuery()
+
+                    ' Get the ID of the inserted service provider
+                    serviceProviderId = CInt(insertServiceProviderCommand.LastInsertedId)
+                End Using
+
+                ' Insert into contactDetails table
+                Dim insertContactCommandText As String = "INSERT INTO contactDetails (userID, email, location, mobileNumber, socialMedia, address) VALUES (@userID, @email, @location, @mobileNumber, @socialMedia, @address)"
+                Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
+                    insertContactCommand.Parameters.AddWithValue("@userID", userId)
+                    insertContactCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
+                    insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString())
+                    insertContactCommand.Parameters.AddWithValue("@mobileNumber", phoneSP_Text.Text)
+                    insertContactCommand.Parameters.AddWithValue("@socialMedia", "")
+                    insertContactCommand.Parameters.AddWithValue("@address", "")
+                    insertContactCommand.ExecuteNonQuery()
+
+                    ' Get the ID of the inserted contact detail
+                    contactId = CInt(insertContactCommand.LastInsertedId)
+                End Using
+
+                ' Insert into bankDetailsOfServiceProvider table
+                Dim insertBankDetailCommandText As String = "INSERT INTO bankDetailsOfServiceProvider (serviceProviderID, accountHolderName, accountNumber, bankName, branchName, ifscCode) VALUES (@serviceProviderID, @accountHolderName, @accountNumber, @bankName, @branchName, @ifscCode)"
+                Using insertBankDetailCommand As New MySqlCommand(insertBankDetailCommandText, connection)
+                    insertBankDetailCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderId)
+                    insertBankDetailCommand.Parameters.AddWithValue("@accountHolderName", accHolderText.Text)
+                    insertBankDetailCommand.Parameters.AddWithValue("@accountNumber", SPaccText.Text)
+                    insertBankDetailCommand.Parameters.AddWithValue("@bankName", bankNameText.Text)
+                    insertBankDetailCommand.Parameters.AddWithValue("@branchName", branchText.Text)
+                    insertBankDetailCommand.Parameters.AddWithValue("@ifscCode", ifscText.Text)
+                    insertBankDetailCommand.ExecuteNonQuery()
+
+                    ' Get the ID of the inserted bank detail
+                    bankDetailId = CInt(insertBankDetailCommand.LastInsertedId)
+                End Using
+
+                ' Insert into workHours table (if required)
+
+
+                Dim insertWorkHoursCommandText As String = "INSERT INTO workHours (serviceProviderID, startTime, endTime) VALUES (@serviceProviderID, @startTime, @endTime)"
+
+
+                ' Insert work hours for all days of the week
+
+
+                Using insertWorkHoursCommand As New MySqlCommand(insertWorkHoursCommandText, connection)
+                    insertWorkHoursCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderId)
+                    insertWorkHoursCommand.Parameters.AddWithValue("@startTime", startingTime)
+                    insertWorkHoursCommand.Parameters.AddWithValue("@endTime", closingTime)
+                    insertWorkHoursCommand.ExecuteNonQuery()
+                End Using
+
+
+
+
+                ' Display success message
+                MessageBox.Show("Registration successful!")
+
+            Catch ex As Exception
+                MessageBox.Show("An error occurred: " & ex.Message)
+            End Try
+        End Using
+
+
+        Dim loginform As New LoginPage()
+        loginform.Show()
+
+        Me.Hide()
 
     End Sub
     Private Sub PopulateCountriesDropdown()
@@ -333,6 +611,21 @@ Public Class RegisterSP
         Next
     End Sub
 
+    Private Sub PopulateTime()
+        comboStartingHours.Items.Clear()
+        comboClosingHours.Items.Clear()
+        comboStartingMins.Items.Clear()
+        comboClosingMins.Items.Clear()
+        For i As Integer = 0 To 23
+            comboStartingHours.Items.Add(i.ToString().PadLeft(2, "0"c))
+            comboClosingHours.Items.Add(i.ToString().PadLeft(2, "0"c))
+        Next
+        For i As Integer = 0 To 59
+            comboStartingMins.Items.Add(i.ToString().PadLeft(2, "0"c))
+            comboClosingMins.Items.Add(i.ToString().PadLeft(2, "0"c))
+        Next
+    End Sub
+
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
@@ -342,5 +635,15 @@ Public Class RegisterSP
         Dim loginForm As New LoginPage()
         loginForm.Show()
         Me.Hide()
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked Then
+            passwordSP_Text.PasswordChar = ""
+            confirmSP_Text.PasswordChar = ""
+        Else
+            passwordSP_Text.PasswordChar = "*"
+            confirmSP_Text.PasswordChar = "*"
+        End If
     End Sub
 End Class

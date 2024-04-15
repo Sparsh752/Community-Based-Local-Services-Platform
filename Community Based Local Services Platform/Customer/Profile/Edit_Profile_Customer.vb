@@ -1,5 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.IO
+Imports iTextSharp.text.pdf.parser
 
 Public Class Edit_Profile_Customer
 
@@ -10,11 +11,18 @@ Public Class Edit_Profile_Customer
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
-        If SessionManager.Panel3.Controls.Count > 0 Then
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+        If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
-            SessionManager.Panel3.Controls.Clear()
+            Panel3.Controls.Clear()
         End If
+
     End Sub
 
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles email_Text.TextChanged
@@ -221,18 +229,21 @@ Public Class Edit_Profile_Customer
         End If
 
 
-
-        Dim connectionString As String = SessionManager.connectionString
         Dim query As String = "UPDATE users AS u
-                          INNER JOIN contactDetails AS cd ON u.userID = cd.userID
-                          SET u.userName = @userName, 
-                              u.email = @email, 
-                              u.password = @password,
-                              cd.location = @location, 
-                              cd.address = @address, 
-                              cd.mobileNumber = @mobile,
-                              u.userPhoto = @userPhoto
-                          WHERE u.userID = @userID"
+                      INNER JOIN contactDetails AS cd ON u.userID = cd.userID
+                      SET u.userName = @userName, 
+                          u.email = @email, 
+                          u.password = @password,
+                          cd.location = @location, 
+                          cd.address = @address, 
+                          cd.mobileNumber = @mobile"
+
+        ' Only include the userPhoto field in the update query if a new image is selected
+        If imageBytes IsNot Nothing Then
+            query &= ", u.userPhoto = @userPhoto"
+        End If
+
+        query &= " WHERE u.userID = @userID"
 
         Using connection As New MySqlConnection(connectionString)
             Using command As New MySqlCommand(query, connection)
@@ -246,7 +257,10 @@ Public Class Edit_Profile_Customer
                 ' Set the userID parameter to identify the user to update
                 command.Parameters.AddWithValue("@userID", SessionManager.userID)
 
-                command.Parameters.AddWithValue("@userPhoto", imageBytes)
+                ' Only set the userPhoto parameter if a new image is selected
+                If imageBytes IsNot Nothing Then
+                    command.Parameters.AddWithValue("@userPhoto", imageBytes)
+                End If
 
                 Try
                     connection.Open()
@@ -262,23 +276,19 @@ Public Class Edit_Profile_Customer
                 Finally
                     connection.Close()
                 End Try
-
-
             End Using
         End Using
 
-
         RemovePreviousForm()
-        Profile_Customer.Margin = New Padding(0, 0, 0, 0)
-        With Profile_Customer
+        Dim profileCustomerForm As New Profile_Customer()
+
+        With profileCustomerForm
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(Profile_Customer)
+            Panel3.Controls.Add(profileCustomerForm)
             .BringToFront()
             .Show()
-
         End With
-
     End Sub
     Private Sub Edit_Profile_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Assuming you have the userID stored in SessionManager.userID

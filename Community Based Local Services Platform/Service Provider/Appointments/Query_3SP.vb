@@ -1,9 +1,9 @@
 ﻿Public Class Query_3SP
     Private queryTypes As New List(Of String)()
-    Private AppointmentId As String
+    Public AppointmentId As String
 
     Private Sub Query_3SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AppointmentId = "12345"
+        AppointmentId = "1"
         Me.Size = New Size(1200, 700)
         Me.FormBorderStyle = FormBorderStyle.None
         Me.BackColor = Color.White
@@ -13,9 +13,9 @@
         Panel1.Size = New Size(380, 410)
         Label3.Text = AppointmentId
 
-        queryTypes.Add("Type 1")
-        queryTypes.Add("Type 2")
-        queryTypes.Add("Type 3")
+        queryTypes.Add("Services")
+        queryTypes.Add("Timings")
+        queryTypes.Add("Payment")
 
         ' Add query types from the list to the ComboBox
         For Each queryType As String In queryTypes
@@ -32,11 +32,18 @@
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -62,14 +69,15 @@
                     connection.Open()
 
                     ' Define the SQL query to insert the query into AddressQueries table
-                    Dim query As String = "INSERT INTO AddressQueries (userID, query, queryDate, status) VALUES (@userID, @query, NOW(), @status);"
+                    Dim query As String = "INSERT INTO AddressQueries (appointmentID, userID, type, description, queryDate) VALUES (@appointmentID, @userID, @type, @query, NOW());"
 
                     ' Create a MySqlCommand object
                     Using command As New MySqlCommand(query, connection)
                         ' Set the parameters
+                        command.Parameters.AddWithValue("@appointmentID", AppointmentId) ' Replace Your_UserID with the actual user ID
                         command.Parameters.AddWithValue("@userID", 1) ' Replace Your_UserID with the actual user ID
+                        command.Parameters.AddWithValue("@type", ComboBox1.SelectedItem.ToString())
                         command.Parameters.AddWithValue("@query", queryText)
-                        command.Parameters.AddWithValue("@status", "In Process") ' Default status is "In Process"
 
                         ' Execute the command
                         command.ExecuteNonQuery()

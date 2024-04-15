@@ -1,16 +1,19 @@
 ﻿Imports System.IO
+Imports Community_Based_Local_Services_Platform.Display_Services
 
 
 Public Class SP_profile
     ' Constructor to receive and display details
-    Public Sub New(name As String, description As String, cost As String, serviceName As String)
+    Dim serviceProviderID As String
+    Public Sub New(provider As ServiceProvider)
         InitializeComponent()
 
         ' Display the details received
-        Label1.Text = name
-        Label2.Text = description
-        Label3.Text = "Available from : " & cost
-        Label4.Text = serviceName
+        Label1.Text = provider.Name
+        Label2.Text = provider.Location
+        Label3.Text = "Available from : " & provider.Price   ' yash change this once the db team adds the endtime to serviceAreaTimeslots table
+        Label4.Text = provider.Experience & " years"
+        Me.serviceProviderID = provider.ID
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -18,25 +21,78 @@ Public Class SP_profile
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
 
-        Label1.Location = New Point(55, 99)
-        Label1.Size = New Size(318, 28)
+        Label1.Location = New Point(55, 80)
+        Label5.Location = New Point(20, 34)
+        Label2.Location = New Point(55, 138)
+        Label3.Location = New Point(161, 138)
+        Label4.Location = New Point(485, 138)
 
-        Label2.Location = New Point(55, 150)
-        Label2.Size = New Size(90, 28)
-        Label7.Location = New Point(160, 135)
-        Label6.Location = New Point(400, 135)
+        Panel1.Location = New Point(843, 65)
+        Panel2.Location = New Point(10, 64)
 
-        Label3.Location = New Point(200, 150)
-        Label3.Size = New Size(100, 28)
-        Label4.Location = New Point(450, 150)
-        Label4.Size = New Size(115, 28)
 
-        Label5.Location = New Point(34, 101)
-        Label5.Size = New Size(115, 28)
+        Dim connection3 As New MySqlConnection(SessionManager.connectionString)
 
-        Panel1.Width = 359
-        Panel2.Location = New Point(20, 140)
-        Panel2.Width = 330
+        ' Create a MySqlCommand object with the SQL query and connection
+        Try
+            ' Open the connection
+            connection3.Open()
+            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
+            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID
+            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID=" & serviceProviderID & ") as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
+            Dim command As New MySqlCommand(query, connection3)
+
+            ' Execute the SQL query
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Loop through the result set and populate userList
+            If (reader.Read()) Then
+                Label1.Text = reader("serviceProviderName")
+                Label4.Text = "Experience : " & reader("experienceYears") & " years"
+            End If
+            reader.Close()
+
+
+
+            Dim command2 As New MySqlCommand(query2, connection3)
+
+            ' Execute the SQL query
+            Dim reader2 As MySqlDataReader = command2.ExecuteReader()
+
+            If (reader2.Read()) Then
+                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " to " & reader2("endTime").ToString().Substring(0, 5)
+            End If
+            reader2.Close()
+
+
+            Dim command3 As New MySqlCommand(query3, connection3)
+
+            ' Execute the SQL query
+            Dim reader3 As MySqlDataReader = command3.ExecuteReader()
+
+            If (reader3.Read()) Then
+                Label2.Text = reader3("location")
+            End If
+            reader3.Close()
+            ' Close the reader
+        Catch ex As Exception
+            ' Display error message if loading fails
+            MessageBox.Show("Failed to load serviceprovider. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+
+
+        Dim textSize As Size = Label2.Location
+        Label2.Location = textSize
+        textSize.Width = textSize.Width + Label2.Size.Width
+        Label6.Location = New Point(textSize.Width, textSize.Height - 13)
+        textSize.Width = textSize.Width + Label6.Size.Width
+        Label3.Location = textSize
+        textSize.Width = textSize.Width + Label3.Size.Width
+        Label7.Location = New Point(textSize.Width, textSize.Height - 13)
+        textSize.Width = textSize.Width + Label7.Size.Width
+        Label4.Location = textSize
+
 
 
         Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
@@ -64,7 +120,46 @@ Public Class SP_profile
 
         Dim yPosition As Integer = 0
 
-        For i As Integer = 1 To numGroups
+        Dim servicesList As New List(Of Services)()
+
+        Dim connection1 As New MySqlConnection(SessionManager.connectionString)
+
+        ' Create a MySqlCommand object with the SQL query and connection
+        Try
+            ' Open the connection
+            connection1.Open()
+            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price, services.serviceDescription FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
+            Dim command As New MySqlCommand(query, connection1)
+
+            ' Execute the SQL query
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Loop through the result set and populate userList
+
+
+
+            While reader.Read()
+                Dim service As New Services()
+                service.serviceID = reader("serviceID")
+                service.serviceName = reader("serviceName")
+                service.price = reader("price")
+                service.serviceDescription = reader("serviceDescription")
+                ' Add more properties as needed
+                servicesList.Add(service)
+            End While
+
+            ' Close the reader
+            reader.Close()
+            connection1.Close()
+        Catch ex As Exception
+            ' Display error message if loading fails
+            MessageBox.Show("Failed to load users. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+        For i As Integer = 0 To servicesList.Count
+            If (i >= servicesList.Count) Then
+                Exit For
+            End If
             Dim groupBox As New GroupBox()
             groupBox.Size = groupSize
             groupBox.Location = New Point(50, yPosition)
@@ -80,7 +175,7 @@ Public Class SP_profile
             groupBox.Controls.Add(im)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Service " & i
+            headingLabel.Text = servicesList(i).serviceName
             headingLabel.Font = New Font("Arial", 12, FontStyle.Bold)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(200, 20)
@@ -88,7 +183,7 @@ Public Class SP_profile
             groupBox.Controls.Add(headingLabel)
 
             Dim subheadingLabel As New Label()
-            subheadingLabel.Text = "Rate: Rs 500"
+            subheadingLabel.Text = "Rate: Rs " & servicesList(i).price
             subheadingLabel.Font = New Font("Arial", 10)
             subheadingLabel.AutoSize = True
             subheadingLabel.Location = New Point(200, 50)
@@ -96,7 +191,7 @@ Public Class SP_profile
             groupBox.Controls.Add(subheadingLabel)
 
             Dim descriptionLabel As New Label()
-            descriptionLabel.Text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec."
+            descriptionLabel.Text = servicesList(i).serviceDescription
             descriptionLabel.AutoSize = False
             descriptionLabel.Size = New Size(500, 80)
             descriptionLabel.Location = New Point(200, 80)
@@ -117,17 +212,61 @@ Public Class SP_profile
             newButton.FlatStyle = FlatStyle.Flat
             newButton.FlatAppearance.BorderSize = 0
             newButton.Padding = New Padding(newButton.Padding.Left, newButton.Padding.Top, newButton.Padding.Right, newButton.Padding.Bottom - 10)
-            AddHandler newButton.Click, AddressOf BookNowButton_Click
+            Dim serviceIDThis As Integer = servicesList(i).serviceID
+            AddHandler newButton.Click, Sub(s, ev) BookNowButton_Click(s, ev, serviceIDThis)
             groupBox.Controls.Add(newButton)
 
             yPosition += groupSize.Height + groupSpacing
         Next
 
-        Dim numItems As Integer = 10
+
+
+        Dim reviewsList As New List(Of Reviews)()
+
+        Dim connection2 As New MySqlConnection(SessionManager.connectionString)
+
+        ' Create a MySqlCommand object with the SQL query and connection
+        Try
+            ' Open the connection
+            connection2.Open()
+            Dim query As String = "SELECT * FROM reviews as r WHERE r.givenForID = " & serviceProviderID
+            Dim command As New MySqlCommand(query, connection2)
+
+            ' Execute the SQL query
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Loop through the result set and populate userList
+
+
+
+            While reader.Read()
+                Dim review As New Reviews()
+                review.reviewID = Convert.ToInt32(reader("reviewID"))
+                review.appointmentID = reader("appointmentID")
+                review.rating = reader("rating")
+                review.reviewText = reader("reviewText")
+                review.reviewDate = reader("reviewDate")
+                review.givenForID = reader("givenForID")
+                review.givenByID = reader("givenByID")
+                ' Add more properties as needed
+                reviewsList.Add(review)
+            End While
+
+            ' Close the reader
+            reader.Close()
+            connection2.Close()
+        Catch ex As Exception
+            ' Display error message if loading fails
+            MessageBox.Show("Failed to load reviews. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
 
         Dim yPosition2 As Integer = 10
         Panel2.AutoScroll = True
-        For i As Integer = 1 To numItems
+        For i As Integer = 0 To reviewsList.Count
+            If (i >= reviewsList.Count) Then
+                Exit For
+            End If
             Dim itemPanel As New Panel()
             itemPanel.Size = New Size(275, 125)
             itemPanel.Location = New Point(16, yPosition2)
@@ -135,7 +274,7 @@ Public Class SP_profile
             Panel2.Controls.Add(itemPanel)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Name " & i
+            headingLabel.Text = "Review " & (i + 1)
             headingLabel.Font = New Font("Segoe", 9)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(20, 10)
@@ -143,8 +282,7 @@ Public Class SP_profile
             itemPanel.Controls.Add(headingLabel)
 
             Dim textLabel As New Label()
-            textLabel.Text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis " & i
-            textLabel.Font = New Font("Segoe", 8)
+            textLabel.Text = reviewsList(i).reviewText.ToString()
             textLabel.AutoSize = False
             textLabel.Size = New Size(240, 81)
             textLabel.Location = New Point(20, 40)
@@ -159,18 +297,25 @@ Public Class SP_profile
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
 
-    Private Sub BookNowButton_Click(sender As Object, e As EventArgs)
+    Private Sub BookNowButton_Click(sender As Object, e As EventArgs, serviceserviceID As Integer)
         RemovePreviousForm()
 
         Dim str As String = "Proceed to Pay"
-        Dim appointmentBookingForm As New Appointment_booking(str)
+        Dim appointmentBookingForm As New Appointment_booking(str, serviceserviceID)
 
         With appointmentBookingForm
             .TopLevel = False

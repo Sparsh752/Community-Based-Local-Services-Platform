@@ -1,5 +1,5 @@
-﻿Imports System.Runtime.InteropServices
 
+Imports System.Runtime.InteropServices
 Public Class Navbar_SP
 
 
@@ -16,6 +16,11 @@ Public Class Navbar_SP
     Public Panel3 As New Panel()
     Public NotificationButton As New Button()
     Public notificationForm As New Notification()
+    Dim serviceProviderID As Integer
+    Public Sub New(serviceProviderID As Integer)
+        InitializeComponent()
+        Me.serviceProviderID = serviceProviderID
+    End Sub
     ' Import user32.dll for smooth scrolling
     <DllImport("user32.dll")>
     Public Shared Function AnimateWindow(hWnd As IntPtr, time As Integer, flags As AnimateWindowFlags) As Boolean
@@ -142,20 +147,28 @@ Public Class Navbar_SP
         Panel3.BackColor = Color.Aqua
         Panel3.Padding = New Padding(0, 0, 0, 0)
 
-        RemovePreviousForm()
 
         'SetActiveForm(Homepage)
-        Homepage_SP.Margin = New Padding(0, 0, 0, 0)
-        With Homepage_SP
+        Dim homePageSP As New Homepage_SP(serviceProviderID)
+        RemovePreviousForm()
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_SP)
+            Panel3.Controls.Add(homePageSP)
             .BringToFront()
             .Show()
         End With
     End Sub
     Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
@@ -169,8 +182,8 @@ Public Class Navbar_SP
 
             notificationForm = New Notification()
             ' Set the location of the Notification form to be just below the NotificationButton
-            Dim xPosition As Integer = Me.Location.X + 49
-            Dim yPosition As Integer = Me.Location.Y + 78
+            Dim xPosition As Integer = Me.Location.X + 45
+            Dim yPosition As Integer = Me.Location.Y + 98
 
             notificationForm.StartPosition = FormStartPosition.Manual
             notificationForm.Location = New Point(xPosition, yPosition)
@@ -199,11 +212,12 @@ Public Class Navbar_SP
         RemovePreviousForm()
         line.Size = New Size(52, 2)
         line.Location = New Point(715, 47)
-        'SetActiveForm(Homepage)
-        With Homepage_SP
+        Dim homePageSP As New Homepage_SP(serviceProviderID)
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
             .TopLevel = False
             .Dock = DockStyle.Fill
-            Panel3.Controls.Add(Homepage_SP)
+            Panel3.Controls.Add(homePageSP)
             .BringToFront()
             .Show()
         End With
@@ -254,6 +268,7 @@ Public Class Navbar_SP
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
         ' here you have add the logic of reverting the state of shared variable for cureent user to null
         ' Whoever is doing the bankend part will do this part.
+        RemovePreviousForm()
 
         Me.Hide()
 

@@ -78,14 +78,36 @@
             connection.Close()
         End Using
 
+        RichTextBox1.ReadOnly = True
+        RichTextBox2.ReadOnly = True
+        RichTextBox3.ReadOnly = True
+        RichTextBox4.ReadOnly = True
+        RichTextBox5.ReadOnly = True
+        RichTextBox6.ReadOnly = True
+        RichTextBox7.ReadOnly = True
+        RichTextBox8.ReadOnly = True
+        RichTextBox9.ReadOnly = True
+        RichTextBox10.ReadOnly = True
+        RichTextBox11.ReadOnly = True
+        RichTextBox12.ReadOnly = True
+        RichTextBox13.ReadOnly = True
+        RichTextBox14.ReadOnly = True
+
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click

@@ -74,7 +74,7 @@
         Label7.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
         Label7.Size = New Size(593, 147)
         Label7.Location = New Point(0, 382)
-        PictureBox1.Size = New Size(180, 180)
+        PictureBox1.Size = New Size(200, 200)
         PictureBox1.Location = New Point(200, 200)
         PictureBox1.BackColor = ColorTranslator.FromHtml("#0F2A37")
         CheckBox1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
@@ -116,7 +116,36 @@
 
         Return customerID
     End Function
+    Private Function GetSPIDFromUserID(userID As String)
+        Dim spID As Integer = -1
 
+        ' Query to retrieve customer's ID based on email and password
+        Dim query As String = "SELECT serviceProviderID FROM serviceproviders " &
+            "WHERE userID = @UserID"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@UserID", userID)
+
+                Try
+                    connection.Open()
+                    Dim result As Object = command.ExecuteScalar()
+                    If IsDBNull(result) Or result Is Nothing Then
+                        MessageBox.Show("Invalid email or password")
+                        Return spID
+                    End If
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        spID = Convert.ToInt32(result)
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error retrieving service provider's ID: " & ex.Message)
+                End Try
+            End Using
+        End Using
+
+        Return spID
+
+    End Function
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked Then
             TextBox1.PasswordChar = ""
@@ -145,7 +174,8 @@
                 customerForm.Show()
                 Me.Hide()
             ElseIf SessionManager.userType = "Service Provider" Then
-                Dim serviceProviderForm As New Navbar_SP()
+                SessionManager.spID = GetSPIDFromUserID(customerID)
+                Dim serviceProviderForm As New Navbar_SP(SessionManager.spID)
                 serviceProviderForm.Show()
                 Me.Hide()
             ElseIf SessionManager.userType = "Admin" Then

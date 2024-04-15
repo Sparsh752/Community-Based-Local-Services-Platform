@@ -1,4 +1,5 @@
 ﻿Imports Org.BouncyCastle.Asn1.Ocsp
+Imports System.IO
 
 Public Class TransactionComplete_SP
     Private CustomerName As String
@@ -11,6 +12,17 @@ Public Class TransactionComplete_SP
 
     Private ReviewSubmitted As Boolean = False
     Public selectedRating As Double = 0.0
+
+    Private _serviceProviderName As String
+    Private _serviceLocation As String
+    Private _phoneNo As String
+    Private _slotDate As String
+    Private _transactionID As String
+    Private _transactionType As String
+    Private _serviceName As String
+    Private _servicePrice As String
+
+    Private chatPanel As New Panel()
     Private Sub TransactionComplete_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         CustomerName = "Customer XYZ"
@@ -88,7 +100,6 @@ Public Class TransactionComplete_SP
 
     Private Sub LoadChatPanel()
 
-        Dim chatPanel As New Panel()
         chatPanel.Location = New Point(687, 125)
         chatPanel.Size = New Size(437, 490)
         chatPanel.BorderStyle = BorderStyle.FixedSingle
@@ -162,15 +173,28 @@ Public Class TransactionComplete_SP
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
+        For Each ctrl As Control In chatPanel.Controls
+            If TypeOf ctrl Is Form Then
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         Me.Close()
 
         With AppointmentList_SP
@@ -182,8 +206,81 @@ Public Class TransactionComplete_SP
         End With
     End Sub
 
+    Private Sub GenerateReceiptDetails()
+        Dim query = "SELECT appointments.appointmentID, 
+                serviceproviders.serviceProviderName, 
+                serviceTypes.serviceTypeName, 
+                serviceAreas.location,
+                contactDetails.mobileNumber,
+                serviceAreaTimeslots.timeslotDate,
+                serviceAreaTimeslots.startTime, 
+                payments.paymentID,
+                payments.paymentDateTime,
+                payments.paymentMode,
+                services.price,
+                services.serviceID 
+                FROM appointments 
+                JOIN payments
+                ON appointments.appointmentID = payments.appointmentID
+                JOIN serviceproviders 
+                ON appointments.serviceProviderID = serviceproviders.serviceProviderID 
+                JOIN serviceAreaTimeslots 
+                ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+                JOIN contactDetails 
+                ON contactDetails.UserID = serviceproviders.userID
+                JOIN serviceAreas 
+                ON serviceAreas.areaID = serviceAreaTimeslots.areaID
+                JOIN services
+                ON services.serviceTypeID = serviceAreaTimeslots.serviceTypeID
+                AND services.serviceProviderID = serviceAreaTimeslots.serviceProviderID 
+                JOIN serviceTypes 
+                ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+                WHERE appointments.appointmentID = @appointmentID;"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+
+            connection.Open()
+
+            Using command As New MySqlCommand(query, connection)
+
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+
+                Using reader As MySqlDataReader = command.ExecuteReader()
+
+                    Dim labels As New List(Of String)()
+
+                    If reader.Read() Then
+
+                        _serviceProviderName = reader("serviceProviderName").ToString()
+                        _servicePrice = reader("price").ToString()
+                        _phoneNo = reader("mobileNumber").ToString()
+                        _serviceLocation = reader("location").ToString()
+                        _slotDate = reader("timeslotDate").ToString()
+                        _serviceName = reader("serviceTypeName")
+                        _transactionID = reader("paymentID") & "  " & reader("paymentDateTime")
+                        _transactionType = reader("paymentMode")
+
+                    End If
+                End Using
+            End Using
+        End Using
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
+        GenerateReceiptDetails()
+
+        Dim pdfGenerator As New PdfGenerator()
+        Dim currentDirectory As String = AppDomain.CurrentDomain.BaseDirectory
+
+        Dim filePath As String = Path.Combine(currentDirectory, "TransactionReceipt.pdf")
+        pdfGenerator.GeneratePDF(filePath, _serviceProviderName, _serviceLocation, _phoneNo, _slotDate, "", _transactionID, _transactionType, _serviceName, _servicePrice) ' Assuming your PdfGenerator class has support for custom page size
+        If File.Exists(filePath) Then
+            Dim edgePath As String = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+            Process.Start(edgePath, """" & filePath & """")
+        Else
+            Console.WriteLine("PDF file does not exist.")
+        End If
     End Sub
 
     Private Sub CheckIfReviewGiven()
@@ -268,6 +365,12 @@ Public Class TransactionComplete_SP
 
         If Not String.IsNullOrEmpty(RichTextBox1.Text.Trim()) Then
             RemovePreviousForm()
+            For Each ctrl As Control In chatPanel.Controls
+                If TypeOf ctrl Is Form Then
+                    Dim formCtrl As Form = DirectCast(ctrl, Form)
+                    formCtrl.Close()
+                End If
+            Next
             Me.Close()
             With AppointmentList_SP
                 .TopLevel = False

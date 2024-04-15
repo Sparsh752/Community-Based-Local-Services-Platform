@@ -34,7 +34,7 @@ Public Class AppointmentList_SP
     Private Sub AppointmentList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'MessageBox.Show("Load")
 
-        SessionManager.spID = SessionManager.userID
+        'SessionManager.spID = SessionManager.userID
 
         Me.Size = New Size(1200, 700)
         Me.BackColor = Color.White
@@ -269,12 +269,41 @@ Public Class AppointmentList_SP
     End Sub
 
     Private Sub RemovePreviousForm()
-        ' Check if any form is already in Panel5
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
         End If
+
     End Sub
+
+    Private Function CheckIfOtpPresent() As Integer
+        Dim query As String = "SELECT COUNT(*) AS count_appointments
+            FROM OTPs
+            WHERE appointmentID = @appointmentID;"
+
+        Dim count As Integer = 0
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+            Using command As New MySqlCommand(query, connection)
+
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                count = Convert.ToInt32(command.ExecuteScalar())
+                MessageBox.Show("Count = " & count)
+            End Using
+            connection.Close()
+        End Using
+
+        Return count
+
+    End Function
 
     ' Event handler for view button click
     Private Sub ViewButton_Click(ByVal sender As Object, ByVal e As EventArgs)
@@ -316,14 +345,29 @@ Public Class AppointmentList_SP
                 .Show()
             End With
         ElseIf (status = "Completed") Then
-            With ServiceComplete_SP
-                .TopLevel = False
-                .Dock = DockStyle.Fill
-                Panel3.Controls.Add(ServiceComplete_SP)
-                .BringToFront()
-                .Show()
-            End With
-        ElseIf (status = "Cancelled") Then
+
+            Dim count As Integer = CheckIfOtpPresent()
+
+            If count > 0 Then
+                With ServiceComplete_SP
+                    .TopLevel = False
+                    .Dock = DockStyle.Fill
+                    Panel3.Controls.Add(ServiceComplete_SP)
+                    .BringToFront()
+                    .Show()
+                End With
+            Else
+                With TransactionComplete_SP
+                    .TopLevel = False
+                    .Dock = DockStyle.Fill
+                    Panel3.Controls.Add(TransactionComplete_SP)
+                    .BringToFront()
+                    .Show()
+                End With
+            End If
+
+
+        ElseIf (status = "Canceled") Then
             With CanceledView_SP
                 .TopLevel = False
                 .Dock = DockStyle.Fill
