@@ -1,6 +1,8 @@
 ﻿Public Class Queries_Customer
 
-    Private Sub DataGridView1_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs)
+    Public userID As String
+
+    Private Sub DataGridView1_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles DataGridView1.CellPainting
         If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 AndAlso e.ColumnIndex <= 5 Then
             ' Draw cell border
             e.Paint(e.CellBounds, DataGridViewPaintParts.All)
@@ -47,7 +49,7 @@
                 conn.Open()
                 Dim query As String = "SELECT * FROM AddressQueries where userID = @userID"
                 Dim command As New MySqlCommand(query, conn)
-                command.Parameters.AddWithValue("@userID", "1")
+                command.Parameters.AddWithValue("@userID", userID)
                 Dim reader As MySqlDataReader = command.ExecuteReader()
 
                 Dim FieldCount As Integer = 6

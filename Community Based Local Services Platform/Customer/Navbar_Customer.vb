@@ -18,6 +18,8 @@ Public Class Navbar_Customer
     Public line As New Panel()
     Public NotificationButton As New Button()
     Public notificationForm As New Notification()
+    Public NotificationCountLabel As New Label()
+    Public NewnotificationCount As Integer = 0
     ' Import user32.dll for smooth scrolling
     <DllImport("user32.dll")>
     Public Shared Function AnimateWindow(hWnd As IntPtr, time As Integer, flags As AnimateWindowFlags) As Boolean
@@ -76,18 +78,25 @@ Public Class Navbar_Customer
         }
         Panel1.Controls.Add(NotificationIcon)
 
-        Dim NotificationBadge As New PictureBox With {
-            .BackgroundImage = My.Resources.Resource1.notification_badge,
-            .Location = New Point(168, 20),
-            .Name = "NotificationIcon",
-            .Size = New Size(7, 7),
-            .TabIndex = 1,
-            .TabStop = False
-        }
 
-        Panel1.Controls.Add(NotificationBadge)
-        NotificationBadge.BringToFront()
-        NotificationBadge.Visible = False
+        NotificationCountLabel.Size = New Size(14, 14)
+        NotificationCountLabel.Location = New Point(NotificationIcon.Right - 4, NotificationIcon.Top)
+        NotificationCountLabel.ForeColor = Color.Black
+        NotificationCountLabel.BackColor = Color.White
+        NotificationCountLabel.TextAlign = ContentAlignment.MiddleCenter
+        NotificationCountLabel.Font = New Font("Bahnschrift Bold", 6, FontStyle.Regular)
+        Dim path As New System.Drawing.Drawing2D.GraphicsPath()
+        path.AddEllipse(0, 0, NotificationCountLabel.Width, NotificationCountLabel.Height)
+        NotificationCountLabel.Region = New Region(path)
+        NotificationCountLabel.Visible = False
+        Panel1.Controls.Add(NotificationCountLabel)
+
+
+        ' Check if notifications exist and get the notification count
+        SessionManager.GetNotificationCount()
+
+        ' Show or hide the dot image based on the notification count
+        ShowHideNotificationDot()
 
 
         Dim HomeButton As New Button()
@@ -156,7 +165,7 @@ Public Class Navbar_Customer
         Panel3.Size = New Size(1200, 700)
         Panel3.Location = New Point(0, 0)
         Panel3.Dock = DockStyle.Fill
-        Panel3.BackColor = Color.Aqua
+        Panel3.BackColor = Color.White
         Panel3.Padding = New Padding(0, 0, 0, 0)
 
         RemovePreviousForm()
@@ -170,6 +179,48 @@ Public Class Navbar_Customer
             .BringToFront()
             .Show()
         End With
+    End Sub
+    Public Sub GetNewNotificationCount()
+        ' Query to get the notification count
+        Dim query As String = "SELECT COUNT(*) FROM notifications WHERE userID = '" & userID & "'"
+
+        Using connection As New MySqlConnection(connectionString)
+            Using command As New MySqlCommand(query, connection)
+                Try
+                    connection.Open()
+                    ' Execute the query
+                    Dim count As Object = command.ExecuteScalar()
+                    If count IsNot Nothing AndAlso IsNumeric(count) Then
+                        ' Set the notification count
+                        NewnotificationCount = Convert.ToInt32(count)
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
+                End Try
+            End Using
+        End Using
+    End Sub
+    Private Sub ShowHideNotificationDot()
+        ' Show or hide the dot image based on the notification count
+        If SessionManager.notificationCount > 0 Then
+            NotificationCountLabel.Visible = True
+            NotificationCountLabel.Text = SessionManager.notificationCount
+            NotificationCountLabel.BringToFront()
+        Else
+            NotificationCountLabel.Visible = False
+        End If
+    End Sub
+
+    Private Sub ShowHideNewNotificationDot()
+        ' Show or hide the dot image based on the notification count
+        If NewnotificationCount > SessionManager.notificationCount Then
+            NotificationCountLabel.Visible = True
+            NotificationCountLabel.Text = NewnotificationCount
+            'SessionManager.notificationCount = NewnotificationCount
+            NotificationCountLabel.BringToFront()
+        Else
+            NotificationCountLabel.Visible = False
+        End If
     End Sub
 
 
@@ -204,6 +255,12 @@ Public Class Navbar_Customer
             notificationForm.Dispose()
             isNotificationFormOpen = False
         End If
+
+        ' Check if new notifications exist and get the notification count
+        GetNewNotificationCount()
+
+        ' Show or hide the dot image based on the notification count
+        ShowHideNewNotificationDot()
     End Sub
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
@@ -312,6 +369,7 @@ Public Class Navbar_Customer
         With Queries_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
+            .userID = SessionManager.customerID.ToString()
             Panel3.Controls.Add(Queries_Customer)
             .BringToFront()
             .Show()
@@ -359,7 +417,7 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        RemovePreviousForm()
+        'RemovePreviousForm()
         spProfileForm.Margin = New Padding(0, 0, 0, 0)
         With spProfileForm
             .TopLevel = False
@@ -380,7 +438,7 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        RemovePreviousForm()
+        'RemovePreviousForm()
         spProfileForm.Margin = New Padding(0, 0, 0, 0)
         With spProfileForm
             .TopLevel = False
@@ -401,7 +459,7 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        RemovePreviousForm()
+        ' RemovePreviousForm()
         spProfileForm.Margin = New Padding(0, 0, 0, 0)
         With spProfileForm
             .TopLevel = False

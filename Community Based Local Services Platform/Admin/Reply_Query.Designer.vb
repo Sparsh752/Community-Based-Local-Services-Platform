@@ -34,18 +34,18 @@ Partial Class Reply_Query
         ' TextBox1
         ' 
         TextBox1.BackColor = SystemColors.ControlLight
-        TextBox1.Location = New Point(39, 332)
+        TextBox1.Location = New Point(43, 226)
         TextBox1.Margin = New Padding(3, 4, 3, 4)
         TextBox1.Multiline = True
         TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(717, 105)
+        TextBox1.Size = New Size(512, 105)
         TextBox1.TabIndex = 8
         ' 
         ' Button3
         ' 
         Button3.BackColor = Color.Black
         Button3.ForeColor = Color.White
-        Button3.Location = New Point(657, 468)
+        Button3.Location = New Point(456, 352)
         Button3.Margin = New Padding(3, 4, 3, 4)
         Button3.Name = "Button3"
         Button3.Size = New Size(99, 55)
@@ -57,7 +57,7 @@ Partial Class Reply_Query
         ' 
         Button2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
         Button2.ForeColor = Color.White
-        Button2.Location = New Point(522, 468)
+        Button2.Location = New Point(337, 352)
         Button2.Margin = New Padding(3, 4, 3, 4)
         Button2.Name = "Button2"
         Button2.Size = New Size(102, 55)
@@ -69,7 +69,7 @@ Partial Class Reply_Query
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 9.75F)
-        Label5.Location = New Point(43, 260)
+        Label5.Location = New Point(43, 190)
         Label5.Name = "Label5"
         Label5.Size = New Size(133, 23)
         Label5.TabIndex = 4
@@ -79,7 +79,7 @@ Partial Class Reply_Query
         ' 
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI", 9.75F)
-        Label4.Location = New Point(43, 191)
+        Label4.Location = New Point(43, 138)
         Label4.Name = "Label4"
         Label4.Size = New Size(173, 23)
         Label4.TabIndex = 3
@@ -89,7 +89,7 @@ Partial Class Reply_Query
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 9.75F)
-        Label2.Location = New Point(39, 105)
+        Label2.Location = New Point(43, 88)
         Label2.Name = "Label2"
         Label2.Size = New Size(110, 23)
         Label2.TabIndex = 1
@@ -99,18 +99,18 @@ Partial Class Reply_Query
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(39, 60)
+        Label1.Location = New Point(43, 42)
         Label1.Name = "Label1"
-        Label1.Size = New Size(653, 36)
+        Label1.Size = New Size(357, 36)
         Label1.TabIndex = 0
-        Label1.Text = "Provided service but did not recived payment"
+        Label1.Text = "Did not recived payment"
         ' 
         ' Reply_Query
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(786, 551)
+        ClientSize = New Size(600, 446)
         Controls.Add(TextBox1)
         Controls.Add(Button3)
         Controls.Add(Button2)

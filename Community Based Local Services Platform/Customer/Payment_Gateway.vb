@@ -24,8 +24,11 @@ Public Class Payment_Gateway
     Dim PaymentType As Boolean
 
 
-
-
+    Dim UPI_ID As New TextBox()
+    Dim CardNumber As New TextBox()
+    Dim CVV As New TextBox()
+    Dim Month As New TextBox()
+    Dim Year As New TextBox()
 
     Public Sub RetrievePrice()
         Dim checkQuery As String = "SELECT bookingAdvance
@@ -57,6 +60,7 @@ Public Class Payment_Gateway
         End Using
     End Sub
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'MessageBox.Show(Price)
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
@@ -233,12 +237,11 @@ Public Class Payment_Gateway
         EnterUPI.Location = New Point(137, 275)
         Panel2.Controls.Add(EnterUPI)
         EnterUPI.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim UPI_ID As New TextBox()
+        UPI_ID.Size = New Size(560, 59)
+        UPI_ID.BorderStyle = BorderStyle.FixedSingle
         UPI_ID.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         UPI_ID.Location = New Point(137, 312)
         Panel2.Controls.Add(UPI_ID)
-        UPI_ID.Size = New Size(560, 59)
-        UPI_ID.BorderStyle = BorderStyle.FixedSingle
         Dim Proceed_Button As New Button()
         Proceed_Button.Text = "Proceed"
         Proceed_Button.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
@@ -272,7 +275,7 @@ Public Class Payment_Gateway
         EnterCardNumber.Location = New Point(137, 275)
         Panel2.Controls.Add(EnterCardNumber)
         EnterCardNumber.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim CardNumber As New TextBox()
+
         CardNumber.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         CardNumber.Location = New Point(137, 312)
         Panel2.Controls.Add(CardNumber)
@@ -285,7 +288,7 @@ Public Class Payment_Gateway
         EnterCVV.Location = New Point(137, 400)
         Panel2.Controls.Add(EnterCVV)
         EnterCVV.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim CVV As New TextBox()
+
         CVV.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         CVV.Location = New Point(137, 437)
         Panel2.Controls.Add(CVV)
@@ -298,7 +301,7 @@ Public Class Payment_Gateway
         EnterMonth.Location = New Point(337, 400)
         Panel2.Controls.Add(EnterMonth)
         EnterMonth.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim Month As New TextBox()
+
         Month.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         Month.Location = New Point(337, 437)
         Panel2.Controls.Add(Month)
@@ -311,7 +314,7 @@ Public Class Payment_Gateway
         EnterYear.Location = New Point(537, 400)
         Panel2.Controls.Add(EnterYear)
         EnterYear.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim Year As New TextBox()
+
         Year.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         Year.Location = New Point(537, 437)
         Panel2.Controls.Add(Year)
@@ -370,6 +373,66 @@ Public Class Payment_Gateway
     End Sub
 
     Private Sub Proceed_Button_Click(sender As Object, e As EventArgs)
+
+        If paymentMode = "qr" Then
+            ' Code to handle QR payment mode
+        ElseIf paymentMode = "upi" Then
+            ' Code to handle UPI payment mode\
+            If String.IsNullOrWhiteSpace(UPI_ID.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter your UPI ID.")
+                Return
+            End If
+        ElseIf paymentMode = "debit" Then
+            ' Code to handle debit card payment mode
+            If String.IsNullOrWhiteSpace(CardNumber.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter your Debit Card Number.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(CVV.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the CVV")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Month.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Month.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Year.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Year.")
+                Return
+            End If
+        ElseIf paymentMode = "credit" Then
+            ' Code to handle credit card payment mode
+            If String.IsNullOrWhiteSpace(CardNumber.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter your Credit Card Number.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(CVV.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the CVV")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Month.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Month.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Year.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Year.")
+                Return
+            End If
+        Else
+            ' Code to handle invalid payment mode
+            MessageBox.Show("Invalid payment mode!")
+        End If
+
+
         Dim confirmationMessage As String = "Rs. " & Price & " will be deducted from your bank account."
         Dim result As DialogResult = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
 
@@ -410,7 +473,7 @@ Public Class Payment_Gateway
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
-
+                SendNotification()
                 connection.Close()
             End Using
 
@@ -418,10 +481,10 @@ Public Class Payment_Gateway
 
 
             RemovePreviousPanel3Form()
-            With AppointmentList_Customer
+            With Homepage_Customer
                 .TopLevel = False
                 .Dock = DockStyle.Fill
-                Panel3.Controls.Add(AppointmentList_Customer)
+                Panel3.Controls.Add(Homepage_Customer)
                 .BringToFront()
                 .Show()
             End With
@@ -429,12 +492,12 @@ Public Class Payment_Gateway
 
             ' inserting into appointment table
             Dim countQuery As String = "SELECT COUNT(*) FROM appointments"
-            Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceareatimeslots"
+            Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceAreaTimeslots"
             Dim checkQuery As String = "Insert into appointments values (@appointmentID, @serviceProviderID, @customerID, @areaTimeSlotID, @bookingAdvance, @serviceID, 'Pending')"
-            Dim areaTimeSLotQuery As String = "Insert into serviceareatimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
-            Dim areaIdQuery As String = "Select areaID from serviceareas where location = @serviceLocation"
+            Dim areaTimeSLotQuery As String = "Insert into serviceAreaTimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
+            Dim areaIdQuery As String = "Select areaID from serviceAreas where location = @serviceLocation"
 
-            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, @paymentDateTime, @paymentType, @paymentStatus, @paymentMode)"
+            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, NOW(), @paymentType, @paymentStatus, @paymentMode)"
             Dim countPaymentQuery As String = "Select count(*) from payments"
 
 
@@ -471,7 +534,7 @@ Public Class Payment_Gateway
 
                 End Using
 
-                MessageBox.Show(SessionManager.customerID)
+                'MessageBox.Show(SessionManager.customerID)
 
                 Using checkCommand As New MySqlCommand(checkQuery, connection)
                     checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
@@ -484,7 +547,7 @@ Public Class Payment_Gateway
 
                 End Using
 
-                MessageBox.Show(areaTimeSlotId)
+                'MessageBox.Show(areaTimeSlotId)
 
 
                 Using countPaymentsCommand As New MySqlCommand(countPaymentQuery, connection)
@@ -499,7 +562,7 @@ Public Class Payment_Gateway
                     paymentCommand.Parameters.AddWithValue("@paymentID", paymentID)
                     paymentCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
                     paymentCommand.Parameters.AddWithValue("@amount", Price)
-                    paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
+                    'paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
                     paymentCommand.Parameters.AddWithValue("@paymentType", "Advance")
                     paymentCommand.Parameters.AddWithValue("@paymentStatus", "Completed")
                     paymentCommand.Parameters.AddWithValue("@paymentMode", paymentMode)
@@ -508,23 +571,51 @@ Public Class Payment_Gateway
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
-
+                SendNotification()
 
                 connection.Close()
             End Using
 
             RemovePreviousPanel3Form()
-            With AppointmentList_Customer
+            With Homepage_Customer
                 .TopLevel = False
                 .Dock = DockStyle.Fill
-                Panel3.Controls.Add(AppointmentList_Customer)
+                Panel3.Controls.Add(Homepage_Customer)
                 .BringToFront()
                 .Show()
             End With
         Else
             ' User clicked Cancel, do nothing or show a message
-            MessageBox.Show("Payment cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Payment cancelled.", "Canceled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
+    Function SendNotification()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Dim getuserIDfromsID = "Select userID from serviceproviders WHERE serviceProviderID = @SID"
+            Dim command As New MySqlCommand(getuserIDfromsID, connection)
+            command.Parameters.AddWithValue("@SID", serviceProviderID)
+            connection.Open()
+            Dim SPuserID As String = command.ExecuteScalar().ToString()
+            Dim getuserName = "Select userName from users WHERE userID = @UID"
+            Dim command2 As New MySqlCommand(getuserName, connection)
+            command2.Parameters.AddWithValue("@UID", userID)
+            Dim userName As String = command2.ExecuteScalar().ToString()
+            Dim notifmsg As String = "You have a new appointment request with " & userName
+            Dim notificationquery As String = "Insert into notifications (notificationMessage, notificationDateTime, userID) values (@notifmsg, NOW(), @UID)"
+            Dim command3 As New MySqlCommand(notificationquery, connection)
+            command3.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command3.Parameters.AddWithValue("@UID", SPuserID)
+            command3.ExecuteNonQuery()
+            Dim emailofServiceP = "Select email from users WHERE userID = @SID"
+            Dim command4 As New MySqlCommand(emailofServiceP, connection)
+            command4.Parameters.AddWithValue("@SID", SPuserID)
+            Dim emailSP As String = command4.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailSP, notifmsg)
 
+
+
+        End Using
+
+    End Function
 End Class

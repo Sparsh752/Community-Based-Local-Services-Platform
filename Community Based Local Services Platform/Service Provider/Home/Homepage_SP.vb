@@ -27,11 +27,13 @@ Public Class Reviews
     Public Property reviewDate As String
     Public Property givenForID As Integer
     Public Property givenByID As Integer
+    Public Property givenByName As String
 End Class
 
 
 Public Class Homepage_SP
     Dim serviceProviderID As Integer
+    Dim userID As Integer
     Public Sub New(serviceProviderID As Integer)
         InitializeComponent()
         serviceProviderID = SessionManager.spID
@@ -178,9 +180,9 @@ Public Class Homepage_SP
         Try
             ' Open the connection
             connection3.Open()
-            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
-            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID
-            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID=" & serviceProviderID & ") as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
+            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID = " & serviceProviderID
+            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID= " & serviceProviderID
+            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID= " & serviceProviderID & " ) as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
             Dim command As New MySqlCommand(query, connection3)
 
             ' Execute the SQL query
@@ -189,6 +191,7 @@ Public Class Homepage_SP
             ' Loop through the result set and populate userList
             If (reader.Read()) Then
                 Label1.Text = reader("serviceProviderName")
+                userID = reader("userID")
                 Label4.Text = "Experience : " & reader("experienceYears") & " years"
             End If
             reader.Close()
@@ -450,7 +453,7 @@ Public Class Homepage_SP
         Try
             ' Open the connection
             connection2.Open()
-            Dim query As String = "SELECT * FROM reviews as r WHERE r.givenForID = " & serviceProviderID
+            Dim query As String = "SELECT * FROM (SELECT * FROM reviews as r WHERE r.givenForID = " & userID & " ) as newT JOIN users ON newT.givenByID=users.userID "
             Dim command As New MySqlCommand(query, connection2)
 
             ' Execute the SQL query
@@ -469,6 +472,7 @@ Public Class Homepage_SP
                 review.reviewDate = reader("reviewDate")
                 review.givenForID = reader("givenForID")
                 review.givenByID = reader("givenByID")
+                review.givenByName = reader("userName")
                 ' Add more properties as needed
                 reviewsList.Add(review)
             End While
@@ -497,7 +501,7 @@ Public Class Homepage_SP
             Panel6.Controls.Add(itemPanel)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Review " & (i + 1)
+            headingLabel.Text = "By " & reviewsList(i).givenByName & ":"
             headingLabel.Font = New Font("Segoe", 9)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(20, 10)
@@ -505,13 +509,38 @@ Public Class Homepage_SP
             itemPanel.Controls.Add(headingLabel)
 
 
+            Dim starsLabel As New Label()
+
+            ' Calculate the number of full stars and empty stars
+            Dim fullStars As Integer = reviewsList(i).rating
+            Dim emptyStars As Integer = Math.Max(0, 5 - reviewsList(i).rating)
+
+            ' Generate the text for full and empty stars
+            Dim fullStarsText As String = New String("★"c, fullStars)
+            Dim emptyStarsText As String = New String("☆"c, emptyStars)
+
+            ' Combine full and empty stars text
+            Dim combinedText As String = fullStarsText & emptyStarsText
+
+            ' Set text and properties for stars label
+            starsLabel.Text = "Rating : " & combinedText
+            starsLabel.ForeColor = ColorTranslator.FromHtml("#124E55") ' Set color to yellow for full stars
+            starsLabel.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+            starsLabel.AutoSize = True ' Automatically adjust the size of the label
+            starsLabel.Location = New Point(20, 30)
+
+
+
+
+            itemPanel.Controls.Add(starsLabel)
+
 
             Dim textLabel As New Label()
             textLabel.Text = reviewsList(i).reviewText.ToString()
             textLabel.Font = New Font("Segoe", 8)
             textLabel.AutoSize = False
             textLabel.Size = New Size(240, 81)
-            textLabel.Location = New Point(20, 40)
+            textLabel.Location = New Point(20, 50)
             textLabel.AutoEllipsis = True
             textLabel.BorderStyle = BorderStyle.None
 
