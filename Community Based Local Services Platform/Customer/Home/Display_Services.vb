@@ -8,7 +8,7 @@ Public Class Display_Services
         Public Property Description As String
         Public Property Price As Decimal
         Public Property ServiceID As String
-        Public Property ServiceTypeID As String
+        Public Property ServiceTypeID As Integer
         Public Property ServiceName As String
         Public Property ServiceDescription As String
         Public Property Ratings As Integer ' Changed to integer
@@ -65,7 +65,7 @@ Public Class Display_Services
                             .Ratings = CInt(Math.Floor(CDec(reader("rating")))), ' Convert to Integer using Floor
                             .ServiceName = reader("serviceName").ToString(),
                             .ServiceDescription = reader("serviceDescription").ToString(),
-                            .ServiceTypeID = reader("serviceTypeID").ToString(),
+                            .ServiceTypeID = Convert.ToInt32(reader("serviceTypeID")),
                             .ServiceID = reader("serviceID").ToString(),
                             .Price = Convert.ToDecimal(reader("price")), ' Convert.ToDecimal is used to ensure the conversion to Decimal
                             .Location = reader("areaID").ToString(),
@@ -311,20 +311,23 @@ Public Class Display_Services
         End If
 
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
-        Dim filteredProviders = serviceProviders.Where(Function(provider) _
-    (String.IsNullOrWhiteSpace(searchCriteria) OrElse
-    provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
-    provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
-    provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
-    provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
-    (CInt(Math.Floor(provider.Ratings)) >= minRating AndAlso CInt(Math.Floor(provider.Ratings)) <= maxRating) AndAlso
-    (String.IsNullOrWhiteSpace(minCostCriteria) OrElse
-    Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
-    (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
-    Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
-    (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
-    (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
-    ).ToList()
+        Dim filteredProviders = serviceProviders.
+        Where(Function(provider) _
+            (String.IsNullOrWhiteSpace(searchCriteria) OrElse
+            provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
+            provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
+            provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
+            (CInt(Math.Floor(provider.Ratings)) >= minRating AndAlso CInt(Math.Floor(provider.Ratings)) <= maxRating) AndAlso
+            (String.IsNullOrWhiteSpace(minCostCriteria) OrElse
+            Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
+            (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
+            Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
+            (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
+            (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID = Convert.ToInt32(serviceType)))
+        ).
+        GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
+        Select(Function(group) group.First()).
+        ToList()
 
 
 
