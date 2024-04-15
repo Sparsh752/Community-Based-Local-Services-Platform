@@ -13,6 +13,7 @@ Public Class UpdateServices_SP
     Dim connection1 As New MySqlConnection(SessionManager.connectionString)
     Dim serviceID As Integer
     Dim serviceProviderID As Integer
+    Dim connection2 As New MySqlConnection(SessionManager.connectionString)
     Public Sub New(serviceProviderID As Integer, serviceID As Integer)
         InitializeComponent()
         Me.serviceProviderID = serviceProviderID
@@ -77,10 +78,96 @@ Public Class UpdateServices_SP
         Panel1.Location = New Point(666, 517.5)
         Panel1.Size = New Size(330, 16)
 
+        BackButton.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
+        BackButton.BackColor = ColorTranslator.FromHtml("#F9754B")
+        BackButton.Size = New Size(67, 25)
+        BackButton.Location = New Point(1067, 75)
+        BackButton.FlatAppearance.BorderSize = 0
+        BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
 
 
 
+        Try
+            ' Open connection
+            connection1.Open()
 
+            ' Fetch existing service details from the database
+            Dim query As String = "SELECT serviceName, serviceDescription, serviceTypeID, price, areaID, servicePhoto FROM services WHERE serviceID = @serviceID AND serviceProviderID = @serviceProviderID"
+            Dim command As New MySqlCommand(query, connection1)
+            command.Parameters.AddWithValue("@serviceID", serviceID)
+            command.Parameters.AddWithValue("@serviceProviderID", serviceProviderID)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+            Dim x As Integer = 0
+            Dim temp_image As Byte()
+            Dim imagePath2 As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+            While reader.Read()
+                If x = 0 Then
+
+
+                    Service_Name.Text = reader("serviceName").ToString()
+                    Description.Text = reader("serviceDescription").ToString()
+
+                    If Not reader.IsDBNull(reader.GetOrdinal("servicePhoto")) Then
+                        ' Convert byte array to image
+                        temp_image = reader("servicePhoto")
+
+                    Else
+                        temp_image = File.ReadAllBytes(imagePath2)
+                    End If
+
+                    If temp_image IsNot Nothing AndAlso temp_image.Length > 0 Then
+                        Using ms As New MemoryStream(temp_image)
+                            ' Convert the byte array to an Image
+                            Dim image As Image = Image.FromStream(ms)
+                            ' Set the Image to the PictureBox
+                            PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
+                            PictureBox1.Image = image
+
+                        End Using
+                    End If
+
+                    ' Select the existing service type in the ComboBox
+                    Dim typeID As Integer = reader("serviceTypeID") ' You may need to adjust this part based on how serviceTypeID is represented in your database
+
+                    Price.Text = reader("price").ToString()
+
+                    Dim getTypename As String = "SELECT serviceTypeName FROM serviceTypes WHERE serviceID=@typeID"
+                    connection2.Open()
+                    Using command2 As New MySqlCommand(getTypename, connection2)
+                        command2.Parameters.AddWithValue("@typeID", typeID)
+                        Service_type.Text = Convert.ToString(command2.ExecuteScalar())
+                    End Using
+                    connection2.Close()
+
+                End If
+                ' Set existing values to the corresponding controls
+
+                Dim curr_area As Integer = reader("areaID")
+                Dim get_area As String = "SELECT location FROM serviceAreas WHERE areaID=@curr_area"
+                connection2.Open()
+                Using command2 As New MySqlCommand(get_area, connection2)
+                    command2.Parameters.AddWithValue("@curr_area", curr_area)
+                    serviceAreas.Add(Convert.ToString(command2.ExecuteScalar()))
+                End Using
+                connection2.Close()
+                x += 1
+                ' You may also need to retrieve and set the image here if applicable
+            End While
+
+            For Each area As String In serviceAreas
+                Service_area.Items.Add(area)
+                Location_list.Items.Add(area)
+            Next
+
+            reader.Close()
+        Catch ex As Exception
+            ' Handle connection errors or any other exceptions
+            MessageBox.Show("Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            ' Close the connection
+            connection1.Close()
+        End Try
 
 
 
@@ -350,6 +437,20 @@ Public Class UpdateServices_SP
             ' Remove the first control (form) from Panel5
             SessionManager.Panel3.Controls.Clear()
         End If
+    End Sub
+
+    Private Sub BackButton_Click(sender As Object, e As EventArgs)
+        RemovePreviousForm()
+        Close()
+        Dim homePageSP As New Homepage_SP(spID)
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(homePageSP)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
 

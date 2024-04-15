@@ -14,6 +14,8 @@ Public Class Services
     Public Property serviceDescription As String
     Public Property completionTime As String
     Public Property areaID As String
+
+    Public Property servicePhoto As Byte()
 End Class
 
 
@@ -151,7 +153,9 @@ Public Class Homepage_SP
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         serviceProviderID = SessionManager.spID
+
 
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
@@ -301,7 +305,7 @@ Public Class Homepage_SP
         Try
             ' Open the connection
             connection1.Open()
-            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price ,services.serviceTypeID, services.serviceDescription FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
+            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price ,services.serviceTypeID, services.serviceDescription,services.completionTime,services.areaID, services.servicePhoto FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
             Dim command As New MySqlCommand(query, connection1)
 
             ' Execute the SQL query
@@ -318,6 +322,19 @@ Public Class Homepage_SP
                 service.serviceName = reader("serviceName")
                 service.price = reader("price")
                 service.serviceDescription = reader("serviceDescription")
+
+                service.completionTime = reader("completionTime")
+                service.areaID = reader("areaID")
+
+                If Not reader.IsDBNull(reader.GetOrdinal("servicePhoto")) Then
+                    ' Convert byte array to image
+                    service.servicePhoto = reader("servicePhoto")
+                Else
+                    service.servicePhoto = File.ReadAllBytes(imagePath)
+                End If
+
+
+
                 ' Add more properties as needed
                 servicesList.Add(service)
             End While
@@ -347,11 +364,15 @@ Public Class Homepage_SP
 
             panel.Controls.Add(groupBox)
 
+            Dim stream As New MemoryStream(servicesList(i).servicePhoto)
+            Dim image As Image = Image.FromStream(stream)
+
+
             Dim im As New PictureBox()
             im.SizeMode = PictureBoxSizeMode.StretchImage
             im.Size = New Size(170, 170)
             im.Location = New Point(10, 20)
-            im.Image = Image.FromFile(imagePath)
+            im.Image = image
 
             groupBox.Controls.Add(im)
 

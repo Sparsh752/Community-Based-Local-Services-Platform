@@ -74,6 +74,14 @@ Public Class AddServices_SP
         Location_list.Scrollable = True
         Panel1.Location = New Point(666, 517.5)
         Panel1.Size = New Size(330, 16)
+
+        BackButton.Font = New Font(SessionManager.font_family, 11, FontStyle.Regular)
+        BackButton.BackColor = ColorTranslator.FromHtml("#F9754B")
+        BackButton.Size = New Size(67, 25)
+        BackButton.Location = New Point(1067, 75)
+        BackButton.FlatAppearance.BorderSize = 0
+        BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
+
     End Sub
 
     Private Sub PopulateServiceTypeComboBox()
@@ -339,4 +347,19 @@ Public Class AddServices_SP
             Location_list.Items.Add(area)
         Next
     End Sub
+
+    Private Sub BackButton_Click(sender As Object, e As EventArgs)
+        RemovePreviousForm()
+        Close()
+        Dim homePageSP As New Homepage_SP(spID)
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(homePageSP)
+            .BringToFront()
+            .Show()
+        End With
+    End Sub
+
 End Class
