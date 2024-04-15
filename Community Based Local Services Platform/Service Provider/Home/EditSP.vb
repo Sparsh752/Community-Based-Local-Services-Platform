@@ -719,7 +719,7 @@ Public Class EditSP
 
     Private Sub Back_btn_Click(sender As Object, e As EventArgs) Handles Back_btn.Click
         RemovePreviousForm()
-        Close()
+        Me.Close()
         Dim homePageSP As New Homepage_SP(SessionManager.spID)
         homePageSP.Margin = New Padding(0, 0, 0, 0)
         With homePageSP

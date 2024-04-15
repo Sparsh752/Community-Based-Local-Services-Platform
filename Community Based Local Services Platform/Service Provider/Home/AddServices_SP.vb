@@ -350,7 +350,7 @@ Public Class AddServices_SP
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
-        Close()
+        Me.Close()
         Dim homePageSP As New Homepage_SP(SessionManager.spID)
         homePageSP.Margin = New Padding(0, 0, 0, 0)
         With homePageSP
