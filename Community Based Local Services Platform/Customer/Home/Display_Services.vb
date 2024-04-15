@@ -15,7 +15,9 @@ Public Class Display_Services
         Public Property Experience As Integer
         Public Property Location As String
         Public Property TimeSlots As String
-        Public Property count As Integer
+        Public Property Count As Integer
+        Public Property ServiveProviderPhoto As Byte()
+        Public Property ServicePhoto As Byte()
     End Class
 
     ' List to store service providers
@@ -33,7 +35,7 @@ Public Class Display_Services
 
         currentIndexMostTrusted = 0
         currentIndexPopular = 0
-        Dim query As String = "SELECT s.serviceProviderID, s.serviceProviderName, s.ServiceProviderdescription, se.serviceDescription, s.rating, se.serviceID, se.serviceTypeID, se.price, se.areaID, se.serviceName, COUNT(a.serviceID) AS count " &
+        Dim query As String = "SELECT s.serviceProviderID, s.serviceProviderName, s.ServiceProviderdescription, se.serviceDescription, s.rating, se.serviceID, se.serviceTypeID, se.price, se.areaID, se.serviceName, s.serviceProviderPhotos, s.experienceYears, se.servicePhoto, COUNT(a.serviceID) AS count " &
                       "FROM serviceproviders AS s " &
                       "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
                       "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
@@ -57,23 +59,34 @@ Public Class Display_Services
                     ' Read data from the reader
                     While reader.Read()
                         Dim serviceProvider As New ServiceProvider() With {
-                           .ID = reader("serviceProviderID").ToString(),
-                           .Name = reader("serviceProviderName").ToString(),
-                           .Description = reader("ServiceProviderdescription").ToString(),
-                           .Ratings = CInt(Math.Floor(CDec(reader("rating")))), ' Convert to Integer using Floor
-                           .ServiceName = reader("serviceName").ToString(),
-                           .ServiceDescription = reader("serviceDescription").ToString(),
-                           .ServiceTypeID = reader("serviceTypeID").ToString(),
-                           .ServiceID = reader("serviceID").ToString(),
-                           .Price = Convert.ToDecimal(reader("price")), ' Convert.ToDecimal is used to ensure the conversion to Decimal
-                           .Location = reader("areaID").ToString(),
-                           .Experience = 0, ' Assuming Experience property is meant to represent something else, set to 0 for now
-                           .count = Convert.ToInt32(reader("count"))
-                         }
+                            .ID = reader("serviceProviderID").ToString(),
+                            .Name = reader("serviceProviderName").ToString(),
+                            .Description = reader("ServiceProviderdescription").ToString(),
+                            .Ratings = CInt(Math.Floor(CDec(reader("rating")))), ' Convert to Integer using Floor
+                            .ServiceName = reader("serviceName").ToString(),
+                            .ServiceDescription = reader("serviceDescription").ToString(),
+                            .ServiceTypeID = reader("serviceTypeID").ToString(),
+                            .ServiceID = reader("serviceID").ToString(),
+                            .Price = Convert.ToDecimal(reader("price")), ' Convert.ToDecimal is used to ensure the conversion to Decimal
+                            .Location = reader("areaID").ToString(),
+                            .Experience = reader("experienceYears"),
+                            .Count = Convert.ToInt32(reader("count"))
+                        }
 
-                        ' Add the service provider to the list
+                        ' Check if the serviceProviderPhotos column is DBNull
+                        If Not IsDBNull(reader("serviceProviderPhotos")) Then
+                            serviceProvider.ServiveProviderPhoto = DirectCast(reader("serviceProviderPhotos"), Byte())
+                        End If
+
+                        ' Check if the servicePhoto column is DBNull
+                        If Not IsDBNull(reader("servicePhoto")) Then
+                            serviceProvider.ServicePhoto = DirectCast(reader("servicePhoto"), Byte())
+                        End If
+
+                        ' Add the serviceProvider object to the list
                         serviceProviders.Add(serviceProvider)
                     End While
+
                 End Using
             End Using
         End Using
@@ -106,9 +119,19 @@ Public Class Display_Services
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
             pb.Location = New Point(108 + ((i - 1) * (32 + 169)), 155)
-            ' Load sample image for service provider
-            Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-            pb.Image = Image.FromFile(imagePath)
+
+            ' Load image from binary data
+            If sortedProviders(i - 1).ServiveProviderPhoto IsNot Nothing AndAlso sortedProviders(i - 1).ServiveProviderPhoto.Length > 0 Then
+                Using ms As New MemoryStream(sortedProviders(i - 1).ServiveProviderPhoto)
+                    pb.Image = Image.FromStream(ms)
+                End Using
+            Else
+                ' Handle the case where image data is not available or empty
+                ' For example, load a default image
+                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                pb.Image = Image.FromFile(imagePath)
+            End If
+
             Me.Controls.Add(pb)
             ' Set the Tag property of the picturebox to store the provider details
             pb.Tag = sortedProviders(i - 1)
@@ -141,7 +164,7 @@ Public Class Display_Services
         lblPopularHeading.Size = New Size(280, 28)
         lblPopularHeading.Location = New Point(91, 371)
         Me.Controls.Add(lblPopularHeading)
-        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.count) _
+        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
                                   .ToList()
 
         ' Create picture boxes and labels for Popular section
@@ -150,10 +173,20 @@ Public Class Display_Services
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
             pb.Location = New Point(108 + ((i - 1) * (32 + 169)), 408)
-            ' Load sample image for service provider
-            Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-            pb.Image = Image.FromFile(imagePath)
+
+            ' Load image from binary data
+            If sortedProviders_popular(i - 1).ServicePhoto IsNot Nothing AndAlso sortedProviders_popular(i - 1).ServicePhoto.Length > 0 Then
+                Using ms As New MemoryStream(sortedProviders_popular(i - 1).ServicePhoto)
+                    pb.Image = Image.FromStream(ms)
+                End Using
+            Else
+                ' Handle the case where image data is not available or empty
+                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                pb.Image = Image.FromFile(imagePath)
+            End If
+
             Me.Controls.Add(pb)
+
             ' Set the Tag property of the picturebox to store the provider details
             pb.Tag = sortedProviders_popular(i - 1)
             ' Attach event handler for the button click
@@ -317,7 +350,7 @@ Public Class Display_Services
         Dim verticalGap As Integer = 26 ' Vertical gap between result panels
 
         Dim yPos As Integer = 101 ' Initial Y position of the result panels
-        For Each provider In providers
+        For Each Provider In providers
             Dim resultPanel As New Panel()
             resultPanel.Size = New Size(734, 198)
             ' Set the position of the result panel
@@ -328,28 +361,35 @@ Public Class Display_Services
             Dim pb As New PictureBox()
             pb.SizeMode = PictureBoxSizeMode.StretchImage
             pb.Size = New Size(169, 157)
-            ' Load sample image for service provider
-            Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-            pb.Image = Image.FromFile(imagePath)
+            ' Load image from binary data
+            If Provider.ServicePhoto IsNot Nothing AndAlso Provider.ServicePhoto.Length > 0 Then
+                Using ms As New MemoryStream(Provider.ServicePhoto)
+                    pb.Image = Image.FromStream(ms)
+                End Using
+            Else
+                ' Handle the case where image data is not available or empty
+                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                pb.Image = Image.FromFile(imagePath)
+            End If
             pb.Location = New Point(21, 21)
             resultPanel.Controls.Add(pb)
 
             Dim nameLabel As New Label()
-            nameLabel.Text = provider.Name
+            nameLabel.Text = Provider.Name
             nameLabel.Size = New Size(280, 28)
             nameLabel.Location = New Point(208, 22)
             nameLabel.Font = New Font(SessionManager.font_family, 13, FontStyle.Bold)
             resultPanel.Controls.Add(nameLabel)
 
             Dim serviceNameLabel As New Label()
-            serviceNameLabel.Text = provider.ServiceName
+            serviceNameLabel.Text = Provider.ServiceName
             serviceNameLabel.Size = New Size(280, 28)
             serviceNameLabel.Location = New Point(208, 50)
             serviceNameLabel.Font = New Font(SessionManager.font_family, 12, FontStyle.Regular)
             resultPanel.Controls.Add(serviceNameLabel)
 
             Dim costLabel As New Label()
-            costLabel.Text = "Rate : Rs. " & provider.Price
+            costLabel.Text = "Rate : Rs. " & Provider.Price
             costLabel.Size = New Size(280, 14)
             costLabel.Location = New Point(208, 76)
             costLabel.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
@@ -359,8 +399,8 @@ Public Class Display_Services
             Dim starsLabel As New Label()
 
             ' Calculate the number of full stars and empty stars
-            Dim fullStars As Integer = provider.Ratings
-            Dim emptyStars As Integer = Math.Max(0, 5 - provider.Ratings)
+            Dim fullStars As Integer = Provider.Ratings
+            Dim emptyStars As Integer = Math.Max(0, 5 - Provider.Ratings)
 
             ' Generate the text for full and empty stars
             Dim fullStarsText As String = New String("★"c, fullStars)
@@ -389,7 +429,7 @@ Public Class Display_Services
             resultPanel.Controls.Add(starsLabel)
 
             Dim descriptionLabel As New Label()
-            descriptionLabel.Text = provider.ServiceDescription
+            descriptionLabel.Text = Provider.ServiceDescription
             descriptionLabel.Size = New Size(490, 47)
             descriptionLabel.Location = New Point(208, 110)
             descriptionLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
@@ -404,7 +444,7 @@ Public Class Display_Services
             viewBtn.FlatStyle = FlatStyle.Flat
             viewBtn.FlatAppearance.BorderSize = 0
             ' Set the Tag property of the button to store the provider details
-            viewBtn.Tag = provider
+            viewBtn.Tag = Provider
             ' Attach event handler for the button click
             AddHandler viewBtn.Click, AddressOf Navbar_Customer.ViewDetails_Click
             resultPanel.Controls.Add(viewBtn)
@@ -418,7 +458,7 @@ Public Class Display_Services
             bookNowBtn.FlatStyle = FlatStyle.Flat
             bookNowBtn.FlatAppearance.BorderSize = 0
             ' Attach event handler for the button click
-            AddHandler bookNowBtn.Click, Sub(s, ev) BookNowButton_Click(s, ev, provider.ServiceID)
+            AddHandler bookNowBtn.Click, Sub(s, ev) BookNowButton_Click(s, ev, Provider.ServiceID)
             resultPanel.Controls.Add(bookNowBtn)
 
             Me.Controls.Add(resultPanel)
@@ -487,7 +527,7 @@ Public Class Display_Services
     End Sub
 
     Private Sub UpdatePopularPictureBoxesAndLabels()
-        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.count) _
+        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
                                   .ToList()
         ' Update picture boxes and labels for Popular section
         For i As Integer = 0 To 2
