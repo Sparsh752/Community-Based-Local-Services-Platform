@@ -60,7 +60,7 @@ Public Class SP_profile
             Dim reader2 As MySqlDataReader = command2.ExecuteReader()
 
             If (reader2.Read()) Then
-                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " to" & reader2("endTime").ToString().Substring(0, 5)
+                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " to " & reader2("endTime").ToString().Substring(0, 5)
             End If
             reader2.Close()
 
@@ -128,7 +128,7 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection1.Open()
-            Dim query As String = "SELECT * FROM services WHERE services.serviceProviderID = " & serviceProviderID
+            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price, services.serviceDescription FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
             Dim command As New MySqlCommand(query, connection1)
 
             ' Execute the SQL query
@@ -141,12 +141,9 @@ Public Class SP_profile
             While reader.Read()
                 Dim service As New Services()
                 service.serviceID = reader("serviceID")
-                service.serviceTypeID = reader("serviceTypeID")
                 service.serviceName = reader("serviceName")
                 service.price = reader("price")
                 service.serviceDescription = reader("serviceDescription")
-                service.completionTime = reader("completionTime")
-                service.areaID = reader("areaID")
                 ' Add more properties as needed
                 servicesList.Add(service)
             End While

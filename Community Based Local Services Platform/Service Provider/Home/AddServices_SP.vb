@@ -253,7 +253,7 @@ Public Class AddServices_SP
                 End Using
 
                 ' Update the row in the services table for the current area
-                Dim insertQuery As String = "INSERT INTO services (serviceName, serviceDescription, serviceTypeID, price, areaID, serviceProviderID,servicePhoto,completionTime,serviceID) VALUES (@serviceName, @serviceDescription, @serviceTypeID, @price, @areaID, @serviceProviderID,@imageData,0,89)"
+                Dim insertQuery As String = "INSERT INTO services (serviceName, serviceDescription, serviceTypeID, price, areaID, serviceProviderID,servicePhoto,completionTime) VALUES (@serviceName, @serviceDescription, @serviceTypeID, @price, @areaID, @serviceProviderID,@imageData,0)"
 
                 Using command As New MySqlCommand(insertQuery, connection1)
                     command.Parameters.AddWithValue("@serviceName", serviceProviderName)
