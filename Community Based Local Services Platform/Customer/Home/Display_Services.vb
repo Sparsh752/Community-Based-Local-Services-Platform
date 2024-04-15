@@ -8,7 +8,7 @@ Public Class Display_Services
         Public Property Description As String
         Public Property Price As Decimal
         Public Property ServiceID As String
-        Public Property ServiceTypeID As String
+        Public Property ServiceTypeID As Integer
         Public Property ServiceName As String
         Public Property ServiceDescription As String
         Public Property Ratings As Integer ' Changed to integer
@@ -65,7 +65,7 @@ Public Class Display_Services
                             .Ratings = CInt(Math.Floor(CDec(reader("rating")))), ' Convert to Integer using Floor
                             .ServiceName = reader("serviceName").ToString(),
                             .ServiceDescription = reader("serviceDescription").ToString(),
-                            .ServiceTypeID = reader("serviceTypeID").ToString(),
+                            .ServiceTypeID = Convert.ToInt32(reader("serviceTypeID")),
                             .ServiceID = reader("serviceID").ToString(),
                             .Price = Convert.ToDecimal(reader("price")), ' Convert.ToDecimal is used to ensure the conversion to Decimal
                             .Location = reader("areaID").ToString(),
@@ -158,7 +158,7 @@ Public Class Display_Services
             lblProviderRating.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 340)
             lblProviderRating.Text = "Rating : " & sortedProviders(i - 1).Ratings
 
-            Me.Controls.Add(lblProviderRating)
+            'Me.Controls.Add(lblProviderRating)
             lblMostTrustedRating.Add(lblProviderRating)
         Next
 
@@ -168,7 +168,9 @@ Public Class Display_Services
         lblPopularHeading.Size = New Size(280, 28)
         lblPopularHeading.Location = New Point(91, 371)
         Me.Controls.Add(lblPopularHeading)
-        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
+        Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
+                                                       Select(Function(group) group.First()).
+                                                       OrderByDescending(Function(provider) provider.Count) _
                                                       .Take(12) _
                                                       .ToList()
 
@@ -212,7 +214,7 @@ Public Class Display_Services
             lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
             lblProviderRating.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 594)
             lblProviderRating.Text = "Rating : " & sortedProviders_popular(i - 1).Ratings
-            Me.Controls.Add(lblProviderRating)
+            'Me.Controls.Add(lblProviderRating)
             lblPopularRating.Add(lblProviderRating)
         Next
 
@@ -311,35 +313,38 @@ Public Class Display_Services
         End If
 
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
-        Dim filteredProviders = serviceProviders.Where(Function(provider) _
-    (String.IsNullOrWhiteSpace(searchCriteria) OrElse
-    provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
-    provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
-    provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
-    provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
-    (CInt(Math.Floor(provider.Ratings)) >= minRating AndAlso CInt(Math.Floor(provider.Ratings)) <= maxRating) AndAlso
-    (String.IsNullOrWhiteSpace(minCostCriteria) OrElse
-    Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
-    (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
-    Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
-    (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
-    (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
-    ).ToList()
+        Dim filteredProviders = serviceProviders.
+        Where(Function(provider) _
+            (String.IsNullOrWhiteSpace(searchCriteria) OrElse
+            provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
+            provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
+            provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
+            (CInt(Math.Floor(provider.Ratings)) >= minRating AndAlso CInt(Math.Floor(provider.Ratings)) <= maxRating) AndAlso
+            (String.IsNullOrWhiteSpace(minCostCriteria) OrElse
+            Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
+            (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
+            Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
+            (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
+            (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID = Convert.ToInt32(serviceType)))
+        ).
+        GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
+        Select(Function(group) group.First()).
+        ToList()
 
 
 
         ' Print filter inputs for debugging
-        MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
-                    "Minimum Cost Criteria: " & minCostCriteria & vbCrLf &
-                    "Maximum Cost Criteria: " & maxCostCriteria & vbCrLf &
-                    "Minimum Rating Criteria: " & minRating & vbCrLf &
-                    "Maximum Rating Criteria: " & maxRating & vbCrLf &
-                    "Location Criteria: " & locationCriteria & vbCrLf &
-                    "Selected Service Types: " & String.Join(", ", selectedServiceTypes) & vbCrLf &
-                    "Filter Inputs: " & filteredProviders.Count,
-                    "Filter Inputs",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information)
+        'MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
+        '           "Minimum Cost Criteria: " & minCostCriteria & vbCrLf &
+        '          "Maximum Cost Criteria: " & maxCostCriteria & vbCrLf &
+        '         "Minimum Rating Criteria: " & minRating & vbCrLf &
+        '        "Maximum Rating Criteria: " & maxRating & vbCrLf &
+        '       "Location Criteria: " & locationCriteria & vbCrLf &
+        '      "Selected Service Types: " & String.Join(", ", selectedServiceTypes) & vbCrLf &
+        '     "Filter Inputs: " & filteredProviders.Count,
+        '    "Filter Inputs",
+        'MessageBoxButtons.OK,
+        'MessageBoxIcon.Information)
         ' Check if there are any results
         If filteredProviders.Count = 0 Then
             ' Load the default view
@@ -520,10 +525,16 @@ Public Class Display_Services
                 Dim lblProvider As Label = lblMostTrustedServiceName(i)
                 Dim lblProviderRating As Label = lblMostTrustedRating(i)
 
-                ' Update picture box
-                ' Load sample image for service provider
-                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-                pb.Image = Image.FromFile(imagePath)
+                If sortedProviders(index).ServiveProviderPhoto IsNot Nothing AndAlso sortedProviders(index).ServiveProviderPhoto.Length > 0 Then
+                    Using ms As New MemoryStream(sortedProviders(index).ServiveProviderPhoto)
+                        pb.Image = Image.FromStream(ms)
+                    End Using
+                Else
+                    ' Handle the case where image data is not available or empty
+                    ' For example, load a default image
+                    Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                    pb.Image = Image.FromFile(imagePath)
+                End If
 
                 ' Update labels
                 lblProvider.Text = sortedProviders(index).Name
@@ -538,7 +549,9 @@ Public Class Display_Services
     End Sub
 
     Private Sub UpdatePopularPictureBoxesAndLabels()
-        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
+        Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
+                                                       Select(Function(group) group.First()).
+                                                       OrderByDescending(Function(provider) provider.Count) _
                                                       .Take(12) _
                                                       .ToList()
         ' Update picture boxes and labels for Popular section
@@ -550,9 +563,16 @@ Public Class Display_Services
                 Dim lblProviderRating As Label = lblPopularRating(i)
 
                 ' Update picture box
-                ' Load sample image for service provider
-                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-                pb.Image = Image.FromFile(imagePath)
+                ' Load image from binary data
+                If sortedProviders_popular(index).ServicePhoto IsNot Nothing AndAlso sortedProviders_popular(index).ServicePhoto.Length > 0 Then
+                    Using ms As New MemoryStream(sortedProviders_popular(index).ServicePhoto)
+                        pb.Image = Image.FromStream(ms)
+                    End Using
+                Else
+                    ' Handle the case where image data is not available or empty
+                    Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+                    pb.Image = Image.FromFile(imagePath)
+                End If
 
                 ' Update labels
                 lblProvider.Text = sortedProviders_popular(index).ServiceName
@@ -598,7 +618,9 @@ Public Class Display_Services
     Private Sub BtnNextPopular_Click(sender As Object, e As EventArgs)
         ' Increment the current index for popular services
         currentIndexPopular += 3
-        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
+        Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
+                                                       Select(Function(group) group.First()).
+                                                       OrderByDescending(Function(provider) provider.Count) _
                                                       .Take(12) _
                                                       .ToList()
         ' Ensure currentIndexPopular does not exceed the maximum index

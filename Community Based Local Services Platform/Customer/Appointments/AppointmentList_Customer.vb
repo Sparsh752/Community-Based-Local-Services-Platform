@@ -38,6 +38,7 @@ Public Class AppointmentList_Customer
 
         AddLabelsToTableLayoutPanel()
         TableLayoutPanel1.Show()
+        TableLayoutPanel1.AutoScroll = True
 
     End Sub
 

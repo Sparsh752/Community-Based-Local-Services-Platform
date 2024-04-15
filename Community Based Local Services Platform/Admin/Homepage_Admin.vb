@@ -28,7 +28,7 @@ Public Class Homepage_Admin
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName as name,sp.serviceProviderPhotos as photos,sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM serviceproviders as sp JOIN contactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Approved'"
+            Dim query As String = $"SELECT sp.userID, sp.serviceProviderName as name, u.userPhoto as photos, sp.serviceProviderdescription, sp.experienceYears, cd.location, cd.mobileNumber FROM serviceproviders AS sp JOIN contactDetails AS cd ON sp.userID = cd.userID JOIN users AS u ON sp.userID = u.userID WHERE sp.registrationStatus = 'Approved'"
             Dim command As New MySqlCommand(query, connection)
 
             Dim reader As MySqlDataReader = command.ExecuteReader()
@@ -51,7 +51,7 @@ Public Class Homepage_Admin
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = $"SELECT sp.userID,sp.serviceProviderName as name, sp.serviceProviderPhotos as photos, sp.serviceProviderdescription,sp.experienceYears,cd.location,cd.mobileNumber FROM serviceproviders as sp JOIN contactDetails as cd ON sp.userID = cd.userID WHERE registrationStatus = 'Pending'"
+            Dim query As String = $"SELECT sp.userID, sp.serviceProviderName as name, u.userPhoto as photos, sp.serviceProviderdescription, sp.experienceYears, cd.location, cd.mobileNumber FROM serviceproviders AS sp JOIN contactDetails AS cd ON sp.userID = cd.userID JOIN users AS u ON sp.userID = u.userID WHERE sp.registrationStatus = 'Pending'"
             Dim command As New MySqlCommand(query, connection)
 
             Dim reader As MySqlDataReader = command.ExecuteReader()
@@ -157,6 +157,8 @@ Public Class Homepage_Admin
                     PictureBox4.Image = My.Resources.Resource1.displayPicture
                 End If
             End If
+        Else
+            Label6.Text = ""
         End If
 
         If VerifiedSPs.Rows.Count >= 2 Then
@@ -179,6 +181,8 @@ Public Class Homepage_Admin
                     PictureBox3.Image = My.Resources.Resource1.displayPicture
                 End If
             End If
+        Else
+            Label7.Text = ""
         End If
 
         If NotVerifiedSPs.Rows.Count >= 1 Then
@@ -201,6 +205,8 @@ Public Class Homepage_Admin
                     PictureBox1.Image = My.Resources.Resource1.displayPicture
                 End If
             End If
+        Else
+            Label5.Text = ""
         End If
 
         If NotVerifiedSPs.Rows.Count >= 2 Then
@@ -223,6 +229,8 @@ Public Class Homepage_Admin
                     PictureBox2.Image = My.Resources.Resource1.displayPicture
                 End If
             End If
+        Else
+            Label4.Text = ""
         End If
 
 
@@ -236,10 +244,10 @@ Public Class Homepage_Admin
         PictureBox2.Size = New Size(140, 140)
         PictureBox3.Size = New Size(140, 140)
         PictureBox4.Size = New Size(140, 140)
-        PictureBox1.Image = My.Resources.Resource1.sample_SP
-        PictureBox2.Image = My.Resources.Resource1.sample_SP
-        PictureBox3.Image = My.Resources.Resource1.sample_SP
-        PictureBox4.Image = My.Resources.Resource1.sample_SP
+        'PictureBox1.Image = My.Resources.Resource1.sample_SP
+        'PictureBox2.Image = My.Resources.Resource1.sample_SP
+        'PictureBox3.Image = My.Resources.Resource1.sample_SP
+        'PictureBox4.Image = My.Resources.Resource1.sample_SP
         PictureBox1.BackgroundImageLayout = ImageLayout.Stretch
         PictureBox2.BackgroundImageLayout = ImageLayout.Stretch
         PictureBox3.BackgroundImageLayout = ImageLayout.Stretch

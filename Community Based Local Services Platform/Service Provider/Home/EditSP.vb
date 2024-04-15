@@ -709,10 +709,26 @@ Public Class EditSP
 
     End Sub
 
+    Public Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If SessionManager.Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            SessionManager.Panel3.Controls.Clear()
+        End If
+    End Sub
+
     Private Sub Back_btn_Click(sender As Object, e As EventArgs) Handles Back_btn.Click
-        Dim loginForm As New LoginPage()
-        loginForm.Show()
-        Me.Hide()
+        RemovePreviousForm()
+        Me.Close()
+        Dim homePageSP As New Homepage_SP(SessionManager.spID)
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(homePageSP)
+            .BringToFront()
+            .Show()
+        End With
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged

@@ -235,12 +235,12 @@
             Dim label As New Label()
             label.Text = i.ToString()
             label.AutoSize = False
-            label.Size = New Size(80, 20)
+            label.Size = New Size(75, 20)
             label.Font = New Font("Arial", 12, FontStyle.Regular) ' Set a larger font size
             label.ForeColor = Color.Black ' Set the label text color
             ' Calculate the position of the label relative to the TrackBar
             Dim labelX As Integer = TrackBar1.Location.X + 40 + (i - TrackBar1.Minimum) * ((TrackBar1.Width - 20) / (TrackBar1.Maximum - TrackBar1.Minimum))
-            Dim labelY As Integer = TrackBar1.Location.Y - 5 ' Adjust the Y-coordinate to place the labels below the TrackBar
+            Dim labelY As Integer = TrackBar1.Location.Y - 7 ' Adjust the Y-coordinate to place the labels below the TrackBar
             ' Adjust the label position to center it over the tick mark
             label.Location = New Point(labelX - label.Width / 2, labelY)
             Panel1.Controls.Add(label)
