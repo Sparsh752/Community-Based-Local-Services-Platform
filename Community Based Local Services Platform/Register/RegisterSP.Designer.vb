@@ -29,6 +29,12 @@ Partial Class RegisterSP
         locationDropdown = New ComboBox()
         registerLocation = New Label()
         Panel1 = New Panel()
+        CheckBox1 = New CheckBox()
+        labelSpecial = New Label()
+        labelNumbers = New Label()
+        labelUpper = New Label()
+        labelLower = New Label()
+        labelSize = New Label()
         Back_btn = New Button()
         ExperienceDropdown = New ComboBox()
         emailValidationLabel = New Label()
@@ -65,11 +71,6 @@ Partial Class RegisterSP
         passwordSP_Text = New TextBox()
         Label1 = New Label()
         ToolTip1 = New ToolTip(components)
-        labelSpecial = New Label()
-        labelNumbers = New Label()
-        labelUpper = New Label()
-        labelLower = New Label()
-        labelSize = New Label()
         Panel1.SuspendLayout()
         CType(registerSPProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -122,6 +123,7 @@ Partial Class RegisterSP
         ' Panel1
         ' 
         Panel1.AutoScroll = True
+        Panel1.Controls.Add(CheckBox1)
         Panel1.Controls.Add(labelSpecial)
         Panel1.Controls.Add(labelNumbers)
         Panel1.Controls.Add(labelUpper)
@@ -171,6 +173,71 @@ Partial Class RegisterSP
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(1360, 1040)
         Panel1.TabIndex = 25
+        ' 
+        ' CheckBox1
+        ' 
+        CheckBox1.AutoSize = True
+        CheckBox1.Location = New Point(465, 579)
+        CheckBox1.Name = "CheckBox1"
+        CheckBox1.Size = New Size(154, 25)
+        CheckBox1.TabIndex = 69
+        CheckBox1.Text = "Show Password"
+        CheckBox1.UseVisualStyleBackColor = True
+        ' 
+        ' labelSpecial
+        ' 
+        labelSpecial.AutoSize = True
+        labelSpecial.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelSpecial.ForeColor = Color.Red
+        labelSpecial.Location = New Point(465, 694)
+        labelSpecial.Name = "labelSpecial"
+        labelSpecial.Size = New Size(150, 16)
+        labelSpecial.TabIndex = 64
+        labelSpecial.Text = "✓ Contains Special Chars"
+        ' 
+        ' labelNumbers
+        ' 
+        labelNumbers.AutoSize = True
+        labelNumbers.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelNumbers.ForeColor = Color.Red
+        labelNumbers.Location = New Point(465, 673)
+        labelNumbers.Name = "labelNumbers"
+        labelNumbers.Size = New Size(124, 16)
+        labelNumbers.TabIndex = 65
+        labelNumbers.Text = "✓ Contains Numbers"
+        ' 
+        ' labelUpper
+        ' 
+        labelUpper.AutoSize = True
+        labelUpper.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelUpper.ForeColor = Color.Red
+        labelUpper.Location = New Point(465, 652)
+        labelUpper.Name = "labelUpper"
+        labelUpper.Size = New Size(133, 16)
+        labelUpper.TabIndex = 66
+        labelUpper.Text = "✓ Contains Uppercase"
+        ' 
+        ' labelLower
+        ' 
+        labelLower.AutoSize = True
+        labelLower.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelLower.ForeColor = Color.Red
+        labelLower.Location = New Point(465, 631)
+        labelLower.Name = "labelLower"
+        labelLower.Size = New Size(134, 16)
+        labelLower.TabIndex = 67
+        labelLower.Text = "✓ Contains Lowercase"
+        ' 
+        ' labelSize
+        ' 
+        labelSize.AutoSize = True
+        labelSize.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelSize.ForeColor = Color.Red
+        labelSize.Location = New Point(465, 610)
+        labelSize.Name = "labelSize"
+        labelSize.Size = New Size(162, 16)
+        labelSize.TabIndex = 68
+        labelSize.Text = "✓ Atleast 8 characters long"
         ' 
         ' Back_btn
         ' 
@@ -503,61 +570,6 @@ Partial Class RegisterSP
         ' 
         ToolTip1.ToolTipTitle = "Format of Time"
         ' 
-        ' labelSpecial
-        ' 
-        labelSpecial.AutoSize = True
-        labelSpecial.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelSpecial.ForeColor = Color.Red
-        labelSpecial.Location = New Point(470, 673)
-        labelSpecial.Name = "labelSpecial"
-        labelSpecial.Size = New Size(150, 16)
-        labelSpecial.TabIndex = 64
-        labelSpecial.Text = "✓ Contains Special Chars"
-        ' 
-        ' labelNumbers
-        ' 
-        labelNumbers.AutoSize = True
-        labelNumbers.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelNumbers.ForeColor = Color.Red
-        labelNumbers.Location = New Point(470, 652)
-        labelNumbers.Name = "labelNumbers"
-        labelNumbers.Size = New Size(124, 16)
-        labelNumbers.TabIndex = 65
-        labelNumbers.Text = "✓ Contains Numbers"
-        ' 
-        ' labelUpper
-        ' 
-        labelUpper.AutoSize = True
-        labelUpper.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelUpper.ForeColor = Color.Red
-        labelUpper.Location = New Point(470, 631)
-        labelUpper.Name = "labelUpper"
-        labelUpper.Size = New Size(133, 16)
-        labelUpper.TabIndex = 66
-        labelUpper.Text = "✓ Contains Uppercase"
-        ' 
-        ' labelLower
-        ' 
-        labelLower.AutoSize = True
-        labelLower.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelLower.ForeColor = Color.Red
-        labelLower.Location = New Point(470, 610)
-        labelLower.Name = "labelLower"
-        labelLower.Size = New Size(134, 16)
-        labelLower.TabIndex = 67
-        labelLower.Text = "✓ Contains Lowercase"
-        ' 
-        ' labelSize
-        ' 
-        labelSize.AutoSize = True
-        labelSize.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelSize.ForeColor = Color.Red
-        labelSize.Location = New Point(470, 589)
-        labelSize.Name = "labelSize"
-        labelSize.Size = New Size(162, 16)
-        labelSize.TabIndex = 68
-        labelSize.Text = "✓ Atleast 8 characters long"
-        ' 
         ' RegisterSP
         ' 
         AutoScaleDimensions = New SizeF(9F, 21F)
@@ -624,5 +636,6 @@ Partial Class RegisterSP
     Friend WithEvents labelUpper As Label
     Friend WithEvents labelLower As Label
     Friend WithEvents labelSize As Label
+    Friend WithEvents CheckBox1 As CheckBox
 
 End Class

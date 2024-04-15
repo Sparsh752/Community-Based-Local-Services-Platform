@@ -625,4 +625,13 @@ Public Class RegisterSP
         Me.Hide()
     End Sub
 
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked Then
+            passwordSP_Text.PasswordChar = ""
+            confirmSP_Text.PasswordChar = ""
+        Else
+            passwordSP_Text.PasswordChar = "*"
+            confirmSP_Text.PasswordChar = "*"
+        End If
+    End Sub
 End Class
