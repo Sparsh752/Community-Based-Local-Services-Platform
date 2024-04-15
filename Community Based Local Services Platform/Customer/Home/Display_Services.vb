@@ -355,21 +355,40 @@ Public Class Display_Services
             costLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
             resultPanel.Controls.Add(costLabel)
 
-            ' Display ratings as stars
-            Dim ratingsLabel As New Label()
-            Dim ratingStars As String = ""
-            For i As Integer = 1 To 5
-                If i <= provider.Ratings Then
-                    ratingStars &= "★" ' Full star
-                Else
-                    ratingStars &= "☆" ' Empty star
-                End If
-            Next
-            ratingsLabel.Text = "Ratings: " & ratingStars
-            ratingsLabel.Size = New Size(280, 14)
-            ratingsLabel.Location = New Point(591, 76)
-            ratingsLabel.Font = New Font(SessionManager.font_family, 9, FontStyle.Regular)
-            resultPanel.Controls.Add(ratingsLabel)
+            ' Create labels for full and empty stars
+            Dim fullStarsLabel As New Label()
+            Dim emptyStarsLabel As New Label()
+
+            ' Calculate the number of full stars and empty stars
+            Dim fullStars As Integer = provider.Ratings
+            Dim emptyStars As Integer = 5 - provider.Ratings
+
+            ' Set text and properties for full stars label
+            fullStarsLabel.Text = New String("★"c, fullStars)
+            fullStarsLabel.ForeColor = Color.Yellow ' Set color to yellow
+            fullStarsLabel.Size = New Size(180, 58) ' Increase the size of the star
+            fullStarsLabel.Location = New Point(591, 70)
+            fullStarsLabel.Font = New Font(SessionManager.font_family, 14, FontStyle.Regular)
+
+            ' Set text and properties for empty stars label
+            emptyStarsLabel.Text = New String("☆"c, emptyStars)
+            emptyStarsLabel.Size = New Size(180, 58) ' Increase the size of the star
+            emptyStarsLabel.Location = New Point(fullStarsLabel.Right, 70)
+            emptyStarsLabel.Font = New Font(SessionManager.font_family, 14, FontStyle.Regular)
+            emptyStarsLabel.ForeColor = Color.Black
+
+            ' Create label for "Rating"
+            Dim ratingTextLabel As New Label()
+            ratingTextLabel.Text = "Rating: "
+            ratingTextLabel.Size = New Size(70, 28) ' Reduce the size of the label
+            ratingTextLabel.Location = New Point(591, 50) ' Move further right
+            ratingTextLabel.Font = New Font(SessionManager.font_family, 12, FontStyle.Regular) ' Reduce the font size
+            ratingTextLabel.ForeColor = Color.Black ' Set color to black
+
+            ' Add all labels to the result panel
+            resultPanel.Controls.Add(ratingTextLabel)
+            resultPanel.Controls.Add(fullStarsLabel)
+            resultPanel.Controls.Add(emptyStarsLabel)
 
             Dim descriptionLabel As New Label()
             descriptionLabel.Text = provider.Description
