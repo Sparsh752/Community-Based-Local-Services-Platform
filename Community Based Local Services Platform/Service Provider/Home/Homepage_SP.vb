@@ -96,7 +96,7 @@ Public Class Homepage_SP
 
 
 
-    Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs, serviceID As Integer)
+    Private Sub DeleteServiceButton_Click(sender As Object, e As EventArgs, serviceTypeID As Integer)
         Dim connection As New MySqlConnection(SessionManager.connectionString)
 
         Try
@@ -114,7 +114,8 @@ Public Class Homepage_SP
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = "Update Services as s SET s.flagbit = 0 WHERE s.serviceID = " & serviceID
+            Dim query As String = "Update Services as s SET s.flagbit = 0 WHERE s.serviceTypeID = " & serviceTypeID & "AND s.serviceProviderID=" & serviceProviderID
+
             Dim command As New MySqlCommand(query, connection)
 
             Dim rowsAffected As Integer = command.ExecuteNonQuery()
@@ -300,7 +301,7 @@ Public Class Homepage_SP
         Try
             ' Open the connection
             connection1.Open()
-            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price, services.serviceDescription FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
+            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price ,services.serviceTypeID, services.serviceDescription FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
             Dim command As New MySqlCommand(query, connection1)
 
             ' Execute the SQL query
@@ -312,6 +313,7 @@ Public Class Homepage_SP
 
             While reader.Read()
                 Dim service As New Services()
+                service.serviceTypeID = reader("serviceTypeID")
                 service.serviceID = reader("serviceID")
                 service.serviceName = reader("serviceName")
                 service.price = reader("price")
@@ -391,8 +393,8 @@ Public Class Homepage_SP
             newButton1.FlatStyle = FlatStyle.Flat
             newButton1.FlatAppearance.BorderSize = 0
             newButton1.Padding = New Padding(newButton1.Padding.Left, newButton1.Padding.Top, newButton1.Padding.Right, newButton1.Padding.Bottom - 10)
-            Dim serviceIDThis As Integer = servicesList(i).serviceID
-            AddHandler newButton1.Click, Sub(s, ev) DeleteServiceButton_Click(s, ev, serviceIDThis)
+            Dim serviceTypeIDThis As Integer = servicesList(i).serviceTypeID
+            AddHandler newButton1.Click, Sub(s, ev) DeleteServiceButton_Click(s, ev, serviceTypeIDThis)
             groupBox.Controls.Add(newButton1)
 
 
@@ -408,6 +410,7 @@ Public Class Homepage_SP
             newButton2.FlatStyle = FlatStyle.Flat
             newButton2.FlatAppearance.BorderSize = 0
             newButton2.Padding = New Padding(newButton2.Padding.Left, newButton2.Padding.Top, newButton2.Padding.Right, newButton2.Padding.Bottom - 10)
+            Dim serviceIDThis As Integer = servicesList(i).serviceID
             AddHandler newButton2.Click, Sub(s, ev) EditServicesButton_Click(s, ev, serviceIDThis)
             groupBox.Controls.Add(newButton2)
 
