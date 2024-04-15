@@ -45,8 +45,10 @@ Public Class Appointment_booking
 
         If (appointmentType = "Reschedule") Then
             Button10.Text = "Reschedule"
+            Label1.Text = "Reschedule Appointment"
         Else
             Button10.Text = "Proceed to Pay"
+            Label1.Text = "Book Appointment"
         End If
 
 
@@ -488,6 +490,14 @@ Public Class Appointment_booking
 
     Private Sub Button_Click(sender As Object, e As EventArgs)
 
+        For Each ctrl As Control In Me.Controls
+            If TypeOf ctrl Is Button AndAlso ctrl IsNot Button10 AndAlso ctrl IsNot Button11 Then
+                Dim btn As Button = DirectCast(ctrl, Button)
+                btn.BackColor = Color.White
+                btn.ForeColor = Color.Black
+            End If
+        Next
+
         ' Determine which button was clicked and extract the selected time slot
         Dim clickedButton As Button = DirectCast(sender, Button)
         clickedButton.BackColor = Color.Black
@@ -511,7 +521,13 @@ Public Class Appointment_booking
 
         ' Calculate and print 50% of the price in a different label
         advancepayment = servicePrice * 0.5
-        Label13.Text = "Rs. " & advancepayment.ToString("0.00")
+
+        If appointmentType = "Reschedule" Then
+            Label13.Text = "Rs. 0.00"
+        Else
+            Label13.Text = "Rs. " & advancepayment.ToString("0.00")
+        End If
+
     End Sub
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
