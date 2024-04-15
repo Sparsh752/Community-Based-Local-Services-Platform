@@ -258,7 +258,7 @@ Partial Class Register1
         labelSize.Name = "labelSize"
         labelSize.Size = New Size(162, 16)
         labelSize.TabIndex = 27
-        labelSize.Text = "✓ Atleast 8 characters long"
+        labelSize.Text = "✗ Atleast 8 characters long"
         ' 
         ' labelLower
         ' 
@@ -269,7 +269,7 @@ Partial Class Register1
         labelLower.Name = "labelLower"
         labelLower.Size = New Size(134, 16)
         labelLower.TabIndex = 27
-        labelLower.Text = "✓ Contains Lowercase"
+        labelLower.Text = "✗ Contains Lowercase"
         ' 
         ' labelUpper
         ' 
@@ -280,7 +280,7 @@ Partial Class Register1
         labelUpper.Name = "labelUpper"
         labelUpper.Size = New Size(133, 16)
         labelUpper.TabIndex = 27
-        labelUpper.Text = "✓ Contains Uppercase"
+        labelUpper.Text = "✗ Contains Uppercase"
         ' 
         ' labelNumbers
         ' 
@@ -291,7 +291,7 @@ Partial Class Register1
         labelNumbers.Name = "labelNumbers"
         labelNumbers.Size = New Size(124, 16)
         labelNumbers.TabIndex = 27
-        labelNumbers.Text = "✓ Contains Numbers"
+        labelNumbers.Text = "✗ Contains Numbers"
         ' 
         ' labelSpecial
         ' 
@@ -302,7 +302,7 @@ Partial Class Register1
         labelSpecial.Name = "labelSpecial"
         labelSpecial.Size = New Size(150, 16)
         labelSpecial.TabIndex = 27
-        labelSpecial.Text = "✓ Contains Special Chars"
+        labelSpecial.Text = "✗ Contains Special Chars"
         ' 
         ' Register1
         ' 
