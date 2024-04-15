@@ -113,7 +113,7 @@
                 End Try
             End Using
         End Using
-
+        SessionManager.customerID = customerID
         Return customerID
     End Function
     Private Function GetSPIDFromUserID(userID As String)

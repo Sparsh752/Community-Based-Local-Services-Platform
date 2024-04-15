@@ -2,13 +2,28 @@
 Imports Mysqlx
 
 Public Class Payment_Gateway
+
+    Public serviceID As String
+    Public selectedDate As DateTime
+    Public selectedTimeSlot As String
+    Public advancepayment As Decimal
+    Public serviceProviderID As String
+    Public serviceLocation As String
+    Public areaId As String
+    Public areaTimeSlotId As String
+    Public serviceTypeID As String
+    Public paymentMode As String
+    Public paymentID As String
+
     Dim UPI_button As New Button()
     Dim D_Card_button As New Button()
     Dim C_Card_button As New Button()
     Dim QR_button As New Button()
     Dim Panel2 As New Panel()
-    Dim Price As String
+    Public Price As String
     Dim PaymentType As Boolean
+
+
 
 
 
@@ -40,36 +55,6 @@ Public Class Payment_Gateway
 
             connection.Close()
         End Using
-
-        If Not PaymentType Then
-            checkQuery = "SELECT s.price
-                FROM services as s
-                WHERE s.serviceID = @serviceID"
-
-            Using connection As New MySqlConnection(SessionManager.connectionString)
-                connection.Open()
-
-                Using checkCommand As New MySqlCommand(checkQuery, connection)
-                    checkCommand.Parameters.AddWithValue("@serviceID", SessionManager.serviceID)
-
-                    Dim reader As MySqlDataReader = checkCommand.ExecuteReader()
-
-                    If reader.HasRows Then
-                        ' If the query returns any record
-                        While reader.Read()
-                            Dim bookingAdvance As Decimal = reader.GetDecimal(0) ' Assuming bookingAdvance is a decimal field
-                            bookingAdvance /= 2
-                            Price = bookingAdvance.ToString()
-                        End While
-                        PaymentType = False
-                    End If
-
-                    reader.Close() ' Close the reader when done reading
-                End Using
-
-                connection.Close()
-            End Using
-        End If
     End Sub
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
@@ -151,6 +136,7 @@ Public Class Payment_Gateway
         RemovePreviousForm()
         RetrievePrice()
         LoadUPI()
+        paymentMode = "upi"
     End Sub
     Private Sub UPI_button_Click(sender As Object, e As EventArgs)
         UPI_button.BackColor = ColorTranslator.FromHtml("#F9754B")
@@ -175,6 +161,7 @@ Public Class Payment_Gateway
         QR_button.ForeColor = Color.Black
         RemovePreviousForm()
         LoadCard()
+        paymentMode = "debit"
     End Sub
 
 
@@ -190,6 +177,7 @@ Public Class Payment_Gateway
         QR_button.ForeColor = Color.Black
         RemovePreviousForm()
         LoadCard()
+        paymentMode = "credit"
     End Sub
     Private Sub QR_button_Click(sender As Object, e As EventArgs)
         QR_button.BackColor = ColorTranslator.FromHtml("#F9754B")
@@ -202,6 +190,7 @@ Public Class Payment_Gateway
         C_Card_button.ForeColor = Color.Black
         RemovePreviousForm()
         LoadQR()
+        paymentMode = "qr"
     End Sub
 
     Private Sub RemovePreviousForm()
@@ -209,6 +198,16 @@ Public Class Payment_Gateway
     End Sub
 
     Private Sub RemovePreviousPanel3Form()
+        PaymentType = False
+
+        For Each ctrl As Control In Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
+
         ' Check if any form is already in Panel5
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
@@ -223,7 +222,7 @@ Public Class Payment_Gateway
         Panel2.Controls.Add(Amount_label)
         Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
         Dim Amount As New Label()
-        Amount.Text = Price
+        Amount.Text = "Rs." + Price
         Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
         Amount.Location = New Point(137, 179)
         Panel2.Controls.Add(Amount)
@@ -261,7 +260,7 @@ Public Class Payment_Gateway
         Panel2.Controls.Add(Amount_label)
         Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
         Dim Amount As New Label()
-        Amount.Text = Price
+        Amount.Text = "Rs." + Price
         Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
         Amount.Location = New Point(137, 179)
         Panel2.Controls.Add(Amount)
@@ -342,7 +341,7 @@ Public Class Payment_Gateway
         Panel2.Controls.Add(Amount_label)
         Amount_label.ForeColor = ColorTranslator.FromHtml("#888888")
         Dim Amount As New Label()
-        Amount.Text = Price
+        Amount.Text = "Rs." + Price
         Amount.Font = New Font("Bahnschrift Light", 26, FontStyle.Bold)
         Amount.Location = New Point(137, 179)
         Panel2.Controls.Add(Amount)
@@ -377,6 +376,10 @@ Public Class Payment_Gateway
         If result = DialogResult.OK And PaymentType = True Then
             Dim checkQuery As String = "UPDATE appointments SET appointmentStatus='Completed' WHERE appointmentID = @appointmentID"
 
+            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, NOW(), @paymentType, @paymentStatus, @paymentMode)"
+            Dim countPaymentQuery As String = "Select count(*) from payments"
+
+
             Using connection As New MySqlConnection(SessionManager.connectionString)
                 connection.Open()
 
@@ -384,12 +387,36 @@ Public Class Payment_Gateway
                     checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
                     checkCommand.ExecuteNonQuery() ' Use ExecuteNonQuery for UPDATE queries
 
+                End Using
+
+                Using countPaymentsCommand As New MySqlCommand(countPaymentQuery, connection)
+                    Dim temp As Integer = Convert.ToInt32(countPaymentsCommand.ExecuteScalar())
+                    temp += 1
+                    paymentID = temp.ToString()
+                End Using
+
+                'Dim currDateTime As String = Now()
+
+                Using paymentCommand As New MySqlCommand(paymentQuery, connection)
+                    paymentCommand.Parameters.AddWithValue("@paymentID", paymentID)
+                    paymentCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                    paymentCommand.Parameters.AddWithValue("@amount", Price)
+                    'paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
+                    paymentCommand.Parameters.AddWithValue("@paymentType", "Final")
+                    paymentCommand.Parameters.AddWithValue("@paymentStatus", "Completed")
+                    paymentCommand.Parameters.AddWithValue("@paymentMode", paymentMode)
+                    paymentCommand.ExecuteNonQuery() ' Use ExecuteNonQuery for Insert queries
+
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
 
                 connection.Close()
             End Using
+
+
+
+
             RemovePreviousPanel3Form()
             With AppointmentList_Customer
                 .TopLevel = False
@@ -402,8 +429,13 @@ Public Class Payment_Gateway
 
             ' inserting into appointment table
             Dim countQuery As String = "SELECT COUNT(*) FROM appointments"
-            Dim checkQuery As String = "Insert into appointments values (@appointmentID, @serviceProviderID, @customerID, areaTimeSlotID, @bookingAdvance, @serviceID, 'Scheduled'"
+            Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceareatimeslots"
+            Dim checkQuery As String = "Insert into appointments values (@appointmentID, @serviceProviderID, @customerID, @areaTimeSlotID, @bookingAdvance, @serviceID, 'Scheduled')"
+            Dim areaTimeSLotQuery As String = "Insert into serviceareatimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
+            Dim areaIdQuery As String = "Select areaID from serviceareas where location = @serviceLocation"
 
+            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, @paymentDateTime, @paymentType, @paymentStatus, @paymentMode)"
+            Dim countPaymentQuery As String = "Select count(*) from payments"
 
 
             Using connection As New MySqlConnection(SessionManager.connectionString)
@@ -411,23 +443,72 @@ Public Class Payment_Gateway
 
                 Using countCommand As New MySqlCommand(countQuery, connection)
                     Dim count As Integer = Convert.ToInt32(countCommand.ExecuteScalar())
-
                     ' Add 1 to the count and store it in SessionManager.appointmentID
                     SessionManager.appointmentID = count + 1
                 End Using
 
+                Using countAreaTimeSlotCommand As New MySqlCommand(countAreaTimeSlotQuery, connection)
+                    Dim temp As Integer = Convert.ToInt32(countAreaTimeSlotCommand.ExecuteScalar())
+                    temp += 1
+                    areaTimeSlotId = temp.ToString()
+                End Using
+
+                Using areaIdCommand As New MySqlCommand(areaIdQuery, connection)
+                    areaIdCommand.Parameters.AddWithValue("@serviceLocation", serviceLocation)
+                    areaId = areaIdCommand.ExecuteScalar().ToString()
+                    ' Add 1 to the count and store it in SessionManager.appointmentID
+                End Using
+
+                Using areaTimeSlotCommand As New MySqlCommand(areaTimeSLotQuery, connection)
+                    areaTimeSlotCommand.Parameters.AddWithValue("@areaTimeSlotID", areaTimeSlotId)
+                    areaTimeSlotCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderID)
+                    areaTimeSlotCommand.Parameters.AddWithValue("@areaID", areaId)
+                    areaTimeSlotCommand.Parameters.AddWithValue("@serviceTypeID", serviceTypeID)
+                    areaTimeSlotCommand.Parameters.AddWithValue("@startTime", selectedTimeSlot)
+                    areaTimeSlotCommand.Parameters.AddWithValue("@timeSlotDate", selectedDate)
+                    areaTimeSlotCommand.Parameters.AddWithValue("@serviceID", serviceID)
+                    areaTimeSlotCommand.ExecuteNonQuery() ' Use ExecuteNonQuery for Insert queries
+
+                End Using
+
+                MessageBox.Show(SessionManager.customerID)
+
                 Using checkCommand As New MySqlCommand(checkQuery, connection)
                     checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
-                    checkCommand.Parameters.AddWithValue("@serviceProviderID", SessionManager.spID)
+                    checkCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderID)
                     checkCommand.Parameters.AddWithValue("@customerID", SessionManager.customerID)
-                    checkCommand.Parameters.AddWithValue("@areaTimeSlotID", SessionManager.appointmentID)
+                    checkCommand.Parameters.AddWithValue("@areaTimeSlotID", areaTimeSlotId)
                     checkCommand.Parameters.AddWithValue("@bookingAdvance", Price)
-                    checkCommand.Parameters.AddWithValue("@serviceID", SessionManager.serviceID)
+                    checkCommand.Parameters.AddWithValue("@serviceID", serviceID)
                     checkCommand.ExecuteNonQuery() ' Use ExecuteNonQuery for Insert queries
+
+                End Using
+
+                MessageBox.Show(areaTimeSlotId)
+
+
+                Using countPaymentsCommand As New MySqlCommand(countPaymentQuery, connection)
+                    Dim temp As Integer = Convert.ToInt32(countPaymentsCommand.ExecuteScalar())
+                    temp += 1
+                    paymentID = temp.ToString()
+                End Using
+
+                Dim currDateTime As String = Now()
+
+                Using paymentCommand As New MySqlCommand(paymentQuery, connection)
+                    paymentCommand.Parameters.AddWithValue("@paymentID", paymentID)
+                    paymentCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                    paymentCommand.Parameters.AddWithValue("@amount", Price)
+                    paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
+                    paymentCommand.Parameters.AddWithValue("@paymentType", "Advance")
+                    paymentCommand.Parameters.AddWithValue("@paymentStatus", "Completed")
+                    paymentCommand.Parameters.AddWithValue("@paymentMode", paymentMode)
+                    paymentCommand.ExecuteNonQuery() ' Use ExecuteNonQuery for Insert queries
 
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
+
 
                 connection.Close()
             End Using
