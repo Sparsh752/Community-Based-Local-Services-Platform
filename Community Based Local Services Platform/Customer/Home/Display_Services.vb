@@ -110,9 +110,13 @@ Public Class Display_Services
         lblMostTrustedHeading.Size = New Size(360, 28)
         lblMostTrustedHeading.Location = New Point(91, 118)
         Me.Controls.Add(lblMostTrustedHeading)
-        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
-                                      .ThenByDescending(Function(provider) provider.Experience) _
-                                      .ToList()
+        Dim sortedProviders = serviceProviders.GroupBy(Function(provider) provider.ID) _
+                                          .Select(Function(group) group.First()) _
+                                          .OrderByDescending(Function(provider) provider.Ratings) _
+                                          .ThenByDescending(Function(provider) provider.Experience) _
+                                          .Take(9) _
+                                          .ToList()
+
 
         For i As Integer = 1 To 3
             Dim pb As New PictureBox()
@@ -165,7 +169,8 @@ Public Class Display_Services
         lblPopularHeading.Location = New Point(91, 371)
         Me.Controls.Add(lblPopularHeading)
         Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
-                                  .ToList()
+                                                      .Take(12) _
+                                                      .ToList()
 
         ' Create picture boxes and labels for Popular section
         For i As Integer = 1 To 3
@@ -215,63 +220,66 @@ Public Class Display_Services
         Dim btnNextMostTrusted As New Button()
         With btnNextMostTrusted
             .Text = "▶" ' Unicode character for right-pointing triangle
-            .Size = New Size(30, 60)
-            .Location = New Point(700, 195)
+            .Size = New Size(25, 60)
+            .Location = New Point(700, 206)
             .BackColor = ColorTranslator.FromHtml("#124E55")
             .ForeColor = Color.White
             .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
+            .FlatStyle = FlatStyle.Flat
 
             AddHandler .Click, AddressOf BtnNextMostTrusted_Click
             AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
             AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
         End With
-        'Me.Controls.Add(btnNextMostTrusted)
+        Me.Controls.Add(btnNextMostTrusted)
 
         Dim btnPrevMostTrusted As New Button()
         With btnPrevMostTrusted
             .Text = "◀" ' Unicode character for left-pointing triangle
-            .Size = New Size(30, 60)
-            .Location = New Point(60, 195)
+            .Size = New Size(25, 60)
+            .Location = New Point(60, 206)
             .BackColor = ColorTranslator.FromHtml("#124E55")
             .ForeColor = Color.White
             .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
+            .FlatStyle = FlatStyle.Flat
 
             AddHandler .Click, AddressOf BtnPrevMostTrusted_Click
             AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
             AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
         End With
-        'Me.Controls.Add(btnPrevMostTrusted)
+        Me.Controls.Add(btnPrevMostTrusted)
 
         ' Display next and previous buttons for popular services
         Dim btnNextPopular As New Button()
         With btnNextPopular
             .Text = "▶" ' Unicode character for right-pointing triangle
-            .Size = New Size(30, 60)
-            .Location = New Point(700, 438)
+            .Size = New Size(25, 60)
+            .Location = New Point(700, 449)
             .BackColor = ColorTranslator.FromHtml("#124E55")
             .ForeColor = Color.White
             .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
-
+            .FlatStyle = FlatStyle.Flat
             AddHandler .Click, AddressOf BtnNextPopular_Click
             AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
             AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
         End With
-        'Me.Controls.Add(btnNextPopular)
+        Me.Controls.Add(btnNextPopular)
 
         Dim btnPrevPopular As New Button()
         With btnPrevPopular
             .Text = "◀" ' Unicode character for left-pointing triangle
-            .Size = New Size(30, 60)
-            .Location = New Point(60, 438)
+            .Size = New Size(25, 60)
+            .Location = New Point(60, 449)
             .BackColor = ColorTranslator.FromHtml("#124E55")
             .ForeColor = Color.White
             .Font = New Font(btnNextMostTrusted.Font.FontFamily, 11) ' Increase font size to 12
+            .FlatStyle = FlatStyle.Flat
 
             AddHandler .Click, AddressOf BtnPrevPopular_Click
             AddHandler .MouseEnter, Sub() .BackColor = ColorTranslator.FromHtml("#F9754B")
             AddHandler .MouseLeave, Sub() .BackColor = ColorTranslator.FromHtml("#124E55")
         End With
-        'Me.Controls.Add(btnPrevPopular)
+        Me.Controls.Add(btnPrevPopular)
 
     End Sub
 
@@ -497,9 +505,12 @@ Public Class Display_Services
 
     End Sub
     Private Sub UpdateMostTrustedPictureBoxesAndLabels()
-        Dim sortedProviders = serviceProviders.OrderByDescending(Function(provider) provider.Ratings) _
-                                  .ThenByDescending(Function(provider) provider.Experience) _
-                                  .ToList()
+        Dim sortedProviders = serviceProviders.GroupBy(Function(provider) provider.ID) _
+                                          .Select(Function(group) group.First()) _
+                                          .OrderByDescending(Function(provider) provider.Ratings) _
+                                          .ThenByDescending(Function(provider) provider.Experience) _
+                                          .Take(9) _
+                                          .ToList()
 
         ' Update picture boxes and labels for Most Trusted section
         For i As Integer = 0 To 2
@@ -515,7 +526,7 @@ Public Class Display_Services
                 pb.Image = Image.FromFile(imagePath)
 
                 ' Update labels
-                lblProvider.Text = sortedProviders(index).ServiceName
+                lblProvider.Text = sortedProviders(index).Name
                 lblProviderRating.Text = "Rating : " & sortedProviders(index).Ratings
             Else
                 ' If index is out of bounds, clear the picture box and labels
@@ -528,7 +539,8 @@ Public Class Display_Services
 
     Private Sub UpdatePopularPictureBoxesAndLabels()
         Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
-                                  .ToList()
+                                                      .Take(12) _
+                                                      .ToList()
         ' Update picture boxes and labels for Popular section
         For i As Integer = 0 To 2
             Dim index As Integer = i + currentIndexPopular
@@ -558,9 +570,15 @@ Public Class Display_Services
     Private Sub BtnNextMostTrusted_Click(sender As Object, e As EventArgs)
         ' Increment the current index for most trusted providers
         currentIndexMostTrusted += 3
+        Dim sortedProviders = serviceProviders.GroupBy(Function(provider) provider.ID) _
+                                  .Select(Function(group) group.First()) _
+                                  .OrderByDescending(Function(provider) provider.Ratings) _
+                                  .ThenByDescending(Function(provider) provider.Experience) _
+                                  .Take(9) _
+                                  .ToList()
         ' Ensure currentIndexMostTrusted does not exceed the maximum index
-        If currentIndexMostTrusted >= serviceProviders.Count Then
-            currentIndexMostTrusted = serviceProviders.Count - 3
+        If currentIndexMostTrusted >= sortedProviders.Count Then
+            currentIndexMostTrusted -= 3
         End If
         ' Update picture boxes and labels for Most Trusted section
         UpdateMostTrustedPictureBoxesAndLabels()
@@ -580,9 +598,12 @@ Public Class Display_Services
     Private Sub BtnNextPopular_Click(sender As Object, e As EventArgs)
         ' Increment the current index for popular services
         currentIndexPopular += 3
+        Dim sortedProviders_popular = serviceProviders.OrderByDescending(Function(provider) provider.Count) _
+                                                      .Take(12) _
+                                                      .ToList()
         ' Ensure currentIndexPopular does not exceed the maximum index
-        If currentIndexPopular >= serviceProviders.Count Then
-            currentIndexPopular = serviceProviders.Count - 3
+        If currentIndexPopular >= sortedProviders_popular.Count Then
+            currentIndexPopular -= 3
         End If
         ' Update picture boxes and labels for Popular section
         UpdatePopularPictureBoxesAndLabels()

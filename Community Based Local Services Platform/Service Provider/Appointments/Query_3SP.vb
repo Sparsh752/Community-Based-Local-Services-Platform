@@ -48,13 +48,14 @@
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         MessageBox.Show("Query sent.")
-        RemovePreviousForm()
+
 
 
         ' Get the query entered by the user from RichTextBox1
-        Dim queryText As String = RichTextBox1.Text
 
-            Try
+
+
+        Try
                 ' Create a MySqlConnection object
                 Using connection As New MySqlConnection(SessionManager.connectionString)
                     ' Open the connection
@@ -69,10 +70,10 @@
                         command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID) ' Replace Your_UserID with the actual user ID
                         command.Parameters.AddWithValue("@userID", SessionManager.userID) ' Replace Your_UserID with the actual user ID
                         command.Parameters.AddWithValue("@type", ComboBox1.SelectedItem.ToString())
-                        command.Parameters.AddWithValue("@query", queryText)
+                    command.Parameters.AddWithValue("@query", RichTextBox1.Text)
 
-                        ' Execute the command
-                        command.ExecuteNonQuery()
+                    ' Execute the command
+                    command.ExecuteNonQuery()
 
                         ' Display a success message
                         MessageBox.Show("Query inserted successfully.")
