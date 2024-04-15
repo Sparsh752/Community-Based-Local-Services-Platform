@@ -88,7 +88,7 @@ Partial Class EditSP
         confirmSP_Text.BorderStyle = BorderStyle.FixedSingle
         confirmSP_Text.Location = New Point(207, 492)
         confirmSP_Text.Name = "confirmSP_Text"
-        confirmSP_Text.Size = New Size(286, 28)
+        confirmSP_Text.Size = New Size(286, 24)
         confirmSP_Text.TabIndex = 21
         ' 
         ' OpenFileDialogRegister
@@ -115,7 +115,7 @@ Partial Class EditSP
         locationDropdown.FormattingEnabled = True
         locationDropdown.Location = New Point(206, 589)
         locationDropdown.Name = "locationDropdown"
-        locationDropdown.Size = New Size(286, 29)
+        locationDropdown.Size = New Size(286, 25)
         locationDropdown.TabIndex = 15
         ' 
         ' registerLocation
@@ -124,7 +124,7 @@ Partial Class EditSP
         registerLocation.Font = New Font("Bahnschrift", 10.2F)
         registerLocation.Location = New Point(199, 565)
         registerLocation.Name = "registerLocation"
-        registerLocation.Size = New Size(74, 21)
+        registerLocation.Size = New Size(63, 17)
         registerLocation.TabIndex = 11
         registerLocation.Text = "Location"
         ' 
@@ -179,7 +179,7 @@ Partial Class EditSP
         Panel1.Dock = DockStyle.Fill
         Panel1.Location = New Point(0, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1360, 1040)
+        Panel1.Size = New Size(1360, 781)
         Panel1.TabIndex = 25
         ' 
         ' GroupBox2
@@ -198,7 +198,7 @@ Partial Class EditSP
         Label3.AutoSize = True
         Label3.Location = New Point(73, 20)
         Label3.Name = "Label3"
-        Label3.Size = New Size(14, 21)
+        Label3.Size = New Size(11, 17)
         Label3.TabIndex = 71
         Label3.Text = ":"
         ' 
@@ -209,7 +209,7 @@ Partial Class EditSP
         comboStartingMins.IntegralHeight = False
         comboStartingMins.Location = New Point(93, 17)
         comboStartingMins.Name = "comboStartingMins"
-        comboStartingMins.Size = New Size(61, 29)
+        comboStartingMins.Size = New Size(61, 25)
         comboStartingMins.TabIndex = 70
         ' 
         ' comboStartingHours
@@ -219,7 +219,7 @@ Partial Class EditSP
         comboStartingHours.IntegralHeight = False
         comboStartingHours.Location = New Point(6, 17)
         comboStartingHours.Name = "comboStartingHours"
-        comboStartingHours.Size = New Size(61, 29)
+        comboStartingHours.Size = New Size(61, 25)
         comboStartingHours.TabIndex = 70
         ' 
         ' GroupBox3
@@ -238,7 +238,7 @@ Partial Class EditSP
         Label2.AutoSize = True
         Label2.Location = New Point(73, 20)
         Label2.Name = "Label2"
-        Label2.Size = New Size(14, 21)
+        Label2.Size = New Size(11, 17)
         Label2.TabIndex = 71
         Label2.Text = ":"
         ' 
@@ -249,7 +249,7 @@ Partial Class EditSP
         comboClosingMins.IntegralHeight = False
         comboClosingMins.Location = New Point(93, 17)
         comboClosingMins.Name = "comboClosingMins"
-        comboClosingMins.Size = New Size(61, 29)
+        comboClosingMins.Size = New Size(61, 25)
         comboClosingMins.TabIndex = 70
         ' 
         ' comboClosingHours
@@ -259,7 +259,7 @@ Partial Class EditSP
         comboClosingHours.IntegralHeight = False
         comboClosingHours.Location = New Point(6, 17)
         comboClosingHours.Name = "comboClosingHours"
-        comboClosingHours.Size = New Size(61, 29)
+        comboClosingHours.Size = New Size(61, 25)
         comboClosingHours.TabIndex = 70
         ' 
         ' CheckBox1
@@ -267,7 +267,7 @@ Partial Class EditSP
         CheckBox1.AutoSize = True
         CheckBox1.Location = New Point(465, 579)
         CheckBox1.Name = "CheckBox1"
-        CheckBox1.Size = New Size(154, 25)
+        CheckBox1.Size = New Size(130, 21)
         CheckBox1.TabIndex = 69
         CheckBox1.Text = "Show Password"
         CheckBox1.UseVisualStyleBackColor = True
@@ -279,7 +279,7 @@ Partial Class EditSP
         labelSpecial.ForeColor = Color.Red
         labelSpecial.Location = New Point(465, 694)
         labelSpecial.Name = "labelSpecial"
-        labelSpecial.Size = New Size(150, 16)
+        labelSpecial.Size = New Size(135, 13)
         labelSpecial.TabIndex = 64
         labelSpecial.Text = "✗ Contains Special Chars"
         ' 
@@ -290,7 +290,7 @@ Partial Class EditSP
         labelNumbers.ForeColor = Color.Red
         labelNumbers.Location = New Point(465, 673)
         labelNumbers.Name = "labelNumbers"
-        labelNumbers.Size = New Size(124, 16)
+        labelNumbers.Size = New Size(112, 13)
         labelNumbers.TabIndex = 65
         labelNumbers.Text = "✗ Contains Numbers"
         ' 
@@ -301,7 +301,7 @@ Partial Class EditSP
         labelUpper.ForeColor = Color.Red
         labelUpper.Location = New Point(465, 652)
         labelUpper.Name = "labelUpper"
-        labelUpper.Size = New Size(133, 16)
+        labelUpper.Size = New Size(119, 13)
         labelUpper.TabIndex = 66
         labelUpper.Text = "✗ Contains Uppercase"
         ' 
@@ -312,7 +312,7 @@ Partial Class EditSP
         labelLower.ForeColor = Color.Red
         labelLower.Location = New Point(465, 631)
         labelLower.Name = "labelLower"
-        labelLower.Size = New Size(134, 16)
+        labelLower.Size = New Size(121, 13)
         labelLower.TabIndex = 67
         labelLower.Text = "✗ Contains Lowercase"
         ' 
@@ -323,7 +323,7 @@ Partial Class EditSP
         labelSize.ForeColor = Color.Red
         labelSize.Location = New Point(465, 610)
         labelSize.Name = "labelSize"
-        labelSize.Size = New Size(162, 16)
+        labelSize.Size = New Size(145, 13)
         labelSize.TabIndex = 68
         labelSize.Text = "✗ Atleast 8 characters long"
         ' 
@@ -347,7 +347,7 @@ Partial Class EditSP
         ExperienceDropdown.FormattingEnabled = True
         ExperienceDropdown.Location = New Point(770, 415)
         ExperienceDropdown.Name = "ExperienceDropdown"
-        ExperienceDropdown.Size = New Size(121, 29)
+        ExperienceDropdown.Size = New Size(121, 25)
         ExperienceDropdown.TabIndex = 62
         ' 
         ' emailValidationLabel
@@ -356,7 +356,7 @@ Partial Class EditSP
         emailValidationLabel.Font = New Font("Bahnschrift Light", 7.8F)
         emailValidationLabel.Location = New Point(208, 163)
         emailValidationLabel.Name = "emailValidationLabel"
-        emailValidationLabel.Size = New Size(0, 16)
+        emailValidationLabel.Size = New Size(0, 13)
         emailValidationLabel.TabIndex = 61
         ' 
         ' branchLabel
@@ -365,7 +365,7 @@ Partial Class EditSP
         branchLabel.Font = New Font("Bahnschrift", 10.2F)
         branchLabel.Location = New Point(758, 1065)
         branchLabel.Name = "branchLabel"
-        branchLabel.Size = New Size(63, 21)
+        branchLabel.Size = New Size(53, 17)
         branchLabel.TabIndex = 60
         branchLabel.Text = "Branch"
         ' 
@@ -374,7 +374,7 @@ Partial Class EditSP
         branchText.BorderStyle = BorderStyle.FixedSingle
         branchText.Location = New Point(758, 1107)
         branchText.Name = "branchText"
-        branchText.Size = New Size(246, 28)
+        branchText.Size = New Size(246, 24)
         branchText.TabIndex = 59
         ' 
         ' bankNameLabel
@@ -383,7 +383,7 @@ Partial Class EditSP
         bankNameLabel.Font = New Font("Bahnschrift", 10.2F)
         bankNameLabel.Location = New Point(758, 967)
         bankNameLabel.Name = "bankNameLabel"
-        bankNameLabel.Size = New Size(98, 21)
+        bankNameLabel.Size = New Size(80, 17)
         bankNameLabel.TabIndex = 58
         bankNameLabel.Text = "Bank Name"
         ' 
@@ -392,7 +392,7 @@ Partial Class EditSP
         bankNameText.BorderStyle = BorderStyle.FixedSingle
         bankNameText.Location = New Point(758, 1009)
         bankNameText.Name = "bankNameText"
-        bankNameText.Size = New Size(246, 28)
+        bankNameText.Size = New Size(246, 24)
         bankNameText.TabIndex = 57
         ' 
         ' closingHours
@@ -401,7 +401,7 @@ Partial Class EditSP
         closingHours.Font = New Font("Bahnschrift", 10.2F)
         closingHours.Location = New Point(770, 475)
         closingHours.Name = "closingHours"
-        closingHours.Size = New Size(117, 21)
+        closingHours.Size = New Size(99, 17)
         closingHours.TabIndex = 56
         closingHours.Text = "Closing Hours"
         ' 
@@ -411,7 +411,7 @@ Partial Class EditSP
         SPifscLabel.Font = New Font("Bahnschrift", 10.2F)
         SPifscLabel.Location = New Point(207, 1139)
         SPifscLabel.Name = "SPifscLabel"
-        SPifscLabel.Size = New Size(86, 21)
+        SPifscLabel.Size = New Size(73, 17)
         SPifscLabel.TabIndex = 54
         SPifscLabel.Text = "IFSC code"
         ' 
@@ -420,7 +420,7 @@ Partial Class EditSP
         ifscText.BorderStyle = BorderStyle.FixedSingle
         ifscText.Location = New Point(207, 1167)
         ifscText.Name = "ifscText"
-        ifscText.Size = New Size(286, 28)
+        ifscText.Size = New Size(286, 24)
         ifscText.TabIndex = 53
         ' 
         ' SPacc
@@ -429,7 +429,7 @@ Partial Class EditSP
         SPacc.Font = New Font("Bahnschrift", 10.2F)
         SPacc.Location = New Point(207, 967)
         SPacc.Name = "SPacc"
-        SPacc.Size = New Size(179, 21)
+        SPacc.Size = New Size(151, 17)
         SPacc.TabIndex = 52
         SPacc.Text = "Bank Account Number"
         ' 
@@ -439,7 +439,7 @@ Partial Class EditSP
         AccLabel.Font = New Font("Bahnschrift", 10.2F)
         AccLabel.Location = New Point(207, 1065)
         AccLabel.Name = "AccLabel"
-        AccLabel.Size = New Size(176, 21)
+        AccLabel.Size = New Size(149, 17)
         AccLabel.TabIndex = 51
         AccLabel.Text = "Account Holder Name"
         ' 
@@ -449,7 +449,7 @@ Partial Class EditSP
         SPpaymentLabel.Font = New Font("Bahnschrift", 10.8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         SPpaymentLabel.Location = New Point(207, 928)
         SPpaymentLabel.Name = "SPpaymentLabel"
-        SPpaymentLabel.Size = New Size(143, 22)
+        SPpaymentLabel.Size = New Size(117, 18)
         SPpaymentLabel.TabIndex = 50
         SPpaymentLabel.Text = "Payment Details"
         ' 
@@ -459,7 +459,7 @@ Partial Class EditSP
         SPnoticeHours.Font = New Font("Bahnschrift", 10.2F)
         SPnoticeHours.Location = New Point(207, 845)
         SPnoticeHours.Name = "SPnoticeHours"
-        SPnoticeHours.Size = New Size(183, 21)
+        SPnoticeHours.Size = New Size(156, 17)
         SPnoticeHours.TabIndex = 49
         SPnoticeHours.Text = "Minimum Notice Hours"
         ' 
@@ -469,7 +469,7 @@ Partial Class EditSP
         SPdescription.Font = New Font("Bahnschrift", 10.2F)
         SPdescription.Location = New Point(206, 728)
         SPdescription.Name = "SPdescription"
-        SPdescription.Size = New Size(95, 21)
+        SPdescription.Size = New Size(82, 17)
         SPdescription.TabIndex = 48
         SPdescription.Text = "Description"
         ' 
@@ -486,7 +486,7 @@ Partial Class EditSP
         NoticeHourDropdown.FormattingEnabled = True
         NoticeHourDropdown.Location = New Point(207, 880)
         NoticeHourDropdown.Name = "NoticeHourDropdown"
-        NoticeHourDropdown.Size = New Size(286, 29)
+        NoticeHourDropdown.Size = New Size(286, 25)
         NoticeHourDropdown.TabIndex = 46
         ' 
         ' accHolderText
@@ -494,7 +494,7 @@ Partial Class EditSP
         accHolderText.BorderStyle = BorderStyle.FixedSingle
         accHolderText.Location = New Point(207, 1093)
         accHolderText.Name = "accHolderText"
-        accHolderText.Size = New Size(286, 28)
+        accHolderText.Size = New Size(286, 24)
         accHolderText.TabIndex = 45
         ' 
         ' SPaccText
@@ -502,7 +502,7 @@ Partial Class EditSP
         SPaccText.BorderStyle = BorderStyle.FixedSingle
         SPaccText.Location = New Point(207, 1014)
         SPaccText.Name = "SPaccText"
-        SPaccText.Size = New Size(286, 28)
+        SPaccText.Size = New Size(286, 24)
         SPaccText.TabIndex = 44
         ' 
         ' descriptionText
@@ -531,7 +531,7 @@ Partial Class EditSP
         experience.Font = New Font("Bahnschrift", 10.2F)
         experience.Location = New Point(770, 381)
         experience.Name = "experience"
-        experience.Size = New Size(166, 21)
+        experience.Size = New Size(140, 17)
         experience.TabIndex = 39
         experience.Text = "Experience(In Years)"
         ' 
@@ -541,9 +541,9 @@ Partial Class EditSP
         signUpSP.Font = New Font("Bahnschrift", 19.8000011F)
         signUpSP.Location = New Point(205, 42)
         signUpSP.Name = "signUpSP"
-        signUpSP.Size = New Size(134, 41)
+        signUpSP.Size = New Size(150, 33)
         signUpSP.TabIndex = 37
-        signUpSP.Text = "Sign Up"
+        signUpSP.Text = "Edit Profile"
         ' 
         ' emailSP_Text
         ' 
@@ -551,7 +551,7 @@ Partial Class EditSP
         emailSP_Text.BorderStyle = BorderStyle.FixedSingle
         emailSP_Text.Location = New Point(207, 132)
         emailSP_Text.Name = "emailSP_Text"
-        emailSP_Text.Size = New Size(286, 28)
+        emailSP_Text.Size = New Size(286, 24)
         emailSP_Text.TabIndex = 36
         ' 
         ' nameSP_Text
@@ -559,7 +559,7 @@ Partial Class EditSP
         nameSP_Text.BorderStyle = BorderStyle.FixedSingle
         nameSP_Text.Location = New Point(206, 209)
         nameSP_Text.Name = "nameSP_Text"
-        nameSP_Text.Size = New Size(286, 28)
+        nameSP_Text.Size = New Size(286, 24)
         nameSP_Text.TabIndex = 35
         ' 
         ' registerConfirmSP
@@ -568,7 +568,7 @@ Partial Class EditSP
         registerConfirmSP.Font = New Font("Bahnschrift", 10.2F)
         registerConfirmSP.Location = New Point(199, 451)
         registerConfirmSP.Name = "registerConfirmSP"
-        registerConfirmSP.Size = New Size(151, 21)
+        registerConfirmSP.Size = New Size(126, 17)
         registerConfirmSP.TabIndex = 34
         registerConfirmSP.Text = "Confirm Password"
         ' 
@@ -577,7 +577,7 @@ Partial Class EditSP
         phoneSP_Text.BorderStyle = BorderStyle.FixedSingle
         phoneSP_Text.Location = New Point(208, 305)
         phoneSP_Text.Name = "phoneSP_Text"
-        phoneSP_Text.Size = New Size(286, 28)
+        phoneSP_Text.Size = New Size(286, 24)
         phoneSP_Text.TabIndex = 33
         ' 
         ' registerSPEmailLabel
@@ -586,7 +586,7 @@ Partial Class EditSP
         registerSPEmailLabel.Font = New Font("Bahnschrift", 10.2F)
         registerSPEmailLabel.Location = New Point(205, 99)
         registerSPEmailLabel.Name = "registerSPEmailLabel"
-        registerSPEmailLabel.Size = New Size(53, 21)
+        registerSPEmailLabel.Size = New Size(43, 17)
         registerSPEmailLabel.TabIndex = 32
         registerSPEmailLabel.Text = "Email"
         ' 
@@ -596,7 +596,7 @@ Partial Class EditSP
         registerNameSP.Font = New Font("Bahnschrift", 10.2F)
         registerNameSP.Location = New Point(205, 185)
         registerNameSP.Name = "registerNameSP"
-        registerNameSP.Size = New Size(55, 21)
+        registerNameSP.Size = New Size(45, 17)
         registerNameSP.TabIndex = 31
         registerNameSP.Text = "Name"
         ' 
@@ -606,7 +606,7 @@ Partial Class EditSP
         registerNumberSP.Font = New Font("Bahnschrift", 10.2F)
         registerNumberSP.Location = New Point(205, 266)
         registerNumberSP.Name = "registerNumberSP"
-        registerNumberSP.Size = New Size(87, 21)
+        registerNumberSP.Size = New Size(74, 17)
         registerNumberSP.TabIndex = 30
         registerNumberSP.Text = "Phone No."
         ' 
@@ -616,7 +616,7 @@ Partial Class EditSP
         registerPasswordSP.Font = New Font("Bahnschrift", 10.2F)
         registerPasswordSP.Location = New Point(206, 365)
         registerPasswordSP.Name = "registerPasswordSP"
-        registerPasswordSP.Size = New Size(86, 21)
+        registerPasswordSP.Size = New Size(71, 17)
         registerPasswordSP.TabIndex = 29
         registerPasswordSP.Text = "Password"
         ' 
@@ -625,7 +625,7 @@ Partial Class EditSP
         passwordSP_Text.BorderStyle = BorderStyle.FixedSingle
         passwordSP_Text.Location = New Point(207, 395)
         passwordSP_Text.Name = "passwordSP_Text"
-        passwordSP_Text.Size = New Size(286, 28)
+        passwordSP_Text.Size = New Size(286, 24)
         passwordSP_Text.TabIndex = 28
         ' 
         ' Label1
@@ -634,7 +634,7 @@ Partial Class EditSP
         Label1.Font = New Font("Bahnschrift", 10.2F)
         Label1.Location = New Point(203, 644)
         Label1.Name = "Label1"
-        Label1.Size = New Size(99, 21)
+        Label1.Size = New Size(83, 17)
         Label1.TabIndex = 26
         Label1.Text = "Start Hours"
         ' 
@@ -642,14 +642,14 @@ Partial Class EditSP
         ' 
         ToolTip1.ToolTipTitle = "Format of Time"
         ' 
-        ' RegisterSP
+        ' EditSP
         ' 
-        AutoScaleDimensions = New SizeF(9.0F, 21.0F)
+        AutoScaleDimensions = New SizeF(8.0F, 17.0F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1360, 1040)
+        ClientSize = New Size(1360, 781)
         Controls.Add(Panel1)
         Font = New Font("Bahnschrift", 10.2F)
-        Name = "RegisterSP"
+        Name = "EditSP"
         Text = "Service Provider Register"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
