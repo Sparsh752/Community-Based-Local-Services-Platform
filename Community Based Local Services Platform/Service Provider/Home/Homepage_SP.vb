@@ -32,8 +32,7 @@ Public Class Homepage_SP
     Dim serviceProviderID As Integer
     Public Sub New(serviceProviderID As Integer)
         InitializeComponent()
-        Me.serviceProviderID = 1
-
+        serviceProviderID = SessionManager.spID
     End Sub
     Public Sub RemovePreviousForm()
         For Each ctrl As Control In Panel3.Controls
@@ -151,7 +150,7 @@ Public Class Homepage_SP
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        MessageBox.Show(serviceProviderID)
+        serviceProviderID = SessionManager.spID
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
@@ -174,7 +173,7 @@ Public Class Homepage_SP
             ' Open the connection
             connection3.Open()
             Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
-            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID & " AND workHours.dayOfWeek='Tuesday'"
+            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID
             Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID=" & serviceProviderID & ") as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
             Dim command As New MySqlCommand(query, connection3)
 

@@ -116,7 +116,36 @@
 
         Return customerID
     End Function
+    Private Function GetSPIDFromUserID(userID As String)
+        Dim spID As Integer = -1
 
+        ' Query to retrieve customer's ID based on email and password
+        Dim query As String = "SELECT serviceProviderID FROM serviceproviders " &
+            "WHERE userID = @UserID"
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@UserID", userID)
+
+                Try
+                    connection.Open()
+                    Dim result As Object = command.ExecuteScalar()
+                    If IsDBNull(result) Or result Is Nothing Then
+                        MessageBox.Show("Invalid email or password")
+                        Return spID
+                    End If
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        spID = Convert.ToInt32(result)
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error retrieving service provider's ID: " & ex.Message)
+                End Try
+            End Using
+        End Using
+
+        Return spID
+
+    End Function
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked Then
             TextBox1.PasswordChar = ""
@@ -145,6 +174,7 @@
                 customerForm.Show()
                 Me.Hide()
             ElseIf SessionManager.userType = "Service Provider" Then
+                SessionManager.spID = GetSPIDFromUserID(customerID)
                 Dim serviceProviderForm As New Navbar_SP(SessionManager.spID)
                 serviceProviderForm.Show()
                 Me.Hide()
