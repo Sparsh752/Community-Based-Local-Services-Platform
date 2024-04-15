@@ -281,7 +281,7 @@ Partial Class RegisterSP
         labelSpecial.Name = "labelSpecial"
         labelSpecial.Size = New Size(150, 16)
         labelSpecial.TabIndex = 64
-        labelSpecial.Text = "✓ Contains Special Chars"
+        labelSpecial.Text = "✗ Contains Special Chars"
         ' 
         ' labelNumbers
         ' 
@@ -292,7 +292,7 @@ Partial Class RegisterSP
         labelNumbers.Name = "labelNumbers"
         labelNumbers.Size = New Size(124, 16)
         labelNumbers.TabIndex = 65
-        labelNumbers.Text = "✓ Contains Numbers"
+        labelNumbers.Text = "✗ Contains Numbers"
         ' 
         ' labelUpper
         ' 
@@ -303,7 +303,7 @@ Partial Class RegisterSP
         labelUpper.Name = "labelUpper"
         labelUpper.Size = New Size(133, 16)
         labelUpper.TabIndex = 66
-        labelUpper.Text = "✓ Contains Uppercase"
+        labelUpper.Text = "✗ Contains Uppercase"
         ' 
         ' labelLower
         ' 
@@ -314,7 +314,7 @@ Partial Class RegisterSP
         labelLower.Name = "labelLower"
         labelLower.Size = New Size(134, 16)
         labelLower.TabIndex = 67
-        labelLower.Text = "✓ Contains Lowercase"
+        labelLower.Text = "✗ Contains Lowercase"
         ' 
         ' labelSize
         ' 
@@ -325,7 +325,7 @@ Partial Class RegisterSP
         labelSize.Name = "labelSize"
         labelSize.Size = New Size(162, 16)
         labelSize.TabIndex = 68
-        labelSize.Text = "✓ Atleast 8 characters long"
+        labelSize.Text = "✗ Atleast 8 characters long"
         ' 
         ' Back_btn
         ' 
