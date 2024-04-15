@@ -3,7 +3,7 @@ Imports System.IO
 
 Public Class Homepage_Admin
 
-
+    Public queryIdGlobal As String
     Public Queries As DataTable = New DataTable()
     Public NotVerifiedSPs As DataTable = New DataTable()
     Public VerifiedSPs As DataTable = New DataTable()
@@ -72,7 +72,7 @@ Public Class Homepage_Admin
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = $"SELECT type AS QueryType, userID AS QueryBy, appointmentID as AppointmentID, queryDate AS QueryDate, description AS Description, status AS Status FROM AddressQueries as aq ORDER BY queryDate DESC;"
+            Dim query As String = $"SELECT queryID AS QueryID, type AS QueryType, userID AS QueryBy, appointmentID as AppointmentID, queryDate AS QueryDate, description AS Description, status AS Status FROM AddressQueries as aq ORDER BY queryDate DESC;"
             Dim command As New MySqlCommand(query, connection)
 
             Dim reader As MySqlDataReader = command.ExecuteReader()
@@ -133,6 +133,8 @@ Public Class Homepage_Admin
             Dim queryDate As String = ithRow("QueryDate").ToString()
             Dim description As String = ithRow("Description").ToString()
             Dim status As String = ithRow("Status").ToString()
+            Dim queryID As String = ithRow("QueryID").ToString()
+            queryIdGlobal = queryID
             DataGridView1.Rows.Add(queryType, queryBy, appointmentID, queryDate, description, status)
         Next
         If VerifiedSPs.Rows.Count >= 1 Then
@@ -286,6 +288,7 @@ Public Class Homepage_Admin
             Next
 
             Dim Reply As New Reply_Query()
+            Reply.QueryID = queryIdGlobal
             Reply.description = Queries.Rows(e.RowIndex)("Description")
             Reply.status = Queries.Rows(e.RowIndex)("Status")
             Reply.title = Queries.Rows(e.RowIndex)("QueryType")

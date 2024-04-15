@@ -24,7 +24,7 @@
             connection.Open()
             ' Connection established successfully
 
-            Dim query As String = $"SELECT type AS QueryType, userID AS QueryBy, appointmentID as AppointmentID, queryDate AS QueryDate, description AS Description, status AS Status FROM AddressQueries as aq ORDER BY queryDate DESC;"
+            Dim query As String = $"SELECT queryID AS QueryID, type AS QueryType, userID AS QueryBy, appointmentID as AppointmentID, queryDate AS QueryDate, description AS Description, status AS Status FROM AddressQueries as aq ORDER BY queryDate DESC;"
             Dim command As New MySqlCommand(query, connection)
 
             Dim reader As MySqlDataReader = command.ExecuteReader()
@@ -52,13 +52,14 @@
         RetrieveQueries()
         For i As Integer = 1 To Queries.Rows.Count
             Dim ithRow As DataRow = Queries.Rows(i - 1)
+            Dim queryID As String = ithRow("QueryID").ToString()
             Dim queryType As String = ithRow("QueryType").ToString()
             Dim queryBy As String = ithRow("QueryBy").ToString()
             Dim appointmentID As String = ithRow("AppointmentID").ToString()
             Dim queryDate As String = ithRow("QueryDate").ToString()
             Dim description As String = ithRow("Description").ToString()
             Dim status As String = ithRow("Status").ToString()
-            DataGridView1.Rows.Add(queryType, queryBy, appointmentID, queryDate, description, status)
+            DataGridView1.Rows.Add(queryID, queryType, queryBy, appointmentID, queryDate, status)
         Next
         ' Subscribe to the CellContentClick event of the DataGridView
         AddHandler DataGridView1.CellContentClick, AddressOf DataGridView1_CellContentClick
