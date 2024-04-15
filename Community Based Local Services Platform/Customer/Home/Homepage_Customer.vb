@@ -276,9 +276,8 @@
         End If
 
         ' Call the method to update services based on search criteria and rating filter
-        Dim minRating As Decimal = Convert.ToDecimal(TrackBar1.Value)
-        Dim maxRating As Decimal = 5.0 ' Maximum rating value is 5
-
+        Dim minRating As Integer = TrackBar1.Value
+        Dim maxRating As Integer = 5 ' Maximum rating value is 5
         Dim selectedServiceTypes As New List(Of String)()
         For Each button As Button In selectedservices
             selectedServiceTypes.Add(button.Name)

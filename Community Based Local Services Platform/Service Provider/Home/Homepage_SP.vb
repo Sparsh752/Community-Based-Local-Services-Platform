@@ -32,7 +32,7 @@ Public Class Homepage_SP
     Dim serviceProviderID As Integer
     Public Sub New(serviceProviderID As Integer)
         InitializeComponent()
-        Me.serviceProviderID = serviceProviderID
+        Me.serviceProviderID = 1
 
     End Sub
     Public Sub RemovePreviousForm()
@@ -55,24 +55,26 @@ Public Class Homepage_SP
 
     Private Sub AddServicesButton_Click(sender As Object, e As EventArgs)
         RemovePreviousForm()
-        AddServices_SP.Margin = New Padding(0, 0, 0, 0)
-        With AddServices_SP
+        Dim newpage As AddServices_SP = New AddServices_SP(serviceProviderID)
+        newpage.Margin = New Padding(0, 0, 0, 0)
+        With newpage
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(AddServices_SP)
+            SessionManager.Panel3.Controls.Add(newpage)
             .BringToFront()
             .Show()
         End With
     End Sub
 
 
-    Private Sub EditServicesButton_Click(sender As Object, e As EventArgs)
+    Private Sub EditServicesButton_Click(sender As Object, e As EventArgs, serviceID As Integer)
         RemovePreviousForm()
-        UpdateServices_SP.Margin = New Padding(0, 0, 0, 0)
-        With UpdateServices_SP
+        Dim newpage As UpdateServices_SP = New UpdateServices_SP(serviceProviderID, serviceID)
+        newpage.Margin = New Padding(0, 0, 0, 0)
+        With newpage
             .TopLevel = False
             .Dock = DockStyle.Fill
-            SessionManager.Panel3.Controls.Add(UpdateServices_SP)
+            SessionManager.Panel3.Controls.Add(newpage)
             .BringToFront()
             .Show()
         End With
@@ -149,6 +151,7 @@ Public Class Homepage_SP
 
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        MessageBox.Show(serviceProviderID)
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
@@ -171,8 +174,8 @@ Public Class Homepage_SP
             ' Open the connection
             connection3.Open()
             Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
-            Dim query2 As String = "SELECT * FROM serviceAreaTimeslots as spat WHERE spat.serviceProviderID =" & serviceProviderID
-            Dim query3 As String = "SELECT * FROM serviceAreaTimeslots as sat JOIN serviceAreas as sa ON sat.areaID= sa.areaID WHERE sat.serviceProviderID= " & serviceProviderID
+            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID & " AND workHours.dayOfWeek='Tuesday'"
+            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID=" & serviceProviderID & ") as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
             Dim command As New MySqlCommand(query, connection3)
 
             ' Execute the SQL query
@@ -191,7 +194,7 @@ Public Class Homepage_SP
             ' Execute the SQL query
             Dim reader2 As MySqlDataReader = command2.ExecuteReader()
             If (reader2.Read()) Then
-                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " AM to 6:00 PM"
+                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " to" & reader2("endTime").ToString().Substring(0, 5)
             End If
             reader2.Close()
 
@@ -408,7 +411,7 @@ Public Class Homepage_SP
             newButton2.FlatStyle = FlatStyle.Flat
             newButton2.FlatAppearance.BorderSize = 0
             newButton2.Padding = New Padding(newButton2.Padding.Left, newButton2.Padding.Top, newButton2.Padding.Right, newButton2.Padding.Bottom - 10)
-            AddHandler newButton2.Click, AddressOf EditServicesButton_Click
+            AddHandler newButton2.Click, Sub(s, ev) EditServicesButton_Click(s, ev, serviceIDThis)
             groupBox.Controls.Add(newButton2)
 
             yPosition += groupSize.Height + groupSpacing

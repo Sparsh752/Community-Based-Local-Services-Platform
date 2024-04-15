@@ -38,8 +38,8 @@ Public Class SP_profile
             ' Open the connection
             connection3.Open()
             Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
-            Dim query2 As String = "SELECT * FROM serviceAreaTimeslots as spat WHERE spat.serviceProviderID =" & serviceProviderID
-            Dim query3 As String = "SELECT * FROM serviceAreaTimeslots as sat JOIN serviceAreas as sa ON sat.areaID= sa.areaID WHERE sat.serviceProviderID= " & serviceProviderID
+            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID & " AND workHours.dayOfWeek='Tuesday'"
+            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID=" & serviceProviderID & ") as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
             Dim command As New MySqlCommand(query, connection3)
 
             ' Execute the SQL query
@@ -60,7 +60,7 @@ Public Class SP_profile
             Dim reader2 As MySqlDataReader = command2.ExecuteReader()
 
             If (reader2.Read()) Then
-                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " AM to 6:00 PM"
+                Label3.Text = "Services from " & reader2("startTime").ToString().Substring(0, 5) & " to" & reader2("endTime").ToString().Substring(0, 5)
             End If
             reader2.Close()
 

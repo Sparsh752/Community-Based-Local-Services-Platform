@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports com.itextpdf.text.pdf
+Imports Mysqlx
 
 Public Class UpdateServices_SP
     ' Declare global variables
@@ -8,7 +10,15 @@ Public Class UpdateServices_SP
     Private serviceAreas As New List(Of String)()
     Private basicPrice As Decimal
     Private imagePath As String ' To store the path of the uploaded image
+    Dim connection1 As New MySqlConnection(SessionManager.connectionString)
+    Dim serviceID As Integer
+    Dim serviceProviderID As Integer
+    Public Sub New(serviceProviderID As Integer, serviceID As Integer)
+        InitializeComponent()
+        Me.serviceProviderID = serviceProviderID
+        Me.serviceID = serviceID
 
+    End Sub
     Private Sub UpdateServices_SP_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Populate ComboBoxes with options at runtime
         PopulateServiceTypeComboBox()
@@ -17,38 +27,37 @@ Public Class UpdateServices_SP
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
         Service_Name.Location = New Point(129, 178)
-        Service_Name.Size = New Size(332, 45)
+        Service_Name.Size = New Size(332, 40)
         Label2.Location = New Point(127, 146)
         Label1.Location = New Point(127, 99)
         Service_type.Location = New Point(129, 268)
-        Service_type.Size = New Size(332, 45)
+        Service_type.Size = New Size(332, 40)
         Label5.Location = New Point(127, 240)
         Label4.Location = New Point(127, 332)
         Description.Size = New Size(332, 73) ' Adjust the size as needed
         Description.Location = New Point(129, 364)
         Label3.Location = New Point(125, 456)
         Service_area.Location = New Point(129, 484)
+        Service_area.Size = New Size(250, 40)
         PictureBox1.Location = New Point(665, 113)
         PictureBox1.Size = New Size(354, 226)
         Price.Location = New Point(665, 392)
         Price.Size = New Size(354, 45)
         Label6.Location = New Point(665, 360)
         Submit_add.Location = New Point(775, 590)
-        Submit_add.Size = New Size(244, 60)
-        Label7.Location = New Point(665, 481)
-        Submit_add.Font = New Font(font_family, 18, FontStyle.Bold)
-        Service_Name.Font = New Font(font_family, 18, FontStyle.Regular)
+        Submit_add.Size = New Size(150, 40)
+        Submit_add.Font = New Font(font_family, 16, FontStyle.Bold)
+        Service_Name.Font = New Font(font_family, 16, FontStyle.Regular)
         Service_area.Font = New Font(font_family, 12, FontStyle.Regular)
-        Service_type.Font = New Font(font_family, 18, FontStyle.Regular)
+        Service_type.Font = New Font(font_family, 16, FontStyle.Regular)
         Description.Font = New Font(font_family, 12, FontStyle.Regular)
-        Price.Font = New Font(font_family, 18, FontStyle.Regular)
+        Price.Font = New Font(font_family, 16, FontStyle.Regular)
         Label1.Font = New Font(font_family, 22, FontStyle.Bold)
-        Label2.Font = New Font(font_family, 18, FontStyle.Regular)
-        Label3.Font = New Font(font_family, 18, FontStyle.Regular)
-        Label4.Font = New Font(font_family, 18, FontStyle.Regular)
-        Label5.Font = New Font(font_family, 18, FontStyle.Regular)
-        Label6.Font = New Font(font_family, 18, FontStyle.Regular)
-        Label7.Font = New Font(font_family, 18, FontStyle.Regular)
+        Label2.Font = New Font(font_family, 16, FontStyle.Regular)
+        Label3.Font = New Font(font_family, 16, FontStyle.Regular)
+        Label4.Font = New Font(font_family, 16, FontStyle.Regular)
+        Label5.Font = New Font(font_family, 16, FontStyle.Regular)
+        Label6.Font = New Font(font_family, 16, FontStyle.Regular)
         Button1.Font = New Font(font_family, 12, FontStyle.Bold)
         Button2.Font = New Font(font_family, 12, FontStyle.Bold)
         Button1.Location = New Point(128, 560)
@@ -61,25 +70,86 @@ Public Class UpdateServices_SP
         Button2.FlatStyle = FlatStyle.Flat
         Submit_add.FlatAppearance.BorderSize = 0
         Submit_add.FlatStyle = FlatStyle.Flat
+        Location_list.Location = New Point(665, 490)
+        Location_list.Size = New Size(332, 45)
+        Location_list.Font = New Font(font_family, 12, FontStyle.Regular)
+        Location_list.Scrollable = True
+        Panel1.Location = New Point(666, 517.5)
+        Panel1.Size = New Size(330, 16)
+
+
+
+
+
+
+
+
     End Sub
 
     Private Sub PopulateServiceTypeComboBox()
-        ' Add sample options to the ServiceTypeComboBox
-        Service_type.Items.Add("Option 1")
-        Service_type.Items.Add("Option 2")
-        Service_type.Items.Add("Option 3")
-        ' Add more options as needed
+
+        Try
+            connection1.Open()
+            ' Connection established successfully
+
+            Dim query As String = "SELECT serviceTypeName FROM serviceTypes"
+            Dim command As New MySqlCommand(query, connection1)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Clear existing items from the ComboBox
+            Service_type.Items.Clear()
+
+            ' Add items from the database to the ComboBox
+            While reader.Read()
+                Service_type.Items.Add(reader("serviceTypeName").ToString())
+            End While
+
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        Finally
+            ' Close the connection
+            connection1.Close()
+        End Try
+        ' Add more items as needed
     End Sub
 
+
     Private Sub PopulateServiceAreaListBox()
-        ' Add sample options to the ServiceAreaListBox
-        Service_area.Items.Add("Area 1")
-        Service_area.Items.Add("Area 2")
-        Service_area.Items.Add("Area 3")
-        ' Add more options as needed
-        ' Set ListBox to allow multiple selections
-        Service_area.SelectionMode = SelectionMode.MultiSimple
+        ' Clear the ListBox first
+
+        Try
+            connection1.Open()
+            ' Connection established successfully
+
+            Dim query As String = "SELECT location FROM serviceAreas"
+            Dim command As New MySqlCommand(query, connection1)
+
+            Dim reader As MySqlDataReader = command.ExecuteReader()
+
+            ' Clear existing items from the ComboBox
+            Service_area.Items.Clear()
+
+            ' Add items from the database to the ComboBox
+            While reader.Read()
+                Service_area.Items.Add(reader("location").ToString())
+            End While
+
+            reader.Close()
+
+        Catch ex As Exception
+            ' Handle connection errors
+            MessageBox.Show("Error connecting to MySQL: " & ex.Message)
+        Finally
+            ' Close the connection
+            connection1.Close()
+        End Try
+        ' Add more items as needed
     End Sub
+
 
     Private Sub Submit_add_Click(sender As Object, e As EventArgs) Handles Submit_add.Click
         ' Check if Service Name is filled
@@ -101,7 +171,7 @@ Public Class UpdateServices_SP
         End If
 
         ' Check if Service Area is selected
-        If Service_area.SelectedItems.Count = 0 Then
+        If (Location_list.Items.Count = 0) Then
             MessageBox.Show("Please select at least one Service Area.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
         End If
@@ -116,12 +186,6 @@ Public Class UpdateServices_SP
         serviceProviderName = Service_Name.Text
         serviceType = Service_type.SelectedItem.ToString
         serviceDescription = Description.Text
-
-        ' Retrieve selected service areas
-        serviceAreas.Clear() ' Clear the list before adding new selections
-        For Each selectedArea In Service_area.SelectedItems
-            serviceAreas.Add(selectedArea.ToString)
-        Next
 
         ' Check if Price is a valid number
         If Not Decimal.TryParse(Price.Text, basicPrice) Then
@@ -139,48 +203,111 @@ Public Class UpdateServices_SP
         End If
 
         ' Display all information including the image in a message box
-        Dim imageInfo = If(imageData IsNot Nothing, Image.FromStream(New MemoryStream(imageData)), Nothing)
+        '  Dim imageInfo = If(imageData IsNot Nothing, Image.FromStream(New MemoryStream(imageData)), Nothing)
 
         ' Display the image in the message box
-        Dim msg As New Form
-        msg.Text = "Service Details"
-        msg.Size = New Size(400, 400)
-        If imageInfo IsNot Nothing Then
-            Dim picBox As New PictureBox
-            picBox.Dock = DockStyle.Top
-            picBox.SizeMode = PictureBoxSizeMode.Zoom
-            picBox.Image = imageInfo
-            msg.Controls.Add(picBox)
-        End If
+        '  Dim msg As New Form
+        '  msg.Text = "Service Details"
+        '  msg.Size = New Size(400, 400)
+        ''  If imageInfo IsNot Nothing Then
+        ' Dim picBox As New PictureBox
+        'picBox.Dock = DockStyle.Top
+        'picBox.SizeMode = PictureBoxSizeMode.Zoom
+        'icBox.Image = imageInfo
+        'msg.Controls.Add(picBox)
+        '  End If
 
-        Dim details = "Service Provider's Name: " & serviceProviderName & Environment.NewLine &
-                    "Type of Service: " & serviceType & Environment.NewLine &
-                    "Description of Service: " & serviceDescription & Environment.NewLine &
-                    "Service Areas: " & String.Join(", ", serviceAreas) & Environment.NewLine &
-                    "Basic Price of Service: $" & basicPrice.ToString("F2") & Environment.NewLine &
-                    If(imageData IsNot Nothing, "Image Attached", "No image uploaded")
 
-        Dim lblDetails As New Label
-        lblDetails.Text = details
-        lblDetails.Dock = DockStyle.Fill
 
-        msg.Controls.Add(lblDetails)
 
-        msg.ShowDialog()
 
+
+
+
+
+        '  Dim details = "Service Provider's Name: " & serviceProviderName & Environment.NewLine &
+        '              "Type of Service: " & serviceType & Environment.NewLine &
+        '              "Description of Service: " & serviceDescription & Environment.NewLine &
+        ''              "Service Areas: " & String.Join(", ", serviceAreas) & Environment.NewLine &
+        '              "Basic Price of Service: $" & basicPrice.ToString("F2") & Environment.NewLine &
+        'If (imageData IsNot Nothing, "Image Attached", "No image uploaded")Then
+
+        '  Dim lblDetails As New Label
+        '  lblDetails.Text = details
+        '  lblDetails.Dock = DockStyle.Fill
+
+        '  msg.Controls.Add(lblDetails)
+
+        ''  msg.ShowDialog()
+
+
+
+
+        Dim newPrice As Decimal = basicPrice ' New price
+
+
+        Try
+
+            connection1.Open()
+
+            For Each areaName As String In serviceAreas
+                ' Retrieve serviceTypeID based on serviceTypeName
+                Dim getServiceTypeIDQuery As String = $"SELECT serviceID FROM serviceTypes WHERE serviceTypeName = @serviceTypeName"
+                Dim serviceTypeID As Integer
+
+                Using command As New MySqlCommand(getServiceTypeIDQuery, connection1)
+                    command.Parameters.AddWithValue("@serviceTypeName", serviceType)
+                    serviceTypeID = Convert.ToInt32(command.ExecuteScalar())
+                End Using
+
+                ' Retrieve areaID based on areaName
+                Dim getAreaIDQuery As String = "SELECT areaID FROM serviceAreas WHERE location = @areaName"
+                Dim areaID As Integer
+
+                Using command As New MySqlCommand(getAreaIDQuery, connection1)
+                    command.Parameters.AddWithValue("@areaName", areaName)
+                    areaID = Convert.ToInt32(command.ExecuteScalar())
+                End Using
+
+                ' Update the row in the services table for the current area
+                Dim updateQuery As String = "UPDATE services SET serviceName = @serviceName, serviceDescription = @serviceDescription, serviceTypeID = @serviceTypeID, price = @price, areaID = @areaID, servicePhoto=@imagedata WHERE serviceID = @serviceID AND serviceProviderID = @serviceProviderID"
+
+                Using command As New MySqlCommand(updateQuery, connection1)
+                    command.Parameters.AddWithValue("@serviceName", serviceProviderName)
+                    command.Parameters.AddWithValue("@serviceDescription", serviceDescription)
+                    command.Parameters.AddWithValue("@serviceTypeID", serviceTypeID)
+                    command.Parameters.AddWithValue("@price", newPrice)
+                    command.Parameters.AddWithValue("@areaID", areaID)
+                    command.Parameters.AddWithValue("@imagedata", imageData)
+                    command.Parameters.AddWithValue("@serviceProviderID", serviceProviderID)
+                    command.Parameters.AddWithValue("@serviceID", serviceID)
+                    command.ExecuteNonQuery()
+                End Using
+            Next
+            connection1.Close()
+
+        Catch ex As Exception
+            ' Handle any exceptions
+            MessageBox.Show("An error occurred: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+        RemovePreviousForm()
+        Dim newpage As Homepage_SP = New Homepage_SP(serviceProviderID) With {
+            .Margin = New Padding(0, 0, 0, 0)
+        }
+        With newpage
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            SessionManager.Panel3.Controls.Add(newpage)
+            .BringToFront()
+            .Show()
+        End With
         ' Reset the form fields after submission
-        Service_Name.Clear()
-        Service_type.SelectedIndex = -1 ' Deselect any selected item
-        Description.Clear()
-        Service_area.ClearSelected() ' Deselect all items
-        Price.Clear()
-        PictureBox1.Image = Nothing 'Put the default image here'
-    End Sub
-
-
-
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs)
-
+        ' Service_Name.Clear()
+        ' Service_type.SelectedIndex = -1 ' Deselect any selected item
+        ' Description.Clear()
+        ' Service_area.Items.Clear() ' Deselect all items
+        ' Price.Clear()
+        ' PictureBox1.Image = Nothing 'Put the default image here'
     End Sub
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
@@ -196,17 +323,34 @@ Public Class UpdateServices_SP
         End If
     End Sub
 
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+
+        Dim selectedItem As String = Service_area.SelectedItem.ToString()
+
+        ' Check if the selected item is not already in the list
+        If Not serviceAreas.Contains(selectedItem) Then
+            ' Add the selected item to the list
+            serviceAreas.Add(selectedItem)
+        End If
+
+
+        ' Clear existing items from the ListView
+        Location_list.Items.Clear()
+
+        ' Add items from the selectedAreas list to the ListView
+        For Each area As String In serviceAreas
+            Location_list.Items.Add(area)
+        Next
 
     End Sub
 
-
-
-    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
-
+    Public Sub RemovePreviousForm()
+        ' Check if any form is already in Panel5
+        If SessionManager.Panel3.Controls.Count > 0 Then
+            ' Remove the first control (form) from Panel5
+            SessionManager.Panel3.Controls.Clear()
+        End If
     End Sub
 
-    Private Sub Service_area_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Service_area.SelectedIndexChanged
 
-    End Sub
 End Class

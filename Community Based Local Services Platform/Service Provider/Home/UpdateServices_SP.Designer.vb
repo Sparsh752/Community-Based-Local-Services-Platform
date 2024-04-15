@@ -31,13 +31,14 @@ Partial Class UpdateServices_SP
         Service_Name = New TextBox()
         Service_type = New ComboBox()
         Description = New TextBox()
-        Service_area = New ListBox()
         PictureBox1 = New PictureBox()
         Submit_add = New Button()
         Price = New TextBox()
-        Label7 = New Label()
         Button1 = New Button()
         Button2 = New Button()
+        Service_area = New ComboBox()
+        Location_list = New ListView()
+        Panel1 = New Panel()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -67,9 +68,9 @@ Partial Class UpdateServices_SP
         Label3.Font = New Font("Bahnschrift Light", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label3.Location = New Point(55, 406)
         Label3.Name = "Label3"
-        Label3.Size = New Size(215, 41)
+        Label3.Size = New Size(149, 41)
         Label3.TabIndex = 2
-        Label3.Text = "Service Area"
+        Label3.Text = "Location"
         ' 
         ' Label4
         ' 
@@ -131,16 +132,6 @@ Partial Class UpdateServices_SP
         Description.Size = New Size(118, 37)
         Description.TabIndex = 1
         ' 
-        ' Service_area
-        ' 
-        Service_area.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
-        Service_area.BorderStyle = BorderStyle.FixedSingle
-        Service_area.FormattingEnabled = True
-        Service_area.Location = New Point(57, 429)
-        Service_area.Name = "Service_area"
-        Service_area.Size = New Size(280, 42)
-        Service_area.TabIndex = 6
-        ' 
         ' PictureBox1
         ' 
         PictureBox1.BackgroundImage = My.Resources.Resource1.Upload_img
@@ -157,9 +148,9 @@ Partial Class UpdateServices_SP
         Submit_add.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Submit_add.BackgroundImageLayout = ImageLayout.None
         Submit_add.FlatStyle = FlatStyle.Popup
-        Submit_add.Font = New Font("Bahnschrift Light", 12.0F)
+        Submit_add.Font = New Font("Bahnschrift Light", 12F)
         Submit_add.ForeColor = Color.White
-        Submit_add.Location = New Point(716, 453)
+        Submit_add.Location = New Point(716, 476)
         Submit_add.Name = "Submit_add"
         Submit_add.Size = New Size(94, 29)
         Submit_add.TabIndex = 9
@@ -175,22 +166,12 @@ Partial Class UpdateServices_SP
         Price.Size = New Size(118, 27)
         Price.TabIndex = 10
         ' 
-        ' Label7
-        ' 
-        Label7.AutoSize = True
-        Label7.Font = New Font("Bahnschrift Light", 19.8000011F)
-        Label7.Location = New Point(731, 377)
-        Label7.Name = "Label7"
-        Label7.Size = New Size(219, 41)
-        Label7.TabIndex = 11
-        Label7.Text = "Default Place"
-        ' 
         ' Button1
         ' 
         Button1.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Button1.BackgroundImageLayout = ImageLayout.None
         Button1.FlatStyle = FlatStyle.Popup
-        Button1.Font = New Font("Bahnschrift Light", 12.0F)
+        Button1.Font = New Font("Bahnschrift Light", 12F)
         Button1.ForeColor = Color.White
         Button1.Location = New Point(279, 550)
         Button1.Name = "Button1"
@@ -204,7 +185,7 @@ Partial Class UpdateServices_SP
         Button2.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Button2.BackgroundImageLayout = ImageLayout.None
         Button2.FlatStyle = FlatStyle.Popup
-        Button2.Font = New Font("Bahnschrift Light", 12.0F)
+        Button2.Font = New Font("Bahnschrift Light", 12F)
         Button2.ForeColor = Color.White
         Button2.Location = New Point(57, 550)
         Button2.Name = "Button2"
@@ -213,20 +194,49 @@ Partial Class UpdateServices_SP
         Button2.Text = "Add"
         Button2.UseVisualStyleBackColor = False
         ' 
+        ' Service_area
+        ' 
+        Service_area.DropDownStyle = ComboBoxStyle.DropDownList
+        Service_area.FlatStyle = FlatStyle.System
+        Service_area.FormattingEnabled = True
+        Service_area.Location = New Point(67, 460)
+        Service_area.Name = "Service_area"
+        Service_area.Size = New Size(226, 28)
+        Service_area.TabIndex = 14
+        ' 
+        ' Location_list
+        ' 
+        Location_list.LabelWrap = False
+        Location_list.Location = New Point(691, 384)
+        Location_list.Name = "Location_list"
+        Location_list.Size = New Size(357, 51)
+        Location_list.TabIndex = 15
+        Location_list.UseCompatibleStateImageBehavior = False
+        Location_list.View = View.List
+        ' 
+        ' Panel1
+        ' 
+        Panel1.BackColor = Color.White
+        Panel1.Location = New Point(670, 424)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(424, 14)
+        Panel1.TabIndex = 16
+        ' 
         ' UpdateServices_SP
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1182, 653)
         ControlBox = False
+        Controls.Add(Panel1)
+        Controls.Add(Location_list)
+        Controls.Add(Service_area)
         Controls.Add(Button2)
         Controls.Add(Button1)
-        Controls.Add(Label7)
         Controls.Add(Price)
         Controls.Add(Submit_add)
         Controls.Add(PictureBox1)
-        Controls.Add(Service_area)
         Controls.Add(Description)
         Controls.Add(Service_type)
         Controls.Add(Service_Name)
@@ -252,12 +262,13 @@ Partial Class UpdateServices_SP
     Friend WithEvents Service_Name As TextBox
     Friend WithEvents Service_type As ComboBox
     Friend WithEvents Description As TextBox
-    Friend WithEvents Service_area As ListBox
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Submit_add As Button
     Friend WithEvents Price As TextBox
-    Friend WithEvents Label7 As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents Button2 As Button
+    Friend WithEvents Service_area As ComboBox
+    Friend WithEvents Location_list As ListView
+    Friend WithEvents Panel1 As Panel
 
 End Class
