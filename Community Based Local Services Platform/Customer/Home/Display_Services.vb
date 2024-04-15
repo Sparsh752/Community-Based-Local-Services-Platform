@@ -64,6 +64,7 @@ Public Class Display_Services
                            .ServiceName = reader("serviceName").ToString(),
                            .ServiceDescription = reader("serviceDescription").ToString(),
                            .ServiceTypeID = reader("serviceTypeID").ToString(),
+                           .ServiceID = reader("serviceID").ToString(),
                            .Price = Convert.ToDecimal(reader("price")), ' Convert.ToDecimal is used to ensure the conversion to Decimal
                            .Location = reader("areaID").ToString(),
                            .Experience = 0, ' Assuming Experience property is meant to represent something else, set to 0 for now
@@ -298,16 +299,16 @@ Public Class Display_Services
                     "Filter Inputs",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information)
-                        ' Check if there are any results
-                        If filteredProviders.Count = 0 Then
-                            ' Load the default view
-                            DisplayDefault()
-                            ' Show a "No results" popup
-                            MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Else
-                            ' Display the filtered service providers
-                            DisplaySearchResults(filteredProviders, minRating, maxRating)
-                        End If
+        ' Check if there are any results
+        If filteredProviders.Count = 0 Then
+            ' Load the default view
+            DisplayDefault()
+            ' Show a "No results" popup
+            MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Else
+            ' Display the filtered service providers
+            DisplaySearchResults(filteredProviders, minRating, maxRating)
+        End If
     End Sub
 
     ' Method to display search results
@@ -399,6 +400,7 @@ Public Class Display_Services
             bookNowBtn.ForeColor = Color.White
             bookNowBtn.FlatStyle = FlatStyle.Flat
             bookNowBtn.FlatAppearance.BorderSize = 0
+            ' Attach event handler for the button click
             AddHandler bookNowBtn.Click, Sub(s, ev) BookNowButton_Click(s, ev, provider.ServiceID)
             resultPanel.Controls.Add(bookNowBtn)
 
