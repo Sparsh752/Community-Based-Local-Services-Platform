@@ -11,12 +11,11 @@ Public Class Display_Services
         Public Property ServiceTypeID As String
         Public Property ServiceName As String
         Public Property ServiceDescription As String
-        Public Property Ratings As Decimal
+        Public Property Ratings As Integer ' Changed to integer
         Public Property Experience As Integer
         Public Property Location As String
         Public Property TimeSlots As String
         Public Property count As Integer
-
     End Class
 
     ' List to store service providers
@@ -61,20 +60,19 @@ Public Class Display_Services
                            .ID = reader("serviceProviderID").ToString(),
                            .Name = reader("serviceProviderName").ToString(),
                            .Description = reader("ServiceProviderdescription").ToString(),
-                           .Ratings = Convert.ToDecimal(reader("rating")),
+                           .Ratings = CInt(Math.Floor(CDec(reader("rating")))), ' Convert to Integer using Floor
                            .ServiceName = reader("serviceName").ToString(),
                            .ServiceDescription = reader("serviceDescription").ToString(),
                            .ServiceTypeID = reader("serviceTypeID").ToString(),
-                           .Price = Convert.ToDecimal(reader("price")), ' Change to Convert.ToDecimal
+                           .Price = Convert.ToDecimal(reader("price")), ' Convert.ToDecimal is used to ensure the conversion to Decimal
                            .Location = reader("areaID").ToString(),
-                           .Experience = Convert.ToInt32(reader("rating")),
+                           .Experience = 0, ' Assuming Experience property is meant to represent something else, set to 0 for now
                            .count = Convert.ToInt32(reader("count"))
-                        }
+                         }
+
                         ' Add the service provider to the list
                         serviceProviders.Add(serviceProvider)
                     End While
-
-
                 End Using
             End Using
         End Using
@@ -244,7 +242,7 @@ Public Class Display_Services
     End Sub
 
     ' Method to update services based on search criteria
-    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Decimal, maxRating As Decimal, locationCriteria As String, selectedServiceTypes As List(Of String))
+    Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Integer, maxRating As Integer, locationCriteria As String, selectedServiceTypes As List(Of String))
         ' Clear existing controls from the form
         Me.Controls.Clear()
 
@@ -270,28 +268,23 @@ Public Class Display_Services
             maxCost = Decimal.MaxValue ' Default value to represent maximum possible decimal value
         End If
 
-
-        ' Convert min and max rating criteria to integers
-        Dim minRatingValue As Decimal = minRating
-        Dim maxRatingValue As Decimal = 5.0
-
-
-
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
         Dim filteredProviders = serviceProviders.Where(Function(provider) _
-        (String.IsNullOrWhiteSpace(searchCriteria) OrElse
-        provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
-        provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
-        provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
-        provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
-        (String.IsNullOrWhiteSpace(minCostCriteria) OrElse
-        Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
-        (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
-        Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
-        (provider.Ratings >= minRating AndAlso provider.Ratings <= maxRating) AndAlso
-        (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
-        (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
+    (String.IsNullOrWhiteSpace(searchCriteria) OrElse
+    provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
+    provider.Description.ToLower().Contains(searchCriteria.ToLower()) Or
+    provider.ServiceName.ToLower().Contains(searchCriteria.ToLower()) Or
+    provider.ServiceDescription.ToLower().Contains(searchCriteria.ToLower())) AndAlso
+    (CInt(Math.Floor(provider.Ratings)) >= minRating AndAlso CInt(Math.Floor(provider.Ratings)) <= maxRating) AndAlso
+    (String.IsNullOrWhiteSpace(minCostCriteria) OrElse
+    Decimal.TryParse(minCostCriteria, Nothing) AndAlso provider.Price >= minCost) AndAlso
+    (String.IsNullOrWhiteSpace(maxCostCriteria) OrElse
+    Decimal.TryParse(maxCostCriteria, Nothing) AndAlso provider.Price <= maxCost) AndAlso
+    (String.IsNullOrWhiteSpace(locationCriteria) OrElse provider.Location.ToLower() = locationCriteria.ToLower()) AndAlso
+    (selectedServiceTypes.Count = 0 OrElse selectedServiceTypes.Any(Function(serviceType) provider.ServiceTypeID.ToLower().Contains(serviceType.ToLower())))
     ).ToList()
+
+
 
         ' Print filter inputs for debugging
         MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
@@ -305,16 +298,16 @@ Public Class Display_Services
                     "Filter Inputs",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information)
-        ' Check if there are any results
-        If filteredProviders.Count = 0 Then
-            ' Load the default view
-            DisplayDefault()
-            ' Show a "No results" popup
-            MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Else
-            ' Display the filtered service providers
-            DisplaySearchResults(filteredProviders, minRatingValue, maxRatingValue)
-        End If
+                        ' Check if there are any results
+                        If filteredProviders.Count = 0 Then
+                            ' Load the default view
+                            DisplayDefault()
+                            ' Show a "No results" popup
+                            MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Else
+                            ' Display the filtered service providers
+                            DisplaySearchResults(filteredProviders, minRating, maxRating)
+                        End If
     End Sub
 
     ' Method to display search results
@@ -410,6 +403,7 @@ Public Class Display_Services
             resultPanel.Controls.Add(bookNowBtn)
 
             Me.Controls.Add(resultPanel)
+
         Next
     End Sub
 
