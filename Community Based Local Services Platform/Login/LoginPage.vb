@@ -74,7 +74,7 @@
         Label7.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
         Label7.Size = New Size(593, 147)
         Label7.Location = New Point(0, 382)
-        PictureBox1.Size = New Size(180, 180)
+        PictureBox1.Size = New Size(200, 200)
         PictureBox1.Location = New Point(200, 200)
         PictureBox1.BackColor = ColorTranslator.FromHtml("#0F2A37")
         CheckBox1.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
