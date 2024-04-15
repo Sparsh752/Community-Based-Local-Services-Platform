@@ -47,6 +47,7 @@ Partial Class Register1
         labelUpper = New Label()
         labelNumbers = New Label()
         labelSpecial = New Label()
+        CheckBox1 = New CheckBox()
         CType(registerProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -258,7 +259,7 @@ Partial Class Register1
         labelSize.Name = "labelSize"
         labelSize.Size = New Size(162, 16)
         labelSize.TabIndex = 27
-        labelSize.Text = "✓ Atleast 8 characters long"
+        labelSize.Text = "✗ Atleast 8 characters long"
         ' 
         ' labelLower
         ' 
@@ -269,7 +270,7 @@ Partial Class Register1
         labelLower.Name = "labelLower"
         labelLower.Size = New Size(134, 16)
         labelLower.TabIndex = 27
-        labelLower.Text = "✓ Contains Lowercase"
+        labelLower.Text = "✗ Contains Lowercase"
         ' 
         ' labelUpper
         ' 
@@ -280,7 +281,7 @@ Partial Class Register1
         labelUpper.Name = "labelUpper"
         labelUpper.Size = New Size(133, 16)
         labelUpper.TabIndex = 27
-        labelUpper.Text = "✓ Contains Uppercase"
+        labelUpper.Text = "✗ Contains Uppercase"
         ' 
         ' labelNumbers
         ' 
@@ -291,7 +292,7 @@ Partial Class Register1
         labelNumbers.Name = "labelNumbers"
         labelNumbers.Size = New Size(124, 16)
         labelNumbers.TabIndex = 27
-        labelNumbers.Text = "✓ Contains Numbers"
+        labelNumbers.Text = "✗ Contains Numbers"
         ' 
         ' labelSpecial
         ' 
@@ -302,7 +303,17 @@ Partial Class Register1
         labelSpecial.Name = "labelSpecial"
         labelSpecial.Size = New Size(150, 16)
         labelSpecial.TabIndex = 27
-        labelSpecial.Text = "✓ Contains Special Chars"
+        labelSpecial.Text = "✗ Contains Special Chars"
+        ' 
+        ' CheckBox1
+        ' 
+        CheckBox1.AutoSize = True
+        CheckBox1.Location = New Point(443, 405)
+        CheckBox1.Name = "CheckBox1"
+        CheckBox1.Size = New Size(154, 25)
+        CheckBox1.TabIndex = 28
+        CheckBox1.Text = "Show Password"
+        CheckBox1.UseVisualStyleBackColor = True
         ' 
         ' Register1
         ' 
@@ -310,6 +321,7 @@ Partial Class Register1
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(255))
         ClientSize = New Size(1330, 686)
+        Controls.Add(CheckBox1)
         Controls.Add(labelSpecial)
         Controls.Add(labelNumbers)
         Controls.Add(labelUpper)
@@ -379,5 +391,6 @@ Partial Class Register1
     Friend WithEvents labelUpper As Label
     Friend WithEvents labelNumbers As Label
     Friend WithEvents labelSpecial As Label
+    Friend WithEvents CheckBox1 As CheckBox
 
 End Class

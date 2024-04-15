@@ -446,4 +446,14 @@ Public Class Register1
     Private Sub FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         Application.Exit()
     End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked Then
+            password_Text.PasswordChar = ""
+            confirm_Text.PasswordChar = ""
+        Else
+            password_Text.PasswordChar = "*"
+            confirm_Text.PasswordChar = "*"
+        End If
+    End Sub
 End Class

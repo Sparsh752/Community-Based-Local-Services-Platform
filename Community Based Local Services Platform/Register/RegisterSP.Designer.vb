@@ -29,6 +29,20 @@ Partial Class RegisterSP
         locationDropdown = New ComboBox()
         registerLocation = New Label()
         Panel1 = New Panel()
+        GroupBox2 = New GroupBox()
+        Label3 = New Label()
+        comboStartingMins = New ComboBox()
+        comboStartingHours = New ComboBox()
+        GroupBox3 = New GroupBox()
+        Label2 = New Label()
+        comboClosingMins = New ComboBox()
+        comboClosingHours = New ComboBox()
+        CheckBox1 = New CheckBox()
+        labelSpecial = New Label()
+        labelNumbers = New Label()
+        labelUpper = New Label()
+        labelLower = New Label()
+        labelSize = New Label()
         Back_btn = New Button()
         ExperienceDropdown = New ComboBox()
         emailValidationLabel = New Label()
@@ -37,7 +51,6 @@ Partial Class RegisterSP
         bankNameLabel = New Label()
         bankNameText = New TextBox()
         closingHours = New Label()
-        closingHoursText = New TextBox()
         SPifscLabel = New Label()
         ifscText = New TextBox()
         SPacc = New Label()
@@ -50,7 +63,6 @@ Partial Class RegisterSP
         accHolderText = New TextBox()
         SPaccText = New TextBox()
         descriptionText = New TextBox()
-        startHoursText = New TextBox()
         registerSPProfilePic = New PictureBox()
         experience = New Label()
         signUpSP = New Label()
@@ -65,12 +77,9 @@ Partial Class RegisterSP
         passwordSP_Text = New TextBox()
         Label1 = New Label()
         ToolTip1 = New ToolTip(components)
-        labelSpecial = New Label()
-        labelNumbers = New Label()
-        labelUpper = New Label()
-        labelLower = New Label()
-        labelSize = New Label()
         Panel1.SuspendLayout()
+        GroupBox2.SuspendLayout()
+        GroupBox3.SuspendLayout()
         CType(registerSPProfilePic, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -122,6 +131,9 @@ Partial Class RegisterSP
         ' Panel1
         ' 
         Panel1.AutoScroll = True
+        Panel1.Controls.Add(GroupBox2)
+        Panel1.Controls.Add(GroupBox3)
+        Panel1.Controls.Add(CheckBox1)
         Panel1.Controls.Add(labelSpecial)
         Panel1.Controls.Add(labelNumbers)
         Panel1.Controls.Add(labelUpper)
@@ -136,7 +148,6 @@ Partial Class RegisterSP
         Panel1.Controls.Add(bankNameLabel)
         Panel1.Controls.Add(bankNameText)
         Panel1.Controls.Add(closingHours)
-        Panel1.Controls.Add(closingHoursText)
         Panel1.Controls.Add(SPifscLabel)
         Panel1.Controls.Add(ifscText)
         Panel1.Controls.Add(SPacc)
@@ -149,7 +160,6 @@ Partial Class RegisterSP
         Panel1.Controls.Add(accHolderText)
         Panel1.Controls.Add(SPaccText)
         Panel1.Controls.Add(descriptionText)
-        Panel1.Controls.Add(startHoursText)
         Panel1.Controls.Add(registerSPProfilePic)
         Panel1.Controls.Add(experience)
         Panel1.Controls.Add(signUpSP)
@@ -172,6 +182,151 @@ Partial Class RegisterSP
         Panel1.Size = New Size(1360, 1040)
         Panel1.TabIndex = 25
         ' 
+        ' GroupBox2
+        ' 
+        GroupBox2.Controls.Add(Label3)
+        GroupBox2.Controls.Add(comboStartingMins)
+        GroupBox2.Controls.Add(comboStartingHours)
+        GroupBox2.Location = New Point(208, 668)
+        GroupBox2.Name = "GroupBox2"
+        GroupBox2.Size = New Size(160, 54)
+        GroupBox2.TabIndex = 73
+        GroupBox2.TabStop = False
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(73, 20)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(14, 21)
+        Label3.TabIndex = 71
+        Label3.Text = ":"
+        ' 
+        ' comboStartingMins
+        ' 
+        comboStartingMins.DropDownHeight = 120
+        comboStartingMins.FormattingEnabled = True
+        comboStartingMins.IntegralHeight = False
+        comboStartingMins.Location = New Point(93, 17)
+        comboStartingMins.Name = "comboStartingMins"
+        comboStartingMins.Size = New Size(61, 29)
+        comboStartingMins.TabIndex = 70
+        ' 
+        ' comboStartingHours
+        ' 
+        comboStartingHours.DropDownHeight = 120
+        comboStartingHours.FormattingEnabled = True
+        comboStartingHours.IntegralHeight = False
+        comboStartingHours.Location = New Point(6, 17)
+        comboStartingHours.Name = "comboStartingHours"
+        comboStartingHours.Size = New Size(61, 29)
+        comboStartingHours.TabIndex = 70
+        ' 
+        ' GroupBox3
+        ' 
+        GroupBox3.Controls.Add(Label2)
+        GroupBox3.Controls.Add(comboClosingMins)
+        GroupBox3.Controls.Add(comboClosingHours)
+        GroupBox3.Location = New Point(770, 499)
+        GroupBox3.Name = "GroupBox3"
+        GroupBox3.Size = New Size(160, 54)
+        GroupBox3.TabIndex = 72
+        GroupBox3.TabStop = False
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(73, 20)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(14, 21)
+        Label2.TabIndex = 71
+        Label2.Text = ":"
+        ' 
+        ' comboClosingMins
+        ' 
+        comboClosingMins.DropDownHeight = 120
+        comboClosingMins.FormattingEnabled = True
+        comboClosingMins.IntegralHeight = False
+        comboClosingMins.Location = New Point(93, 17)
+        comboClosingMins.Name = "comboClosingMins"
+        comboClosingMins.Size = New Size(61, 29)
+        comboClosingMins.TabIndex = 70
+        ' 
+        ' comboClosingHours
+        ' 
+        comboClosingHours.DropDownHeight = 120
+        comboClosingHours.FormattingEnabled = True
+        comboClosingHours.IntegralHeight = False
+        comboClosingHours.Location = New Point(6, 17)
+        comboClosingHours.Name = "comboClosingHours"
+        comboClosingHours.Size = New Size(61, 29)
+        comboClosingHours.TabIndex = 70
+        ' 
+        ' CheckBox1
+        ' 
+        CheckBox1.AutoSize = True
+        CheckBox1.Location = New Point(465, 579)
+        CheckBox1.Name = "CheckBox1"
+        CheckBox1.Size = New Size(154, 25)
+        CheckBox1.TabIndex = 69
+        CheckBox1.Text = "Show Password"
+        CheckBox1.UseVisualStyleBackColor = True
+        ' 
+        ' labelSpecial
+        ' 
+        labelSpecial.AutoSize = True
+        labelSpecial.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelSpecial.ForeColor = Color.Red
+        labelSpecial.Location = New Point(465, 694)
+        labelSpecial.Name = "labelSpecial"
+        labelSpecial.Size = New Size(150, 16)
+        labelSpecial.TabIndex = 64
+        labelSpecial.Text = "✗ Contains Special Chars"
+        ' 
+        ' labelNumbers
+        ' 
+        labelNumbers.AutoSize = True
+        labelNumbers.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelNumbers.ForeColor = Color.Red
+        labelNumbers.Location = New Point(465, 673)
+        labelNumbers.Name = "labelNumbers"
+        labelNumbers.Size = New Size(124, 16)
+        labelNumbers.TabIndex = 65
+        labelNumbers.Text = "✗ Contains Numbers"
+        ' 
+        ' labelUpper
+        ' 
+        labelUpper.AutoSize = True
+        labelUpper.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelUpper.ForeColor = Color.Red
+        labelUpper.Location = New Point(465, 652)
+        labelUpper.Name = "labelUpper"
+        labelUpper.Size = New Size(133, 16)
+        labelUpper.TabIndex = 66
+        labelUpper.Text = "✗ Contains Uppercase"
+        ' 
+        ' labelLower
+        ' 
+        labelLower.AutoSize = True
+        labelLower.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelLower.ForeColor = Color.Red
+        labelLower.Location = New Point(465, 631)
+        labelLower.Name = "labelLower"
+        labelLower.Size = New Size(134, 16)
+        labelLower.TabIndex = 67
+        labelLower.Text = "✗ Contains Lowercase"
+        ' 
+        ' labelSize
+        ' 
+        labelSize.AutoSize = True
+        labelSize.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        labelSize.ForeColor = Color.Red
+        labelSize.Location = New Point(465, 610)
+        labelSize.Name = "labelSize"
+        labelSize.Size = New Size(162, 16)
+        labelSize.TabIndex = 68
+        labelSize.Text = "✗ Atleast 8 characters long"
+        ' 
         ' Back_btn
         ' 
         Back_btn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
@@ -182,7 +337,7 @@ Partial Class RegisterSP
         Back_btn.Location = New Point(949, 42)
         Back_btn.Margin = New Padding(0)
         Back_btn.Name = "Back_btn"
-        Back_btn.Size = New Size(67, 25)
+        Back_btn.Size = New Size(67, 41)
         Back_btn.TabIndex = 63
         Back_btn.Text = "Back"
         Back_btn.UseVisualStyleBackColor = False
@@ -249,14 +404,6 @@ Partial Class RegisterSP
         closingHours.Size = New Size(117, 21)
         closingHours.TabIndex = 56
         closingHours.Text = "Closing Hours"
-        ' 
-        ' closingHoursText
-        ' 
-        closingHoursText.BorderStyle = BorderStyle.FixedSingle
-        closingHoursText.Location = New Point(770, 517)
-        closingHoursText.Name = "closingHoursText"
-        closingHoursText.Size = New Size(246, 28)
-        closingHoursText.TabIndex = 55
         ' 
         ' SPifscLabel
         ' 
@@ -366,14 +513,6 @@ Partial Class RegisterSP
         descriptionText.Name = "descriptionText"
         descriptionText.Size = New Size(286, 77)
         descriptionText.TabIndex = 43
-        ' 
-        ' startHoursText
-        ' 
-        startHoursText.BorderStyle = BorderStyle.FixedSingle
-        startHoursText.Location = New Point(207, 682)
-        startHoursText.Name = "startHoursText"
-        startHoursText.Size = New Size(286, 28)
-        startHoursText.TabIndex = 42
         ' 
         ' registerSPProfilePic
         ' 
@@ -503,61 +642,6 @@ Partial Class RegisterSP
         ' 
         ToolTip1.ToolTipTitle = "Format of Time"
         ' 
-        ' labelSpecial
-        ' 
-        labelSpecial.AutoSize = True
-        labelSpecial.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelSpecial.ForeColor = Color.Red
-        labelSpecial.Location = New Point(470, 673)
-        labelSpecial.Name = "labelSpecial"
-        labelSpecial.Size = New Size(150, 16)
-        labelSpecial.TabIndex = 64
-        labelSpecial.Text = "✓ Contains Special Chars"
-        ' 
-        ' labelNumbers
-        ' 
-        labelNumbers.AutoSize = True
-        labelNumbers.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelNumbers.ForeColor = Color.Red
-        labelNumbers.Location = New Point(470, 652)
-        labelNumbers.Name = "labelNumbers"
-        labelNumbers.Size = New Size(124, 16)
-        labelNumbers.TabIndex = 65
-        labelNumbers.Text = "✓ Contains Numbers"
-        ' 
-        ' labelUpper
-        ' 
-        labelUpper.AutoSize = True
-        labelUpper.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelUpper.ForeColor = Color.Red
-        labelUpper.Location = New Point(470, 631)
-        labelUpper.Name = "labelUpper"
-        labelUpper.Size = New Size(133, 16)
-        labelUpper.TabIndex = 66
-        labelUpper.Text = "✓ Contains Uppercase"
-        ' 
-        ' labelLower
-        ' 
-        labelLower.AutoSize = True
-        labelLower.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelLower.ForeColor = Color.Red
-        labelLower.Location = New Point(470, 610)
-        labelLower.Name = "labelLower"
-        labelLower.Size = New Size(134, 16)
-        labelLower.TabIndex = 67
-        labelLower.Text = "✓ Contains Lowercase"
-        ' 
-        ' labelSize
-        ' 
-        labelSize.AutoSize = True
-        labelSize.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        labelSize.ForeColor = Color.Red
-        labelSize.Location = New Point(470, 589)
-        labelSize.Name = "labelSize"
-        labelSize.Size = New Size(162, 16)
-        labelSize.TabIndex = 68
-        labelSize.Text = "✓ Atleast 8 characters long"
-        ' 
         ' RegisterSP
         ' 
         AutoScaleDimensions = New SizeF(9F, 21F)
@@ -569,6 +653,10 @@ Partial Class RegisterSP
         Text = "Service Provider Register"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        GroupBox2.ResumeLayout(False)
+        GroupBox2.PerformLayout()
+        GroupBox3.ResumeLayout(False)
+        GroupBox3.PerformLayout()
         CType(registerSPProfilePic, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
@@ -614,7 +702,6 @@ Partial Class RegisterSP
     Friend WithEvents branchText As TextBox
     Friend WithEvents bankNameLabel As Label
     Friend WithEvents closingHours As Label
-    Friend WithEvents closingHoursText As TextBox
     Friend WithEvents emailValidationLabel As Label
     Friend WithEvents ExperienceDropdown As ComboBox
     Friend WithEvents ToolTip1 As ToolTip
@@ -624,5 +711,14 @@ Partial Class RegisterSP
     Friend WithEvents labelUpper As Label
     Friend WithEvents labelLower As Label
     Friend WithEvents labelSize As Label
+    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents comboClosingHours As ComboBox
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents comboClosingMins As ComboBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents comboStartingMins As ComboBox
+    Friend WithEvents comboStartingHours As ComboBox
 
 End Class

@@ -12,6 +12,7 @@ Public Class RegisterSP
         PopulateCountriesDropdown()
         YearsExperienceDropdown()
         PopulateNoticeHourDropdown()
+        PopulateTime()
         Me.Size = New Size(1200, 700)
         Me.CenterToScreen()
         Me.WindowState = FormWindowState.Normal
@@ -26,8 +27,8 @@ Public Class RegisterSP
         passwordSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         confirmSP_Text.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         ExperienceDropdown.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        closingHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
-        startHoursText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        GroupBox2.BackColor = ColorTranslator.FromHtml("#F9F9F9")
+        GroupBox3.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         SPaccText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         accHolderText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
         ifscText.BackColor = ColorTranslator.FromHtml("#F9F9F9")
@@ -69,12 +70,10 @@ Public Class RegisterSP
         locationDropdown.Font = labelfont
         Label1.Location = New Point(138, 624)
         Label1.Font = labelfont
-        startHoursText.Location = New Point(138, 655)
-        startHoursText.Font = labelfont
+        GroupBox2.Location = New Point(138, 655)
+        GroupBox3.Location = New Point(643, 655)
         closingHours.Location = New Point(643, 624)
         closingHours.Font = labelfont
-        closingHoursText.Location = New Point(643, 655)
-        closingHoursText.Font = labelfont
         SPdescription.Location = New Point(138, 716)
         SPdescription.Font = labelfont
         descriptionText.Location = New Point(138, 748)
@@ -112,8 +111,6 @@ Public Class RegisterSP
         RegisterSPSubmitBtn.Font = labelfont
         RegisterSPSubmitBtn.Size = New Size(150, 41)
         ExperienceDropdown.Size = New Size(286, 41)
-        closingHoursText.Size = New Size(286, 41)
-        startHoursText.Size = New Size(286, 41)
         SPaccText.Size = New Size(286, 41)
         accHolderText.Size = New Size(286, 41)
         bankNameText.Size = New Size(286, 41)
@@ -137,16 +134,6 @@ Public Class RegisterSP
             ' If the length exceeds 10 characters and the pressed key is not a control character, suppress it
             e.Handled = True
         End If
-    End Sub
-
-    Private Sub startHoursText_MouseHover(sender As Object, e As EventArgs) Handles startHoursText.MouseHover
-        ' Display a tooltip with the correct format for the start time
-        ToolTip1.Show("Enter time in format HH:MM", startHoursText, 2000)
-    End Sub
-
-    Private Sub closingHoursText_MouseHover(sender As Object, e As EventArgs) Handles closingHoursText.MouseHover
-        ' Display a tooltip with the correct format for the closing time
-        ToolTip1.Show("Enter time in format HH:MM", closingHoursText, 2000)
     End Sub
 
 
@@ -243,29 +230,29 @@ Public Class RegisterSP
     End Function
 
     'Convert startTime, closingTime entered in textbox to TIMESPAN.
-    Private Function ConvertToTimeSpan(timeString As String) As TimeSpan
-        Dim timeParts() As String = timeString.Split(":")
-        If timeParts.Length <> 2 Then
-            Throw New ArgumentException("Invalid time format. Time should be in the format HH:mm.")
-        End If
+    'Private Function ConvertToTimeSpan(timeString As String) As TimeSpan
+    '    Dim timeParts() As String = timeString.Split(":")
+    '    If timeParts.Length <> 2 Then
+    '        Throw New ArgumentException("Enter time (HH:MM)")
+    '    End If
 
-        Dim hours As Integer
-        Dim minutes As Integer
+    '    Dim hours As Integer
+    '    Dim minutes As Integer
 
-        If Not Integer.TryParse(timeParts(0), hours) OrElse Not Integer.TryParse(timeParts(1), minutes) Then
-            Throw New ArgumentException("Invalid time format. Time should be in the format HH:mm.")
-        End If
+    '    If Not Integer.TryParse(timeParts(0), hours) OrElse Not Integer.TryParse(timeParts(1), minutes) Then
+    '        Throw New ArgumentException("Invalid time format. Time should be in the format HH:mm.")
+    '    End If
 
-        If hours < 0 OrElse hours > 23 Then
-            Throw New ArgumentException("Hours should be between 0 and 23.")
-        End If
+    '    If hours < 0 OrElse hours > 23 Then
+    '        Throw New ArgumentException("Hours should be between 0 and 23.")
+    '    End If
 
-        If minutes < 0 OrElse minutes > 59 Then
-            Throw New ArgumentException("Minutes should be between 0 and 59.")
-        End If
+    '    If minutes < 0 OrElse minutes > 59 Then
+    '        Throw New ArgumentException("Minutes should be between 0 and 59.")
+    '    End If
 
-        Return New TimeSpan(hours, minutes, 0)
-    End Function
+    '    Return New TimeSpan(hours, minutes, 0)
+    'End Function
 
 
     Function ContainsUpperCase(ByVal inputString As String) As Boolean
@@ -412,7 +399,8 @@ Public Class RegisterSP
        String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(confirmSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(closingHoursText.Text) OrElse
+       String.IsNullOrWhiteSpace(comboClosingHours.Text) OrElse
+       String.IsNullOrWhiteSpace(comboClosingMins.Text) OrElse
        String.IsNullOrWhiteSpace(startHoursText.Text) OrElse
        NoticeHourDropdown.SelectedItem Is Nothing OrElse
        String.IsNullOrWhiteSpace(NoticeHourDropdown.SelectedItem.ToString) OrElse
@@ -434,8 +422,17 @@ Public Class RegisterSP
         Dim closingTime As TimeSpan
 
         Try
-            startingTime = ConvertToTimeSpan(startHoursText.Text)
-            closingTime = ConvertToTimeSpan(closingHoursText.Text)
+            If comboStartingHours.SelectedIndex < 0 Or comboStartingMins.SelectedIndex < 0 Then
+                MessageBox.Show("Enter time (HH:MM)")
+                Return
+            End If
+            If comboClosingHours.SelectedIndex < 0 Or comboClosingMins.SelectedIndex < 0 Then
+                MessageBox.Show("Enter time (HH:MM)")
+                Return
+            End If
+
+            startingTime = New TimeSpan(Convert.ToInt32(comboStartingHours.SelectedItem), Convert.ToInt32(comboStartingMins.SelectedItem), 0)
+            closingTime = New TimeSpan(Convert.ToInt32(comboClosingHours.SelectedItem), Convert.ToInt32(comboClosingMins.SelectedItem), 0)
 
             ' Check if start time is less than end time
             If startingTime >= closingTime Then
@@ -614,6 +611,21 @@ Public Class RegisterSP
         Next
     End Sub
 
+    Private Sub PopulateTime()
+        comboStartingHours.Items.Clear()
+        comboClosingHours.Items.Clear()
+        comboStartingMins.Items.Clear()
+        comboClosingMins.Items.Clear()
+        For i As Integer = 0 To 23
+            comboStartingHours.Items.Add(i.ToString().PadLeft(2, "0"c))
+            comboClosingHours.Items.Add(i.ToString().PadLeft(2, "0"c))
+        Next
+        For i As Integer = 0 To 59
+            comboStartingMins.Items.Add(i.ToString().PadLeft(2, "0"c))
+            comboClosingMins.Items.Add(i.ToString().PadLeft(2, "0"c))
+        Next
+    End Sub
+
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
@@ -625,4 +637,13 @@ Public Class RegisterSP
         Me.Hide()
     End Sub
 
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked Then
+            passwordSP_Text.PasswordChar = ""
+            confirmSP_Text.PasswordChar = ""
+        Else
+            passwordSP_Text.PasswordChar = "*"
+            confirmSP_Text.PasswordChar = "*"
+        End If
+    End Sub
 End Class
