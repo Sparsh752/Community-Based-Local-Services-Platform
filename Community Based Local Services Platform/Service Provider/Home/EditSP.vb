@@ -115,6 +115,84 @@ Public Class EditSP
         accHolderText.Size = New Size(286, 41)
         bankNameText.Size = New Size(286, 41)
         branchText.Size = New Size(286, 41)
+
+        fetchData()
+    End Sub
+
+    Private Sub fetchData()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Try
+                connection.Open()
+
+                Dim fetchCommandText As String = "SELECT userName, email, password FROM users WHERE userID = @userID"
+                Using fetchCommand As New MySqlCommand(fetchCommandText, connection)
+                    fetchCommand.Parameters.AddWithValue("@userID", 64)
+                    Using reader As MySqlDataReader = fetchCommand.ExecuteReader()
+                        If reader.Read() Then
+                            ' Read data from the reader and populate form fields
+                            nameSP_Text.Text = reader.GetString("userName")
+                            emailSP_Text.Text = reader.GetString("email")
+                            passwordSP_Text.Text = reader.GetString("password")
+                            ' Populate other form fields similarly
+                        Else
+                            MessageBox.Show("Service provider data not found.")
+                        End If
+                    End Using
+                End Using
+
+                Dim fetchServiceProviderCommandText As String = "SELECT serviceProivderDescription, experienceYears, minimumNoticeHours FROM serviceproviders where userID = @userID"
+                Using fetchServiceProviderCommand As New MySqlCommand(fetchServiceProviderCommandText, connection)
+                    fetchServiceProviderCommand.Parameters.AddWithValue("@userID", SessionManager.userID)
+                    Using reader As MySqlDataReader = fetchServiceProviderCommand.ExecuteReader()
+                        If reader.Read() Then
+                            ' Read data from the reader and populate form fields
+                            descriptionText.Text = reader.GetString("serviceProviderDescription")
+                            ExperienceDropdown.SelectedValue = reader.GetString("experienceYears")
+                            NoticeHourDropdown.SelectedValue = reader.GetString("minimumNoticeHours")
+                            ' Populate other form fields similarly
+                        Else
+                            MessageBox.Show("Service provider data not found.")
+                        End If
+                    End Using
+                End Using
+
+                Dim fetchContactText As String = "SELECT location, mobileNumber FROM contactDetails WHERE userID = @userID"
+                Using fetchContactCommand As New MySqlCommand(fetchContactText, connection)
+                    fetchContactCommand.Parameters.AddWithValue("@userID", SessionManager.userID)
+                    Using reader As MySqlDataReader = fetchContactCommand.ExecuteReader()
+                        If reader.Read() Then
+                            ' Read data from the reader and populate form fields
+                            locationDropdown.SelectedValue = reader.GetString("location")
+                            phoneSP_Text.Text = reader.GetString("mobileNumber")
+                            ' Populate other form fields similarly
+                        Else
+                            MessageBox.Show("Service provider data not found.")
+                        End If
+                    End Using
+                End Using
+
+                Dim fetchBankText As String = "SELECT accountNumber, accountHolderName, bankName, branchName, ifscCode FROM bankDetailsOfServiceProvider WHERE serviceProviderID = @serviceProviderID"
+                Using fetchBankCommand As New MySqlCommand(fetchBankText, connection)
+                    fetchBankCommand.Parameters.AddWithValue("@serviceProviderID", SessionManager.spID)
+                    Using reader As MySqlDataReader = fetchBankCommand.ExecuteReader()
+                        If reader.Read() Then
+                            ' Read data from the reader and populate form fields
+                            accHolderText.Text = reader.GetString("accountHolderName")
+                            SPaccText.Text = reader.GetString("accountNumber")
+                            bankNameText.Text = reader.GetString("bankName")
+                            branchText.Text = reader.GetString("branchName")
+                            ifscText.Text = reader.GetString("ifscCode")
+                            ' Populate other form fields similarly
+                        Else
+                            MessageBox.Show("Service provider data not found.")
+                        End If
+                    End Using
+                End Using
+
+            Catch ex As Exception
+                MessageBox.Show("An error occurred while fetching service provider data: " & ex.Message)
+            End Try
+        End Using
     End Sub
 
     Private Sub Email_Text_TextChanged(sender As Object, e As EventArgs) Handles emailSP_Text.TextChanged
