@@ -488,6 +488,14 @@ Public Class Appointment_booking
 
     Private Sub Button_Click(sender As Object, e As EventArgs)
 
+        For Each ctrl As Control In Me.Controls
+            If TypeOf ctrl Is Button AndAlso ctrl IsNot Button10 AndAlso ctrl IsNot Button11 Then
+                Dim btn As Button = DirectCast(ctrl, Button)
+                btn.BackColor = Color.White
+                btn.ForeColor = Color.Black
+            End If
+        Next
+
         ' Determine which button was clicked and extract the selected time slot
         Dim clickedButton As Button = DirectCast(sender, Button)
         clickedButton.BackColor = Color.Black
