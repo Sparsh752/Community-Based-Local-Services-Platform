@@ -512,4 +512,103 @@ Public Class Appointment_booking
         Label13.Text = "Rs. " & advancepayment.ToString("0.00")
     End Sub
 
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        RemovePreviousForm()
+        Me.Close()
+
+        If appointmentType = "Reschedule" Then
+            With InProgressPaymentNotDone
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(InProgressPaymentNotDone)
+                Dim query As String =
+                "SELECT appointments.appointmentID, 
+                serviceproviders.serviceProviderName, 
+                serviceTypes.serviceTypeName, 
+                serviceAreaTimeslots.startTime, 
+                contactDetails.mobileNumber,
+                serviceAreas.location,
+                services.price,
+                services.serviceID,
+                appointments.bookingAdvance,
+                serviceAreaTimeslots.timeslotDate,
+                appointments.appointmentStatus 
+                FROM appointments 
+                JOIN serviceproviders 
+                ON appointments.serviceProviderID = serviceproviders.serviceProviderID 
+                JOIN serviceAreaTimeslots 
+                ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+                JOIN contactDetails 
+                ON contactDetails.UserID = serviceproviders.userID
+                JOIN serviceAreas 
+                ON serviceAreas.areaID = serviceAreaTimeslots.areaID
+                JOIN services
+                ON services.serviceTypeID = serviceAreaTimeslots.serviceTypeID
+                AND services.serviceProviderID = serviceAreaTimeslots.serviceProviderID 
+                JOIN serviceTypes 
+                ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+                WHERE appointments.customerID = @customerID
+                AND appointments.appointmentID = @appointmentID"
+                ' Create a new SQL connection
+                Using connection As New MySqlConnection(SessionManager.connectionString)
+                    ' Open the connection
+                    connection.Open()
+
+                    ' Create a new SQL command
+                    Using command As New MySqlCommand(query, connection)
+                        ' Set the parameter value for UserID
+                        command.Parameters.AddWithValue("@customerID", SessionManager.customerID)
+                        command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+
+                        ' Execute the SQL command and create a data reader
+                        Using reader As MySqlDataReader = command.ExecuteReader()
+                            ' Create a list to hold the labels data
+                            Dim labels As New List(Of String)()
+
+                            ' Read data from the reader
+                            If reader.Read() Then
+
+                                Dim sp_name As String = reader("serviceProviderName").ToString()
+                                Dim sp_service As String = reader("serviceTypeName").ToString()
+                                Dim sp_date As String = reader("timeslotDate").ToString()
+                                Dim dateObject As DateTime = DateTime.ParseExact(sp_date, "dd-MM-yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)
+
+                                ' Format the DateTime object to display only the date
+                                Dim formattedDate As String = dateObject.ToString("dd-MM-yyyy")
+                                Dim appoinment_slot As String = reader("startTime").ToString()
+                                Dim sp_num As String = reader("mobileNumber").ToString()
+                                Dim sp_loc As String = reader("location").ToString()
+                                Dim sp_price As String = reader("price").ToString()
+                                Dim sp_adv As String = reader("bookingAdvance").ToString()
+                                Dim serviceID As String = reader("serviceID").ToString()
+                                ' Set the retrieved values to the corresponding textboxes
+                                InProgressPaymentNotDone.SP_name_tb.Text = sp_name
+                                InProgressPaymentNotDone.SP_service_tb.Text = sp_service
+                                InProgressPaymentNotDone.Booked_slot_tb.Text = formattedDate + "  " + appoinment_slot
+                                InProgressPaymentNotDone.SP_contactno.Text = sp_num
+                                InProgressPaymentNotDone.SP_loc.Text = sp_loc
+                                InProgressPaymentNotDone.SP_price.Text = sp_price
+                                InProgressPaymentNotDone.advpaid.Text = sp_adv
+                                InProgressPaymentNotDone.rembal.Text = sp_price - sp_adv
+                                InProgressPaymentNotDone._serviceID = serviceID
+                            End If
+                        End Using
+                    End Using
+                End Using
+
+                .BringToFront()
+                .Show()
+            End With
+
+        Else
+            With Homepage_Customer
+                .TopLevel = False
+                .Dock = DockStyle.Fill
+                Panel3.Controls.Add(Homepage_Customer)
+                .BringToFront()
+                .Show()
+            End With
+        End If
+    End Sub
+
 End Class
