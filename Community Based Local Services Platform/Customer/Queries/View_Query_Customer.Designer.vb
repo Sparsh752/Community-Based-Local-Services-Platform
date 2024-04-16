@@ -35,12 +35,12 @@ Partial Class View_Query_Customer
         ' TextBox1
         ' 
         TextBox1.BackColor = SystemColors.ControlLight
-        TextBox1.Location = New Point(39, 332)
+        TextBox1.Location = New Point(43, 255)
         TextBox1.Margin = New Padding(3, 4, 3, 4)
         TextBox1.Multiline = True
         TextBox1.Name = "TextBox1"
         TextBox1.ReadOnly = True
-        TextBox1.Size = New Size(717, 105)
+        TextBox1.Size = New Size(539, 105)
         TextBox1.TabIndex = 8
         ' 
         ' Button3
@@ -68,7 +68,7 @@ Partial Class View_Query_Customer
         ' 
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 9.75F)
-        Label5.Location = New Point(43, 260)
+        Label5.Location = New Point(43, 218)
         Label5.Name = "Label5"
         Label5.Size = New Size(133, 23)
         Label5.TabIndex = 4
@@ -78,7 +78,7 @@ Partial Class View_Query_Customer
         ' 
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI", 9.75F)
-        Label4.Location = New Point(43, 191)
+        Label4.Location = New Point(43, 141)
         Label4.Name = "Label4"
         Label4.Size = New Size(173, 23)
         Label4.TabIndex = 3
@@ -88,7 +88,7 @@ Partial Class View_Query_Customer
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI", 9.75F)
-        Label2.Location = New Point(39, 105)
+        Label2.Location = New Point(43, 94)
         Label2.Name = "Label2"
         Label2.Size = New Size(110, 23)
         Label2.TabIndex = 1
@@ -98,18 +98,18 @@ Partial Class View_Query_Customer
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(39, 60)
+        Label1.Location = New Point(43, 42)
         Label1.Name = "Label1"
-        Label1.Size = New Size(653, 36)
+        Label1.Size = New Size(356, 36)
         Label1.TabIndex = 0
-        Label1.Text = "Provided service but did not recived payment"
+        Label1.Text = "Did not receive payment"
         ' 
         ' View_Query_Customer
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(816, 569)
+        ClientSize = New Size(631, 414)
         Controls.Add(TextBox1)
         Controls.Add(Button3)
         Controls.Add(Button2)
