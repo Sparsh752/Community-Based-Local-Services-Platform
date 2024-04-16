@@ -236,7 +236,7 @@ Public Class PendingRequest_SP
             command1.Parameters.AddWithValue("@uid", SessionManager.userID)
             Dim username As String = command1.ExecuteScalar().ToString()
 
-            Dim notifmsg As String = "Your appointment has been rejected by the " & username & "."
+            Dim notifmsg As String = "Your appointment has been rejected by " & username & "."
             Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationDateTime) values (@uid, @notifmsg, NOW())"
             Dim command2 As New MySqlCommand(insertnotif, connection)
             command2.Parameters.AddWithValue("@uid", uid)
@@ -247,7 +247,7 @@ Public Class PendingRequest_SP
             command3.Parameters.AddWithValue("@uid", uid)
             Dim emailid As String = command3.ExecuteScalar().ToString()
             Dim email_sender As New EmailSender()
-            MessageBox.Show(emailid)
+            'MessageBox.Show(emailid)
             email_sender.SendEmail(emailid, notifmsg)
 
         End Using
@@ -265,7 +265,7 @@ Public Class PendingRequest_SP
             command1.Parameters.AddWithValue("@uid", SessionManager.userID)
             Dim username As String = command1.ExecuteScalar().ToString()
 
-            Dim notifmsg As String = "Your appointment has been accepted by the " & username & "."
+            Dim notifmsg As String = "Your appointment has been accepted by " & username & "."
             Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationDateTime) values (@uid, @notifmsg, NOW())"
             Dim command2 As New MySqlCommand(insertnotif, connection)
             command2.Parameters.AddWithValue("@uid", uid)
@@ -276,7 +276,7 @@ Public Class PendingRequest_SP
             command3.Parameters.AddWithValue("@uid", uid)
             Dim emailid As String = command3.ExecuteScalar().ToString()
             Dim email_sender As New EmailSender()
-            MessageBox.Show(emailid)
+            'MessageBox.Show(emailid)
             email_sender.SendEmail(emailid, notifmsg)
 
         End Using
