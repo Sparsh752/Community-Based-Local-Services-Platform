@@ -269,7 +269,7 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection2.Open()
-            Dim query As String = "SELECT * FROM reviews as r WHERE r.givenForID = " & serviceProviderID
+            Dim query As String = "SELECT * FROM (SELECT * FROM reviews as r WHERE r.givenForID = " & serviceProviderID & " ) as newT JOIN users ON newT.givenByID=users.userID "
             Dim command As New MySqlCommand(query, connection2)
 
             ' Execute the SQL query
@@ -288,6 +288,7 @@ Public Class SP_profile
                 review.reviewDate = reader("reviewDate")
                 review.givenForID = reader("givenForID")
                 review.givenByID = reader("givenByID")
+                review.givenByName = reader("userName")
                 ' Add more properties as needed
                 reviewsList.Add(review)
             End While
@@ -314,7 +315,7 @@ Public Class SP_profile
             Panel2.Controls.Add(itemPanel)
 
             Dim headingLabel As New Label()
-            headingLabel.Text = "Review " & (i + 1)
+            headingLabel.Text = "By " & reviewsList(i).givenByName & ":"
             headingLabel.Font = New Font("Segoe", 9)
             headingLabel.AutoSize = True
             headingLabel.Location = New Point(20, 10)
