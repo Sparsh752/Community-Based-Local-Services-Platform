@@ -60,8 +60,7 @@ Public Class PendingRequest_SP
 
         Dim query As String = "SELECT appointments.appointmentID, 
             users.userName, serviceTypes.serviceTypeName, 
-            serviceAreaTimeslots.startTime, 
-            serviceAreaTimeslots.timeslotDate, 
+            CONCAT(serviceAreaTimeslots.timeslotDate, ' ', serviceAreaTimeslots.startTime) AS BookedSlot, 
             appointments.appointmentStatus, 
             serviceAreas.location, 
             appointments.bookingAdvance, 
@@ -102,7 +101,7 @@ Public Class PendingRequest_SP
                         Label1.Text = reader("userName").ToString()
                         Label5.Text = reader("serviceTypeName").ToString()
                         Label9.Text = reader("bookingAdvance").ToString()
-                        Label7.Text = reader("timeslotDate").ToString()
+                        Label7.Text = reader("BookedSlot").ToString()
                         Label2.Text = reader("location").ToString()
                         Label3.Text = reader("mobileNumber").ToString()
 
