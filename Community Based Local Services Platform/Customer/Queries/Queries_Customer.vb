@@ -2,7 +2,7 @@
 
     Public userID As String
 
-    Private Sub DataGridView1_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs)
+    Private Sub DataGridView1_CellPainting(sender As Object, e As DataGridViewCellPaintingEventArgs) Handles DataGridView1.CellPainting
         If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 AndAlso e.ColumnIndex <= 5 Then
             ' Draw cell border
             e.Paint(e.CellBounds, DataGridViewPaintParts.All)

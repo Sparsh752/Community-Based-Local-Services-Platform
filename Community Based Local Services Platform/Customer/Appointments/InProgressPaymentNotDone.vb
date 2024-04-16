@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Community_Based_Local_Services_Platform.AppointmentList_Customer
 Public Class InProgressPaymentNotDone
 
     Private chatPanel As New Panel()
@@ -159,7 +160,73 @@ Public Class InProgressPaymentNotDone
             End Using
         End Using
 
+        SendCancelNotification()
+
     End Sub
+
+    Function SendCancelNotification()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Dim getuserIDfromsID = "Select userID from serviceproviders WHERE serviceProviderID = @SID"
+            Dim command As New MySqlCommand(getuserIDfromsID, connection)
+            command.Parameters.AddWithValue("@SID", SessionManager.spID)
+            connection.Open()
+            Dim SPuserID As String = command.ExecuteScalar().ToString()
+            Dim getuserName = "Select userName from users WHERE userID = @UID"
+            Dim command2 As New MySqlCommand(getuserName, connection)
+            command2.Parameters.AddWithValue("@UID", SessionManager.customerID)
+            Dim userName As String = command2.ExecuteScalar().ToString()
+
+            Dim getDateTime = "SELECT
+            serviceAreaTimeslots.startTime, 
+            serviceAreaTimeslots.timeslotDate,
+            serviceTypes.serviceTypeName, 
+            serviceAreas.location
+            FROM appointments 
+            JOIN serviceAreaTimeslots 
+            ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+            JOIN serviceTypes 
+            ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+            JOIN serviceAreas 
+            ON serviceAreaTimeslots.areaID = serviceAreas.areaID 
+            WHERE appointments.appointmentID = @appointmentID;"
+
+            Dim comm As New MySqlCommand(getDateTime, connection)
+            comm.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+
+            Dim _service As String = ""
+            Dim combinedDateTime As String = ""
+
+
+            Using reader As MySqlDataReader = comm.ExecuteReader()
+
+                While reader.Read()
+
+                    _service = (reader("serviceTypeName").ToString())
+                    Dim startTime As String = reader("startTime").ToString()
+                    Dim timeslotDate As String = CType(reader("timeslotDate"), Date).ToString("dd-MMM-yyyy")
+                    combinedDateTime = $"{timeslotDate} {startTime}"
+
+                End While
+
+            End Using
+
+            Dim notifmsg As String = "The appointment by " & userName & " for " & _service & " on " & combinedDateTime & " was Canceled."
+            Dim notificationquery As String = "Insert into notifications (notificationMessage, notificationDateTime, userID) values (@notifmsg, NOW(), @UID)"
+            Dim command3 As New MySqlCommand(notificationquery, connection)
+            command3.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command3.Parameters.AddWithValue("@UID", SessionManager.sp_userID)
+            'MessageBox.Show(notifmsg)
+            command3.ExecuteNonQuery()
+            Dim emailofServiceP = "Select email from users WHERE userID = @SID"
+            Dim command4 As New MySqlCommand(emailofServiceP, connection)
+            command4.Parameters.AddWithValue("@SID", SessionManager.sp_userID)
+            Dim emailSP As String = command4.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailSP, notifmsg)
+
+        End Using
+
+    End Function
 
     Private Sub UpdateCancelationAmount()
 

@@ -142,7 +142,7 @@ Public Class Appointment_booking
 
     Private Sub FetchServiceProviderTiming(serviceProviderID As String)
         ' Fetch start and end time of the service provider for the selected day of the week from the database
-        Dim query As String = "SELECT * FROM workHours AS wh WHERE wh.serviceProviderID = @ServiceProviderID LIMIT 1"
+        Dim query As String = "SELECT * FROM workHours AS wh WHERE wh.serviceProviderID = @ServiceProviderID"
         Using connection As New MySqlConnection(SessionManager.connectionString)
             Using command As New MySqlCommand(query, connection)
                 command.Parameters.AddWithValue("@ServiceProviderID", serviceProviderID)
@@ -162,6 +162,9 @@ Public Class Appointment_booking
         ' Clear existing items in ComboBox1
         ComboBox1.Items.Clear()
 
+        ' HashSet to store unique locations
+        Dim uniqueLocations As New HashSet(Of String)()
+
         ' Query to fetch locations based on serviceTypeID, serviceName, and serviceProviderID
         Dim query As String = "SELECT sa.location " &
                           "FROM services AS s " &
@@ -178,13 +181,18 @@ Public Class Appointment_booking
                 connection.Open()
                 Using reader As MySqlDataReader = command.ExecuteReader()
                     While reader.Read()
-                        ' Add each location to ComboBox1
-                        ComboBox1.Items.Add(reader("location").ToString())
+                        ' Add location to HashSet if it's unique
+                        Dim location As String = reader("location").ToString()
+                        If Not uniqueLocations.Contains(location) Then
+                            ComboBox1.Items.Add(location)
+                            uniqueLocations.Add(location)
+                        End If
                     End While
                 End Using
             End Using
         End Using
     End Sub
+
 
 
     Private Function CheckAppointmentExists(serviceID As Integer, startTime As TimeSpan, location As String, timeslotDate As DateTime, appointmentStatus As String) As Boolean
@@ -239,9 +247,17 @@ Public Class Appointment_booking
         Dim eveningButtons As New List(Of Button)()
         Dim nightButtons As New List(Of Button)()
 
-        ' Display buttons for each hour between start and end times
-        Dim currentTime As TimeSpan = startTime
-        Dim verticalPosition As Integer = 350 ' Initial vertical position
+        ' Determine currentTime based on selectedDate and current time or fetched startTime
+        Dim currentTime As TimeSpan
+        If selectedDate.Date = Date.Today Then
+            ' If selectedDate is today, set currentTime to present time + 1 hour
+            currentTime = DateTime.Now.AddHours(1).TimeOfDay
+        Else
+            ' If selectedDate is not today, set currentTime to fetched startTime
+            currentTime = startTime
+        End If
+
+        'Dim verticalPosition As Integer = 350 ' Initial vertical position
 
         Do While currentTime <= endTime
             Dim button As New Button()
@@ -259,15 +275,19 @@ Public Class Appointment_booking
             ' Determine the time period (morning, afternoon, evening, night) and set the horizontal position accordingly
             If currentTime.Hours < 12 Then
                 button.Left = 150 + (morningButtons.Count * buttonSpacing) ' Morning
+                button.Top = 350
                 morningButtons.Add(button)
             ElseIf currentTime.Hours < 17 Then
                 button.Left = 150 + (afternoonButtons.Count * buttonSpacing) ' Afternoon
+                button.Top = 400
                 afternoonButtons.Add(button)
             ElseIf currentTime.Hours < 20 Then
                 button.Left = 150 + (eveningButtons.Count * buttonSpacing) ' Evening
+                button.Top = 450
                 eveningButtons.Add(button)
             Else
                 button.Left = 150 + (nightButtons.Count * buttonSpacing) ' Night
+                button.Top = 500
                 nightButtons.Add(button)
             End If
 
@@ -283,17 +303,17 @@ Public Class Appointment_booking
             ' Add button click event handler
             AddHandler button.Click, AddressOf Button_Click
 
-            button.Top = verticalPosition ' Set the vertical position of buttons
+            'button.Top = verticalPosition ' Set the vertical position of buttons
             Me.Controls.Add(button)
 
 
             ' Move to the next hour
             currentTime = currentTime.Add(New TimeSpan(1, 0, 0))
 
-            ' Update the vertical position for the next row
-            If currentTime.Hours = 12 OrElse currentTime.Hours = 17 OrElse currentTime.Hours = 20 Then
-                verticalPosition += 50 ' Increase vertical position for the next row
-            End If
+            '' Update the vertical position for the next row
+            'If currentTime.Hours = 12 OrElse currentTime.Hours = 17 OrElse currentTime.Hours = 20 Then
+            '    verticalPosition += 50 ' Increase vertical position for the next row
+            'End If
         Loop
     End Sub
 
@@ -304,7 +324,69 @@ Public Class Appointment_booking
         Return dateTimeWithTime
     End Function
 
+    Function SendRescheduleNotification()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Dim getuserIDfromsID = "Select userID from serviceproviders WHERE serviceProviderID = @SID"
+            Dim command As New MySqlCommand(getuserIDfromsID, connection)
+            command.Parameters.AddWithValue("@SID", SessionManager.spID)
+            connection.Open()
+            Dim SPuserID As String = command.ExecuteScalar().ToString()
+            Dim getuserName = "Select userName from users WHERE userID = @UID"
+            Dim command2 As New MySqlCommand(getuserName, connection)
+            command2.Parameters.AddWithValue("@UID", SessionManager.customerID)
+            Dim userName As String = command2.ExecuteScalar().ToString()
 
+            Dim getDateTime = "SELECT
+            serviceAreaTimeslots.startTime, 
+            serviceAreaTimeslots.timeslotDate,
+            serviceTypes.serviceTypeName, 
+            serviceAreas.location
+            FROM appointments 
+            JOIN serviceAreaTimeslots 
+            ON appointments.areaTimeslotID = serviceAreaTimeslots.areaTimeslotID 
+            JOIN serviceTypes 
+            ON serviceAreaTimeslots.serviceTypeID = serviceTypes.serviceID 
+            JOIN serviceAreas 
+            ON serviceAreaTimeslots.areaID = serviceAreas.areaID 
+            WHERE appointments.appointmentID = @appointmentID;"
+
+            Dim comm As New MySqlCommand(getDateTime, connection)
+            comm.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+
+            Dim _service As String = ""
+            Dim combinedDateTime As String = ""
+
+
+            Using reader As MySqlDataReader = comm.ExecuteReader()
+
+                While reader.Read()
+
+                    _service = (reader("serviceTypeName").ToString())
+                    Dim startTime As String = reader("startTime").ToString()
+                    Dim timeslotDate As String = CType(reader("timeslotDate"), Date).ToString("dd-MMM-yyyy")
+                    combinedDateTime = $"{timeslotDate} {startTime}"
+
+                End While
+
+            End Using
+
+            Dim notifmsg As String = "The appointment by " & userName & " for " & _service & " on " & combinedDateTime & " was Rescheduled."
+            Dim notificationquery As String = "Insert into notifications (notificationMessage, notificationDateTime, userID) values (@notifmsg, NOW(), @UID)"
+            Dim command3 As New MySqlCommand(notificationquery, connection)
+            command3.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command3.Parameters.AddWithValue("@UID", SessionManager.sp_userID)
+            'MessageBox.Show(notifmsg)
+            command3.ExecuteNonQuery()
+            Dim emailofServiceP = "Select email from users WHERE userID = @SID"
+            Dim command4 As New MySqlCommand(emailofServiceP, connection)
+            command4.Parameters.AddWithValue("@SID", SessionManager.sp_userID)
+            Dim emailSP As String = command4.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailSP, notifmsg)
+
+        End Using
+
+    End Function
 
     Private Sub RescheduleAppointment(appointmentID As Integer, newDate As DateTime, newTime As String, newLocation As String)
         'MessageBox.Show(appointmentID & " " & newDate & " " & newTime & " " & newLocation)
@@ -343,6 +425,9 @@ Public Class Appointment_booking
                 End If
             End Using
         End Using
+
+        SendRescheduleNotification()
+
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click

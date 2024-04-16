@@ -122,7 +122,50 @@
         BackButton.FlatAppearance.BorderSize = 0
         BackButton.ForeColor = ColorTranslator.FromHtml("#FFFFFF")
 
+        SendOTP()
+
     End Sub
+
+    Function SendOTP()
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+
+            Dim getOTP = " SELECT 
+                otpCode
+            FROM 
+                OTPs
+            WHERE 
+                appointmentID = @appointmentID;"
+
+            Dim comm As New MySqlCommand(getOTP, connection)
+            Dim _otp As String = ""
+
+
+            Using reader As MySqlDataReader = comm.ExecuteReader()
+
+                While reader.Read()
+                    _otp = (reader("otpCode").ToString())
+                End While
+
+            End Using
+
+            Dim notifmsg As String = "Service Complete! The OTP for appointment " & SessionManager.appointmentID & " is " & _otp
+            Dim notificationquery As String = "Insert into notifications (notificationMessage, notificationDateTime, userID) values (@notifmsg, NOW(), @UID)"
+            Dim command3 As New MySqlCommand(notificationquery, connection)
+            command3.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command3.Parameters.AddWithValue("@UID", SessionManager.sp_userID)
+            'MessageBox.Show(notifmsg)
+            command3.ExecuteNonQuery()
+            Dim emailofServiceP = "Select email from users WHERE userID = @SID"
+            Dim command4 As New MySqlCommand(emailofServiceP, connection)
+            command4.Parameters.AddWithValue("@SID", SessionManager.sp_userID)
+            Dim emailSP As String = command4.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailSP, notifmsg)
+
+        End Using
+
+    End Function
 
     Private Sub LoadChatPanel()
 
@@ -305,4 +348,7 @@
 
     End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
 End Class

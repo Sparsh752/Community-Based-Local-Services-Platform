@@ -42,7 +42,6 @@ Partial Class Profile_Customer
         ' 
         ' customerProfilePicture
         ' 
-        customerProfilePicture.BackgroundImage = My.Resources.Resource1.displayPicture
         customerProfilePicture.BackgroundImageLayout = ImageLayout.Stretch
         customerProfilePicture.Location = New Point(246, 175)
         customerProfilePicture.Margin = New Padding(3, 4, 3, 4)

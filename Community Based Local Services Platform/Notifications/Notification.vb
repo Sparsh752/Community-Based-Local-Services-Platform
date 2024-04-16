@@ -4,7 +4,7 @@ Public Class Notification
 
 
     Private WithEvents cardsPanel As Panel
-
+    Public NewNotificationCount As Integer = 0
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
@@ -80,10 +80,30 @@ Public Class Notification
         'Dim userId As String = SessionManager.userID
         'SessionManager.userID = 15
 
+        ' Query to get the notification count
+        Dim countquery As String = "SELECT COUNT(*) FROM notifications WHERE userID = '" & userID & "'"
 
-        If SessionManager.notificationsCleared Then
+        Using connection As New MySqlConnection(connectionString)
+            Using command As New MySqlCommand(countquery, connection)
+                Try
+                    connection.Open()
+                    ' Execute the query
+                    Dim count As Object = command.ExecuteScalar()
+                    If count IsNot Nothing AndAlso IsNumeric(count) Then
+                        ' Set the notification count
+                        NewNotificationCount = Convert.ToInt32(count)
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
+                End Try
+            End Using
+        End Using
+
+
+        If SessionManager.notificationsCleared AndAlso SessionManager.notificationCount = NewNotificationCount Then
             ShowNoNotificationsLabel()
         Else
+            Dim notificationCards As New List(Of UserControl1)()
             Dim query As String = "SELECT notificationMessage, notificationDateTime FROM notifications WHERE userID = '" & SessionManager.userID & "'"
 
             Using connection As New MySqlConnection(SessionManager.connectionString)
@@ -106,9 +126,16 @@ Public Class Notification
                                 card.HeadingText = notificationMessage
                                 card.SubheadingText = notificationDateTime.ToString("dd-MMMM")
                                 ' Adjust the location as needed
-                                card.Location = New Point(40, 19 + cardsPanel.Controls.Count * (card.Height + 5))
-                                cardsPanel.Controls.Add(card)
+                                'card.Location = New Point(40, 19 + cardsPanel.Controls.Count * (card.Height + 5))
+                                notificationCards.Add(card)
                             End While
+
+
+                            ' Insert the cards into the panel controls at the beginning of the list
+                            For i As Integer = notificationCards.Count - 1 To 0 Step -1
+                                notificationCards(i).Location = New Point(40, 19 + cardsPanel.Controls.Count * (notificationCards(i).Height + 5))
+                                cardsPanel.Controls.Add(notificationCards(i))
+                            Next i
                         Else
                             ShowNoNotificationsLabel()
                         End If
@@ -164,23 +191,14 @@ Public Class Notification
             ' Update flag to indicate notifications have been cleared
             SessionManager.notificationsCleared = True
 
+            SessionManager.notificationCount = NewNotificationCount
+
         End If
 
 
         ' Hide the clear button
         Dim clearButton As Button = DirectCast(sender, Button)
         clearButton.Visible = False
-
-
-        Navbar_Customer.NotificationCountLabel.BackColor = ColorTranslator.FromHtml("#0F2A37")
-        Navbar_Customer.NotificationCountLabel.ForeColor = ColorTranslator.FromHtml("#0F2A37")
-        'Navbar_Admin.NotificationCountLabel.Visible = False
-        'Navbar_SP.NotificationCountLabel.Visible = False
-        Navbar_Admin.NotificationCountLabel.BackColor = ColorTranslator.FromHtml("#0F2A37")
-        Navbar_Admin.NotificationCountLabel.ForeColor = ColorTranslator.FromHtml("#0F2A37")
-
-
-
 
 
     End Sub

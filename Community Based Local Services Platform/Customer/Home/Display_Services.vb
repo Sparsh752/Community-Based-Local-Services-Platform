@@ -39,6 +39,7 @@ Public Class Display_Services
                       "FROM serviceproviders AS s " &
                       "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
                       "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
+                      "WHERE flagbit = 1 " &
                       "GROUP BY s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName"
 
         ' Create a new SQL connection
@@ -137,11 +138,32 @@ Public Class Display_Services
             End If
 
             Me.Controls.Add(pb)
+
+
             ' Set the Tag property of the picturebox to store the provider details
             pb.Tag = sortedProviders(i - 1)
             ' Attach event handler for the picturebox click
             AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
             pbMostTrusted.Add(pb)
+            ' Inside the loop where you create picture boxes for most trusted section
+            AddHandler pb.MouseHover, Sub(sender As Object, e As EventArgs)
+                                          Dim index As Integer = pbMostTrusted.IndexOf(DirectCast(sender, PictureBox))
+                                          If index <> -1 Then
+                                              'pbMostTrusted(index).BackColor = Color.FromArgb(150, Color.Black) ' Set semi-transparent background color
+                                              lblMostTrustedRating(index).Visible = True
+                                              lblMostTrustedRating(index).BringToFront()
+
+                                          End If
+                                      End Sub
+
+            AddHandler pb.MouseLeave, Sub(sender As Object, e As EventArgs)
+                                          Dim index As Integer = pbMostTrusted.IndexOf(DirectCast(sender, PictureBox))
+                                          If index <> -1 Then
+                                              'pbMostTrusted(index).BackColor = Color.Transparent ' Restore transparent background color
+                                              lblMostTrustedRating(index).Visible = False
+                                          End If
+                                      End Sub
+
 
             Dim lblProvider As New Label()
             lblProvider.Size = New Size(92, 18)
@@ -151,14 +173,31 @@ Public Class Display_Services
             Me.Controls.Add(lblProvider)
             lblMostTrustedServiceName.Add(lblProvider)
 
+            ' Create a label for stars
+            Dim starsLabel As New Label()
+
+            ' Calculate the number of full stars and empty stars
+            Dim fullStars As Integer = sortedProviders(i - 1).Ratings
+            Dim emptyStars As Integer = Math.Max(0, 5 - fullStars)
+
+            ' Generate the text for full and empty stars
+            Dim fullStarsText As String = New String("★"c, fullStars)
+            Dim emptyStarsText As String = New String("☆"c, emptyStars)
+
+            ' Combine full and empty stars text
+            Dim combinedText As String = fullStarsText & emptyStarsText
+
             ' Update labels
             Dim lblProviderRating As New Label()
-            lblProviderRating.Size = New Size(92, 18)
+            lblProviderRating.Size = New Size(169, 20)
+            lblProviderRating.Location = New Point(108 + ((i - 1) * (32 + 169)), 300)
+            lblProviderRating.ForeColor = ColorTranslator.FromHtml("#124E55")
             lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProviderRating.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 340)
-            lblProviderRating.Text = "Rating : " & sortedProviders(i - 1).Ratings
+            lblProviderRating.Text = "      Rating : " & combinedText
+            lblProviderRating.Visible = False
+            lblProviderRating.BringToFront() 
 
-            'Me.Controls.Add(lblProviderRating)
+            Me.Controls.Add(lblProviderRating)
             lblMostTrustedRating.Add(lblProviderRating)
         Next
 
@@ -171,7 +210,8 @@ Public Class Display_Services
         Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
                                                        Select(Function(group) group.First()).
                                                        OrderByDescending(Function(provider) provider.Count) _
-                                                      .Take(12) _
+                                                       .OrderByDescending(Function(provider) provider.Ratings) _
+                                                       .Take(12) _
                                                       .ToList()
 
         ' Create picture boxes and labels for Popular section
@@ -199,7 +239,22 @@ Public Class Display_Services
             ' Attach event handler for the button click
             AddHandler pb.Click, AddressOf Navbar_Customer.PictureBox_Click
             pbPopular.Add(pb)
+            AddHandler pb.MouseHover, Sub(sender As Object, e As EventArgs)
+                                          Dim index As Integer = pbPopular.IndexOf(DirectCast(sender, PictureBox))
+                                          If index <> -1 Then
+                                              'pbPopular(index).BackColor = Color.FromArgb(150, Color.Black) ' Set semi-transparent background color
+                                              lblPopularRating(index).Visible = True
+                                              lblPopularRating(index).BringToFront()
+                                          End If
+                                      End Sub
 
+            AddHandler pb.MouseLeave, Sub(sender As Object, e As EventArgs)
+                                          Dim index As Integer = pbPopular.IndexOf(DirectCast(sender, PictureBox))
+                                          If index <> -1 Then
+                                              'pbPopular(index).BackColor = Color.Transparent ' Restore transparent background color
+                                              lblPopularRating(index).Visible = False
+                                          End If
+                                      End Sub
             Dim lblProvider As New Label()
             lblProvider.Size = New Size(92, 18)
             lblProvider.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
@@ -208,13 +263,30 @@ Public Class Display_Services
             Me.Controls.Add(lblProvider)
             lblPopularServiceName.Add(lblProvider)
 
+            ' Create a label for stars
+            Dim starsLabel As New Label()
+
+            ' Calculate the number of full stars and empty stars
+            Dim fullStars As Integer = sortedProviders_popular(i - 1).Ratings
+            Dim emptyStars As Integer = Math.Max(0, 5 - fullStars)
+
+            ' Generate the text for full and empty stars
+            Dim fullStarsText As String = New String("★"c, fullStars)
+            Dim emptyStarsText As String = New String("☆"c, emptyStars)
+
+            ' Combine full and empty stars text
+            Dim combinedText As String = fullStarsText & emptyStarsText
+
             ' Update labels
             Dim lblProviderRating As New Label()
-            lblProviderRating.Size = New Size(92, 14)
+            lblProviderRating.Size = New Size(169, 20)
+            lblProviderRating.Location = New Point(108 + ((i - 1) * (32 + 169)), 550)
             lblProviderRating.Font = New Font(SessionManager.font_family, 10, FontStyle.Regular)
-            lblProviderRating.Location = New Point(146 + ((i - 1) * (110 + 92)) + 20, 594)
-            lblProviderRating.Text = "Rating : " & sortedProviders_popular(i - 1).Ratings
-            'Me.Controls.Add(lblProviderRating)
+            lblProviderRating.Text = "     Rating : " & combinedText
+            lblProviderRating.Visible = False
+            lblProviderRating.BringToFront()
+
+            Me.Controls.Add(lblProviderRating)
             lblPopularRating.Add(lblProviderRating)
         Next
 
@@ -285,6 +357,8 @@ Public Class Display_Services
 
     End Sub
 
+
+
     ' Method to update services based on search criteria
     Public Sub UpdateServices(searchCriteria As String, minCostCriteria As String, maxCostCriteria As String, minRating As Integer, maxRating As Integer, locationCriteria As String, selectedServiceTypes As List(Of String))
         ' Clear existing controls from the form
@@ -314,6 +388,7 @@ Public Class Display_Services
 
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
         Dim filteredProviders = serviceProviders.
+            OrderByDescending(Function(provider) provider.Ratings).
         Where(Function(provider) _
             (String.IsNullOrWhiteSpace(searchCriteria) OrElse
             provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
@@ -513,7 +588,7 @@ Public Class Display_Services
     End Sub
 
     Private Sub BookNowButton_Click(sender As Object, e As EventArgs, serviceID As String)
-        RemovePreviousForm()
+        'RemovePreviousForm()
 
         Dim str As String = "Proceed to Pay"
         Dim appointmentBookingForm As New Appointment_booking(str, serviceID)
@@ -529,11 +604,11 @@ Public Class Display_Services
     End Sub
     Private Sub UpdateMostTrustedPictureBoxesAndLabels()
         Dim sortedProviders = serviceProviders.GroupBy(Function(provider) provider.ID) _
-                                          .Select(Function(group) group.First()) _
-                                          .OrderByDescending(Function(provider) provider.Ratings) _
-                                          .ThenByDescending(Function(provider) provider.Experience) _
-                                          .Take(9) _
-                                          .ToList()
+                                      .Select(Function(group) group.First()) _
+                                      .OrderByDescending(Function(provider) provider.Ratings) _
+                                      .ThenByDescending(Function(provider) provider.Experience) _
+                                      .Take(9) _
+                                      .ToList()
 
         ' Update picture boxes and labels for Most Trusted section
         For i As Integer = 0 To 2
@@ -553,10 +628,27 @@ Public Class Display_Services
                     Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
                     pb.Image = Image.FromFile(imagePath)
                 End If
-
+                pb.Tag = sortedProviders(index)
+                lblProvider.Tag = sortedProviders(index)
+                lblProviderRating.Tag = sortedProviders(index)
                 ' Update labels
                 lblProvider.Text = sortedProviders(index).Name
-                lblProviderRating.Text = "Rating : " & sortedProviders(index).Ratings
+
+                ' Create a label for stars
+                Dim starsLabel As New Label()
+
+                ' Calculate the number of full stars and empty stars
+                Dim fullStars As Integer = sortedProviders(index).Ratings
+                Dim emptyStars As Integer = Math.Max(0, 5 - fullStars)
+
+                ' Generate the text for full and empty stars
+                Dim fullStarsText As String = New String("★"c, fullStars)
+                Dim emptyStarsText As String = New String("☆"c, emptyStars)
+
+                ' Combine full and empty stars text
+                Dim combinedText As String = fullStarsText & emptyStarsText
+
+                lblProviderRating.Text = "Rating : " & combinedText
             Else
                 ' If index is out of bounds, clear the picture box and labels
                 pbMostTrusted(i).Image = Nothing
@@ -568,14 +660,15 @@ Public Class Display_Services
 
     Private Sub UpdatePopularPictureBoxesAndLabels()
         Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
-                                                       Select(Function(group) group.First()).
-                                                       OrderByDescending(Function(provider) provider.Count) _
-                                                      .Take(12) _
-                                                      .ToList()
+                                                   Select(Function(group) group.First()).
+                                                   OrderByDescending(Function(provider) provider.Count) _
+                                                   .OrderByDescending(Function(provider) provider.Ratings) _
+                                                   .Take(12) _
+                                                  .ToList()
         ' Update picture boxes and labels for Popular section
         For i As Integer = 0 To 2
             Dim index As Integer = i + currentIndexPopular
-            If index < serviceProviders.Count Then
+            If index < sortedProviders_popular.Count Then
                 Dim pb As PictureBox = pbPopular(i)
                 Dim lblProvider As Label = lblPopularServiceName(i)
                 Dim lblProviderRating As Label = lblPopularRating(i)
@@ -591,10 +684,28 @@ Public Class Display_Services
                     Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
                     pb.Image = Image.FromFile(imagePath)
                 End If
+                pb.Tag = sortedProviders_popular(index)
+                lblProvider.Tag = sortedProviders_popular(index)
+                lblProviderRating.Tag = sortedProviders_popular(index)
 
                 ' Update labels
                 lblProvider.Text = sortedProviders_popular(index).ServiceName
-                lblProviderRating.Text = "Rating : " & sortedProviders_popular(index).Ratings
+
+                ' Create a label for stars
+                Dim starsLabel As New Label()
+
+                ' Calculate the number of full stars and empty stars
+                Dim fullStars As Integer = sortedProviders_popular(index).Ratings
+                Dim emptyStars As Integer = Math.Max(0, 5 - fullStars)
+
+                ' Generate the text for full and empty stars
+                Dim fullStarsText As String = New String("★"c, fullStars)
+                Dim emptyStarsText As String = New String("☆"c, emptyStars)
+
+                ' Combine full and empty stars text
+                Dim combinedText As String = fullStarsText & emptyStarsText
+
+                lblProviderRating.Text = "Rating : " & combinedText
             Else
                 ' If index is out of bounds, clear the picture box and labels
                 pbPopular(i).Image = Nothing
@@ -603,7 +714,6 @@ Public Class Display_Services
             End If
         Next
     End Sub
-
 
     Private Sub BtnNextMostTrusted_Click(sender As Object, e As EventArgs)
         ' Increment the current index for most trusted providers

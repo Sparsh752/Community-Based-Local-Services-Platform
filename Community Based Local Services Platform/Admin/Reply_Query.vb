@@ -1,10 +1,12 @@
 ﻿Public Class Reply_Query
     Public QueryID As String
     Dim AppointmentID As Integer
-    Dim UserID As Integer
+    Public UserID As String
     Public title = ""
     Public description = ""
     Public status = ""
+    Public notifID As String
+    Public reply As String
 
 
     Private Sub RemovePreviousForm()
@@ -83,7 +85,7 @@
             Return
         End If
 
-        Dim reply = TextBox1.Text
+        reply = TextBox1.Text
 
         Using conn As New MySqlConnection(SessionManager.connectionString)
             Try
@@ -94,6 +96,47 @@
                 command.Parameters.AddWithValue("@reply", reply)
                 command.ExecuteNonQuery()
                 MessageBox.Show("Query reply sent!")
+            Catch ex As Exception
+                MessageBox.Show("Error: " & ex.Message)
+            Finally
+                conn.Close()
+            End Try
+
+
+            Try
+                conn.Open()
+                Dim query As String = "Select userID from AddressQueries WHERE queryID = @queryid"
+                Dim command As New MySqlCommand(query, conn)
+                command.Parameters.AddWithValue("@queryid", QueryID)
+                UserID = command.ExecuteScalar().ToString()
+            Catch ex As Exception
+                MessageBox.Show("Error: " & ex.Message)
+            Finally
+                conn.Close()
+            End Try
+
+            Try
+                conn.Open()
+                Dim query As String = "Select COUNT(*) from notifications"
+                Dim command As New MySqlCommand(query, conn)
+                Dim temp As Integer = command.ExecuteScalar()
+                temp += 1
+                notifID = temp.ToString()
+                MessageBox.Show(temp)
+            Catch ex As Exception
+                MessageBox.Show("Error: " & ex.Message)
+            Finally
+                conn.Close()
+            End Try
+
+            Try
+                conn.Open()
+                Dim query As String = "Insert into notifications values (@notificationID, @notificationMessage, @userID, NOW())"
+                Dim command As New MySqlCommand(query, conn)
+                command.Parameters.AddWithValue("@notificationID", notifID)
+                command.Parameters.AddWithValue("@notificationMessage", reply)
+                command.Parameters.AddWithValue("@userID", UserID)
+                command.ExecuteNonQuery()
             Catch ex As Exception
                 MessageBox.Show("Error: " & ex.Message)
             Finally
@@ -110,5 +153,9 @@
             .BringToFront()
             .Show()
         End With
+    End Sub
+
+    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
+
     End Sub
 End Class
