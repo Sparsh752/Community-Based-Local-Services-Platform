@@ -103,25 +103,35 @@
                     Dim result As Object = command.ExecuteScalar()
                     If IsDBNull(result) Or result Is Nothing Then
                         MessageBox.Show("Invalid email or password")
-                        Return customerID
+                        Return -1
                     End If
                     If result IsNot Nothing AndAlso Not IsDBNull(result) Then
                         customerID = Convert.ToInt32(result)
+                        If SessionManager.userType = "Service Provider" Then
+                            command.CommandText = "SELECT COUNT(*) FROM serviceproviders WHERE userID = @userid AND registrationStatus = 'Approved'"
+                            command.Parameters.AddWithValue("@userid", customerID)
+                            result = command.ExecuteScalar()
+                            If Convert.ToInt32(result) Then
+                                SessionManager.customerID = customerID
+                                Return customerID
+                            Else
+                                MessageBox.Show("Pending approval from Admin")
+                            End If
+                        End If
                     End If
                 Catch ex As Exception
                     MessageBox.Show("Error retrieving customer's ID: " & ex.Message)
                 End Try
             End Using
         End Using
-        SessionManager.customerID = customerID
-        Return customerID
+        Return -1
     End Function
     Private Function GetSPIDFromUserID(userID As String)
         Dim spID As Integer = -1
 
         ' Query to retrieve customer's ID based on email and password
         Dim query As String = "SELECT serviceProviderID FROM serviceproviders " &
-            "WHERE userID = @UserID AND registrationStatus = 'Approved'"
+            "WHERE userID = @UserID"
 
         Using connection As New MySqlConnection(SessionManager.connectionString)
             Using command As New MySqlCommand(query, connection)
