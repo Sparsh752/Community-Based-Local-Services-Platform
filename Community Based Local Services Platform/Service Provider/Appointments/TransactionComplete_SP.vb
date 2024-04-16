@@ -94,7 +94,7 @@ Public Class TransactionComplete_SP
 
         Fetch_Appointment_Details()
 
-        'LoadChatPanel()
+        LoadChatPanel()
 
     End Sub
 
@@ -273,7 +273,9 @@ Public Class TransactionComplete_SP
         Dim pdfGenerator As New PdfGenerator()
         Dim currentDirectory As String = AppDomain.CurrentDomain.BaseDirectory
 
-        Dim filePath As String = Path.Combine(currentDirectory, "TransactionReceipt.pdf")
+        Dim pdfName As String = "TransactionReceipt_" & SessionManager.appointmentID.ToString() & ".pdf"
+
+        Dim filePath As String = Path.Combine(currentDirectory, pdfName)
         pdfGenerator.GeneratePDF(filePath, _serviceProviderName, _serviceLocation, _phoneNo, _slotDate, "", _transactionID, _transactionType, _serviceName, _servicePrice) ' Assuming your PdfGenerator class has support for custom page size
         If File.Exists(filePath) Then
             Dim edgePath As String = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
