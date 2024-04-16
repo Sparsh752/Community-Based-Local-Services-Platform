@@ -410,7 +410,7 @@ Public Class Payment_Gateway
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
-
+                SendNotification()
                 connection.Close()
             End Using
 
@@ -508,7 +508,7 @@ Public Class Payment_Gateway
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
-
+                SendNotification()
 
                 connection.Close()
             End Using
@@ -526,5 +526,33 @@ Public Class Payment_Gateway
             MessageBox.Show("Payment cancelled.", "Canceled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
+    Function SendNotification()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Dim getuserIDfromsID = "Select userID from serviceproviders WHERE serviceProviderID = @SID"
+            Dim command As New MySqlCommand(getuserIDfromsID, connection)
+            command.Parameters.AddWithValue("@SID", serviceProviderID)
+            connection.Open()
+            Dim SPuserID As String = command.ExecuteScalar().ToString()
+            Dim getuserName = "Select userName from users WHERE userID = @UID"
+            Dim command2 As New MySqlCommand(getuserName, connection)
+            command2.Parameters.AddWithValue("@UID", userID)
+            Dim userName As String = command2.ExecuteScalar().ToString()
+            Dim notifmsg As String = "You have a new appointment request with " & userName
+            Dim notificationquery As String = "Insert into notifications (notificationMessage, notificationDateTime, userID) values (@notifmsg, NOW(), @UID)"
+            Dim command3 As New MySqlCommand(notificationquery, connection)
+            command3.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command3.Parameters.AddWithValue("@UID", SPuserID)
+            command3.ExecuteNonQuery()
+            Dim emailofServiceP = "Select email from users WHERE userID = @SID"
+            Dim command4 As New MySqlCommand(emailofServiceP, connection)
+            command4.Parameters.AddWithValue("@SID", SPuserID)
+            Dim emailSP As String = command4.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailSP, notifmsg)
 
+
+
+        End Using
+
+    End Function
 End Class
