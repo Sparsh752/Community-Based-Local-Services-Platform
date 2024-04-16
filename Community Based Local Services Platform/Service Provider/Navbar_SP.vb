@@ -18,6 +18,7 @@ Public Class Navbar_SP
     Public notificationForm As New Notification()
     Public NotificationBadge As New PictureBox()
     Public NotificationCountLabel As New Label()
+    Public NewnotificationCount As Integer = 0
     Dim serviceProviderID As Integer
     Public Sub New(serviceProviderID As Integer)
         InitializeComponent()
@@ -195,6 +196,26 @@ Public Class Navbar_SP
             Panel3.Controls.Clear()
         End If
     End Sub
+    Public Sub GetNewNotificationCount()
+        ' Query to get the notification count
+        Dim query As String = "SELECT COUNT(*) FROM notifications WHERE userID = '" & userID & "'"
+
+        Using connection As New MySqlConnection(connectionString)
+            Using command As New MySqlCommand(query, connection)
+                Try
+                    connection.Open()
+                    ' Execute the query
+                    Dim count As Object = command.ExecuteScalar()
+                    If count IsNot Nothing AndAlso IsNumeric(count) Then
+                        ' Set the notification count
+                        NewnotificationCount = Convert.ToInt32(count)
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
+                End Try
+            End Using
+        End Using
+    End Sub
 
     Private Sub ShowHideNotificationDot()
         ' Show or hide the dot image based on the notification count
@@ -204,6 +225,18 @@ Public Class Navbar_SP
             NotificationCountLabel.BringToFront()
         Else
             NotificationBadge.Visible = False
+            NotificationCountLabel.Visible = False
+        End If
+    End Sub
+
+    Private Sub ShowHideNewNotificationDot()
+        ' Show or hide the dot image based on the notification count
+        If NewnotificationCount > SessionManager.notificationCount Then
+            NotificationCountLabel.Visible = True
+            NotificationCountLabel.Text = NewnotificationCount
+            'SessionManager.notificationCount = NewnotificationCount
+            NotificationCountLabel.BringToFront()
+        Else
             NotificationCountLabel.Visible = False
         End If
     End Sub
@@ -239,6 +272,12 @@ Public Class Navbar_SP
             notificationForm.Dispose()
             isNotificationFormOpen = False
         End If
+
+        ' Check if new notifications exist and get the notification count
+        GetNewNotificationCount()
+
+        ' Show or hide the dot image based on the notification count
+        ShowHideNewNotificationDot()
     End Sub
 
     Private Sub BtnHome_Click(sender As Object, e As EventArgs)

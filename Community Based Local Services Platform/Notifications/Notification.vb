@@ -201,19 +201,6 @@ Public Class Notification
         clearButton.Visible = False
 
 
-        Navbar_Customer.NotificationCountLabel.BackColor = ColorTranslator.FromHtml("#0F2A37")
-        Navbar_Customer.NotificationCountLabel.ForeColor = ColorTranslator.FromHtml("#0F2A37")
-        'Navbar_Admin.NotificationCountLabel.Visible = False
-        'Navbar_SP.NotificationCountLabel.Visible = False
-        'Navbar_Admin.NotificationCountLabel.BackColor = ColorTranslator.FromHtml("#0F2A37")
-        'Navbar_Admin.NotificationCountLabel.ForeColor = ColorTranslator.FromHtml("#0F2A37")
-
-
-
-        Navbar_Admin.NotificationCountLabel.Hide()
-
-
-
     End Sub
 
     Private Sub ShowNoNotificationsLabel()
