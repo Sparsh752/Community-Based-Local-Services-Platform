@@ -314,6 +314,7 @@ Public Class Display_Services
 
         ' Filter service providers based on search criteria, cost criteria, rating criteria, and selected service types
         Dim filteredProviders = serviceProviders.
+            OrderByDescending(Function(provider) provider.Ratings).
         Where(Function(provider) _
             (String.IsNullOrWhiteSpace(searchCriteria) OrElse
             provider.Name.ToLower().Contains(searchCriteria.ToLower()) Or
