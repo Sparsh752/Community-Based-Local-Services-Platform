@@ -117,6 +117,8 @@
                             Else
                                 MessageBox.Show("Pending approval from Admin")
                             End If
+                        Else
+                            Return customerID
                         End If
                     End If
                 Catch ex As Exception
