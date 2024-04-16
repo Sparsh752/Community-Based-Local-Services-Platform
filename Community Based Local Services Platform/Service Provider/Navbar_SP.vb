@@ -90,12 +90,12 @@ Public Class Navbar_SP
         NotificationBadge.Visible = False
         Panel1.Controls.Add(NotificationBadge)
 
-        NotificationCountLabel.Size = New Size(11, 11)
+        NotificationCountLabel.Size = New Size(14, 14)
         NotificationCountLabel.Location = New Point(NotificationIcon.Right - 4, NotificationIcon.Top)
         NotificationCountLabel.ForeColor = Color.Black
         NotificationCountLabel.BackColor = Color.White
         NotificationCountLabel.TextAlign = ContentAlignment.MiddleCenter
-        NotificationCountLabel.Font = New Font("Bahnschrift Bold", 7, FontStyle.Bold)
+        NotificationCountLabel.Font = New Font("Bahnschrift Bold", 6, FontStyle.Regular)
         Dim path As New System.Drawing.Drawing2D.GraphicsPath()
         path.AddEllipse(0, 0, NotificationCountLabel.Width, NotificationCountLabel.Height)
         NotificationCountLabel.Region = New Region(path)
