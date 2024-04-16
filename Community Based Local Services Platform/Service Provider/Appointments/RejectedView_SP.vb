@@ -99,7 +99,7 @@
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
-
+        Me.Close()
         With AppointmentList_SP
             .TopLevel = False
             .Dock = DockStyle.Fill

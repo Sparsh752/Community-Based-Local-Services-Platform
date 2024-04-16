@@ -127,7 +127,7 @@ Public Class Rejected_View
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
-
+        Me.Close()
         With AppointmentList_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
