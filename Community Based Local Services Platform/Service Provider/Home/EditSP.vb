@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.IO
+Imports Community_Based_Local_Services_Platform.Display_Services
 
 Public Class EditSP
     Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
@@ -44,6 +45,7 @@ Public Class EditSP
         registerSPEmailLabel.Font = labelfont
         emailSP_Text.Location = New Point(138, 166)
         emailSP_Text.Font = labelfont
+
         registerNameSP.Location = New Point(138, 234)
         registerNameSP.Font = labelfont
         nameSP_Text.Location = New Point(138, 262)
@@ -117,6 +119,8 @@ Public Class EditSP
         branchText.Size = New Size(286, 41)
 
         fetchData()
+
+        emailSP_Text.ReadOnly = True
     End Sub
 
     Private Sub fetchData()
@@ -523,25 +527,25 @@ Public Class EditSP
             Return
         End If
 
-        If String.IsNullOrWhiteSpace(emailSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(nameSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(confirmSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(comboClosingHours.Text) OrElse
-       String.IsNullOrWhiteSpace(comboClosingMins.Text) OrElse
-       String.IsNullOrWhiteSpace(startHoursText.Text) OrElse
-       NoticeHourDropdown.SelectedItem Is Nothing OrElse
-       String.IsNullOrWhiteSpace(NoticeHourDropdown.SelectedItem.ToString) OrElse
-       ExperienceDropdown.SelectedItem Is Nothing OrElse
-       String.IsNullOrWhiteSpace(ExperienceDropdown.SelectedItem.ToString) OrElse
-       locationDropdown.SelectedItem Is Nothing OrElse
-       String.IsNullOrWhiteSpace(locationDropdown.SelectedItem.ToString) OrElse
-       String.IsNullOrWhiteSpace(SPaccText.Text) OrElse
-       String.IsNullOrWhiteSpace(accHolderText.Text) OrElse
-       String.IsNullOrWhiteSpace(ifscText.Text) OrElse
-       String.IsNullOrWhiteSpace(bankNameText.Text) OrElse
-       String.IsNullOrWhiteSpace(branchText.Text) Then
+        If String.IsNullOrWhiteSpace(nameSP_Text.Text) OrElse
+        String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
+        String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
+        String.IsNullOrWhiteSpace(confirmSP_Text.Text) OrElse
+        comboClosingHours.SelectedIndex < 0 OrElse
+        comboClosingMins.SelectedIndex < 0 OrElse
+        comboStartingHours.SelectedIndex < 0 OrElse
+        comboStartingMins.SelectedIndex < 0 OrElse
+        NoticeHourDropdown.SelectedItem Is Nothing OrElse
+        String.IsNullOrWhiteSpace(NoticeHourDropdown.SelectedItem.ToString) OrElse
+        ExperienceDropdown.SelectedIndex < 0 OrElse
+        String.IsNullOrWhiteSpace(ExperienceDropdown.SelectedItem.ToString) OrElse
+        locationDropdown.SelectedIndex < 0 OrElse
+        String.IsNullOrWhiteSpace(locationDropdown.SelectedItem.ToString) OrElse
+        String.IsNullOrWhiteSpace(SPaccText.Text) OrElse
+        String.IsNullOrWhiteSpace(accHolderText.Text) OrElse
+        String.IsNullOrWhiteSpace(ifscText.Text) OrElse
+        String.IsNullOrWhiteSpace(bankNameText.Text) OrElse
+        String.IsNullOrWhiteSpace(branchText.Text) Then
             ' If any field is empty, display error message
             MessageBox.Show("Please fill in all fields.")
             Return ' Exit the event handler
@@ -583,26 +587,26 @@ Public Class EditSP
                 connection.Open()
 
                 ' Check if the email already exists
-                Dim emailExists As Boolean = False
-                Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM users WHERE email = @email"
-                Using checkEmailCommand As New MySqlCommand(checkEmailCommandText, connection)
-                    checkEmailCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
-                    Dim count As Integer = Convert.ToInt32(checkEmailCommand.ExecuteScalar())
-                    If count > 0 Then
-                        emailExists = True
-                    End If
-                End Using
+                ' Dim emailExists As Boolean = False
+                ' Dim checkEmailCommandText As String = "SELECT COUNT(*) FROM users WHERE email = @email"
+                ' Using checkEmailCommand As New MySqlCommand(checkEmailCommandText, connection)
+                '    checkEmailCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
+                '    Dim count As Integer = Convert.ToInt32(checkEmailCommand.ExecuteScalar())
+                '    If count > 0 Then
+                '       emailExists = True
+                '    End If
+                ' End Using
 
-                If emailExists Then
-                    MessageBox.Show("Email already exists. Please use a different email address.")
-                    Return
-                End If
+                ' If emailExists Then
+                '    MessageBox.Show("Email already exists. Please use a different email address.")
+                '    Return
+                ' End If
 
                 ' Insert user's information into the database
-                Dim userId As Integer
-                Dim serviceProviderId As Integer
-                Dim contactId As Integer
-                Dim bankDetailId As Integer
+                ' Dim userId As Integer
+                ' Dim serviceProviderId As Integer
+                ' Dim contactId As Integer
+                ' Dim bankDetailId As Integer
 
                 ' Insert into users table
                 'Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password, userPhoto) VALUES (@userName, @userType, @email, @password, @userPhoto)"
@@ -619,119 +623,128 @@ Public Class EditSP
                 'End Using
 
                 ' Insert into users table
-                Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password"
-                Dim insertUserValues As String = "VALUES (@userName, @userType, @email, @password"
+                ' Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password"
+                ' Dim insertUserValues As String = "VALUES (@userName, @userType, @email, @password"
 
+                Dim updateUserCommandText As String = "UPDATE users SET userName = @userName, password = @password"
+                Dim updateUserCommandText2 As String = "WHERE userID = @userID"
                 ' Only include the userPhoto field in the insert query if a new image is selected
                 If imageByte IsNot Nothing Then
-                    insertUserCommandText &= ", userPhoto)"
-                    insertUserValues &= ", @userPhoto)"
+                    updateUserCommandText &= ", userPhoto = @userPhoto"
+                    ' updateUserValues &= ", @userPhoto)"
                 Else
-                    insertUserCommandText &= ")"
-                    insertUserValues &= ")"
+                    updateUserCommandText &= " "
+                    ' updateUserValues &= " "
                 End If
 
-                insertUserCommandText &= " " & insertUserValues
+                updateUserCommandText &= updateUserCommandText2
 
-                Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
-                    insertUserCommand.Parameters.AddWithValue("@userName", nameSP_Text.Text)
-                    insertUserCommand.Parameters.AddWithValue("@userType", "Service Provider")
-                    insertUserCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
-                    insertUserCommand.Parameters.AddWithValue("@password", passwordSP_Text.Text)
+                Using updateUserCommand As New MySqlCommand(updateUserCommandText, connection)
+                    updateUserCommand.Parameters.AddWithValue("@userID", SessionManager.userID)
+                    updateUserCommand.Parameters.AddWithValue("@userName", nameSP_Text.Text)
+                    ' insertUserCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
+                    updateUserCommand.Parameters.AddWithValue("@password", passwordSP_Text.Text)
 
                     ' Only set the userPhoto parameter if a new image is selected
                     If imageByte IsNot Nothing Then
-                        insertUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
+                        updateUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
                     End If
 
-                    insertUserCommand.ExecuteNonQuery()
+                    updateUserCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted user
-                    userId = CInt(insertUserCommand.LastInsertedId)
+                    ' userId = CInt(updateUserCommand.LastInsertedId)
                 End Using
 
 
                 ' Insert into serviceproviders table
-                Dim insertServiceProviderCommandText As String = "INSERT INTO serviceproviders (userID, serviceProviderName, serviceProviderEmail, serviceProviderdescription, rating, experienceYears, minimumNoticeHours) VALUES (@userID, @serviceProviderName, @serviceProviderEmail, @serviceProviderDescription, @rating, @experienceYears, @minimumNoticeHours)"
-                Using insertServiceProviderCommand As New MySqlCommand(insertServiceProviderCommandText, connection)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@userID", userId)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderName", nameSP_Text.Text)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderEmail", emailSP_Text.Text)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderDescription", descriptionText.Text)
+                Dim updateServiceProviderCommandText As String = "UPDATE serviceproviders SET serviceProviderName = @serviceProviderName, serviceProviderdescription = @serviceProviderDescription, experienceYears = @experienceYears, minimumNoticeHours = @minimumNoticeHours WHERE userID = @userID"
+                Using updateServiceProviderCommand As New MySqlCommand(updateServiceProviderCommandText, connection)
+                    updateServiceProviderCommand.Parameters.AddWithValue("@userID", SessionManager.userID)
+                    updateServiceProviderCommand.Parameters.AddWithValue("@serviceProviderName", nameSP_Text.Text)
+                    ' updateServiceProviderCommand.Parameters.AddWithValue("@serviceProviderEmail", emailSP_Text.Text)
+                    updateServiceProviderCommand.Parameters.AddWithValue("@serviceProviderDescription", descriptionText.Text)
                     ' Set default values for rating, experienceYears, and minimumNoticeHours
-                    insertServiceProviderCommand.Parameters.AddWithValue("@rating", 0)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", 0)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", 0)
-                    insertServiceProviderCommand.ExecuteNonQuery()
+                    ' updateServiceProviderCommand.Parameters.AddWithValue("@rating", 0)
+                    updateServiceProviderCommand.Parameters.AddWithValue("@experienceYears", Convert.ToInt32(ExperienceDropdown.SelectedItem))
+                    updateServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", Convert.ToInt32(NoticeHourDropdown.SelectedItem))
+                    updateServiceProviderCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted service provider
-                    serviceProviderId = CInt(insertServiceProviderCommand.LastInsertedId)
+                    ' serviceProviderId = CInt(updateServiceProviderCommand.LastInsertedId)
                 End Using
 
                 ' Insert into contactDetails table
-                Dim insertContactCommandText As String = "INSERT INTO contactDetails (userID, email, location, mobileNumber, socialMedia, address) VALUES (@userID, @email, @location, @mobileNumber, @socialMedia, @address)"
-                Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
-                    insertContactCommand.Parameters.AddWithValue("@userID", userId)
-                    insertContactCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
-                    insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString())
-                    insertContactCommand.Parameters.AddWithValue("@mobileNumber", phoneSP_Text.Text)
-                    insertContactCommand.Parameters.AddWithValue("@socialMedia", "")
-                    insertContactCommand.Parameters.AddWithValue("@address", "")
-                    insertContactCommand.ExecuteNonQuery()
+                Dim updateContactCommandText As String = "UPDATE contactDetails SET location = @location, mobileNumber = @mobileNumber WHERE userID = @userID"
+                Using updateContactCommand As New MySqlCommand(updateContactCommandText, connection)
+                    updateContactCommand.Parameters.AddWithValue("@userID", SessionManager.userID)
+                    ' insertContactCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
+                    updateContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString())
+                    updateContactCommand.Parameters.AddWithValue("@mobileNumber", phoneSP_Text.Text)
+                    ' insertContactCommand.Parameters.AddWithValue("@socialMedia", "")
+                    ' insertContactCommand.Parameters.AddWithValue("@address", "")
+                    updateContactCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted contact detail
-                    contactId = CInt(insertContactCommand.LastInsertedId)
+                    ' contactId = CInt(updateContactCommand.LastInsertedId)
                 End Using
 
                 ' Insert into bankDetailsOfServiceProvider table
-                Dim insertBankDetailCommandText As String = "INSERT INTO bankDetailsOfServiceProvider (serviceProviderID, accountHolderName, accountNumber, bankName, branchName, ifscCode) VALUES (@serviceProviderID, @accountHolderName, @accountNumber, @bankName, @branchName, @ifscCode)"
-                Using insertBankDetailCommand As New MySqlCommand(insertBankDetailCommandText, connection)
-                    insertBankDetailCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderId)
-                    insertBankDetailCommand.Parameters.AddWithValue("@accountHolderName", accHolderText.Text)
-                    insertBankDetailCommand.Parameters.AddWithValue("@accountNumber", SPaccText.Text)
-                    insertBankDetailCommand.Parameters.AddWithValue("@bankName", bankNameText.Text)
-                    insertBankDetailCommand.Parameters.AddWithValue("@branchName", branchText.Text)
-                    insertBankDetailCommand.Parameters.AddWithValue("@ifscCode", ifscText.Text)
-                    insertBankDetailCommand.ExecuteNonQuery()
+                Dim updateBankDetailCommandText As String = "UPDATE bankDetailsOfServiceProvider SET accountHolderName = @accountHolderName, accountNumber = @accountNumber, bankName = @bankName, branchName = @branchName, ifscCode = @ifscCode WHERE serviceProviderID = @serviceProviderID"
+                Using updateBankDetailCommand As New MySqlCommand(updateBankDetailCommandText, connection)
+                    updateBankDetailCommand.Parameters.AddWithValue("@serviceProviderID", SessionManager.spID)
+                    updateBankDetailCommand.Parameters.AddWithValue("@accountHolderName", accHolderText.Text)
+                    updateBankDetailCommand.Parameters.AddWithValue("@accountNumber", SPaccText.Text)
+                    updateBankDetailCommand.Parameters.AddWithValue("@bankName", bankNameText.Text)
+                    updateBankDetailCommand.Parameters.AddWithValue("@branchName", branchText.Text)
+                    updateBankDetailCommand.Parameters.AddWithValue("@ifscCode", ifscText.Text)
+                    updateBankDetailCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted bank detail
-                    bankDetailId = CInt(insertBankDetailCommand.LastInsertedId)
+                    ' bankDetailId = CInt(updateBankDetailCommand.LastInsertedId)
                 End Using
 
                 ' Insert into workHours table (if required)
 
 
-                Dim insertWorkHoursCommandText As String = "INSERT INTO workHours (serviceProviderID, startTime, endTime) VALUES (@serviceProviderID, @startTime, @endTime)"
+                Dim updateWorkHoursCommandText As String = "UPDATE workHours SET startTime = @startTime, endTime = @endTime WHERE serviceProviderID = @serviceProviderID"
 
 
                 ' Insert work hours for all days of the week
 
 
-                Using insertWorkHoursCommand As New MySqlCommand(insertWorkHoursCommandText, connection)
-                    insertWorkHoursCommand.Parameters.AddWithValue("@serviceProviderID", serviceProviderId)
-                    insertWorkHoursCommand.Parameters.AddWithValue("@startTime", startingTime)
-                    insertWorkHoursCommand.Parameters.AddWithValue("@endTime", closingTime)
-                    insertWorkHoursCommand.ExecuteNonQuery()
+                Using updateWorkHoursCommand As New MySqlCommand(updateWorkHoursCommandText, connection)
+                    updateWorkHoursCommand.Parameters.AddWithValue("@serviceProviderID", SessionManager.spID)
+                    updateWorkHoursCommand.Parameters.AddWithValue("@startTime", startingTime)
+                    updateWorkHoursCommand.Parameters.AddWithValue("@endTime", closingTime)
+                    updateWorkHoursCommand.ExecuteNonQuery()
                 End Using
 
 
 
 
                 ' Display success message
-                MessageBox.Show("Registration successful!")
+                MessageBox.Show("Updated successfully!")
 
             Catch ex As Exception
                 MessageBox.Show("An error occurred: " & ex.Message)
             End Try
         End Using
 
-
-        Dim loginform As New LoginPage()
-        loginform.Show()
-
-        Me.Hide()
+        'SetActiveForm(Homepage)
+        Dim homePageSP As New Homepage_SP(SessionManager.spID)
+        RemovePreviousForm()
+        homePageSP.Margin = New Padding(0, 0, 0, 0)
+        With homePageSP
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(homePageSP)
+            .BringToFront()
+            .Show()
+        End With
 
     End Sub
+
     Private Sub PopulateCountriesDropdown()
         ' Add countries manually to the dropdown list
         Dim megacitiesOfIndia As String() = {
@@ -793,8 +806,15 @@ Public Class EditSP
 
     End Sub
 
-    Public Sub RemovePreviousForm()
+    Private Sub RemovePreviousForm()
         ' Check if any form is already in Panel5
+        For Each ctrl As Control In SessionManager.Panel3.Controls
+            If TypeOf ctrl Is Form Then
+                ' Remove the first control (form) from Panel5
+                Dim formCtrl As Form = DirectCast(ctrl, Form)
+                formCtrl.Close()
+            End If
+        Next
         If SessionManager.Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             SessionManager.Panel3.Controls.Clear()

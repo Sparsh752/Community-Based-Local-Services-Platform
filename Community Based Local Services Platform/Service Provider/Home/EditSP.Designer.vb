@@ -100,7 +100,7 @@ Partial Class EditSP
         RegisterSPSubmitBtn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         RegisterSPSubmitBtn.FlatAppearance.BorderSize = 0
         RegisterSPSubmitBtn.FlatStyle = FlatStyle.Flat
-        RegisterSPSubmitBtn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RegisterSPSubmitBtn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RegisterSPSubmitBtn.ForeColor = Color.White
         RegisterSPSubmitBtn.Location = New Point(867, 1167)
         RegisterSPSubmitBtn.Margin = New Padding(0)
@@ -332,7 +332,7 @@ Partial Class EditSP
         Back_btn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Back_btn.FlatAppearance.BorderSize = 0
         Back_btn.FlatStyle = FlatStyle.Flat
-        Back_btn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Back_btn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Back_btn.ForeColor = Color.White
         Back_btn.Location = New Point(949, 42)
         Back_btn.Margin = New Padding(0)
@@ -644,7 +644,7 @@ Partial Class EditSP
         ' 
         ' EditSP
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 17.0F)
+        AutoScaleDimensions = New SizeF(8F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1360, 781)
         Controls.Add(Panel1)

@@ -5,8 +5,8 @@ Imports Community_Based_Local_Services_Platform.Display_Services
 Public Class SP_profile
     ' Constructor to receive and display details
     Dim serviceProviderID As String
+    Dim userID As Integer
     Dim ratings As Integer
-    Dim servicePhoto As Byte()
     Public Sub New(provider As ServiceProvider)
         InitializeComponent()
 
@@ -17,13 +17,7 @@ Public Class SP_profile
         Label3.Text = "Available from : " & provider.Price   ' yash change this once the db team adds the endtime to serviceAreaTimeslots table
         Label4.Text = provider.Experience & " years"
         Me.serviceProviderID = provider.ID
-        Me.servicePhoto = provider.ServicePhoto
     End Sub
-
-
-
-
-
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
@@ -79,9 +73,9 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection3.Open()
-            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
-            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID
-            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID=" & serviceProviderID & ") as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
+            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID = " & serviceProviderID
+            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID= " & serviceProviderID
+            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID= " & serviceProviderID & " ) as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
             Dim command As New MySqlCommand(query, connection3)
 
             ' Execute the SQL query
@@ -90,6 +84,7 @@ Public Class SP_profile
             ' Loop through the result set and populate userList
             If (reader.Read()) Then
                 Label1.Text = reader("serviceProviderName")
+                userID = reader("userID")
                 Label4.Text = "Experience : " & reader("experienceYears") & " years"
             End If
             reader.Close()
@@ -150,6 +145,18 @@ Public Class SP_profile
 
         Dim yPosition As Integer = 0
 
+
+        Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+
+        Try
+            If Not File.Exists(imagePath) Then
+                MessageBox.Show("Image file not found: " & imagePath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error loading image: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+
         Dim servicesList As New List(Of Services)()
 
         Dim connection1 As New MySqlConnection(SessionManager.connectionString)
@@ -158,7 +165,7 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection1.Open()
-            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price, services.serviceDescription FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
+            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price ,services.serviceTypeID, services.serviceDescription,services.completionTime,services.areaID, services.servicePhoto FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
             Dim command As New MySqlCommand(query, connection1)
 
             ' Execute the SQL query
@@ -170,10 +177,24 @@ Public Class SP_profile
 
             While reader.Read()
                 Dim service As New Services()
+                service.serviceTypeID = reader("serviceTypeID")
                 service.serviceID = reader("serviceID")
                 service.serviceName = reader("serviceName")
                 service.price = reader("price")
                 service.serviceDescription = reader("serviceDescription")
+
+                service.completionTime = reader("completionTime")
+                service.areaID = reader("areaID")
+
+                If Not reader.IsDBNull(reader.GetOrdinal("servicePhoto")) Then
+                    ' Convert byte array to image
+                    service.servicePhoto = reader("servicePhoto")
+                Else
+                    service.servicePhoto = File.ReadAllBytes(imagePath)
+                End If
+
+
+
                 ' Add more properties as needed
                 servicesList.Add(service)
             End While
@@ -183,8 +204,9 @@ Public Class SP_profile
             connection1.Close()
         Catch ex As Exception
             ' Display error message if loading fails
-            MessageBox.Show("Failed to load users. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Failed to load services. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+
 
         For i As Integer = 0 To servicesList.Count
             If (i >= servicesList.Count) Then
@@ -196,21 +218,14 @@ Public Class SP_profile
 
             panel.Controls.Add(groupBox)
 
+            Dim stream As New MemoryStream(servicesList(i).servicePhoto)
+            Dim image As Image = Image.FromStream(stream)
+
             Dim im As New PictureBox()
             im.SizeMode = PictureBoxSizeMode.StretchImage
             im.Size = New Size(170, 170)
             im.Location = New Point(10, 20)
-
-            ' Load image from binary data
-            If servicePhoto IsNot Nothing AndAlso servicePhoto.Length > 0 Then
-                Using ms As New MemoryStream(servicePhoto)
-                    im.Image = Image.FromStream(ms)
-                End Using
-            Else
-                ' Handle the case where image data is not available or empty
-                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-                im.Image = Image.FromFile(imagePath)
-            End If
+            im.Image = image
 
             groupBox.Controls.Add(im)
 
@@ -269,7 +284,7 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection2.Open()
-            Dim query As String = "SELECT * FROM (SELECT * FROM reviews as r WHERE r.givenForID = " & serviceProviderID & " ) as newT JOIN users ON newT.givenByID=users.userID "
+            Dim query As String = "SELECT * FROM (SELECT * FROM reviews as r WHERE r.givenForID = " & userID & " ) as newT JOIN users ON newT.givenByID=users.userID "
             Dim command As New MySqlCommand(query, connection2)
 
             ' Execute the SQL query
@@ -322,11 +337,38 @@ Public Class SP_profile
 
             itemPanel.Controls.Add(headingLabel)
 
+
+
+            Dim starsLabel2 As New Label()
+
+            ' Calculate the number of full stars and empty stars
+            Dim fullStars2 As Integer = reviewsList(i).rating
+            Dim emptyStars2 As Integer = Math.Max(0, 5 - reviewsList(i).rating)
+
+            ' Generate the text for full and empty stars
+            Dim fullStarsText2 As String = New String("★"c, fullStars2)
+            Dim emptyStarsText2 As String = New String("☆"c, emptyStars2)
+
+            ' Combine full and empty stars text
+            Dim combinedText2 As String = fullStarsText2 & emptyStarsText2
+
+            ' Set text and properties for stars label
+            starsLabel2.Text = "Rating : " & combinedText2
+            starsLabel2.ForeColor = ColorTranslator.FromHtml("#124E55") ' Set color to yellow for full stars
+            starsLabel2.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+            starsLabel2.AutoSize = True ' Automatically adjust the size of the label
+            starsLabel2.Location = New Point(20, 30)
+
+
+
+
+            itemPanel.Controls.Add(starsLabel2)
+
             Dim textLabel As New Label()
             textLabel.Text = reviewsList(i).reviewText.ToString()
             textLabel.AutoSize = False
             textLabel.Size = New Size(240, 81)
-            textLabel.Location = New Point(20, 40)
+            textLabel.Location = New Point(20, 50)
             textLabel.AutoEllipsis = True
             textLabel.BorderStyle = BorderStyle.None
 
