@@ -46,7 +46,6 @@ Partial Class Homepage_Admin
         QueryDate = New DataGridViewTextBoxColumn()
         Description = New DataGridViewTextBoxColumn()
         Status = New DataGridViewTextBoxColumn()
-        View = New DataGridViewButtonColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
@@ -71,7 +70,7 @@ Partial Class Homepage_Admin
         DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
         DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {QueryType, QueryBy, AppointmentID, QueryDate, Description, Status, View})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {QueryType, QueryBy, AppointmentID, QueryDate, Description, Status})
         DataGridView1.Cursor = Cursors.Hand
         DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.BackColor = Color.White
@@ -267,18 +266,7 @@ Partial Class Homepage_Admin
         ' 
         ' View
         ' 
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.BackColor = Color.FromArgb(CByte(15), CByte(42), CByte(55))
-        DataGridViewCellStyle2.ForeColor = Color.White
-        View.DefaultCellStyle = DataGridViewCellStyle2
-        View.FlatStyle = FlatStyle.Popup
-        View.HeaderText = ""
-        View.MinimumWidth = 6
-        View.Name = "View"
-        View.ReadOnly = True
-        View.Resizable = DataGridViewTriState.False
-        View.Text = "View"
-        View.UseColumnTextForButtonValue = True
+
         ' 
         ' Homepage_Admin
         ' 
@@ -335,6 +323,5 @@ Partial Class Homepage_Admin
     Friend WithEvents QueryDate As DataGridViewTextBoxColumn
     Friend WithEvents Description As DataGridViewTextBoxColumn
     Friend WithEvents Status As DataGridViewTextBoxColumn
-    Friend WithEvents View As DataGridViewButtonColumn
 
 End Class
