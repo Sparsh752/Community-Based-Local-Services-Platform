@@ -431,7 +431,7 @@ Public Class Payment_Gateway
             Dim countQuery As String = "SELECT COUNT(*) FROM appointments"
             Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceareatimeslots"
             Dim checkQuery As String = "Insert into appointments values (@appointmentID, @serviceProviderID, @customerID, @areaTimeSlotID, @bookingAdvance, @serviceID, 'Pending')"
-            Dim areaTimeSLotQuery As String = "Insert into serviceareatimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
+            Dim areaTimeSLotQuery As String = "Insert into serviceAreaTimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
             Dim areaIdQuery As String = "Select areaID from serviceareas where location = @serviceLocation"
 
             Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, @paymentDateTime, @paymentType, @paymentStatus, @paymentMode)"
