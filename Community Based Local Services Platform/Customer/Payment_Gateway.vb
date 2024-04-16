@@ -481,10 +481,10 @@ Public Class Payment_Gateway
 
 
             RemovePreviousPanel3Form()
-            With AppointmentList_Customer
+            With Homepage_Customer
                 .TopLevel = False
                 .Dock = DockStyle.Fill
-                Panel3.Controls.Add(AppointmentList_Customer)
+                Panel3.Controls.Add(Homepage_Customer)
                 .BringToFront()
                 .Show()
             End With
@@ -577,10 +577,10 @@ Public Class Payment_Gateway
             End Using
 
             RemovePreviousPanel3Form()
-            With AppointmentList_Customer
+            With Homepage_Customer
                 .TopLevel = False
                 .Dock = DockStyle.Fill
-                Panel3.Controls.Add(AppointmentList_Customer)
+                Panel3.Controls.Add(Homepage_Customer)
                 .BringToFront()
                 .Show()
             End With

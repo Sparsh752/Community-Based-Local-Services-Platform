@@ -34,6 +34,24 @@ Public Class ChatBox
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
 
+        Dim _status As String
+
+        Dim query = "SELECT appointmentStatus FROM appointments WHERE appointmentID = @appointmentID;"
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            connection.Open()
+            Using command As New MySqlCommand(query, connection)
+                command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+                Using reader As MySqlDataReader = command.ExecuteReader()
+
+                    Dim labels As New List(Of String)()
+
+                    If reader.Read() Then
+                        _status = reader("appointmentStatus")
+                    End If
+                End Using
+            End Using
+        End Using
+
         Label1.Location = New Point(150, 6)
 
         Panel1.Controls.Clear()
@@ -64,6 +82,12 @@ Public Class ChatBox
         SendButton.Padding = New Padding(0, 0, 0, 0)
         SendButton.TextAlign = ContentAlignment.MiddleCenter
         SendButton.AutoSize = True
+
+        If _status <> "Scheduled" Then
+            SendButton.Hide()
+            Panel2.Hide()
+            RichTextBox1.Hide()
+        End If
 
         LoadOldMessages()
 
