@@ -53,12 +53,12 @@ Partial Class Edit_Profile_Customer
         ' signUp
         ' 
         signUp.AutoSize = True
-        signUp.Font = New Font("Bahnschrift", 20.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        signUp.Font = New Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         signUp.Location = New Point(138, 69)
         signUp.Name = "signUp"
-        signUp.Size = New Size(134, 41)
+        signUp.Size = New Size(150, 33)
         signUp.TabIndex = 0
-        signUp.Text = "Sign Up"
+        signUp.Text = "Edit Profile"
         ' 
         ' registerEmailLabel
         ' 
@@ -66,7 +66,7 @@ Partial Class Edit_Profile_Customer
         registerEmailLabel.Font = New Font("Bahnschrift", 10.2F)
         registerEmailLabel.Location = New Point(138, 124)
         registerEmailLabel.Name = "registerEmailLabel"
-        registerEmailLabel.Size = New Size(53, 21)
+        registerEmailLabel.Size = New Size(43, 17)
         registerEmailLabel.TabIndex = 1
         registerEmailLabel.Text = "Email"
         ' 
@@ -76,7 +76,7 @@ Partial Class Edit_Profile_Customer
         registerName.Font = New Font("Bahnschrift", 10.2F)
         registerName.Location = New Point(138, 214)
         registerName.Name = "registerName"
-        registerName.Size = New Size(55, 21)
+        registerName.Size = New Size(45, 17)
         registerName.TabIndex = 3
         registerName.Text = "Name"
         ' 
@@ -86,7 +86,7 @@ Partial Class Edit_Profile_Customer
         registerNumber.Font = New Font("Bahnschrift", 10.2F)
         registerNumber.Location = New Point(138, 308)
         registerNumber.Name = "registerNumber"
-        registerNumber.Size = New Size(87, 21)
+        registerNumber.Size = New Size(74, 17)
         registerNumber.TabIndex = 5
         registerNumber.Text = "Phone No."
         ' 
@@ -96,7 +96,7 @@ Partial Class Edit_Profile_Customer
         registerPassword.Font = New Font("Bahnschrift", 10.2F)
         registerPassword.Location = New Point(138, 400)
         registerPassword.Name = "registerPassword"
-        registerPassword.Size = New Size(86, 21)
+        registerPassword.Size = New Size(71, 17)
         registerPassword.TabIndex = 7
         registerPassword.Text = "Password"
         ' 
@@ -105,7 +105,7 @@ Partial Class Edit_Profile_Customer
         registerConfirm.AutoSize = True
         registerConfirm.Location = New Point(138, 499)
         registerConfirm.Name = "registerConfirm"
-        registerConfirm.Size = New Size(151, 21)
+        registerConfirm.Size = New Size(126, 17)
         registerConfirm.TabIndex = 9
         registerConfirm.Text = "Confirm Password"
         ' 
@@ -115,7 +115,7 @@ Partial Class Edit_Profile_Customer
         registerLocation.Font = New Font("Bahnschrift", 10.2F)
         registerLocation.Location = New Point(702, 371)
         registerLocation.Name = "registerLocation"
-        registerLocation.Size = New Size(74, 21)
+        registerLocation.Size = New Size(63, 17)
         registerLocation.TabIndex = 11
         registerLocation.Text = "Location"
         ' 
@@ -125,7 +125,7 @@ Partial Class Edit_Profile_Customer
         registerAddress.Font = New Font("Bahnschrift", 10.2F)
         registerAddress.Location = New Point(702, 452)
         registerAddress.Name = "registerAddress"
-        registerAddress.Size = New Size(73, 21)
+        registerAddress.Size = New Size(61, 17)
         registerAddress.TabIndex = 13
         registerAddress.Text = "Address"
         ' 
@@ -136,7 +136,7 @@ Partial Class Edit_Profile_Customer
         locationDropdown.Items.AddRange(New Object() {"Mumbai", "Delhi", "Bangalore", "Kolkata", "Chennai", "Hyderabad", "Ahmedabad", "Pune"})
         locationDropdown.Location = New Point(702, 402)
         locationDropdown.Name = "locationDropdown"
-        locationDropdown.Size = New Size(332, 29)
+        locationDropdown.Size = New Size(332, 25)
         locationDropdown.TabIndex = 15
         ' 
         ' registerProfilePic
@@ -157,7 +157,7 @@ Partial Class Edit_Profile_Customer
         email_Text.BorderStyle = BorderStyle.FixedSingle
         email_Text.Location = New Point(138, 152)
         email_Text.Name = "email_Text"
-        email_Text.Size = New Size(283, 28)
+        email_Text.Size = New Size(283, 24)
         email_Text.TabIndex = 17
         ' 
         ' name_Text
@@ -166,7 +166,7 @@ Partial Class Edit_Profile_Customer
         name_Text.BorderStyle = BorderStyle.FixedSingle
         name_Text.Location = New Point(138, 244)
         name_Text.Name = "name_Text"
-        name_Text.Size = New Size(286, 28)
+        name_Text.Size = New Size(286, 24)
         name_Text.TabIndex = 18
         ' 
         ' phone_Text
@@ -175,7 +175,7 @@ Partial Class Edit_Profile_Customer
         phone_Text.BorderStyle = BorderStyle.FixedSingle
         phone_Text.Location = New Point(138, 336)
         phone_Text.Name = "phone_Text"
-        phone_Text.Size = New Size(288, 28)
+        phone_Text.Size = New Size(288, 24)
         phone_Text.TabIndex = 19
         ' 
         ' password_Text
@@ -184,7 +184,7 @@ Partial Class Edit_Profile_Customer
         password_Text.BorderStyle = BorderStyle.FixedSingle
         password_Text.Location = New Point(138, 431)
         password_Text.Name = "password_Text"
-        password_Text.Size = New Size(288, 28)
+        password_Text.Size = New Size(288, 24)
         password_Text.TabIndex = 20
         ' 
         ' confirm_Text
@@ -193,7 +193,7 @@ Partial Class Edit_Profile_Customer
         confirm_Text.BorderStyle = BorderStyle.FixedSingle
         confirm_Text.Location = New Point(138, 530)
         confirm_Text.Name = "confirm_Text"
-        confirm_Text.Size = New Size(292, 28)
+        confirm_Text.Size = New Size(292, 24)
         confirm_Text.TabIndex = 21
         ' 
         ' OpenFileDialogRegister
@@ -205,7 +205,7 @@ Partial Class Edit_Profile_Customer
         RegisterSubmitBtn.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         RegisterSubmitBtn.FlatAppearance.BorderSize = 0
         RegisterSubmitBtn.FlatStyle = FlatStyle.Flat
-        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        RegisterSubmitBtn.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         RegisterSubmitBtn.ForeColor = Color.White
         RegisterSubmitBtn.Location = New Point(901, 572)
         RegisterSubmitBtn.Margin = New Padding(0)
@@ -221,7 +221,7 @@ Partial Class Edit_Profile_Customer
         emailValidationLabel.Font = New Font("Bahnschrift Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         emailValidationLabel.Location = New Point(203, 144)
         emailValidationLabel.Name = "emailValidationLabel"
-        emailValidationLabel.Size = New Size(0, 16)
+        emailValidationLabel.Size = New Size(0, 13)
         emailValidationLabel.TabIndex = 24
         ' 
         ' address
@@ -241,7 +241,7 @@ Partial Class Edit_Profile_Customer
         labelSize.ForeColor = Color.Red
         labelSize.Location = New Point(443, 433)
         labelSize.Name = "labelSize"
-        labelSize.Size = New Size(162, 16)
+        labelSize.Size = New Size(144, 13)
         labelSize.TabIndex = 27
         labelSize.Text = "✓ Atleast 8 characters long"
         ' 
@@ -252,7 +252,7 @@ Partial Class Edit_Profile_Customer
         labelLower.ForeColor = Color.Red
         labelLower.Location = New Point(443, 454)
         labelLower.Name = "labelLower"
-        labelLower.Size = New Size(134, 16)
+        labelLower.Size = New Size(120, 13)
         labelLower.TabIndex = 27
         labelLower.Text = "✓ Contains Lowercase"
         ' 
@@ -263,7 +263,7 @@ Partial Class Edit_Profile_Customer
         labelUpper.ForeColor = Color.Red
         labelUpper.Location = New Point(443, 475)
         labelUpper.Name = "labelUpper"
-        labelUpper.Size = New Size(133, 16)
+        labelUpper.Size = New Size(118, 13)
         labelUpper.TabIndex = 27
         labelUpper.Text = "✓ Contains Uppercase"
         ' 
@@ -274,7 +274,7 @@ Partial Class Edit_Profile_Customer
         labelNumbers.ForeColor = Color.Red
         labelNumbers.Location = New Point(443, 496)
         labelNumbers.Name = "labelNumbers"
-        labelNumbers.Size = New Size(124, 16)
+        labelNumbers.Size = New Size(111, 13)
         labelNumbers.TabIndex = 27
         labelNumbers.Text = "✓ Contains Numbers"
         ' 
@@ -285,7 +285,7 @@ Partial Class Edit_Profile_Customer
         labelSpecial.ForeColor = Color.Red
         labelSpecial.Location = New Point(443, 517)
         labelSpecial.Name = "labelSpecial"
-        labelSpecial.Size = New Size(150, 16)
+        labelSpecial.Size = New Size(134, 13)
         labelSpecial.TabIndex = 27
         labelSpecial.Text = "✓ Contains Special Chars"
         ' 
@@ -294,7 +294,7 @@ Partial Class Edit_Profile_Customer
         Button1.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Bahnschrift Light", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Button1.Font = New Font("Bahnschrift Light", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
         Button1.Location = New Point(808, 323)
         Button1.Margin = New Padding(0)
@@ -306,7 +306,7 @@ Partial Class Edit_Profile_Customer
         ' 
         ' Edit_Profile_Customer
         ' 
-        AutoScaleDimensions = New SizeF(9.0F, 21.0F)
+        AutoScaleDimensions = New SizeF(8F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(255))
         ClientSize = New Size(1330, 686)
