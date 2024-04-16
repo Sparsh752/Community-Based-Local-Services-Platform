@@ -247,7 +247,7 @@ Public Class PendingRequest_SP
             command3.Parameters.AddWithValue("@uid", uid)
             Dim emailid As String = command3.ExecuteScalar().ToString()
             Dim email_sender As New EmailSender()
-            email_sender.SendEmail(emailid, notifmsg)
+            email_sender.SendEmail(email, notifmsg)
 
         End Using
     End Function
@@ -275,7 +275,7 @@ Public Class PendingRequest_SP
             command3.Parameters.AddWithValue("@uid", uid)
             Dim emailid As String = command3.ExecuteScalar().ToString()
             Dim email_sender As New EmailSender()
-            email_sender.SendEmail(emailid, notifmsg)
+            email_sender.SendEmail(email, notifmsg)
 
         End Using
     End Function
