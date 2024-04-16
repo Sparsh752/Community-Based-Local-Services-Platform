@@ -43,6 +43,8 @@ Public Class AppointmentList_SP
         ' Call the method to add labels to TableLayoutPanel
         AddLabelsToTableLayoutPanel()
         TableLayoutPanel1.Show()
+        TableLayoutPanel1.HorizontalScroll.Visible = False
+        TableLayoutPanel1.HorizontalScroll.Enabled = False
         TableLayoutPanel1.AutoScroll = True
 
     End Sub

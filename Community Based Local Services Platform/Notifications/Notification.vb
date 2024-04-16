@@ -136,7 +136,7 @@ Public Class Notification
     End Sub
 
 
-    Private Sub ClearButton_Click(sender As Object, e As EventArgs)
+    Public Sub ClearButton_Click(sender As Object, e As EventArgs)
         ' Create a list to store controls to be removed
         Dim controlsToRemove As New List(Of Control)
 
@@ -170,6 +170,19 @@ Public Class Notification
         ' Hide the clear button
         Dim clearButton As Button = DirectCast(sender, Button)
         clearButton.Visible = False
+
+
+        Navbar_Customer.NotificationCountLabel.BackColor = ColorTranslator.FromHtml("#0F2A37")
+        Navbar_Customer.NotificationCountLabel.ForeColor = ColorTranslator.FromHtml("#0F2A37")
+        'Navbar_Admin.NotificationCountLabel.Visible = False
+        'Navbar_SP.NotificationCountLabel.Visible = False
+        Navbar_Admin.NotificationCountLabel.BackColor = ColorTranslator.FromHtml("#0F2A37")
+        Navbar_Admin.NotificationCountLabel.ForeColor = ColorTranslator.FromHtml("#0F2A37")
+
+
+
+
+
     End Sub
 
     Private Sub ShowNoNotificationsLabel()

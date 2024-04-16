@@ -16,6 +16,8 @@ Public Class Navbar_SP
     Public Panel3 As New Panel()
     Public NotificationButton As New Button()
     Public notificationForm As New Notification()
+    Public NotificationBadge As New PictureBox()
+    Public NotificationCountLabel As New Label()
     Dim serviceProviderID As Integer
     Public Sub New(serviceProviderID As Integer)
         InitializeComponent()
@@ -79,18 +81,37 @@ Public Class Navbar_SP
         }
         Panel1.Controls.Add(NotificationIcon)
 
-        Dim NotificationBadge As New PictureBox With {
-            .BackgroundImage = My.Resources.Resource1.notification_badge,
-            .Location = New Point(168, 20),
-            .Name = "NotificationIcon",
-            .Size = New Size(7, 7),
-            .TabIndex = 1,
-            .TabStop = False
-        }
-
-        Panel1.Controls.Add(NotificationBadge)
-        NotificationBadge.BringToFront()
+        ' Initialize the NotificationBadge PictureBox from resources
+        NotificationBadge.BackgroundImage = My.Resources.Resource1.notification_badge ' Change "NotificationBadgeImage" to the actual name of your resource
+        NotificationBadge.BackgroundImageLayout = ImageLayout.Stretch
+        NotificationBadge.Size = New Size(11, 11)
+        NotificationBadge.Location = New Point(NotificationIcon.Right - 5, NotificationIcon.Top)
         NotificationBadge.Visible = False
+        Panel1.Controls.Add(NotificationBadge)
+
+        NotificationCountLabel.Size = New Size(11, 11)
+        NotificationCountLabel.Location = New Point(NotificationIcon.Right - 4, NotificationIcon.Top)
+        NotificationCountLabel.ForeColor = Color.Black
+        NotificationCountLabel.BackColor = Color.White
+        NotificationCountLabel.TextAlign = ContentAlignment.MiddleCenter
+        NotificationCountLabel.Font = New Font("Bahnschrift Bold", 7, FontStyle.Bold)
+        Dim path As New System.Drawing.Drawing2D.GraphicsPath()
+        path.AddEllipse(0, 0, NotificationCountLabel.Width, NotificationCountLabel.Height)
+        NotificationCountLabel.Region = New Region(path)
+        NotificationCountLabel.Visible = False
+        Panel1.Controls.Add(NotificationCountLabel)
+
+
+
+
+        ' Check if notifications exist and get the notification count
+        SessionManager.GetNotificationCount()
+
+        ' Show or hide the dot image based on the notification count
+        ShowHideNotificationDot()
+
+
+
 
 
         Dim HomeButton As New Button()
@@ -172,6 +193,18 @@ Public Class Navbar_SP
         If Panel3.Controls.Count > 0 Then
             ' Remove the first control (form) from Panel5
             Panel3.Controls.Clear()
+        End If
+    End Sub
+
+    Private Sub ShowHideNotificationDot()
+        ' Show or hide the dot image based on the notification count
+        If SessionManager.notificationCount > 0 Then
+            NotificationCountLabel.Visible = True
+            NotificationCountLabel.Text = SessionManager.notificationCount
+            NotificationCountLabel.BringToFront()
+        Else
+            NotificationBadge.Visible = False
+            NotificationCountLabel.Visible = False
         End If
     End Sub
 
@@ -259,6 +292,7 @@ Public Class Navbar_SP
         With Queries_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
+            .userID = SessionManager.spID.ToString()
             Panel3.Controls.Add(Queries_Customer)
             .BringToFront()
             .Show()
