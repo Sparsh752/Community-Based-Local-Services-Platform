@@ -171,7 +171,8 @@ Public Class Display_Services
         Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
                                                        Select(Function(group) group.First()).
                                                        OrderByDescending(Function(provider) provider.Count) _
-                                                      .Take(12) _
+                                                       .OrderByDescending(Function(provider) provider.Ratings) _
+                                                       .Take(12) _
                                                       .ToList()
 
         ' Create picture boxes and labels for Popular section
@@ -571,7 +572,8 @@ Public Class Display_Services
         Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
                                                        Select(Function(group) group.First()).
                                                        OrderByDescending(Function(provider) provider.Count) _
-                                                      .Take(12) _
+                                                       .OrderByDescending(Function(provider) provider.Ratings) _
+                                                       .Take(12) _
                                                       .ToList()
         ' Update picture boxes and labels for Popular section
         For i As Integer = 0 To 2
