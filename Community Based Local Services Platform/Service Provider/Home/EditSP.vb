@@ -314,7 +314,7 @@ Public Class EditSP
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles registerSPProfilePic.Click
         Try
             OpenFileDialogRegister.Title = "Open Picture"
-            OpenFileDialogRegister.Filter = "JPEG Files|.jpg;.jpeg|PNG Files|.png|All Files|.*"
+            OpenFileDialogRegister.Filter = "JPEG Files|*.jpg;*.jpeg|PNG Files|*.png|All Files|*.*"
             OpenFileDialogRegister.ShowDialog()
             If OpenFileDialogRegister.FileName <> "" Then
                 registerSPProfilePic.Image = System.Drawing.Image.FromFile(OpenFileDialogRegister.FileName)
@@ -605,18 +605,51 @@ Public Class EditSP
                 Dim bankDetailId As Integer
 
                 ' Insert into users table
-                Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password, userPhoto) VALUES (@userName, @userType, @email, @password, @userPhoto)"
+                'Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password, userPhoto) VALUES (@userName, @userType, @email, @password, @userPhoto)"
+                'Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
+                'insertUserCommand.Parameters.AddWithValue("@userName", nameSP_Text.Text)
+                'insertUserCommand.Parameters.AddWithValue("@userType", "Service Provider")
+                'insertUserCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
+                'insertUserCommand.Parameters.AddWithValue("@password", passwordSP_Text.Text)
+                'insertUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
+                'insertUserCommand.ExecuteNonQuery()
+                '
+                ' Get the ID of t'he inserted user
+                'userId = CInt(insertUserCommand.LastInsertedId)
+                'End Using
+
+                ' Insert into users table
+                Dim insertUserCommandText As String = "INSERT INTO users (userName, userType, email, password"
+                Dim insertUserValues As String = "VALUES (@userName, @userType, @email, @password"
+
+                ' Only include the userPhoto field in the insert query if a new image is selected
+                If imageByte IsNot Nothing Then
+                    insertUserCommandText &= ", userPhoto)"
+                    insertUserValues &= ", @userPhoto)"
+                Else
+                    insertUserCommandText &= ")"
+                    insertUserValues &= ")"
+                End If
+
+                insertUserCommandText &= " " & insertUserValues
+
                 Using insertUserCommand As New MySqlCommand(insertUserCommandText, connection)
                     insertUserCommand.Parameters.AddWithValue("@userName", nameSP_Text.Text)
                     insertUserCommand.Parameters.AddWithValue("@userType", "Service Provider")
                     insertUserCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
                     insertUserCommand.Parameters.AddWithValue("@password", passwordSP_Text.Text)
-                    insertUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
+
+                    ' Only set the userPhoto parameter if a new image is selected
+                    If imageByte IsNot Nothing Then
+                        insertUserCommand.Parameters.AddWithValue("@userPhoto", imageByte)
+                    End If
+
                     insertUserCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted user
                     userId = CInt(insertUserCommand.LastInsertedId)
                 End Using
+
 
                 ' Insert into serviceproviders table
                 Dim insertServiceProviderCommandText As String = "INSERT INTO serviceproviders (userID, serviceProviderName, serviceProviderEmail, serviceProviderdescription, rating, experienceYears, minimumNoticeHours) VALUES (@userID, @serviceProviderName, @serviceProviderEmail, @serviceProviderDescription, @rating, @experienceYears, @minimumNoticeHours)"
