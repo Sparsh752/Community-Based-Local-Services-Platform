@@ -3,6 +3,7 @@ Imports Mysqlx.Crud
 
 Public Class Cancelled_By_Customer
     Private Sub Cancelled_By_Customer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'MessageBox.Show("cfbajc")
         Me.Size() = New Size(1200, 700)
         Me.BackColor = Color.White
         Me.FormBorderStyle = BorderStyle.None
@@ -107,7 +108,7 @@ Public Class Cancelled_By_Customer
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         RemovePreviousForm()
-
+        Me.Close()
         With AppointmentList_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
