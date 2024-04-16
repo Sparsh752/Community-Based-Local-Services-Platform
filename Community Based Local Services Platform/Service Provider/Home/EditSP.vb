@@ -124,9 +124,9 @@ Public Class EditSP
             Try
                 connection.Open()
 
-                Dim fetchCommandText As String = "SELECT userName, email, password FROM users WHERE userID = @userID"
+                Dim fetchCommandText As String = "SELECT userName, email, password, userPhoto FROM users WHERE userID = @userID"
                 Using fetchCommand As New MySqlCommand(fetchCommandText, connection)
-                    fetchCommand.Parameters.AddWithValue("@userID", 64)
+                    fetchCommand.Parameters.AddWithValue("@userID", SessionManager.userID)
                     Using reader As MySqlDataReader = fetchCommand.ExecuteReader()
                         If reader.Read() Then
                             ' Read data from the reader and populate form fields
@@ -134,21 +134,39 @@ Public Class EditSP
                             emailSP_Text.Text = reader.GetString("email")
                             passwordSP_Text.Text = reader.GetString("password")
                             ' Populate other form fields similarly
+                            ' Retrieve the user photo byte array from the database
+                            If Not reader.IsDBNull(reader.GetOrdinal("userPhoto")) Then
+                                Dim userPhoto As Byte() = DirectCast(reader("userPhoto"), Byte())
+
+                                ' Check if user photo is not null
+                                If userPhoto IsNot Nothing AndAlso userPhoto.Length > 0 Then
+                                    ' Convert byte array to image and display it in the picture box
+                                    Using ms As New MemoryStream(userPhoto)
+                                        registerSPProfilePic.SizeMode = PictureBoxSizeMode.StretchImage
+                                        registerSPProfilePic.Image = Image.FromStream(ms)
+                                    End Using
+                                Else
+                                    ' If user photo is null, set a default image or display a placeholder
+                                    registerSPProfilePic.Image = My.Resources.Resource1.displayPicture
+                                End If
+                            End If
                         Else
                             MessageBox.Show("Service provider data not found.")
                         End If
                     End Using
                 End Using
 
-                Dim fetchServiceProviderCommandText As String = "SELECT serviceProivderDescription, experienceYears, minimumNoticeHours FROM serviceproviders where userID = @userID"
+
+
+                Dim fetchServiceProviderCommandText As String = "SELECT serviceProviderdescription, experienceYears, minimumNoticeHours FROM serviceproviders where userID = @userID"
                 Using fetchServiceProviderCommand As New MySqlCommand(fetchServiceProviderCommandText, connection)
                     fetchServiceProviderCommand.Parameters.AddWithValue("@userID", SessionManager.userID)
                     Using reader As MySqlDataReader = fetchServiceProviderCommand.ExecuteReader()
                         If reader.Read() Then
                             ' Read data from the reader and populate form fields
-                            descriptionText.Text = reader.GetString("serviceProviderDescription")
-                            ExperienceDropdown.SelectedValue = reader.GetString("experienceYears")
-                            NoticeHourDropdown.SelectedValue = reader.GetString("minimumNoticeHours")
+                            descriptionText.Text = reader.GetString("serviceProviderdescription")
+                            ExperienceDropdown.Text = reader.GetInt32("experienceYears").ToString()
+                            NoticeHourDropdown.Text = reader.GetInt32("minimumNoticeHours").ToString()
                             ' Populate other form fields similarly
                         Else
                             MessageBox.Show("Service provider data not found.")
@@ -162,7 +180,7 @@ Public Class EditSP
                     Using reader As MySqlDataReader = fetchContactCommand.ExecuteReader()
                         If reader.Read() Then
                             ' Read data from the reader and populate form fields
-                            locationDropdown.SelectedValue = reader.GetString("location")
+                            locationDropdown.Text = reader.GetString("location")
                             phoneSP_Text.Text = reader.GetString("mobileNumber")
                             ' Populate other form fields similarly
                         Else
@@ -667,7 +685,7 @@ Public Class EditSP
 
     Private Sub YearsExperienceDropdown()
         ' Add countries manually to the dropdown list
-        Dim YearsOfExperience As Integer() = {1, 2, 3, 4, 5, 6}
+        Dim YearsOfExperience As Integer() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
 
         ExperienceDropdown.Items.Clear()
         ' Add Experience to the dropdown
