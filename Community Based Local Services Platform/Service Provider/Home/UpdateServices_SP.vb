@@ -541,7 +541,15 @@ Public Class UpdateServices_SP
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
 
-        Dim selectedItem As String = Service_area.SelectedItem.ToString()
+
+
+        Dim selectedItem As String = ""
+
+        If Not IsNothing(Service_area.SelectedItem) Then
+            selectedItem = Service_area.SelectedItem.ToString()
+        End If
+
+
 
         ' Check if the selected item is not already in the list
         If Not serviceAreas.Contains(selectedItem) Then
@@ -580,5 +588,23 @@ Public Class UpdateServices_SP
             .BringToFront()
             .Show()
         End With
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+        Dim selectedItem As String = ""
+        If Not IsNothing(Service_area.SelectedItem) Then
+            selectedItem = Service_area.SelectedItem.ToString()
+        End If
+        serviceAreas.Remove(selectedItem)
+
+        ' Clear existing items from the ListView
+        Location_list.Items.Clear()
+
+        ' Add items from the selectedAreas list to the ListView
+        For Each area As String In serviceAreas
+            Location_list.Items.Add(area)
+        Next
+
     End Sub
 End Class
