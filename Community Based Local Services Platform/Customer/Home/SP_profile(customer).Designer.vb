@@ -27,6 +27,7 @@ Partial Class SP_profile
         Label3 = New Label()
         Label4 = New Label()
         Panel1 = New Panel()
+        Button11 = New Button()
         Panel2 = New Panel()
         Label5 = New Label()
         BackgroundWorker1 = New ComponentModel.BackgroundWorker()
@@ -79,6 +80,7 @@ Partial Class SP_profile
         ' 
         Panel1.Anchor = AnchorStyles.None
         Panel1.BackColor = Color.FromArgb(CByte(237), CByte(237), CByte(237))
+        Panel1.Controls.Add(Button11)
         Panel1.Controls.Add(Panel2)
         Panel1.Controls.Add(Label5)
         Panel1.Location = New Point(955, 0)
@@ -86,11 +88,24 @@ Partial Class SP_profile
         Panel1.Size = New Size(416, 928)
         Panel1.TabIndex = 4
         ' 
+        ' Button11
+        ' 
+        Button11.BackColor = Color.FromArgb(CByte(249), CByte(117), CByte(75))
+        Button11.FlatStyle = FlatStyle.Flat
+        Button11.Font = New Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Button11.ForeColor = Color.White
+        Button11.Location = New Point(284, 27)
+        Button11.Name = "Button11"
+        Button11.Size = New Size(77, 41)
+        Button11.TabIndex = 26
+        Button11.Text = "Back"
+        Button11.UseVisualStyleBackColor = False
+        ' 
         ' Panel2
         ' 
-        Panel2.Location = New Point(23, 182)
+        Panel2.Location = New Point(23, 205)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(369, 659)
+        Panel2.Size = New Size(369, 627)
         Panel2.TabIndex = 11
         ' 
         ' Label5
@@ -98,7 +113,7 @@ Partial Class SP_profile
         Label5.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI", 13F, FontStyle.Bold)
-        Label5.Location = New Point(34, 101)
+        Label5.Location = New Point(34, 121)
         Label5.Name = "Label5"
         Label5.Size = New Size(96, 30)
         Label5.TabIndex = 1
@@ -156,4 +171,5 @@ Partial Class SP_profile
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Label6 As Label
     Friend WithEvents Label7 As Label
+    Friend WithEvents Button11 As Button
 End Class

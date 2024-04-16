@@ -513,7 +513,7 @@ Public Class Display_Services
     End Sub
 
     Private Sub BookNowButton_Click(sender As Object, e As EventArgs, serviceID As String)
-        RemovePreviousForm()
+        'RemovePreviousForm()
 
         Dim str As String = "Proceed to Pay"
         Dim appointmentBookingForm As New Appointment_booking(str, serviceID)
