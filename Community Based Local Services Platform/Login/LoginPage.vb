@@ -121,7 +121,7 @@
 
         ' Query to retrieve customer's ID based on email and password
         Dim query As String = "SELECT serviceProviderID FROM serviceproviders " &
-            "WHERE userID = @UserID"
+            "WHERE userID = @UserID AND registrationStatus = 'Approved'"
 
         Using connection As New MySqlConnection(SessionManager.connectionString)
             Using command As New MySqlCommand(query, connection)

@@ -61,11 +61,12 @@ Public Class Register1
         address.Font = labelfont
 
         emailValidationLabel.Location = New Point(210, 140)
-        labelSize.Location = New Point(400, 431)
-        labelLower.Location = New Point(400, 446)
-        labelUpper.Location = New Point(400, 461)
-        labelNumbers.Location = New Point(400, 476)
-        labelSpecial.Location = New Point(400, 491)
+        CheckBox1.Location = New Point(400, 435)
+        labelSize.Location = New Point(400, 461)
+        labelLower.Location = New Point(400, 476)
+        labelUpper.Location = New Point(400, 491)
+        labelNumbers.Location = New Point(400, 506)
+        labelSpecial.Location = New Point(400, 521)
 
 
         password_Text.PasswordChar = "*"

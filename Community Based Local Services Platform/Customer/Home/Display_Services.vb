@@ -39,6 +39,7 @@ Public Class Display_Services
                       "FROM serviceproviders AS s " &
                       "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
                       "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
+                      "WHERE flagbit = 1 " &
                       "GROUP BY s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName"
 
         ' Create a new SQL connection
