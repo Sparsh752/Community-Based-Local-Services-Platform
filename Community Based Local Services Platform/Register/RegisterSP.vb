@@ -185,7 +185,7 @@ Public Class RegisterSP
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles registerSPProfilePic.Click
         Try
             OpenFileDialogRegister.Title = "Open Picture"
-            OpenFileDialogRegister.Filter = "JPEG Files|.jpg;.jpeg|PNG Files|.png|All Files|.*"
+            OpenFileDialogRegister.Filter = "JPEG Files|*.jpg;*.jpeg|PNG Files|*.png|All Files|*.*"
             OpenFileDialogRegister.ShowDialog()
             If OpenFileDialogRegister.FileName <> "" Then
                 registerSPProfilePic.Image = System.Drawing.Image.FromFile(OpenFileDialogRegister.FileName)
@@ -399,15 +399,13 @@ Public Class RegisterSP
        String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(confirmSP_Text.Text) OrElse
+       String.IsNullOrWhiteSpace(comboStartingHours.Text) OrElse
+       String.IsNullOrWhiteSpace(comboStartingMins.Text) OrElse
        String.IsNullOrWhiteSpace(comboClosingHours.Text) OrElse
        String.IsNullOrWhiteSpace(comboClosingMins.Text) OrElse
-       String.IsNullOrWhiteSpace(startHoursText.Text) OrElse
-       NoticeHourDropdown.SelectedItem Is Nothing OrElse
-       String.IsNullOrWhiteSpace(NoticeHourDropdown.SelectedItem.ToString) OrElse
-       ExperienceDropdown.SelectedItem Is Nothing OrElse
-       String.IsNullOrWhiteSpace(ExperienceDropdown.SelectedItem.ToString) OrElse
-       locationDropdown.SelectedItem Is Nothing OrElse
-       String.IsNullOrWhiteSpace(locationDropdown.SelectedItem.ToString) OrElse
+       String.IsNullOrWhiteSpace(NoticeHourDropdown.Text) OrElse
+       String.IsNullOrWhiteSpace(ExperienceDropdown.Text) OrElse
+       String.IsNullOrWhiteSpace(locationDropdown.Text) OrElse
        String.IsNullOrWhiteSpace(SPaccText.Text) OrElse
        String.IsNullOrWhiteSpace(accHolderText.Text) OrElse
        String.IsNullOrWhiteSpace(ifscText.Text) OrElse
@@ -489,6 +487,20 @@ Public Class RegisterSP
                     userId = CInt(insertUserCommand.LastInsertedId)
                 End Using
 
+                Dim experienceYearsInt As Integer
+                Dim noticeHoursInt As Integer
+
+                If Not Integer.TryParse(ExperienceDropdown.Text, experienceYearsInt) Then
+                    ' Handle the case where the conversion fails
+                    ' Maybe show an error message to the user or provide a default value
+                    experienceYearsInt = 0 ' Default value or any appropriate value
+                End If
+
+                If Not Integer.TryParse(NoticeHourDropdown.Text, noticeHoursInt) Then
+                    ' Handle the case where the conversion fails
+                    ' Maybe show an error message to the user or provide a default value
+                    noticeHoursInt = 0 ' Default value or any appropriate value
+                End If
                 ' Insert into serviceproviders table
                 Dim insertServiceProviderCommandText As String = "INSERT INTO serviceproviders (userID, serviceProviderName, serviceProviderEmail, serviceProviderdescription, rating, experienceYears, minimumNoticeHours) VALUES (@userID, @serviceProviderName, @serviceProviderEmail, @serviceProviderDescription, @rating, @experienceYears, @minimumNoticeHours)"
                 Using insertServiceProviderCommand As New MySqlCommand(insertServiceProviderCommandText, connection)
@@ -498,8 +510,8 @@ Public Class RegisterSP
                     insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderDescription", descriptionText.Text)
                     ' Set default values for rating, experienceYears, and minimumNoticeHours
                     insertServiceProviderCommand.Parameters.AddWithValue("@rating", 0)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", ExperienceDropdown.SelectedValue.ToString())
-                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", NoticeHourDropdown.SelectedValue.ToString())
+                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", experienceYearsInt)
+                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", noticeHoursInt)
                     insertServiceProviderCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted service provider
@@ -511,7 +523,7 @@ Public Class RegisterSP
                 Using insertContactCommand As New MySqlCommand(insertContactCommandText, connection)
                     insertContactCommand.Parameters.AddWithValue("@userID", userId)
                     insertContactCommand.Parameters.AddWithValue("@email", emailSP_Text.Text)
-                    insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.SelectedItem.ToString())
+                    insertContactCommand.Parameters.AddWithValue("@location", locationDropdown.Text)
                     insertContactCommand.Parameters.AddWithValue("@mobileNumber", phoneSP_Text.Text)
                     insertContactCommand.Parameters.AddWithValue("@socialMedia", "")
                     insertContactCommand.Parameters.AddWithValue("@address", "")
