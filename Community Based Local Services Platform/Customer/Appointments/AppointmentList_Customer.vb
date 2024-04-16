@@ -113,7 +113,14 @@ Public Class AppointmentList_Customer
                         datalist.Add(reader("appointmentID").ToString())
                         datalist.Add(reader("serviceProviderName").ToString())
                         datalist.Add(reader("serviceTypeName").ToString())
-                        datalist.Add(reader("startTime").ToString())
+                        Dim startTime As String = reader("startTime").ToString()
+                        Dim timeslotDate As String = CType(reader("timeslotDate"), Date).ToString("dd-MMM-yyyy")
+
+                        Dim combinedDateTime As String = $"{timeslotDate} {startTime}"
+
+
+                        datalist.Add(combinedDateTime)
+                        'datalist.Add(reader("startTime").ToString())
                         datalist.Add(reader("appointmentStatus").ToString())
 
                         Dim spID As Integer = CInt(reader("serviceProviderID"))
