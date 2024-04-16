@@ -347,14 +347,22 @@ Public Class Display_Services
         'MessageBoxIcon.Information)
         ' Check if there are any results
         If filteredProviders.Count = 0 Then
-            ' Load the default view
-            DisplayDefault()
-            ' Show a "No results" popup
-            MessageBox.Show("No results found for the search criteria.", "No results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ' Create and configure a PictureBox for displaying the image
+            Dim noResultsPictureBox As New PictureBox()
+            Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\no_search.png")
+            noResultsPictureBox.Image = Image.FromFile(imagePath)
+            noResultsPictureBox.SizeMode = PictureBoxSizeMode.AutoSize
+
+            ' Position the PictureBox in the center of the form
+            noResultsPictureBox.Location = New Point((Me.ClientSize.Width - noResultsPictureBox.Width) / 2, (Me.ClientSize.Height - noResultsPictureBox.Height) / 2)
+
+            ' Add the PictureBox to the form
+            Me.Controls.Add(noResultsPictureBox)
         Else
             ' Display the filtered service providers
             DisplaySearchResults(filteredProviders, minRating, maxRating)
         End If
+
     End Sub
 
     ' Method to display search results
