@@ -7,7 +7,6 @@ Public Class SP_profile
     Dim serviceProviderID As String
     Dim userID As Integer
     Dim ratings As Integer
-    Dim servicePhoto As Byte()
     Public Sub New(provider As ServiceProvider)
         InitializeComponent()
 
@@ -18,13 +17,7 @@ Public Class SP_profile
         Label3.Text = "Available from : " & provider.Price   ' yash change this once the db team adds the endtime to serviceAreaTimeslots table
         Label4.Text = provider.Experience & " years"
         Me.serviceProviderID = provider.ID
-        Me.servicePhoto = provider.ServicePhoto
     End Sub
-
-
-
-
-
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
@@ -152,6 +145,18 @@ Public Class SP_profile
 
         Dim yPosition As Integer = 0
 
+
+        Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
+
+        Try
+            If Not File.Exists(imagePath) Then
+                MessageBox.Show("Image file not found: " & imagePath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error loading image: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
+
         Dim servicesList As New List(Of Services)()
 
         Dim connection1 As New MySqlConnection(SessionManager.connectionString)
@@ -160,7 +165,7 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection1.Open()
-            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price, services.serviceDescription FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
+            Dim query As String = "SELECT MAX(services.serviceID) as serviceID,  services.serviceName,services.price ,services.serviceTypeID, services.serviceDescription,services.completionTime,services.areaID, services.servicePhoto FROM services WHERE services.flagbit=1 AND services.serviceProviderID = " & serviceProviderID & " GROUP BY services.serviceName,services.price, services.serviceDescription"
             Dim command As New MySqlCommand(query, connection1)
 
             ' Execute the SQL query
@@ -172,10 +177,24 @@ Public Class SP_profile
 
             While reader.Read()
                 Dim service As New Services()
+                service.serviceTypeID = reader("serviceTypeID")
                 service.serviceID = reader("serviceID")
                 service.serviceName = reader("serviceName")
                 service.price = reader("price")
                 service.serviceDescription = reader("serviceDescription")
+
+                service.completionTime = reader("completionTime")
+                service.areaID = reader("areaID")
+
+                If Not reader.IsDBNull(reader.GetOrdinal("servicePhoto")) Then
+                    ' Convert byte array to image
+                    service.servicePhoto = reader("servicePhoto")
+                Else
+                    service.servicePhoto = File.ReadAllBytes(imagePath)
+                End If
+
+
+
                 ' Add more properties as needed
                 servicesList.Add(service)
             End While
@@ -185,8 +204,9 @@ Public Class SP_profile
             connection1.Close()
         Catch ex As Exception
             ' Display error message if loading fails
-            MessageBox.Show("Failed to load users. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Failed to load services. Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+
 
         For i As Integer = 0 To servicesList.Count
             If (i >= servicesList.Count) Then
@@ -198,21 +218,14 @@ Public Class SP_profile
 
             panel.Controls.Add(groupBox)
 
+            Dim stream As New MemoryStream(servicesList(i).servicePhoto)
+            Dim image As Image = Image.FromStream(stream)
+
             Dim im As New PictureBox()
             im.SizeMode = PictureBoxSizeMode.StretchImage
             im.Size = New Size(170, 170)
             im.Location = New Point(10, 20)
-
-            ' Load image from binary data
-            If servicePhoto IsNot Nothing AndAlso servicePhoto.Length > 0 Then
-                Using ms As New MemoryStream(servicePhoto)
-                    im.Image = Image.FromStream(ms)
-                End Using
-            Else
-                ' Handle the case where image data is not available or empty
-                Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\sample_SP.jpg")
-                im.Image = Image.FromFile(imagePath)
-            End If
+            im.Image = image
 
             groupBox.Controls.Add(im)
 
