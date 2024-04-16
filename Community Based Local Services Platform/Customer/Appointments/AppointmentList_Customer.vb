@@ -59,7 +59,7 @@ Public Class AppointmentList_Customer
             g.DrawRectangle(pen, panel.Padding.Left, rowBottom, panel.Width - panel.Padding.Horizontal, 0) ' Draw bottom border
             rowTop = rowBottom
         Next
-        Dim lastRowBottom As Integer = panel.Height - panel.Padding.Bottom
+        Dim lastRowBottom As Integer = panel.Height
         g.DrawRectangle(pen, panel.Padding.Left, lastRowBottom, panel.Width - panel.Padding.Horizontal, 0)
 
         ' Draw borders for columns
