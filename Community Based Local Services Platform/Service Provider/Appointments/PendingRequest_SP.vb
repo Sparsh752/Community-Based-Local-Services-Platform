@@ -237,7 +237,7 @@ Public Class PendingRequest_SP
             Dim username As String = command1.ExecuteScalar().ToString()
 
             Dim notifmsg As String = "Your appointment has been rejected by the " & username & "."
-            Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationTime) values (@uid, @notifmsg, NOW())"
+            Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationDateTime) values (@uid, @notifmsg, NOW())"
             Dim command2 As New MySqlCommand(insertnotif, connection)
             command2.Parameters.AddWithValue("@uid", uid)
             command2.Parameters.AddWithValue("@notifmsg", notifmsg)
@@ -265,7 +265,7 @@ Public Class PendingRequest_SP
             Dim username As String = command1.ExecuteScalar().ToString()
 
             Dim notifmsg As String = "Your appointment has been accepted by the " & username & "."
-            Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationTime) values (@uid, @notifmsg, NOW())"
+            Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationDateTime) values (@uid, @notifmsg, NOW())"
             Dim command2 As New MySqlCommand(insertnotif, connection)
             command2.Parameters.AddWithValue("@uid", uid)
             command2.Parameters.AddWithValue("@notifmsg", notifmsg)
