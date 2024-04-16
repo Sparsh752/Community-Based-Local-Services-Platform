@@ -523,8 +523,8 @@ Public Class RegisterSP
                     insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderDescription", descriptionText.Text)
                     ' Set default values for rating, experienceYears, and minimumNoticeHours
                     insertServiceProviderCommand.Parameters.AddWithValue("@rating", 0)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", Convert.ToInt32(ExperienceDropdown.SelectedValue))
-                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", Convert.ToInt32(NoticeHourDropdown.SelectedValue))
+                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", Convert.ToInt32(ExperienceDropdown.SelectedItem))
+                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", Convert.ToInt32(NoticeHourDropdown.SelectedItem))
                     insertServiceProviderCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted service provider
