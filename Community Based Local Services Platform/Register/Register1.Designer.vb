@@ -132,6 +132,8 @@ Partial Class Register1
         ' 
         ' locationDropdown
         ' 
+        locationDropdown.AutoCompleteMode = AutoCompleteMode.Suggest
+        locationDropdown.AutoCompleteSource = AutoCompleteSource.ListItems
         locationDropdown.BackColor = Color.FromArgb(CByte(249), CByte(249), CByte(249))
         locationDropdown.FormattingEnabled = True
         locationDropdown.Items.AddRange(New Object() {"Mumbai", "Delhi", "Bangalore", "Kolkata", "Chennai", "Hyderabad", "Ahmedabad", "Pune"})
