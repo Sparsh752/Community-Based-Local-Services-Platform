@@ -157,7 +157,7 @@ Public Class PendingRequest_SP
                 End If
             End Using
         End Using
-
+        SendAcceptNotification()
     End Sub
 
     Private Sub UpdateAppointment1()
@@ -183,7 +183,7 @@ Public Class PendingRequest_SP
                 End If
             End Using
         End Using
-
+        SendRejectNotification()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -223,5 +223,61 @@ Public Class PendingRequest_SP
             .Show()
         End With
     End Sub
+
+    Function SendRejectNotification()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Dim getcustomeruid = "Select customerID from appointments where appointmentID = @appointmentID"
+            connection.Open()
+            Dim command As New MySqlCommand(getcustomeruid, connection)
+            command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+            Dim uid As String = command.ExecuteScalar().ToString()
+            Dim getusername = "Select userName from users where userID = @uid"
+            Dim command1 As New MySqlCommand(getusername, connection)
+            command1.Parameters.AddWithValue("@uid", SessionManager.userID)
+            Dim username As String = command1.ExecuteScalar().ToString()
+
+            Dim notifmsg As String = "Your appointment has been rejected by the " & username & "."
+            Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationTime) values (@uid, @notifmsg, NOW())"
+            Dim command2 As New MySqlCommand(insertnotif, connection)
+            command2.Parameters.AddWithValue("@uid", uid)
+            command2.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command2.ExecuteNonQuery()
+            Dim email = "Select email from users where userID = @uid"
+            Dim command3 As New MySqlCommand(email, connection)
+            command3.Parameters.AddWithValue("@uid", uid)
+            Dim emailid As String = command3.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailid, notifmsg)
+
+        End Using
+    End Function
+
+    Function SendAcceptNotification()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Dim getcustomeruid = "Select customerID from appointments where appointmentID = @appointmentID"
+            connection.Open()
+            Dim command As New MySqlCommand(getcustomeruid, connection)
+            command.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
+            Dim uid As String = command.ExecuteScalar().ToString()
+            Dim getusername = "Select userName from users where userID = @uid"
+            Dim command1 As New MySqlCommand(getusername, connection)
+            command1.Parameters.AddWithValue("@uid", SessionManager.userID)
+            Dim username As String = command1.ExecuteScalar().ToString()
+
+            Dim notifmsg As String = "Your appointment has been accepted by the " & username & "."
+            Dim insertnotif = "Insert into notifications (userID, notificationMessage, notificationTime) values (@uid, @notifmsg, NOW())"
+            Dim command2 As New MySqlCommand(insertnotif, connection)
+            command2.Parameters.AddWithValue("@uid", uid)
+            command2.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command2.ExecuteNonQuery()
+            Dim email = "Select email from users where userID = @uid"
+            Dim command3 As New MySqlCommand(email, connection)
+            command3.Parameters.AddWithValue("@uid", uid)
+            Dim emailid As String = command3.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailid, notifmsg)
+
+        End Using
+    End Function
 
 End Class
