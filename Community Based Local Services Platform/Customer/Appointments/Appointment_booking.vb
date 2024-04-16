@@ -307,6 +307,7 @@ Public Class Appointment_booking
 
 
     Private Sub RescheduleAppointment(appointmentID As Integer, newDate As DateTime, newTime As String, newLocation As String)
+        'MessageBox.Show(appointmentID & " " & newDate & " " & newTime & " " & newLocation)
         ' Define the SQL query to update the appointment details
         Dim query As String =
             "UPDATE appointments AS a " &
@@ -364,12 +365,16 @@ Public Class Appointment_booking
 
             ' Combine selected date and time
             Dim selectedDateTime = selectedDate.Date + TimeSpan.Parse(selectedTimeSlot)
+
+            'MessageBox.Show(selectedDate & " " & selectedTimeSlot)
+
             ' Check if the selected date and time are in the past
             If selectedDateTime <= currentDateTime Then
-                MessageBox.Show("Selected date and time cannot be in the past. Please select a future date and time for rescheduling.")
+                'MessageBox.Show("Selected date and time cannot be in the past. Please select a future date and time for rescheduling.")
             Else
-                RemovePreviousForm()
+
                 RescheduleAppointment(appointmentID, selectedDate, selectedTimeSlot, selectedLocation)
+                RemovePreviousForm()
                 'MessageBox.Show("Reschedule request sent.")
                 With AppointmentList_Customer
                     .TopLevel = False
@@ -472,6 +477,7 @@ Public Class Appointment_booking
 
     Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
         ' Clear existing buttons
+
         ClearButtons()
 
         selectedTimeSlot = Nothing
@@ -485,7 +491,9 @@ Public Class Appointment_booking
         End If
 
 
-        Dim selectedDate As DateTime = DateTimePicker1.Value
+        Dim _selectedDate As DateTime = DateTimePicker1.Value
+        selectedDate = _selectedDate
+        'MessageBox.Show(SessionManager.appointmentID & " " & selectedDate)
 
         ' Fetch service provider timings for the selected day of the week
         'Dim dayOfWeek As DayOfWeek = selectedDate.DayOfWeek
