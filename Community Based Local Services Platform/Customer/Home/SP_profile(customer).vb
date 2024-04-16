@@ -322,11 +322,38 @@ Public Class SP_profile
 
             itemPanel.Controls.Add(headingLabel)
 
+
+
+            Dim starsLabel2 As New Label()
+
+            ' Calculate the number of full stars and empty stars
+            Dim fullStars2 As Integer = reviewsList(i).rating
+            Dim emptyStars2 As Integer = Math.Max(0, 5 - reviewsList(i).rating)
+
+            ' Generate the text for full and empty stars
+            Dim fullStarsText2 As String = New String("★"c, fullStars2)
+            Dim emptyStarsText2 As String = New String("☆"c, emptyStars2)
+
+            ' Combine full and empty stars text
+            Dim combinedText2 As String = fullStarsText2 & emptyStarsText2
+
+            ' Set text and properties for stars label
+            starsLabel2.Text = "Rating : " & combinedText2
+            starsLabel2.ForeColor = ColorTranslator.FromHtml("#124E55") ' Set color to yellow for full stars
+            starsLabel2.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+            starsLabel2.AutoSize = True ' Automatically adjust the size of the label
+            starsLabel2.Location = New Point(20, 30)
+
+
+
+
+            itemPanel.Controls.Add(starsLabel2)
+
             Dim textLabel As New Label()
             textLabel.Text = reviewsList(i).reviewText.ToString()
             textLabel.AutoSize = False
             textLabel.Size = New Size(240, 81)
-            textLabel.Location = New Point(20, 40)
+            textLabel.Location = New Point(20, 50)
             textLabel.AutoEllipsis = True
             textLabel.BorderStyle = BorderStyle.None
 
