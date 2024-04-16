@@ -2,6 +2,7 @@
 Imports System.Data.SqlClient
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.IO
+Imports System.Threading
 
 Public Class RegisterSP
     Dim labelfont As New Font(SessionManager.font_family, 13, FontStyle.Regular)
@@ -399,9 +400,10 @@ Public Class RegisterSP
        String.IsNullOrWhiteSpace(phoneSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(passwordSP_Text.Text) OrElse
        String.IsNullOrWhiteSpace(confirmSP_Text.Text) OrElse
-       String.IsNullOrWhiteSpace(comboClosingHours.Text) OrElse
-       String.IsNullOrWhiteSpace(comboClosingMins.Text) OrElse
-       String.IsNullOrWhiteSpace(startHoursText.Text) OrElse
+       comboStartingHours.SelectedIndex < 0 OrElse
+       comboStartingMins.SelectedIndex < 0 OrElse
+       comboClosingHours.SelectedIndex < 0 OrElse
+       comboClosingMins.SelectedIndex < 0 OrElse
        NoticeHourDropdown.SelectedItem Is Nothing OrElse
        String.IsNullOrWhiteSpace(NoticeHourDropdown.SelectedItem.ToString) OrElse
        ExperienceDropdown.SelectedItem Is Nothing OrElse
@@ -422,14 +424,6 @@ Public Class RegisterSP
         Dim closingTime As TimeSpan
 
         Try
-            If comboStartingHours.SelectedIndex < 0 Or comboStartingMins.SelectedIndex < 0 Then
-                MessageBox.Show("Enter time (HH:MM)")
-                Return
-            End If
-            If comboClosingHours.SelectedIndex < 0 Or comboClosingMins.SelectedIndex < 0 Then
-                MessageBox.Show("Enter time (HH:MM)")
-                Return
-            End If
 
             startingTime = New TimeSpan(Convert.ToInt32(comboStartingHours.SelectedItem), Convert.ToInt32(comboStartingMins.SelectedItem), 0)
             closingTime = New TimeSpan(Convert.ToInt32(comboClosingHours.SelectedItem), Convert.ToInt32(comboClosingMins.SelectedItem), 0)
@@ -469,6 +463,23 @@ Public Class RegisterSP
                     Return
                 End If
 
+            Catch ex As Exception
+                MessageBox.Show("An error occurred: " & ex.Message)
+            End Try
+        End Using
+
+        SessionManager.userEmail = emailSP_Text.Text
+        If Not SessionManager.mailVerified Then
+            Dim twofa As New TwoFA()
+            twofa.Show()
+
+            Return
+        End If
+
+
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Try
+                connection.Open()
                 ' Insert user's information into the database
                 Dim userId As Integer
                 Dim serviceProviderId As Integer
@@ -498,8 +509,8 @@ Public Class RegisterSP
                     insertServiceProviderCommand.Parameters.AddWithValue("@serviceProviderDescription", descriptionText.Text)
                     ' Set default values for rating, experienceYears, and minimumNoticeHours
                     insertServiceProviderCommand.Parameters.AddWithValue("@rating", 0)
-                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", ExperienceDropdown.SelectedValue.ToString())
-                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", NoticeHourDropdown.SelectedValue.ToString())
+                    insertServiceProviderCommand.Parameters.AddWithValue("@experienceYears", Convert.ToInt32(ExperienceDropdown.SelectedValue))
+                    insertServiceProviderCommand.Parameters.AddWithValue("@minimumNoticeHours", Convert.ToInt32(NoticeHourDropdown.SelectedValue))
                     insertServiceProviderCommand.ExecuteNonQuery()
 
                     ' Get the ID of the inserted service provider
