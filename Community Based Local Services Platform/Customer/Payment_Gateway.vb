@@ -60,7 +60,7 @@ Public Class Payment_Gateway
         End Using
     End Sub
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        MessageBox.Show(Price)
+        'MessageBox.Show(Price)
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
