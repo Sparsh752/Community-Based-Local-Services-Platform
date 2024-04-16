@@ -5,6 +5,7 @@ Imports Community_Based_Local_Services_Platform.Display_Services
 Public Class SP_profile
     ' Constructor to receive and display details
     Dim serviceProviderID As String
+    Dim userID As Integer
     Dim ratings As Integer
     Dim servicePhoto As Byte()
     Public Sub New(provider As ServiceProvider)
@@ -79,9 +80,9 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection3.Open()
-            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID =" & serviceProviderID
-            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID=" & serviceProviderID
-            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID=" & serviceProviderID & ") as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
+            Dim query As String = "SELECT * FROM serviceproviders as sp WHERE sp.serviceProviderID = " & serviceProviderID
+            Dim query2 As String = "SELECT * FROM workHours WHERE workHours.serviceProviderID= " & serviceProviderID
+            Dim query3 As String = "SELECT * FROM (SELECT * FROM serviceproviders WHERE serviceproviders.serviceProviderID= " & serviceProviderID & " ) as newT JOIN contactDetails ON newT.userID=contactDetails.userID"
             Dim command As New MySqlCommand(query, connection3)
 
             ' Execute the SQL query
@@ -90,6 +91,7 @@ Public Class SP_profile
             ' Loop through the result set and populate userList
             If (reader.Read()) Then
                 Label1.Text = reader("serviceProviderName")
+                userID = reader("userID")
                 Label4.Text = "Experience : " & reader("experienceYears") & " years"
             End If
             reader.Close()
@@ -269,7 +271,7 @@ Public Class SP_profile
         Try
             ' Open the connection
             connection2.Open()
-            Dim query As String = "SELECT * FROM (SELECT * FROM reviews as r WHERE r.givenForID = " & serviceProviderID & " ) as newT JOIN users ON newT.givenByID=users.userID "
+            Dim query As String = "SELECT * FROM (SELECT * FROM reviews as r WHERE r.givenForID = " & userID & " ) as newT JOIN users ON newT.givenByID=users.userID "
             Dim command As New MySqlCommand(query, connection2)
 
             ' Execute the SQL query
