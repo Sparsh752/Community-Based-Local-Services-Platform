@@ -334,23 +334,25 @@ Public Class Display_Services
 
 
         ' Print filter inputs for debugging
-        'MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
+        ' MessageBox.Show("Search Criteria: " & searchCriteria & vbCrLf &
         '           "Minimum Cost Criteria: " & minCostCriteria & vbCrLf &
-        '          "Maximum Cost Criteria: " & maxCostCriteria & vbCrLf &
-        '         "Minimum Rating Criteria: " & minRating & vbCrLf &
-        '        "Maximum Rating Criteria: " & maxRating & vbCrLf &
-        '       "Location Criteria: " & locationCriteria & vbCrLf &
-        '      "Selected Service Types: " & String.Join(", ", selectedServiceTypes) & vbCrLf &
-        '     "Filter Inputs: " & filteredProviders.Count,
-        '    "Filter Inputs",
-        'MessageBoxButtons.OK,
-        'MessageBoxIcon.Information)
+        '         "Maximum Cost Criteria: " & maxCostCriteria & vbCrLf &
+        '       "Minimum Rating Criteria: " & minRating & vbCrLf &
+        '     "Maximum Rating Criteria: " & maxRating & vbCrLf &
+        '   "Location Criteria: " & locationCriteria & vbCrLf &
+        ' "Selected Service Types: " & String.Join(", ", selectedServiceTypes) & vbCrLf &
+        ' "Filter Inputs: " & filteredProviders.Count,
+        ' "Filter Inputs",
+        ' MessageBoxButtons.OK,
+        ' MessageBoxIcon.Information)
         ' Check if there are any results
         If filteredProviders.Count = 0 Then
             ' Create and configure a PictureBox for displaying the image
             Dim noResultsPictureBox As New PictureBox()
             Dim imagePath As String = Path.Combine(Application.StartupPath, "..\..\..\Resources\no_search.png")
-            noResultsPictureBox.Image = Image.FromFile(imagePath)
+            Dim originalImage As Image = Image.FromFile(imagePath)
+            Dim croppedImage As New Bitmap(originalImage, New Size(originalImage.Width - 10, originalImage.Height)) ' Crop 2 pixels from the left side
+            noResultsPictureBox.Image = croppedImage
             noResultsPictureBox.SizeMode = PictureBoxSizeMode.AutoSize
 
             ' Position the PictureBox in the center of the form
@@ -371,6 +373,14 @@ Public Class Display_Services
         Dim verticalGap As Integer = 26 ' Vertical gap between result panels
 
         Dim yPos As Integer = 101 ' Initial Y position of the result panels
+
+        Dim filteredCountLabel As New Label()
+        filteredCountLabel.Text = "Filtered Search Count: " & providers.Count.ToString()
+        filteredCountLabel.AutoSize = True
+        filteredCountLabel.Location = New Point(38, 80) ' Adjust the X and Y coordinates as needed
+        filteredCountLabel.Font = New Font(SessionManager.font_family, 12, FontStyle.Bold)
+        Me.Controls.Add(filteredCountLabel) ' Add the label to the form
+
         For Each Provider In providers
             Dim resultPanel As New Panel()
             resultPanel.Size = New Size(734, 198)

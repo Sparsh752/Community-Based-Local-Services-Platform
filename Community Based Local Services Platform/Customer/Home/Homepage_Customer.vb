@@ -240,7 +240,7 @@
             label.ForeColor = Color.Black ' Set the label text color
 
             ' Calculate the position of the label relative to the TrackBar
-            Dim labelX As Integer = TrackBar1.Location.X + 42.5 + (i - TrackBar1.Minimum) * ((TrackBar1.Width - 20) / (TrackBar1.Maximum - TrackBar1.Minimum))
+            Dim labelX As Integer = TrackBar1.Location.X + 42.5 + (i - TrackBar1.Minimum) * ((TrackBar1.Width - 25) / (TrackBar1.Maximum - TrackBar1.Minimum))
             Dim labelY As Integer = TrackBar1.Location.Y - 5 ' Adjust the Y-coordinate to place the labels above the TrackBar
 
             ' Adjust the label position to center it over the tick mark
