@@ -207,6 +207,39 @@ Public Class EditSP
                     End Using
                 End Using
 
+                Dim fetchWorkHoursText As String = "SELECT startTime, endTime FROM workHours WHERE serviceProviderID = @serviceProviderID LIMIT 1"
+
+                Using fetchWorkHoursCommand As New MySqlCommand(fetchWorkHoursText, connection)
+                    fetchWorkHoursCommand.Parameters.AddWithValue("@serviceProviderID", SessionManager.spID)
+                    Using reader As MySqlDataReader = fetchWorkHoursCommand.ExecuteReader()
+                        If reader.Read() Then
+                            ' Fetch start time and end time as TimeSpan objects
+                            Dim startTime As TimeSpan = reader.GetTimeSpan("startTime")
+                            Dim endTime As TimeSpan = reader.GetTimeSpan("endTime")
+
+                            ' Extract start hour and minute from start time
+                            Dim startHour As String = If(startTime.Hours < 10, "0" & startTime.Hours.ToString(), startTime.Hours.ToString())
+                            Dim startMinute As String = If(startTime.Minutes < 10, "0" & startTime.Minutes.ToString(), startTime.Minutes.ToString())
+
+                            ' Extract end hour and minute from end time
+                            Dim endHour As String = If(endTime.Hours < 10, "0" & endTime.Hours.ToString(), endTime.Hours.ToString())
+                            Dim endMinute As String = If(endTime.Minutes < 10, "0" & endTime.Minutes.ToString(), endTime.Minutes.ToString())
+
+                            ' Populate comboStartingHours and comboClosingHours
+                            comboStartingHours.Text = startHour.ToString()
+                            comboClosingHours.Text = endHour.ToString()
+
+                            ' Populate comboStartingMins and comboClosingMins
+                            comboStartingMins.Text = startMinute.ToString()
+                            comboClosingMins.Text = endMinute.ToString()
+
+                        Else
+                            MessageBox.Show("Work hours data not found.")
+                        End If
+                    End Using
+                End Using
+
+
             Catch ex As Exception
                 MessageBox.Show("An error occurred while fetching service provider data: " & ex.Message)
             End Try
