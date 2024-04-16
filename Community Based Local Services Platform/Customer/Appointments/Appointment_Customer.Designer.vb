@@ -28,7 +28,7 @@ Partial Class Appointment_Customer
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.Chocolate
+        BackColor = SystemColors.Control
         ClientSize = New Size(1365, 925)
         ControlBox = False
         FormBorderStyle = FormBorderStyle.FixedDialog

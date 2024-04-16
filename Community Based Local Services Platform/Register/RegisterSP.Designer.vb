@@ -112,6 +112,8 @@ Partial Class RegisterSP
         ' 
         ' locationDropdown
         ' 
+        locationDropdown.AutoCompleteMode = AutoCompleteMode.Suggest
+        locationDropdown.AutoCompleteSource = AutoCompleteSource.ListItems
         locationDropdown.FormattingEnabled = True
         locationDropdown.Location = New Point(206, 589)
         locationDropdown.Name = "locationDropdown"
@@ -204,6 +206,8 @@ Partial Class RegisterSP
         ' 
         ' comboStartingMins
         ' 
+        comboStartingMins.AutoCompleteMode = AutoCompleteMode.Suggest
+        comboStartingMins.AutoCompleteSource = AutoCompleteSource.ListItems
         comboStartingMins.DropDownHeight = 120
         comboStartingMins.FormattingEnabled = True
         comboStartingMins.IntegralHeight = False
@@ -214,6 +218,8 @@ Partial Class RegisterSP
         ' 
         ' comboStartingHours
         ' 
+        comboStartingHours.AutoCompleteMode = AutoCompleteMode.Suggest
+        comboStartingHours.AutoCompleteSource = AutoCompleteSource.ListItems
         comboStartingHours.DropDownHeight = 120
         comboStartingHours.FormattingEnabled = True
         comboStartingHours.IntegralHeight = False
@@ -244,6 +250,8 @@ Partial Class RegisterSP
         ' 
         ' comboClosingMins
         ' 
+        comboClosingMins.AutoCompleteMode = AutoCompleteMode.Suggest
+        comboClosingMins.AutoCompleteSource = AutoCompleteSource.ListItems
         comboClosingMins.DropDownHeight = 120
         comboClosingMins.FormattingEnabled = True
         comboClosingMins.IntegralHeight = False
@@ -254,6 +262,8 @@ Partial Class RegisterSP
         ' 
         ' comboClosingHours
         ' 
+        comboClosingHours.AutoCompleteMode = AutoCompleteMode.Suggest
+        comboClosingHours.AutoCompleteSource = AutoCompleteSource.ListItems
         comboClosingHours.DropDownHeight = 120
         comboClosingHours.FormattingEnabled = True
         comboClosingHours.IntegralHeight = False
@@ -344,6 +354,8 @@ Partial Class RegisterSP
         ' 
         ' ExperienceDropdown
         ' 
+        ExperienceDropdown.AutoCompleteMode = AutoCompleteMode.Suggest
+        ExperienceDropdown.AutoCompleteSource = AutoCompleteSource.ListItems
         ExperienceDropdown.FormattingEnabled = True
         ExperienceDropdown.Location = New Point(770, 415)
         ExperienceDropdown.Name = "ExperienceDropdown"
@@ -483,6 +495,8 @@ Partial Class RegisterSP
         ' 
         ' NoticeHourDropdown
         ' 
+        NoticeHourDropdown.AutoCompleteMode = AutoCompleteMode.Suggest
+        NoticeHourDropdown.AutoCompleteSource = AutoCompleteSource.ListItems
         NoticeHourDropdown.FormattingEnabled = True
         NoticeHourDropdown.Location = New Point(207, 880)
         NoticeHourDropdown.Name = "NoticeHourDropdown"
