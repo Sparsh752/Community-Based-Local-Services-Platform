@@ -39,6 +39,7 @@ Public Class Display_Services
                       "FROM serviceproviders AS s " &
                       "INNER JOIN services AS se ON s.serviceProviderID = se.serviceProviderID " &
                       "LEFT JOIN appointments AS a ON se.serviceID = a.serviceID " &
+                      "WHERE flagbit = 1 " &
                       "GROUP BY s.serviceProviderName, s.ServiceProviderdescription, s.rating, se.serviceTypeID, se.price, se.areaID, se.serviceName"
 
         ' Create a new SQL connection
@@ -171,7 +172,8 @@ Public Class Display_Services
         Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
                                                        Select(Function(group) group.First()).
                                                        OrderByDescending(Function(provider) provider.Count) _
-                                                      .Take(12) _
+                                                       .OrderByDescending(Function(provider) provider.Ratings) _
+                                                       .Take(12) _
                                                       .ToList()
 
         ' Create picture boxes and labels for Popular section
@@ -571,7 +573,8 @@ Public Class Display_Services
         Dim sortedProviders_popular = serviceProviders.GroupBy(Function(provider) (provider.ID, provider.ServiceTypeID)).
                                                        Select(Function(group) group.First()).
                                                        OrderByDescending(Function(provider) provider.Count) _
-                                                      .Take(12) _
+                                                       .OrderByDescending(Function(provider) provider.Ratings) _
+                                                       .Take(12) _
                                                       .ToList()
         ' Update picture boxes and labels for Popular section
         For i As Integer = 0 To 2

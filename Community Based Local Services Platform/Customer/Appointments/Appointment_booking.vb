@@ -162,6 +162,9 @@ Public Class Appointment_booking
         ' Clear existing items in ComboBox1
         ComboBox1.Items.Clear()
 
+        ' HashSet to store unique locations
+        Dim uniqueLocations As New HashSet(Of String)()
+
         ' Query to fetch locations based on serviceTypeID, serviceName, and serviceProviderID
         Dim query As String = "SELECT sa.location " &
                           "FROM services AS s " &
@@ -178,13 +181,18 @@ Public Class Appointment_booking
                 connection.Open()
                 Using reader As MySqlDataReader = command.ExecuteReader()
                     While reader.Read()
-                        ' Add each location to ComboBox1
-                        ComboBox1.Items.Add(reader("location").ToString())
+                        ' Add location to HashSet if it's unique
+                        Dim location As String = reader("location").ToString()
+                        If Not uniqueLocations.Contains(location) Then
+                            ComboBox1.Items.Add(location)
+                            uniqueLocations.Add(location)
+                        End If
                     End While
                 End Using
             End Using
         End Using
     End Sub
+
 
 
     Private Function CheckAppointmentExists(serviceID As Integer, startTime As TimeSpan, location As String, timeslotDate As DateTime, appointmentStatus As String) As Boolean
