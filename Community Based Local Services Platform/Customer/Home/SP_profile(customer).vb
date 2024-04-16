@@ -20,19 +20,24 @@ Public Class SP_profile
         Me.servicePhoto = provider.ServicePhoto
     End Sub
 
+
+
+
+
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
 
         Label1.Location = New Point(55, 80)
-        Label5.Location = New Point(20, 34)
+        Label5.Location = New Point(20, 45)
         Label2.Location = New Point(55, 138)
         Label3.Location = New Point(161, 138)
         Label4.Location = New Point(485, 138)
 
         Panel1.Location = New Point(843, 65)
-        Panel2.Location = New Point(10, 64)
+        Panel2.Location = New Point(10, 80)
 
         ' Create a label for stars
         Dim starsLabel As New Label()
@@ -347,7 +352,7 @@ Public Class SP_profile
     End Sub
 
     Private Sub BookNowButton_Click(sender As Object, e As EventArgs, serviceserviceID As Integer)
-        RemovePreviousForm()
+        'RemovePreviousForm()
 
         Dim str As String = "Proceed to Pay"
         Dim appointmentBookingForm As New Appointment_booking(str, serviceserviceID)
@@ -362,4 +367,18 @@ Public Class SP_profile
 
     End Sub
 
+    Private Sub Button11_Click_1(sender As Object, e As EventArgs) Handles Button11.Click
+
+        RemovePreviousForm()
+        Me.Close()
+
+        With Homepage_Customer
+            .TopLevel = False
+            .Dock = DockStyle.Fill
+            Panel3.Controls.Add(Homepage_Customer)
+            .BringToFront()
+            .Show()
+        End With
+
+    End Sub
 End Class

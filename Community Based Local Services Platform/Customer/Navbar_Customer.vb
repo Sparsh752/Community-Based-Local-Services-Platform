@@ -359,7 +359,7 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        RemovePreviousForm()
+        'RemovePreviousForm()
         spProfileForm.Margin = New Padding(0, 0, 0, 0)
         With spProfileForm
             .TopLevel = False
@@ -380,7 +380,7 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        RemovePreviousForm()
+        'RemovePreviousForm()
         spProfileForm.Margin = New Padding(0, 0, 0, 0)
         With spProfileForm
             .TopLevel = False
@@ -401,7 +401,7 @@ Public Class Navbar_Customer
         spProfileForm.Dock = DockStyle.Fill
         spProfileForm.AutoScroll = True
 
-        RemovePreviousForm()
+        ' RemovePreviousForm()
         spProfileForm.Margin = New Padding(0, 0, 0, 0)
         With spProfileForm
             .TopLevel = False
