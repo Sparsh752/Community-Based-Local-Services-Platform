@@ -282,6 +282,7 @@ Public Class Homepage_Admin
     End Sub
 
     Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+
         ' Check if the clicked cell is the "View" button column
         If e.ColumnIndex = DataGridView1.Columns("View").Index AndAlso e.RowIndex >= 0 Then
             ' Handle the "View" button click for the specific row
@@ -294,6 +295,8 @@ Public Class Homepage_Admin
                     Exit For ' Exit loop once a form is closed
                 End If
             Next
+
+
 
             Dim Reply As New Reply_Query()
             Reply.QueryID = queryIdGlobal
