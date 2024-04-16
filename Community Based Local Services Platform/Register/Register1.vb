@@ -67,6 +67,10 @@ Public Class Register1
         labelNumbers.Location = New Point(400, 476)
         labelSpecial.Location = New Point(400, 491)
 
+
+        password_Text.PasswordChar = "*"
+        confirm_Text.PasswordChar = "*"
+
         'email_Text.Text = "b.balaji.s@iitg.ac.in"
         'name_Text.Text = "Balaji"
         'phone_Text.Text = "7777777777"
