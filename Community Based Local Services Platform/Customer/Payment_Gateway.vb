@@ -429,12 +429,12 @@ Public Class Payment_Gateway
 
             ' inserting into appointment table
             Dim countQuery As String = "SELECT COUNT(*) FROM appointments"
-            Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceareatimeslots"
+            Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceAreaTimeslots"
             Dim checkQuery As String = "Insert into appointments values (@appointmentID, @serviceProviderID, @customerID, @areaTimeSlotID, @bookingAdvance, @serviceID, 'Pending')"
-            Dim areaTimeSLotQuery As String = "Insert into serviceareatimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
-            Dim areaIdQuery As String = "Select areaID from serviceareas where location = @serviceLocation"
+            Dim areaTimeSLotQuery As String = "Insert into serviceAreaTimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
+            Dim areaIdQuery As String = "Select areaID from serviceAreas where location = @serviceLocation"
 
-            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, @paymentDateTime, @paymentType, @paymentStatus, @paymentMode)"
+            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, NOW(), @paymentType, @paymentStatus, @paymentMode)"
             Dim countPaymentQuery As String = "Select count(*) from payments"
 
 
@@ -471,7 +471,7 @@ Public Class Payment_Gateway
 
                 End Using
 
-                MessageBox.Show(SessionManager.customerID)
+                'MessageBox.Show(SessionManager.customerID)
 
                 Using checkCommand As New MySqlCommand(checkQuery, connection)
                     checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
@@ -484,7 +484,7 @@ Public Class Payment_Gateway
 
                 End Using
 
-                MessageBox.Show(areaTimeSlotId)
+                'MessageBox.Show(areaTimeSlotId)
 
 
                 Using countPaymentsCommand As New MySqlCommand(countPaymentQuery, connection)
@@ -499,7 +499,7 @@ Public Class Payment_Gateway
                     paymentCommand.Parameters.AddWithValue("@paymentID", paymentID)
                     paymentCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
                     paymentCommand.Parameters.AddWithValue("@amount", Price)
-                    paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
+                    'paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
                     paymentCommand.Parameters.AddWithValue("@paymentType", "Advance")
                     paymentCommand.Parameters.AddWithValue("@paymentStatus", "Completed")
                     paymentCommand.Parameters.AddWithValue("@paymentMode", paymentMode)
@@ -523,7 +523,7 @@ Public Class Payment_Gateway
             End With
         Else
             ' User clicked Cancel, do nothing or show a message
-            MessageBox.Show("Payment cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Payment cancelled.", "Canceled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
