@@ -8,7 +8,7 @@ Public Class EmailSender
             Dim SmtpServer As New SmtpClient("smtp.gmail.com")
 
             mail.From = New MailAddress("communityserviceiitg@gmail.com")
-            mail.To.Add("sparshmittal2311@gmail.com")
+            mail.To.Add(email)
             mail.Subject = "NOTIFICATION"
             mail.Body = "COMMUNITY BASED LOCAL SERVICES PLATFORM" & vbCrLf & vbCrLf &
                 content
