@@ -149,7 +149,7 @@ Public Class Display_Services
             AddHandler pb.MouseHover, Sub(sender As Object, e As EventArgs)
                                           Dim index As Integer = pbMostTrusted.IndexOf(DirectCast(sender, PictureBox))
                                           If index <> -1 Then
-                                              pbMostTrusted(index).BackColor = Color.FromArgb(150, Color.Black) ' Set semi-transparent background color
+                                              'pbMostTrusted(index).BackColor = Color.FromArgb(150, Color.Black) ' Set semi-transparent background color
                                               lblMostTrustedRating(index).Visible = True
                                               lblMostTrustedRating(index).BringToFront()
 
@@ -159,7 +159,7 @@ Public Class Display_Services
             AddHandler pb.MouseLeave, Sub(sender As Object, e As EventArgs)
                                           Dim index As Integer = pbMostTrusted.IndexOf(DirectCast(sender, PictureBox))
                                           If index <> -1 Then
-                                              pbMostTrusted(index).BackColor = Color.Transparent ' Restore transparent background color
+                                              'pbMostTrusted(index).BackColor = Color.Transparent ' Restore transparent background color
                                               lblMostTrustedRating(index).Visible = False
                                           End If
                                       End Sub
@@ -242,7 +242,7 @@ Public Class Display_Services
             AddHandler pb.MouseHover, Sub(sender As Object, e As EventArgs)
                                           Dim index As Integer = pbPopular.IndexOf(DirectCast(sender, PictureBox))
                                           If index <> -1 Then
-                                              pbPopular(index).BackColor = Color.FromArgb(150, Color.Black) ' Set semi-transparent background color
+                                              'pbPopular(index).BackColor = Color.FromArgb(150, Color.Black) ' Set semi-transparent background color
                                               lblPopularRating(index).Visible = True
                                               lblPopularRating(index).BringToFront()
                                           End If
@@ -251,7 +251,7 @@ Public Class Display_Services
             AddHandler pb.MouseLeave, Sub(sender As Object, e As EventArgs)
                                           Dim index As Integer = pbPopular.IndexOf(DirectCast(sender, PictureBox))
                                           If index <> -1 Then
-                                              pbPopular(index).BackColor = Color.Transparent ' Restore transparent background color
+                                              'pbPopular(index).BackColor = Color.Transparent ' Restore transparent background color
                                               lblPopularRating(index).Visible = False
                                           End If
                                       End Sub
