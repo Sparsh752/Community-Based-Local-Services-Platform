@@ -214,12 +214,12 @@ Public Class InProgressPaymentNotDone
             Dim notificationquery As String = "Insert into notifications (notificationMessage, notificationDateTime, userID) values (@notifmsg, NOW(), @UID)"
             Dim command3 As New MySqlCommand(notificationquery, connection)
             command3.Parameters.AddWithValue("@notifmsg", notifmsg)
-            command3.Parameters.AddWithValue("@UID", SessionManager.spID)
+            command3.Parameters.AddWithValue("@UID", SessionManager.sp_userID)
             'MessageBox.Show(notifmsg)
             command3.ExecuteNonQuery()
             Dim emailofServiceP = "Select email from users WHERE userID = @SID"
             Dim command4 As New MySqlCommand(emailofServiceP, connection)
-            command4.Parameters.AddWithValue("@SID", SessionManager.spID)
+            command4.Parameters.AddWithValue("@SID", SessionManager.sp_userID)
             Dim emailSP As String = command4.ExecuteScalar().ToString()
             Dim email_sender As New EmailSender()
             email_sender.SendEmail(emailSP, notifmsg)
