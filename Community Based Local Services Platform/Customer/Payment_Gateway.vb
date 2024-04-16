@@ -410,7 +410,7 @@ Public Class Payment_Gateway
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
-
+                SendNotification()
                 connection.Close()
             End Using
 
@@ -429,12 +429,12 @@ Public Class Payment_Gateway
 
             ' inserting into appointment table
             Dim countQuery As String = "SELECT COUNT(*) FROM appointments"
-            Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceareatimeslots"
+            Dim countAreaTimeSlotQuery As String = "SELECT COUNT(*) FROM serviceAreaTimeslots"
             Dim checkQuery As String = "Insert into appointments values (@appointmentID, @serviceProviderID, @customerID, @areaTimeSlotID, @bookingAdvance, @serviceID, 'Pending')"
             Dim areaTimeSLotQuery As String = "Insert into serviceAreaTimeslots values (@areaTimeSlotID, @serviceProviderID, @areaID, @serviceTypeID, @startTime, @timeSlotDate, @serviceID)"
-            Dim areaIdQuery As String = "Select areaID from serviceareas where location = @serviceLocation"
+            Dim areaIdQuery As String = "Select areaID from serviceAreas where location = @serviceLocation"
 
-            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, @paymentDateTime, @paymentType, @paymentStatus, @paymentMode)"
+            Dim paymentQuery As String = "Insert into payments values (@paymentID, @appointmentID, @amount, NOW(), @paymentType, @paymentStatus, @paymentMode)"
             Dim countPaymentQuery As String = "Select count(*) from payments"
 
 
@@ -471,7 +471,7 @@ Public Class Payment_Gateway
 
                 End Using
 
-                MessageBox.Show(SessionManager.customerID)
+                'MessageBox.Show(SessionManager.customerID)
 
                 Using checkCommand As New MySqlCommand(checkQuery, connection)
                     checkCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
@@ -484,7 +484,7 @@ Public Class Payment_Gateway
 
                 End Using
 
-                MessageBox.Show(areaTimeSlotId)
+                'MessageBox.Show(areaTimeSlotId)
 
 
                 Using countPaymentsCommand As New MySqlCommand(countPaymentQuery, connection)
@@ -499,7 +499,7 @@ Public Class Payment_Gateway
                     paymentCommand.Parameters.AddWithValue("@paymentID", paymentID)
                     paymentCommand.Parameters.AddWithValue("@appointmentID", SessionManager.appointmentID)
                     paymentCommand.Parameters.AddWithValue("@amount", Price)
-                    paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
+                    'paymentCommand.Parameters.AddWithValue("@paymentDateTime", currDateTime)
                     paymentCommand.Parameters.AddWithValue("@paymentType", "Advance")
                     paymentCommand.Parameters.AddWithValue("@paymentStatus", "Completed")
                     paymentCommand.Parameters.AddWithValue("@paymentMode", paymentMode)
@@ -508,7 +508,7 @@ Public Class Payment_Gateway
                     ' After executing the query, you can show a success message or perform any other necessary actions
                     MessageBox.Show("Payment successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Using
-
+                SendNotification()
 
                 connection.Close()
             End Using
@@ -523,8 +523,36 @@ Public Class Payment_Gateway
             End With
         Else
             ' User clicked Cancel, do nothing or show a message
-            MessageBox.Show("Payment cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Payment cancelled.", "Canceled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
+    Function SendNotification()
+        Using connection As New MySqlConnection(SessionManager.connectionString)
+            Dim getuserIDfromsID = "Select userID from serviceproviders WHERE serviceProviderID = @SID"
+            Dim command As New MySqlCommand(getuserIDfromsID, connection)
+            command.Parameters.AddWithValue("@SID", serviceProviderID)
+            connection.Open()
+            Dim SPuserID As String = command.ExecuteScalar().ToString()
+            Dim getuserName = "Select userName from users WHERE userID = @UID"
+            Dim command2 As New MySqlCommand(getuserName, connection)
+            command2.Parameters.AddWithValue("@UID", userID)
+            Dim userName As String = command2.ExecuteScalar().ToString()
+            Dim notifmsg As String = "You have a new appointment request with " & userName
+            Dim notificationquery As String = "Insert into notifications (notificationMessage, notificationDateTime, userID) values (@notifmsg, NOW(), @UID)"
+            Dim command3 As New MySqlCommand(notificationquery, connection)
+            command3.Parameters.AddWithValue("@notifmsg", notifmsg)
+            command3.Parameters.AddWithValue("@UID", SPuserID)
+            command3.ExecuteNonQuery()
+            Dim emailofServiceP = "Select email from users WHERE userID = @SID"
+            Dim command4 As New MySqlCommand(emailofServiceP, connection)
+            command4.Parameters.AddWithValue("@SID", SPuserID)
+            Dim emailSP As String = command4.ExecuteScalar().ToString()
+            Dim email_sender As New EmailSender()
+            email_sender.SendEmail(emailSP, notifmsg)
 
+
+
+        End Using
+
+    End Function
 End Class
