@@ -259,6 +259,7 @@ Public Class Navbar_SP
         With Queries_Customer
             .TopLevel = False
             .Dock = DockStyle.Fill
+            .userID = SessionManager.spID.ToString()
             Panel3.Controls.Add(Queries_Customer)
             .BringToFront()
             .Show()
