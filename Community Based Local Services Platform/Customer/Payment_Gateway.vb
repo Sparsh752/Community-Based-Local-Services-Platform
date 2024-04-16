@@ -24,8 +24,11 @@ Public Class Payment_Gateway
     Dim PaymentType As Boolean
 
 
-
-
+    Dim UPI_ID As New TextBox()
+    Dim CardNumber As New TextBox()
+    Dim CVV As New TextBox()
+    Dim Month As New TextBox()
+    Dim Year As New TextBox()
 
     Public Sub RetrievePrice()
         Dim checkQuery As String = "SELECT bookingAdvance
@@ -57,6 +60,7 @@ Public Class Payment_Gateway
         End Using
     End Sub
     Private Sub Gateway_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        MessageBox.Show(Price)
         Me.CenterToParent()
         Me.WindowState = FormWindowState.Normal
         Me.Size = New Size(1200, 700)
@@ -233,12 +237,11 @@ Public Class Payment_Gateway
         EnterUPI.Location = New Point(137, 275)
         Panel2.Controls.Add(EnterUPI)
         EnterUPI.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim UPI_ID As New TextBox()
+        UPI_ID.Size = New Size(560, 59)
+        UPI_ID.BorderStyle = BorderStyle.FixedSingle
         UPI_ID.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         UPI_ID.Location = New Point(137, 312)
         Panel2.Controls.Add(UPI_ID)
-        UPI_ID.Size = New Size(560, 59)
-        UPI_ID.BorderStyle = BorderStyle.FixedSingle
         Dim Proceed_Button As New Button()
         Proceed_Button.Text = "Proceed"
         Proceed_Button.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
@@ -272,7 +275,7 @@ Public Class Payment_Gateway
         EnterCardNumber.Location = New Point(137, 275)
         Panel2.Controls.Add(EnterCardNumber)
         EnterCardNumber.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim CardNumber As New TextBox()
+
         CardNumber.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         CardNumber.Location = New Point(137, 312)
         Panel2.Controls.Add(CardNumber)
@@ -285,7 +288,7 @@ Public Class Payment_Gateway
         EnterCVV.Location = New Point(137, 400)
         Panel2.Controls.Add(EnterCVV)
         EnterCVV.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim CVV As New TextBox()
+
         CVV.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         CVV.Location = New Point(137, 437)
         Panel2.Controls.Add(CVV)
@@ -298,7 +301,7 @@ Public Class Payment_Gateway
         EnterMonth.Location = New Point(337, 400)
         Panel2.Controls.Add(EnterMonth)
         EnterMonth.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim Month As New TextBox()
+
         Month.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         Month.Location = New Point(337, 437)
         Panel2.Controls.Add(Month)
@@ -311,7 +314,7 @@ Public Class Payment_Gateway
         EnterYear.Location = New Point(537, 400)
         Panel2.Controls.Add(EnterYear)
         EnterYear.ForeColor = ColorTranslator.FromHtml("#888888")
-        Dim Year As New TextBox()
+
         Year.Font = New Font("Bahnschrift Light", 13, FontStyle.Regular)
         Year.Location = New Point(537, 437)
         Panel2.Controls.Add(Year)
@@ -370,6 +373,66 @@ Public Class Payment_Gateway
     End Sub
 
     Private Sub Proceed_Button_Click(sender As Object, e As EventArgs)
+
+        If paymentMode = "qr" Then
+            ' Code to handle QR payment mode
+        ElseIf paymentMode = "upi" Then
+            ' Code to handle UPI payment mode\
+            If String.IsNullOrWhiteSpace(UPI_ID.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter your UPI ID.")
+                Return
+            End If
+        ElseIf paymentMode = "debit" Then
+            ' Code to handle debit card payment mode
+            If String.IsNullOrWhiteSpace(CardNumber.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter your Debit Card Number.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(CVV.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the CVV")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Month.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Month.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Year.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Year.")
+                Return
+            End If
+        ElseIf paymentMode = "credit" Then
+            ' Code to handle credit card payment mode
+            If String.IsNullOrWhiteSpace(CardNumber.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter your Credit Card Number.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(CVV.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the CVV")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Month.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Month.")
+                Return
+            End If
+            If String.IsNullOrWhiteSpace(Year.Text) Then
+                ' Display an error message or perform any action for empty UPI ID
+                MessageBox.Show("Please enter the Expiry Year.")
+                Return
+            End If
+        Else
+            ' Code to handle invalid payment mode
+            MessageBox.Show("Invalid payment mode!")
+        End If
+
+
         Dim confirmationMessage As String = "Rs. " & Price & " will be deducted from your bank account."
         Dim result As DialogResult = MessageBox.Show(confirmationMessage, "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
 
