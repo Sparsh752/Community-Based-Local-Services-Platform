@@ -100,7 +100,7 @@ Public Class Navbar_Admin
         Me.Controls.Add(Panel3)
         Panel3.Size = New Size(1200, 700)
         Panel3.Location = New Point(0, 0)
-        Panel3.BackColor = Color.Aqua
+        Panel3.BackColor = Color.White
         Panel3.Padding = New Padding(0, 0, 0, 0)
 
         RemovePreviousForm()

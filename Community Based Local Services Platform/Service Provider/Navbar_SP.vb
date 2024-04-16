@@ -165,7 +165,7 @@ Public Class Navbar_SP
         Panel3.Size = New Size(1200, 700)
         Panel3.Dock = DockStyle.Fill
         Panel3.Location = New Point(0, 0)
-        Panel3.BackColor = Color.Aqua
+        Panel3.BackColor = Color.White
         Panel3.Padding = New Padding(0, 0, 0, 0)
 
 
