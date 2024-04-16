@@ -507,13 +507,38 @@ Public Class Homepage_SP
             itemPanel.Controls.Add(headingLabel)
 
 
+            Dim starsLabel As New Label()
+
+            ' Calculate the number of full stars and empty stars
+            Dim fullStars As Integer = reviewsList(i).rating
+            Dim emptyStars As Integer = Math.Max(0, 5 - reviewsList(i).rating)
+
+            ' Generate the text for full and empty stars
+            Dim fullStarsText As String = New String("★"c, fullStars)
+            Dim emptyStarsText As String = New String("☆"c, emptyStars)
+
+            ' Combine full and empty stars text
+            Dim combinedText As String = fullStarsText & emptyStarsText
+
+            ' Set text and properties for stars label
+            starsLabel.Text = "Rating : " & combinedText
+            starsLabel.ForeColor = ColorTranslator.FromHtml("#124E55") ' Set color to yellow for full stars
+            starsLabel.Font = New Font(SessionManager.font_family, 8, FontStyle.Regular)
+            starsLabel.AutoSize = True ' Automatically adjust the size of the label
+            starsLabel.Location = New Point(20, 30)
+
+
+
+
+            itemPanel.Controls.Add(starsLabel)
+
 
             Dim textLabel As New Label()
             textLabel.Text = reviewsList(i).reviewText.ToString()
             textLabel.Font = New Font("Segoe", 8)
             textLabel.AutoSize = False
             textLabel.Size = New Size(240, 81)
-            textLabel.Location = New Point(20, 40)
+            textLabel.Location = New Point(20, 50)
             textLabel.AutoEllipsis = True
             textLabel.BorderStyle = BorderStyle.None
 
