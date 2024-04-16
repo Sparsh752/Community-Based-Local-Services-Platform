@@ -120,7 +120,7 @@ Partial Class Reply_Query
         Controls.Add(Label1)
         Margin = New Padding(3, 4, 3, 4)
         Name = "Reply_Query"
-        Text = "Form1"
+        Text = "Reply_Query"
         ResumeLayout(False)
         PerformLayout()
     End Sub

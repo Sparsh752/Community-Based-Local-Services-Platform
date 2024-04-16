@@ -61,7 +61,7 @@ Partial Class Navbar_Customer
         ClientSize = New Size(1353, 881)
         Controls.Add(Panel1)
         Name = "Navbar_Customer"
-        Text = "Navbar_Customer"
+        Text = "Customer"
         Panel1.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
