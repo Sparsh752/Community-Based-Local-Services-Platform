@@ -33,11 +33,14 @@ Public Class AppointmentList_Customer
         Me.BackColor = Color.White
         Me.FormBorderStyle = FormBorderStyle.None
         TableLayoutPanel1.Hide()
-
+        TableLayoutPanel1.Size = New Size(900, 600)
+        TableLayoutPanel1.Location = New Point(150, 200)
         ' Call the method to add labels to TableLayoutPanel
 
         AddLabelsToTableLayoutPanel()
         TableLayoutPanel1.Show()
+        TableLayoutPanel1.HorizontalScroll.Visible = False
+        TableLayoutPanel1.HorizontalScroll.Enabled = False
         TableLayoutPanel1.AutoScroll = True
 
     End Sub
