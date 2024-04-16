@@ -13,4 +13,29 @@
     Public sp_userID As Integer ' for userID from service provider table
     Public serviceID As Integer
     Public notificationsCleared As Boolean = False ' for clearing notifications the entire session
+    Public notificationCount As Integer = 0 ' Variable to store the notification count
+
+    Public Sub GetNotificationCount()
+        ' Query to get the notification count
+        Dim query As String = "SELECT COUNT(*) FROM notifications WHERE userID = '" & userID & "'"
+
+        Using connection As New MySqlConnection(connectionString)
+            Using command As New MySqlCommand(query, connection)
+                Try
+                    connection.Open()
+                    ' Execute the query
+                    Dim count As Object = command.ExecuteScalar()
+                    If count IsNot Nothing AndAlso IsNumeric(count) Then
+                        ' Set the notification count
+                        notificationCount = Convert.ToInt32(count)
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
+                End Try
+            End Using
+        End Using
+    End Sub
+
+
+
 End Module
